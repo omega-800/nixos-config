@@ -58,6 +58,7 @@
       kitty
       rofi-wayland 
       gnumake
+      stow
       neofetch
     ];
   };
