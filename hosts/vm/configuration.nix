@@ -57,6 +57,7 @@
       alacritty
       kitty
       rofi-wayland 
+      gnumake
       neofetch
     ];
   };
