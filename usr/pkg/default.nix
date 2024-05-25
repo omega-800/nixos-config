@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
     ./dev.nix
+    ./work.nix
     ./file.nix
     ./media.nix
     ./net.nix

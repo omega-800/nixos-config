@@ -20,7 +20,7 @@ in {
       curl
       wget
       htop
-      nvim
+      neovim
     ];
   };
 }

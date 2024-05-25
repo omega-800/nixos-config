@@ -1,7 +1,7 @@
 { ... }: {
   imports = [
     ./pkg
+    ./wm
     #./sh
-    #./wm
   ];
 }

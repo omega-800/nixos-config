@@ -10,6 +10,7 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
+  nixpkgs.config.allowUnfree = true;
   targets.genericLinux.enable = systemSettings.genericLinux;
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -18,18 +19,22 @@
   home.homeDirectory = "/home/${userSettings.username}";
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [
-    picom
-  ];
-
+  # pkgs
   u.dev.enable = true;
+  u.work.enable = true;
   u.file.enable = true;
-  u.media.enable = true;
   u.net.enable = true;
   u.office.enable = true;
-  u.social.enable = true;
   u.user.enable = true;
   u.utils.enable = true;
+
+  # wm
+  u.hyprland.enable = true;
+  u.xmonad.enable = false;
+
+  # no fun only work
+  u.media.enable = false;
+  u.social.enable = false;
 
   home.file = {
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
