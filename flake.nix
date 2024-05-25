@@ -65,7 +65,6 @@
         (import inputs.nixpkgs { system = systemSettings.system; }).applyPatches {
           name = "nixpkgs-patched";
           src = inputs.nixpkgs;
-          patches = [ ./patches/emacs-no-version-check.patch ];
         };
 
       pkgs-stable = import inputs.nixpkgs-stable {
@@ -194,9 +193,6 @@
     org-timeblock = {
       url = "github:ichernyshovvv/org-timeblock";
       flake = false;
-    };
-    org-krita = {
-      url = "github:librephoenix/org-krita";
     };
     org-xournalpp = {
       url = "gitlab:vherrmann/org-xournalpp";
