@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
   options = {
     mOpenGL.enable = lib.mkEnableOption "enables OpenGL";
   };

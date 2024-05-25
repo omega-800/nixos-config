@@ -2,11 +2,81 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
+    emacs-pin-nixpkgs.url = "nixpkgs/f72123158996b8d4449de481897d855bc47c7bf6";
+    kdenlive-pin-nixpkgs.url = "nixpkgs/cfec6d9203a461d9d698d8a60ef003cac6d0da94";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+    home-manager-unstable.url = "github:nix-community/home-manager/master";
+    home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager-stable.url = "github:nix-community/home-manager/release-23.11";
+    home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+
+    hyprland.url = "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
+    hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
+    hyprland-plugins.inputs.hyprland.follows = "hyprland";
+    hycov.url = "github:DreamMaoMao/hycov/115cba558d439cc25d62ce38b7c62cde83f50ef5";
+    hycov.inputs.hyprland.follows = "hyprland";
+
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "emacs-pin-nixpkgs";
+
+    nix-straight.url = "github:librephoenix/nix-straight.el/pgtk-patch";
+    nix-straight.flake = false;
+    nix-doom-emacs.inputs.nix-straight.follows = "nix-straight";
+
+    eaf = {
+      url = "github:emacs-eaf/emacs-application-framework";
+      flake = false;
+    };
+    eaf-browser = {
+      url = "github:emacs-eaf/eaf-browser";
+      flake = false;
+    };
+    org-nursery = {
+      url = "github:chrisbarrett/nursery";
+      flake = false;
+    };
+    org-yaap = {
+      url = "gitlab:tygrdev/org-yaap";
+      flake = false;
+    };
+    org-side-tree = {
+      url = "github:localauthor/org-side-tree";
+      flake = false;
+    };
+    org-timeblock = {
+      url = "github:ichernyshovvv/org-timeblock";
+      flake = false;
+    };
+    org-krita = {
+      url = "github:librephoenix/org-krita";
+    };
+    org-xournalpp = {
+      url = "gitlab:vherrmann/org-xournalpp";
+      flake = false;
+    };
+    org-sliced-images = {
+      url = "github:jcfk/org-sliced-images";
+      flake = false;
+    };
+    phscroll = {
+      url = "github:misohena/phscroll";
+      flake = false;
+    };
+    mini-frame = {
+      url = "github:muffinmad/emacs-mini-frame";
+      flake = false;
+    };
+
+    stylix.url = "github:danth/stylix";
+
+    rust-overlay.url = "github:oxalica/rust-overlay";
+
+    blocklist-hosts = {
+      url = "github:StevenBlack/hosts";
+      flake = false;
     };
   };
 
@@ -15,7 +85,7 @@
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
         system = "x86_64-linux"; # system arch
-        hostname = "nixie"; # hostname
+        hostname = "skribl"; # hostname
         profile = "personal"; # select a profile defined from my profiles directory
         timezone = "Europe/Zurich"; # select timezone
         locale = "en_US.UTF-8"; # select locale
@@ -117,16 +187,40 @@
       # Attribute set of nixpkgs for each system:
       nixpkgsFor =
         forAllSystems (system: import inputs.nixpkgs { inherit system; });
-
-      };
-  in {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/skribl/configuration.nix
-        ./sys
-        inputs.home-manager.nixosModules.default
-      ];
     };
+    in {
+      homeConfigurations = {
+        user = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/home.nix") # load home.nix from selected PROFILE
+          ];
+          extraSpecialArgs = {
+            # pass config variables from above
+            inherit pkgs-stable;
+            inherit pkgs-emacs;
+            inherit pkgs-kdenlive;
+            inherit systemSettings;
+            inherit userSettings;
+            inherit inputs;
+          };
+        };
+      };
+      nixosConfigurations = {
+        system = lib.nixosSystem {
+          system = systemSettings.system;
+          # load configuration.nix from selected PROFILE
+          modules = [
+            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/configuration.nix")
+          ];
+          specialArgs = {
+            # pass config variables from above
+            inherit pkgs-stable;
+            inherit systemSettings;
+            inherit userSettings;
+            inherit inputs;
+          };
+        };
+      };
   };
 }

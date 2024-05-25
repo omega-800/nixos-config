@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ lib, config, pkgs, ... }: {
   options = {
     mKernelZen.enable = lib.mkEnableOption "enables zen kernel";
   };

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
   options = {
     mPrint.enable = lib.mkEnableOption "enables printing";
   };
