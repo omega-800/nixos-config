@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, config, ... }:
 with lib;
 let cfg = config.m.automount;
 in {
@@ -10,5 +10,5 @@ in {
     # services.devmon.enable = true;
     # services.gvfs.enable = true;
     services.udisks2.enable = true;
-  }
+  };
 }

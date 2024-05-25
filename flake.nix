@@ -8,7 +8,7 @@
       systemSettings = {
         system = "x86_64-linux"; # system arch
         hostname = "skribl"; # hostname
-        profile = "personal"; # select a profile defined from my profiles directory
+        profile = "work"; # select a profile defined from my profiles directory
         timezone = "Europe/Zurich"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         kbLayout = "de_CH-latin1"; # select keyboard layout
@@ -133,7 +133,8 @@
           system = systemSettings.system;
           # load configuration.nix from selected PROFILE
           modules = [
-            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/configuration.nix")
+            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/hardware-configuration.nix")
+            (./. + "/profiles" + ("/" + systemSettings.profile))
           ];
           specialArgs = {
             # pass config variables from above

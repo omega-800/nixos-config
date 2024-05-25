@@ -16,6 +16,6 @@
   console = {
     font = systemSettings.font;
     keyMap = systemSettings.kbLayout;
-  }
+  };
   fonts.fontDir.enable = true;
 }
