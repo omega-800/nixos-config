@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
-    ./docker.nix
+    #./docker.nix
+    ./os.nix
     ./virtualization.nix
   ];
 }

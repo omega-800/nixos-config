@@ -1,12 +1,30 @@
 { lib, config, pkgs, ... }: 
 with lib;
-let cfg = config.m.bluetooth;
+let cfg = config.m.audio;
 in {
-  options.m.bluetooth = {
-    enable = mkEnableOption "enables bluetooth";
+  options.m.audio = {
+    enable = mkEnableOption "enables audio";
+    pipewire = mkEnableOption "enables pipewire, pulseaudio otherwise";
   };
 
   config = mkIf cfg.enable {
+    # Enable sound.
+    sound.enable = true;
+    hardware.pulseaudio.enable = !cfg.pipewire;
+
+    # rtkit is optional but recommended
+    security.rtkit.enable = cfg.pipewire;
+    services.pipewire = (if cfg.pipewire then {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      jack.enable = true;
+    } else {
+      enable = false;
+    });
+
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;

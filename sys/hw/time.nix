@@ -1,4 +1,5 @@
-{ lib, config, options, ... }: {
+{ lib, config, options, systemSettings, ... }: {
+  time.timeZone = systemSettings.timeZone;
   networking.timeServers = options.networking.timeServers.default ++ [ 
     "0.ch.pool.ntp.org" 
     "1.ch.pool.ntp.org" 

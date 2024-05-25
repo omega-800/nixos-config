@@ -12,6 +12,7 @@
         timezone = "Europe/Zurich"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         kbLayout = "de_CH-latin1"; # select keyboard layout
+        font = "Lat2-Terminus16"; # select font
         bootMode = "bios"; # uefi or bios
         bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode

@@ -6,8 +6,9 @@ in {
     zen = mkEnableOption "enables zen kernel";
   };
 
-  config = mkIf zen {
+  config = mkIf cfg.zen {
     boot.kernelPackages = pkgs.linuxPackages_zen;
     boot.consoleLogLevel = 0;
+    # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
   };
 }
