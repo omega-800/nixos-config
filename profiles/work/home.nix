@@ -2,7 +2,9 @@
 
 {
   imports = [
-    ../../usr
+    ../../usr/pkg
+    ../../usr/wm/${userSettings.wm}
+    ../../usr/wm/${userSettings.wmType}
   ];
 
   nix = {
@@ -27,10 +29,6 @@
   u.office.enable = true;
   u.user.enable = true;
   u.utils.enable = true;
-
-  # wm
-  u.hyprland.enable = true;
-  u.xmonad.enable = false;
 
   # no fun only work
   u.media.enable = false;

@@ -2,6 +2,6 @@
   imports = [
     ./hyprland
     ./xmonad
-    ./qtile
+    #./qtile
   ];
 }
