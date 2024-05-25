@@ -27,7 +27,7 @@ in {
         enable = false;
       });
     })
-    (if cfg.bluetooth then {
+    (mkIf cfg.bluetooth {
       hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;
@@ -43,7 +43,6 @@ in {
         wantedBy = [ "default.target" ];
         serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
       };
-    };
     })
-  ])
+  ]);
 }

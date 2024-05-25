@@ -16,6 +16,7 @@
         bootMode = "bios"; # uefi or bios
         bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
+        genericLinux = false;
       };
 
       # ----- USER SETTINGS ----- #
@@ -115,7 +116,7 @@
         user = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/home.nix") # load home.nix from selected PROFILE
+            (./. + "/profiles" + ("/" + systemSettings.hostname) + "/home.nix") 
           ];
           extraSpecialArgs = {
             # pass config variables from above
@@ -134,7 +135,7 @@
           # load configuration.nix from selected PROFILE
           modules = [
             (./. + "/hosts" + ("/" + systemSettings.hostname) + "/hardware-configuration.nix")
-            (./. + "/profiles" + ("/" + systemSettings.profile))
+            (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
           ];
           specialArgs = {
             # pass config variables from above
