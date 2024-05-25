@@ -1,16 +1,17 @@
 { lib, config, pkgs, ... }: {
-  options = {
-    mBluetooth.enable = lib.mkEnableOption "enables bluetooth";
+with lib;
+let cfg = config.m.bluetooth;
+in {
+  options.m.bluetooth = {
+    enable = mkEnableOption "enables bluetooth";
   };
 
-  config = lib.mkIf config.mBluetooth.enable {
+  config = mkIf cfg.enable {
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;
       # enables showing battery charge of devices
-      General = {
-        Experimental = true;
-      };
+      settings.General.Experimental = true;
     };
     # hardware.pulseaudio.enable = true;
     # services.blueman.enable = true;

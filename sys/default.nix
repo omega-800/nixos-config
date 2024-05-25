@@ -1,8 +1,7 @@
 { ... }: {
   imports = [
     ./hw
-    #net
-    #sec
-    #sw
+    ./sec
+    ./sw
   ];
 }

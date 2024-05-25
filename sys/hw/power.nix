@@ -1,18 +1,17 @@
-{ lib, config, ... }:
-
-{
-  options = {
-    mTlp.enable = lib.mkEnableOption "enables tlp";
-    mPerformance.enable = lib.mkEnableOption "enables performance on battery";
+{ lib, config, ... }: 
+with lib;
+let cfg = config.m.power;
+in {
+  options.m.power = {
+    enable = mkEnableOption "enables tlp";
+    performance = mkEnableOption "enables performance on battery";
   };
  
-  config = lib.mkIf config.mTlp.enable {
+  config = mkIf cfg.enable {
     services.tlp = {
       enable = true;
-      settings = {
-        CPU_MIN_PERF_ON_BAT = 0;
-        RUNTIME_PM_ON_BAT="auto";
-        lib.mkIf mPerformance {
+      settings = (mkMerge [
+        (if cfg.performance then {
           CPU_MAX_PERF_ON_BAT = 100;
           CPU_SCALING_GOVERNOR_ON_BAT = "performance";
           CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
@@ -24,8 +23,7 @@
           WIFI_PWR_ON_BAT="off";
           PCIE_ASPM_ON_BAT="default";
           WOL_DISABLE="Y";
-        };
-        lib.mkIf !mPerformance {
+        } else {
           CPU_MAX_PERF_ON_BAT = 40;
           CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
           CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
@@ -37,16 +35,19 @@
           WIFI_PWR_ON_BAT="on";
           WOL_DISABLE="N";
           PCIE_ASPM_ON_BAT="powersave";
-        };
-
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_BOOST_ON_AC = 1;
-        CPU_HWP_DYN_BOOST_ON_BAT = 1;
-        PLATFORM_PROFILE_ON_AC = "performance";
-      };
+        })
+        ({
+          CPU_MIN_PERF_ON_BAT = 0;
+          RUNTIME_PM_ON_BAT="auto";
+          CPU_SCALING_GOVERNOR_ON_AC = "performance";
+          CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+          CPU_MIN_PERF_ON_AC = 0;
+          CPU_MAX_PERF_ON_AC = 100;
+          CPU_BOOST_ON_AC = 1;
+          CPU_HWP_DYN_BOOST_ON_BAT = 1;
+          PLATFORM_PROFILE_ON_AC = "performance";
+        })
+      ]);
     };
   };
 

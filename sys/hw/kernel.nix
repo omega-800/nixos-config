@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }: {
-  options = {
-    mKernelZen.enable = lib.mkEnableOption "enables zen kernel";
+{ lib, config, pkgs, ... }: 
+with lib;
+let cfg = config.m.kernel;
+in {
+  options.m.kernel = {
+    zen = mkEnableOption "enables zen kernel";
   };
 
-  config = lib.mkIf config.mKernelZen.enable {
+  config = mkIf zen {
     boot.kernelPackages = pkgs.linuxPackages_zen;
     boot.consoleLogLevel = 0;
   };

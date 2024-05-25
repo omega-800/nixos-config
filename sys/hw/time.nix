@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, config, options, ... }: {
   networking.timeServers = options.networking.timeServers.default ++ [ 
     "0.ch.pool.ntp.org" 
     "1.ch.pool.ntp.org" 

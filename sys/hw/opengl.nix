@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }: {
-  options = {
-    mOpenGL.enable = lib.mkEnableOption "enables OpenGL";
+{ lib, config, pkgs, ... }: 
+with lib;
+let cfg = config.m.openGL;
+in {
+  options.m.openGL = {
+    enable = mkEnableOption "enables openGL";
   };
   
-  config = lib.mkIf config.mOpenGL.enable {
+  config = mkIf cfg.enable {
     # OpenGL
     hardware.opengl.enable = true;
     hardware.opengl.extraPackages = with pkgs; [

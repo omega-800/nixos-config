@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }: {
-  options = {
-    mPrint.enable = lib.mkEnableOption "enables printing";
+{ lib, config, pkgs, ... }: 
+with lib;
+let cfg = config.m.printing;
+in {
+  options.m.printing = {
+    enable = mkEnableOption "enables printing";
   };
  
-  config = lib.mkIf config.mPrint.enable {
+  config = lib.mkIf cfg.enable {
     services.printing.enable = true;
     services.avahi.enable = true;
     services.avahi.nssmdns4 = true;
