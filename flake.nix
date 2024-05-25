@@ -116,7 +116,7 @@
         user = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            (./. + "/profiles" + ("/" + systemSettings.hostname) + "/home.nix") 
+            (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") 
           ];
           extraSpecialArgs = {
             # pass config variables from above
