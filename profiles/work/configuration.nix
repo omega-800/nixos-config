@@ -1,6 +1,7 @@
-{ ... }: {
+{ userSettings, ... }: {
   imports =
     [
+      ../../sys/wm/${userSettings.wm}
       ../../sys
     ];
   m.audio = {
