@@ -3,8 +3,8 @@
 {
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "";
+    layout = "ch";
+    xkbVariant = "de";
     xkbOptions = "caps:escape";
     excludePackages = [ pkgs.xterm ];
     displayManager = {

@@ -3,6 +3,7 @@
 {
   imports = [
     ../../usr/pkg
+    ../../usr/wm/${userSettings.wm}
   ];
 
   nix = {
