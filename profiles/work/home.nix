@@ -4,6 +4,7 @@
   imports = [
     ../../usr/pkg
     ../../usr/wm/${userSettings.wm}
+    ../../user/style
   ];
 
   nix = {
