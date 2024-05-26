@@ -10,6 +10,7 @@ in {
     home.packages = with pkgs; [
       gdu
       udiskie
+      udisks
       rsync
       sshfs
       syncthing
@@ -17,6 +18,9 @@ in {
       ctpv
       tree
       eza
+      gzip
+      ueberzug
+      xz
     ];
   };
 }

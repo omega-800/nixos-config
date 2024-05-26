@@ -9,8 +9,10 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       alacritty
+      starship
       pass
       neovim
+      tree-sitter
       uwufetch
       fastfetch
       rofi
@@ -19,6 +21,7 @@ in {
       fortune 
       cowsay 
       lolcat
+      dunst
     ];
   };
 }

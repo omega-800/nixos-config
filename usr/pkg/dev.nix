@@ -18,6 +18,10 @@ in {
       gnumake
       vscode
       qmk
+      jq
+      git
+      tmux
+      ncurses
       # ciscoPacketTracer8
       # put this in a nix-shell
       # nvm

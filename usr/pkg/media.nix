@@ -17,6 +17,7 @@ in {
       ani-cli
       mpv
       ffmpeg
+      imagemagick
     ];
   };
 }

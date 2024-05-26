@@ -8,6 +8,13 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      iproute2
+      iputils
+      gzip
+      xz
+      which
+      gnused
+      less
       unzip
       bc
       stow
@@ -20,7 +27,6 @@ in {
       curl
       wget
       htop
-      neovim
     ];
   };
 }

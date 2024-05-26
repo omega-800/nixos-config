@@ -14,9 +14,12 @@ in {
       drawio
       libreoffice
       gimp
+      gpick
       skanpage
       valentina
       obsidian
+      homebank
+      cointop
     ];
   };
 }
