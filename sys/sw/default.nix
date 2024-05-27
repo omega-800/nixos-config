@@ -5,5 +5,6 @@
     ./stylix.nix
     ./shell.nix
     ./virtualization.nix
+    ./env.nix
   ];
 }

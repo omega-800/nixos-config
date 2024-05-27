@@ -1,4 +1,8 @@
-{ ... }: {
+{ userSettings, ... }: {
   imports = [ ../x11/x11.nix ];
-  services.xserver.windowManager.qtile.enable = true;
+  services.xserver.windowManager.qtile = {
+    enable = true;
+    configFile = "/home/${userSettings.username}/.config/qtile/config.py";
+    backend = "x11";
+  };
 }
