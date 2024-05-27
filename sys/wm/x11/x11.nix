@@ -3,14 +3,16 @@
 {
   services.xserver = {
     enable = true;
-    layout = "ch";
-    xkbVariant = "de";
+    xkb = {
+      layout = "ch";
+      variant = "de";
+    };
     excludePackages = [ pkgs.xterm ];
     displayManager = {
       startx.enable = true;
     };
-    libinput = {
-      touchpad.disableWhileTyping = true;
-    };
+  };
+  services.libinput = {
+    touchpad.disableWhileTyping = true;
   };
 }

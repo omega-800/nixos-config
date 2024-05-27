@@ -1,6 +1,5 @@
 { lib, config, ... }: {
   imports = [ ../x11/x11.nix ];
-# Setup XMonad
   services.xserver = {
     windowManager.xmonad = {
       enable = true;
@@ -10,4 +9,5 @@
       defaultSession = "none+xmonad";
     };
   };
+};
                       }
