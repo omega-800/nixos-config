@@ -1,3 +1,6 @@
 { ... }: {
-  imports = [ ./qtile.nix ];
+  imports = [ 
+    ./qtile.nix 
+    ./wtfdoesthisdoijustcopieditfromthewiki.nix
+  ];
 }
