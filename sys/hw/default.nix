@@ -10,5 +10,6 @@
     ./printing.nix
     ./systemd.nix
     ./time.nix
+    ./keyd.nix
   ];
 }
