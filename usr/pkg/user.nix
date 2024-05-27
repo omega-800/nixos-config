@@ -13,7 +13,7 @@ in {
       pass
       neovim
       tree-sitter
-      uwufetch
+      #uwufetch
       fastfetch
       rofi
       feh
