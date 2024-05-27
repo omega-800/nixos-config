@@ -2,6 +2,6 @@
   imports = [
     ./pkg
     ./wm
-    #./sh
+    ./sh
   ];
 }

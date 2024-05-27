@@ -1,5 +1,5 @@
 { ... }: {
   imports = [ 
-    ./qtile.nix 
+    ./fonts.nix
   ];
 }
