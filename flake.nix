@@ -59,7 +59,7 @@
                     allowUnfree = true;
                     allowUnfreePredicate = (_: true);
                   };
-                  overlays = [ inputs.rust-overlay.overlays.default ];
+                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if systemSettings.genericLinux then [ inputs.nixgl.overlay ] else []);
                 }));
 
       nixpkgs-patched =
@@ -179,5 +179,7 @@
 
     stylix.url = "github:danth/stylix";
     rust-overlay.url = "github:oxalica/rust-overlay";
+
+    nixgl.url = "github:nix-community/nixGL";
   };
 }

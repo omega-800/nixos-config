@@ -31,7 +31,7 @@
   u.utils.enable = true;
 
   # no fun only work
-  u.media.enable = false;
+  u.media.enable = true;
   u.social.enable = false;
 
   home.file = {

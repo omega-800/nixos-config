@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, systemSettings, ... }:
 
 {
-  home.packages = with pkgs; [
-    picom
-  ];
+  config = mkIf systemSettings.genericLinux {
+    home.packages = with pkgs; 
+      picom
+    ];
 
-  home.file.".config/picom/picom.conf".source = ./picom.conf;
+    home.file.".config/picom/picom.conf".source = ./picom.conf;
+  };
 }

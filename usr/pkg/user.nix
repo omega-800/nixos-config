@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, home, systemSettings, ... }: 
 with lib;
 let cfg = config.u.user;
 in {
@@ -8,7 +8,6 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      alacritty
       starship
       pass
       neovim
@@ -22,6 +21,8 @@ in {
       cowsay 
       lolcat
       dunst
-    ];
+    ] ++ (if systemSettings.genericLinux then [] else [
+      alacritty
+    ]);
   };
 }

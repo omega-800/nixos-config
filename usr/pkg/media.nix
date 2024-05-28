@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, home, systemSettings, ... }: 
 with lib;
 let cfg = config.u.media;
 in {
@@ -14,10 +14,11 @@ in {
       pipewire
       pavucontrol
       bluez
-      ani-cli
-      mpv
       ffmpeg
       imagemagick
-    ];
+    ] ++ (if systemSettings.genericLinux then [] else [
+      mpv
+      ani-cli
+    ]);
   };
 }

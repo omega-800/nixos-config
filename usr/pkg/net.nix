@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, home, systemSettings, ... }: 
 with lib;
 let cfg = config.u.net;
 in {
@@ -11,8 +11,10 @@ in {
       rtorrent
       tor
       brave
-      qutebrowser
       wireguard-tools
-    ];
+    ] ++ (if systemSettings.genericLinux then [] else [
+      qutebrowser
+      firefox
+    ]);
   };
 }
