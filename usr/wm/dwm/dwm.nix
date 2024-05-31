@@ -1,18 +1,15 @@
 { lib, config, home, pkgs, ... }: {
   home = {
     packages = with pkgs; [ st ];
-    file.".xinitrc" = ''
+    file.".xinitrc".text = ''
 #setxkbmap -layout ch -variant de 
-sxhkd &
 xrandr
 xrdb ~/.Xresources
 xset -b
 
-udiskie &
 /usr/bin/dunst &
 ibus-daemon -rxRd
 unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
-xbindkeys -f $XDG_CONFIG_HOME/xbindkeys/config
 
 #feh --bg-scale /home/omega/documents/img/wallpapers/zoro_kid.jpg
 redshift -O3500; xset r rate 300 50; exec dwm

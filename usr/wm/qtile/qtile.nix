@@ -1,5 +1,5 @@
 { ... }: {
-  home.file.".xinitrc" = ''
+  home.file.".xinitrc".text = ''
 #doesn't work
 setxkbmap -layout ch -variant de 
 
