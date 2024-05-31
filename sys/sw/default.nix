@@ -6,5 +6,6 @@
     ./shell.nix
     ./virtualization.nix
     ./env.nix
+    ./fonts.nix
   ];
 }

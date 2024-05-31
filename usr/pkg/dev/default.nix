@@ -1,7 +1,5 @@
 { ... }: {
   imports = [
-    ./pkg
-    ./sh
-    ./style
+    ./dev.nix
   ];
 }

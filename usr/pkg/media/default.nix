@@ -1,7 +1,5 @@
 { ... }: {
   imports = [
-    ./pkg
-    ./sh
-    ./style
+    ./media.nix
   ];
 }

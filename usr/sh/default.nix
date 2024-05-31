@@ -1,5 +1,6 @@
 { ... }: {
   imports = [ 
-    ./fonts.nix
+    ./aliases.nix
+    ./bash.nix
   ];
 }

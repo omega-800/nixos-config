@@ -1,7 +1,6 @@
 { ... }: {
   imports = [
-    ./pkg
-    ./sh
-    ./style
+    ./utils.nix
+    ./sxhkd.nix
   ];
 }

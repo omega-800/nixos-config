@@ -9,4 +9,5 @@
   boot.loader.grub.enable = if (systemSettings.bootMode == "uefi") then false else true;
   boot.loader.grub.device = systemSettings.grubDevice; # does nothing if running uefi rather than bios
   boot.loader.grub.useOSProber = true;
+  boot.loader.grub.extraEntries = systemSettings.extraGrubEntries;
 }

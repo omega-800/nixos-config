@@ -2,9 +2,8 @@
 
 {
   imports = [
-    ../../usr/pkg
+    ../../usr
     ../../usr/wm/${userSettings.wm}
-    ../../usr/style
   ];
 
   nix = {
@@ -14,7 +13,7 @@
 
   nixpkgs.config.allowUnfree = true;
   targets.genericLinux.enable = systemSettings.genericLinux;
-
+    
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = userSettings.username;

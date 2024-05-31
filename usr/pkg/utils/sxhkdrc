@@ -1,0 +1,76 @@
+# wtf???
+super + y
+  ~/scripts/screenkey.sh
+
+super + alt + y
+  pkill -f screenkey
+
+super + alt + r
+  pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500
+
+super + shift + s
+  flameshot gui
+
+super + ctrl + shift + s
+  maim /home/omega/documents/img/screenshots/$(date +%s).png
+
+super + x
+  slock
+
+super + enter 
+  alacritty
+
+# switch kb layout
+super + z ; {c,u,r}
+  setxkbmap -layout {ch -variant de,us,ru}
+
+# Show clipmenu
+alt + v
+    CM_LAUNCHER=rofi clipmenu \
+        -location 1 \
+        -m -3 \
+        -no-show-icons \
+        -theme-str '* \{ font: 10px; \}' \
+        -theme-str 'listview \{ spacing: 0; \}' \
+        -theme-str 'window \{ width: 20em; \}'
+
+# r for running stuffs
+# compile / flash qmk keyboard
+super + r ; q ; {c,l,r}
+  qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,.bl avrdude-split-right}
+
+# generate password
+super + r ; g ; p
+    tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard
+
+# spawn
+super + s ; {s,m,o,c,v,i,q,f,d,e,n,r,x,l,h,b}
+  {rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,firefox,discord,alacritty -e aerc,alacritty -e ncmpcpp,renoise,alacritty -e lf,libreoffice,homebank,brave}
+
+# music
+super + n ; {k,j,l,h,p,s,r}
+  mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}
+
+super + n ; b 
+  bluetooth toggle
+
+XF86AudioMute
+	${HOME}/scripts/volume.sh mute
+
+XF86AudioRaiseVolume
+	${HOME}/scripts/volume.sh raise
+
+XF86AudioLowerVolume
+	${HOME}/scripts/volume.sh lower
+
+XF86MonBrightnessDown
+	${HOME}/scripts/backlight.sh lower
+
+XF86MonBrightnessUp
+	${HOME}/scripts/backlight.sh raise
+
+XF86Display
+	${HOME}/scripts/screens/home.sh
+
+XF86PowerOff
+	slock

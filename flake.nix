@@ -5,6 +5,11 @@
   let 
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
+        extraGrubEntries = ''
+        menuentry "arch" {
+          chainloader (hd0,msdos3)
+        }
+        '';
         system = "x86_64-linux"; # system arch
         hostname = "skribl"; # hostname
         profile = "work"; # select a profile defined from my profiles directory

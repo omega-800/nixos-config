@@ -13,6 +13,7 @@ in {
       # Enable sound.
       sound.enable = true;
       hardware.pulseaudio.enable = !cfg.pipewire;
+      environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
       security.rtkit.enable = cfg.pipewire;
@@ -21,7 +22,6 @@ in {
         alsa.enable = true;
         alsa.support32Bit = true;
         pulse.enable = true;
-        # If you want to use JACK applications, uncomment this
         jack.enable = true;
       } else {
         enable = false;
