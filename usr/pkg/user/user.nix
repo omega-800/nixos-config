@@ -19,7 +19,6 @@ in {
       fortune 
       cowsay 
       lolcat
-      dunst
     ] ++ (if systemSettings.genericLinux then [] else [
       alacritty
     ]);

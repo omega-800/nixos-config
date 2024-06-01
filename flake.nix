@@ -17,6 +17,7 @@
         bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
         genericLinux = false;
+        paranoid = true;
       };
 
       # ----- USER SETTINGS ----- #
@@ -136,6 +137,7 @@
             inherit systemSettings;
             inherit userSettings;
             inherit inputs;
+            inherit bashScriptToNix;
           };
         };
       };

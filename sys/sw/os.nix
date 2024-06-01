@@ -8,7 +8,7 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    allowedUsers = [ "@wheel" ];
+    settings.allowed-users = [ "@wheel" ];
   };
 
   nixpkgs.config.allowUnfree = true;
