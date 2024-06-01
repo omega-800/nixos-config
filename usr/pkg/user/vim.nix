@@ -3,9 +3,9 @@
   config = mkIf config.u.user.enable {
     #home.packages = with pkgs; [ neovim ];
     programs = {
-      nixvim = {
-        enable = true;
-      };
+#      nixvim = {
+#        enable = true;
+#      };
       vim = {
         enable = true;
         #defaultEditor = true;
