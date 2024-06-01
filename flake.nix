@@ -147,28 +147,36 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-23.11";
-
-    home-manager-unstable.url = "github:nix-community/home-manager/master";
-    home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs";
-
-    home-manager-stable.url = "github:nix-community/home-manager/release-23.11";
-    home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
-
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      follows = "nixpkgs";
+    };
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     hyprland.url = "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
-    hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
-    hyprland-plugins.inputs.hyprland.follows = "hyprland";
-    hycov.url = "github:DreamMaoMao/hycov/115cba558d439cc25d62ce38b7c62cde83f50ef5";
-    hycov.inputs.hyprland.follows = "hyprland";
-
-    nix-straight.url = "github:librephoenix/nix-straight.el/pgtk-patch";
-    nix-straight.flake = false;
-
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+    hycov = {
+      url = "github:DreamMaoMao/hycov/115cba558d439cc25d62ce38b7c62cde83f50ef5";
+      inputs.hyprland.follows = "hyprland";
+    };
+    nix-straight = {
+      url = "github:librephoenix/nix-straight.el/pgtk-patch";
+      flake = false;
+    };
     stylix.url = "github:danth/stylix";
     rust-overlay.url = "github:oxalica/rust-overlay";
-
     nixgl.url = "github:nix-community/nixGL";
 		firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
