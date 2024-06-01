@@ -2,71 +2,8 @@
     home.packages = with pkgs; [ tmux ];
     programs.tmux = {
         enable = true;
-	clock24 = true;
-	historyLimit = 5000;
-	extraConfig = ''
-unbind C-b
-set-option -g prefix C-Space
-bind-key C-Space send-prefix
-
-set -g base-index 1
-setw -g pane-base-index 1
-
-bind r source-file ~/.tmux.conf \; display "Reloaded!"
-
-set-option -g history-limit 5000
-
-bind ä split-window -hc "#{pane_current_path}"
-bind ö split-window -vc "#{pane_current_path}"
-
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
-
-bind H swap-pane -s '{left-of}'
-bind J swap-pane -s '{down-of}'
-bind K swap-pane -s '{up-of}'
-bind L swap-pane -s '{right-of}'
-
-bind -r C-h resize-pane -L 10
-bind -r C-j resize-pane -D 5
-bind -r C-k resize-pane -U 5
-bind -r C-l resize-pane -R 10
-
-bind a choose-window 'join-pane -h -s "%%"'
-bind A choose-window 'join-pane -s "%%"'
-
-bind g last-window
-
-bind -n C-S-Left swap-window -t -1\; select-window -t -1
-bind -n C-S-Right swap-window -t +1\; select-window -t +1
-
-set-window-option -g mode-keys vi
-set -g status-keys vi
-
-bind v copy-mode
-
-bind-key -T copy-mode-vi v send -X begin-selection
-bind-key -T copy-mode-vi V send -X select-line
-bind -T copy-mode-vi C-v send -X rectangle-toggle
-bind -T copy-mode-vi Escape send -X cancel
-bind -T copy-mode-vi H send -X start-of-line
-bind -T copy-mode-vi L send -X end-of-line
-bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
-
-bind b list-buffers     # list paste buffers
-# bind p paste-buffer -p  # paste from the top paste buffer
-bind P choose-buffer    # choose which buffer to paste from
-
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @continuum-restore 'on'
-set -g @plugin 'catppuccin/tmux'
-set -g @catppuccin_flavour 'macchiato'
-set -g @plugin 'christoomey/vim-tmux-navigator'
-set -g @plugin 'tmux-plugins/tpm'
-run '~/.tmux/plugins/tpm/tpm'
-	'';
+        clock24 = true;
+        historyLimit = 5000;
+        extraConfig = builtins.readFile ./.tmux.conf;
     };
 }

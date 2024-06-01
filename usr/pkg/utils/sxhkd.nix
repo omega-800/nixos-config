@@ -1,9 +1,10 @@
-{ bashScriptToNix, userSettings, ... }: 
+{ lib, config, home, pkgs, bashScriptToNix, userSettings, ... }: 
 let
   volumeScript = bashScriptToNix "volume_control" ./scripts/volume.sh; 
   backlightScript = bashScriptToNix "brightness_control" ./scripts/backlight.sh; 
   screenkeyScript = bashScriptToNix "toggle_screenkey" ./scripts/screenkey.sh;
   screensScript = bashScriptToNix "screens_control" ./scripts/home.sh;
+  sxhkdHelperScript = bashScriptToNix "sxhkd_helper" ./scripts/sxhkd_helper.sh;
 in {
   services.sxhkd = {
     enable = true;
@@ -11,6 +12,7 @@ in {
       "super + y" = screenkeyScript;
       "super + alt + y" = "pkill -f screenkey";
       "super + shift + r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
+      "super + shift + h" = sxhkdHelperScript;
       "super + shift + s" = "flameshot gui";
       "super + ctrl + shift + s" = "maim ${userSettings.homeDir}/documents/img/screenshots/$(date +%s).png";
       "super + enter " = "alacritty";

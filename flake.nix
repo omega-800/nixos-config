@@ -5,11 +5,7 @@
   let 
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
-        extraGrubEntries = ''
-        menuentry "arch" {
-          chainloader (hd0,msdos3)
-        }
-        '';
+        extraGrubEntries = "";
         system = "x86_64-linux"; # system arch
         hostname = "skribl"; # hostname
         profile = "work"; # select a profile defined from my profiles directory
@@ -122,6 +118,7 @@
             inherit systemSettings;
             inherit userSettings;
             inherit inputs;
+            inherit bashScriptToNix;
           };
         };
       };
@@ -142,28 +139,7 @@
           };
         };
       };
-
-      packages = forAllSystems (system:
-        let pkgs = nixpkgsFor.${system};
-        in {
-          default = self.packages.${system}.install;
-
-          install = pkgs.writeShellApplication {
-            name = "install";
-            runtimeInputs = with pkgs; [ git ]; # I could make this fancier by adding other deps
-            text = ''${./install.sh} "$@"'';
-          };
-        });
-
-      apps = forAllSystems (system: {
-        default = self.apps.${system}.install;
-
-        install = {
-          type = "app";
-          program = "${self.packages.${system}.install}/bin/install";
-        };
-      });
-  };
+    };
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";

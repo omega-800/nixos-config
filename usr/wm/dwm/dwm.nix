@@ -1,5 +1,6 @@
 { lib, config, home, pkgs, bashScriptToNix, ... }: 
-let dwm_stats = bashScriptToNix "dwm_stats" ./dwm_stats.sh; in {
+let dwm_stats = bashScriptToNix "dwm_stats" ./dwm_stats.sh; 
+in {
   home = {
     packages = with pkgs; [ st ];
     file.".xinitrc".text = ''
