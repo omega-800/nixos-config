@@ -1,12 +1,15 @@
 { pkgs, userSettings, ... }: {
-  nix.nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+  nix = {
+    nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
                   "nixos-config=$HOME/dotfiles/system/configuration.nix"
                   "/nix/var/nix/profiles/per-user/root/channels"
                 ];
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+    allowedUsers = [ "@wheel" ];
+  };
 
   nixpkgs.config.allowUnfree = true;
 

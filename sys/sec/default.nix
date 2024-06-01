@@ -8,5 +8,6 @@
     ./openvpn.nix
     ./sshd.nix
     ./systemd.nix
+    ./antivirus.nix
   ];
 }
