@@ -35,5 +35,5 @@ with lib; {
       '';
     })
   ];
-  users.users.${userSettings.username}.openssh.authorizedKeys.keys = systemSettings.authorizedSshKeys ? [];
+  users.users.${userSettings.username}.openssh.authorizedKeys.keys = systemSettings.authorizedSshKeys;
 }
