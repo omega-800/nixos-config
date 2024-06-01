@@ -6,7 +6,7 @@ let
   screensScript = bashScriptToNix "screens_control" ./scripts/home.sh;
   sxhkdHelperScript = bashScriptToNix "sxhkd_helper" ./scripts/sxhkd_helper.sh;
 in {
-  services.sxhkd = {
+  services.sxhkd = mkIf sonfig.u.utils.enabled {
     enable = true;
     keybindings = {
       "super + y" = screenkeyScript;

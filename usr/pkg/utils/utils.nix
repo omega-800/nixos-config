@@ -26,6 +26,7 @@ in {
       curl
       wget
       htop
+      flameshot
     ];
   };
 }

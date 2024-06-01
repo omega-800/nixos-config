@@ -11,13 +11,12 @@ xrdb ~/.Xresources
 xset -b
 
 udiskie &
-/usr/bin/dunst &
 ibus-daemon -rxRd
 unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
 
 #feh --bg-scale /home/omega/documents/img/wallpapers/zoro_kid.jpg
 ${dwm_stats} &
-redshift -O3500; xset r rate 300 50; exec dwm
+redshift -O3500; xset r rate 300 50; exec dbus-launch dwm
     '';
   };
 

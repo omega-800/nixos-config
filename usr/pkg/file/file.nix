@@ -14,7 +14,6 @@ in {
       rsync
       sshfs
       syncthing
-      lf
       ctpv
       tree
       eza

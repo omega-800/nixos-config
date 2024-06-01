@@ -14,7 +14,6 @@ in {
       wireguard-tools
     ] ++ (if systemSettings.genericLinux then [] else [
       qutebrowser
-      firefox
     ]);
   };
 }
