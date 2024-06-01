@@ -1,17 +1,21 @@
-{ lib, config, home, pkgs, ... }: {
+{ lib, config, home, pkgs, bashScriptToNix, ... }: 
+let dwm_stats = bashScriptToNix "dwm_stats" ./dwm_stats.sh; in {
   home = {
     packages = with pkgs; [ st ];
     file.".xinitrc".text = ''
 #setxkbmap -layout ch -variant de 
+sxhkd &
 xrandr
 xrdb ~/.Xresources
 xset -b
 
+udiskie &
 /usr/bin/dunst &
 ibus-daemon -rxRd
 unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
 
 #feh --bg-scale /home/omega/documents/img/wallpapers/zoro_kid.jpg
+${dwm_stats} &
 redshift -O3500; xset r rate 300 50; exec dwm
     '';
   };

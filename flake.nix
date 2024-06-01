@@ -26,8 +26,7 @@
       # ----- USER SETTINGS ----- #
       userSettings = rec {
         username = "omega"; # username
-        name = ""; # name/identifier
-        email = ""; # email (used for certain configurations)
+        homeDir = "/home/${username}";
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
         theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
         wm = "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
@@ -107,12 +106,15 @@
       # Attribute set of nixpkgs for each system:
       nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
 
+      bashScriptToNix = n: p: (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ] (builtins.readFile p)));
+
     in {
       homeConfigurations = {
         user = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") 
+            ./profiles/default/home.nix 
           ];
           extraSpecialArgs = {
             # pass config variables from above
