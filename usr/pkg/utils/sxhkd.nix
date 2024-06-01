@@ -44,9 +44,9 @@ in {
 
       # system
       "super + s ; b " = "bluetooth toggle";
-      "{super + s ; d,XF86MonBrightnessDown}" = "${backlightScript} lower";
-      "{super + s ; i,XF86MonBrightnessUp}" = "${backlightScript} raise";
-      "{super + s ; s,XF86Display}" = "${screensScript}";
+      "{super + s ; s : d,XF86MonBrightnessDown}" = "${backlightScript} lower";
+      "{super + s ; s : i,XF86MonBrightnessUp}" = "${backlightScript} raise";
+      "{super + s ; s : s,XF86Display}" = "${screensScript}";
       "{super + x,XF86PowerOff}" = "slock";
       # switch kb layout
       "super + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
