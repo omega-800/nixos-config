@@ -1,5 +1,5 @@
-{ config, pkgs, lib, ... }: with lib; {
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+{ inputs, config, pkgs, lib, ... }: with lib; {
+  #imports = [ inputs.nixvim.homeManagerModules.nixvim ];
   config = mkIf config.u.user.enable {
     #home.packages = with pkgs; [ neovim ];
     programs = {

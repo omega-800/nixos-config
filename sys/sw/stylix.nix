@@ -41,7 +41,7 @@ in
         chromium.enable = true;
         grub = {
           enable = true;
-          useImage = true;
+          useImage = false;
         };
       };
     };

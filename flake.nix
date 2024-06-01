@@ -26,7 +26,7 @@
         username = "omega"; # username
         homeDir = "/home/${username}";
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
-        theme = "uwunicorn-yt"; # selcted theme from my themes directory (./themes/)
+        theme = "nord"; # selcted theme from my themes directory (./themes/)
         wm = "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
         # window manager type (hyprland or x11) translator
         wmType = if (wm == "hyprland") then "wayland" else "x11";
@@ -51,10 +51,9 @@
                            editor);
       };
 
-      pkgs = (if ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"))
-              then
-                pkgs-stable
-              else
+      stablePkgs = ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"));
+
+      pkgs = (if stablePkgs then pkgs-stable else
                 (import nixpkgs-patched {
                   system = systemSettings.system;
                   config = {
@@ -81,19 +80,11 @@
       # configure lib
       # use nixpkgs if running a server (homelab or worklab profile)
       # otherwise use patched nixos-unstable nixpkgs
-      lib = (if ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"))
-             then
-               inputs.nixpkgs-stable.lib
-             else
-               inputs.nixpkgs.lib);
+      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib);
 
       # use home-manager-stable if running a server (homelab or worklab profile)
       # otherwise use home-manager-unstable
-      home-manager = (if ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"))
-             then
-               inputs.home-manager-stable
-             else
-               inputs.home-manager-unstable);
+      home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
 
       # Systems that can run tests:
       supportedSystems = [ "aarch64-linux" "i686-linux" "x86_64-linux" ];
@@ -103,7 +94,8 @@
 
       # Attribute set of nixpkgs for each system:
       nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
-
+  
+      # hacky hack hack for badly written bash scripts
       bashScriptToNix = n: p: (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ] (builtins.readFile p)));
 
     in {
@@ -175,9 +167,9 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+#    nixvim = {
+#      url = "github:nix-community/nixvim";
+#      inputs.nixpkgs.follows = "nixpkgs";
+#    };
   };
 }
