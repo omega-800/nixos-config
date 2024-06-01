@@ -62,7 +62,6 @@ in
         waybar.enable = true;
         wezterm.enable = true;
         xresources.enable = (userSettings.wmType == "x11");
-        kmscon.enable = true;
         dunst.enable = true;
         fzf.enable = true;
         hyprland.enable = true;
@@ -75,7 +74,7 @@ in
       };
     };
     programs.feh.enable = true;
-    font.size = config.stylix.fonts.sizes.terminal;
+#    font.size = config.stylix.fonts.sizes.terminal;
 #    programs.alacritty.settings = {
 #      colors = {
 #      # TODO revisit these color mappings
