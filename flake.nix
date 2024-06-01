@@ -18,6 +18,7 @@
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
         genericLinux = false;
         paranoid = true;
+        authorizedSshKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
       };
 
       # ----- USER SETTINGS ----- #

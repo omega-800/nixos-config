@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: {
+{ lib, config, pkgs, home, ... }: with lib; {
   config = mkIf config.u.user.enabled {
     home.packages = with pkgs; [ tmux ];
     programs.tmux = {

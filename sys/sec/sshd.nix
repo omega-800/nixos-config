@@ -1,4 +1,4 @@
-{ lib, userSettings, systemSettings, authorizedKeys ? [], ... }:
+{ lib, userSettings, systemSettings, ... }:
 with lib; {
   # Enable incoming ssh
   services.openssh = mkMerge [
@@ -35,5 +35,5 @@ with lib; {
       '';
     })
   ];
-  #users.users.${userSettings.username}.openssh.authorizedKeys.keys = authorizedKeys;
+  users.users.${userSettings.username}.openssh.authorizedKeys.keys = systemSettings.authorizedSshKeys ? [];
 }

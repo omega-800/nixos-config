@@ -1,4 +1,5 @@
 { lib, config, home, pkgs, bashScriptToNix, userSettings, ... }: 
+with lib;
 let
   volumeScript = bashScriptToNix "volume_control" ./scripts/volume.sh; 
   backlightScript = bashScriptToNix "brightness_control" ./scripts/backlight.sh; 
