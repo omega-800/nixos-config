@@ -1,5 +1,5 @@
-{ lib, config, home, pkgs, bashScriptToNix, ... }: 
-let dwm_stats = bashScriptToNix "dwm_stats" ./dwm_stats.sh; 
+{ lib, config, home, pkgs, ... }: 
+let dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh; 
 in {
   home = {
     packages = with pkgs; [ st ];

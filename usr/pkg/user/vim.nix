@@ -1,5 +1,5 @@
 { config, pkgs, lib, ... }: with lib; {
-  config = mkIf config.u.user.enabled {
+  config = mkIf config.u.user.enable {
   home.packages = with pkgs; [ neovim ];
   programs.vim = {
     enable = true;

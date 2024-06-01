@@ -1,7 +1,7 @@
-{ config, pkgs, lib, bashScriptToNix, userSettings, systemSettings,... }: 
+{ config, pkgs, lib, userSettings, systemSettings,... }: 
 with lib;
 let 
-  notifyScript = bashScriptToNix "malware_detected" ./malware_detected.sh;
+  notifyScript = pkgs.writeShellScript "malware_detected" ./malware_detected.sh;
   sus-user-dirs = [
     "Downloads"
     ".mozilla"

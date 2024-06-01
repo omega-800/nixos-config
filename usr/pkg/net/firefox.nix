@@ -1,5 +1,5 @@
 { pkgs, inputs, config, lib, userSettings, systemSettings, ... }: with lib; {
-  programs.firefox = mkIf (!systemSettings.genericLinux) && config.u.net.enabled {
+  programs.firefox = mkIf ((!systemSettings.genericLinux) && config.u.net.enable) {
     enable = true;
     policies = {
       DisableTelemetry = true;

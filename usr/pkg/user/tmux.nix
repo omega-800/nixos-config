@@ -1,5 +1,5 @@
 { lib, config, pkgs, home, ... }: with lib; {
-  config = mkIf config.u.user.enabled {
+  config = mkIf config.u.user.enable {
     home.packages = with pkgs; [ tmux ];
     programs.tmux = {
         enable = true;

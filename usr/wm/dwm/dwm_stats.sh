@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 while true; do
   cpu=$(awk '{print $1}' /proc/loadavg)

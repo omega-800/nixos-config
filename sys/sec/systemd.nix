@@ -1,7 +1,7 @@
 { lib, config, pkgs, systemSettings, ... }: 
 with lib; {
   # https://pastebin.com/fi6VBm2z
-  systemd.services = mkIf systemSettings.paranoid {
+  systemd.services = mkIf false { #systemSettings.paranoid {
     systemd-rfkill.serviceConfig = {
       ProtectSystem = "strict";
       ProtectHome = true;
