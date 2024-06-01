@@ -1,16 +1,15 @@
-{ lib, config, home, pkgs, bashScriptToNix, userSettings, ... }: 
+{ lib, config, home, pkgs, userSettings, ... }: 
 with lib;
 let
-  volumeScript = bashScriptToNix "volume_control" ./scripts/volume.sh; 
-  backlightScript = bashScriptToNix "brightness_control" ./scripts/backlight.sh; 
-  screenkeyScript = bashScriptToNix "toggle_screenkey" ./scripts/screenkey.sh;
-  screensScript = bashScriptToNix "screens_control" ./scripts/home.sh;
-  sxhkdHelperScript = bashScriptToNix "sxhkd_helper" ./scripts/sxhkd_helper.sh;
+  volumeScript = "${pkgs.writeScript "volume_control" (builtins.readFile ./scripts/volume.sh)}"; 
+  backlightScript = "${pkgs.writeScript "brightness_control" (builtins.readFile ./scripts/backlight.sh)}"; 
+  screensScript = "${pkgs.writeScript "screens_control" (builtins.readFile ./scripts/home.sh)}";
+  sxhkdHelperScript = "${pkgs.writeScript "sxhkd_helper" (builtins.readFile ./scripts/sxhkd_helper.sh)}";
 in {
-  services.sxhkd = mkIf sonfig.u.utils.enabled {
+  services.sxhkd = mkIf config.u.utils.enable {
     enable = true;
     keybindings = {
-      "super + y" = screenkeyScript;
+      "super + y" = "${pkgs.screenkey}/bin/screenkey &";
       "super + alt + y" = "pkill -f screenkey";
       "super + shift + r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
       "super + shift + h" = sxhkdHelperScript;
@@ -35,17 +34,20 @@ in {
       "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
 
       # open
-      "super + o ; {s,m,o,c,v,i,q,f,d,e,n,r,x,l,h,b}" = "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,firefox,discord,alacritty -e aerc,alacritty -e ncmpcpp,renoise,alacritty -e lf,libreoffice,homebank,brave}";
+      "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,firefox,discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
 
       # audio
       "super + a ; {j,k,l,h,p,s,r}" = "mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}";
       "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
-      "{super + a ; i,XF86AudioRaiseVolume}" = "${volumeScript} raise";
-      "{super + a ; d,XF86AudioLowerVolume}" = "${volumeScript} lower";
+      "super + a ; i" = "${volumeScript} raise";
+      "XF86AudioRaiseVolume" = "${volumeScript} raise";
+      "super + a ; d" = "${volumeScript} lower";
+      "XF86AudioLowerVolume" = "${volumeScript} lower";
 
       # system
       "super + s ; b " = "bluetooth toggle";
-      "{super + s ; d,XF86MonBrightnessDown}" = "${backlightScript} lower";
+      "XF86MonBrightnessDown" = "${backlightScript} lower";
+      "super + s ; d" = "${backlightScript} lower";
       "{super + s ; i,XF86MonBrightnessUp}" = "${backlightScript} raise";
       "{super + s ; s,XF86Display}" = "${screensScript}";
       "{super + x,XF86PowerOff}" = "slock";

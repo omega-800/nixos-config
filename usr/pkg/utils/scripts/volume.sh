@@ -1,17 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 step=5 
 limit=2
 
 curstats=$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i", $2}')
 
-if [ $1 == "raise" ] && (( 100 > $((curstats / limit)) )); then
+if [ "$1" == "raise" ] && (( 100 > $((curstats / limit)) )); then
   pactl set-sink-volume @DEFAULT_SINK@ "+${step}%"
   # amixer set Master ${step}%+ > /dev/null
-elif [ $1 == "lower" ]; then
+elif [ "$1" == "lower" ]; then
   pactl set-sink-volume @DEFAULT_SINK@ "-${step}%"
   # amixer set Master ${step}%- > /dev/null
-elif [ $1 == "mute" ]; then
+elif [ "$1" == "mute" ]; then
   pactl set-sink-mute @DEFAULT_SINK@ toggle
   # amixer set Master toggle > /dev/null
 else
@@ -39,4 +39,3 @@ fi
 
 # echo ${stats[0]} ${stats[1]} $volume | xargs -l bash -c 
 dunstify "volume $muted" -h "int:value:${stats[0]}" -i "/usr/share/icons/feather/$icon.svg" -t 500
-bash ~/scripts/dwm_stats.sh

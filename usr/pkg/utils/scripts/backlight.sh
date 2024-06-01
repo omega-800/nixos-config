@@ -1,9 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # max: 24000
-BRI_PATH="/sys/class/backlight/intel_backlight/brightness"
-
-current=$(cat $BRI_PATH)
+current=$(cat /sys/class/backlight/*/brightness)
 # alternatively, if xbacklight does not work:
 # current=`qdbus org.gnome.SettingsDaemon.Power /org/gnome/SettingsDaemon/Power org.gnome.SettingsDaemon.Power.Screen.GetPercentage`
 
@@ -33,7 +31,7 @@ case $1 in
         done
         ;;
     *)
-        echo "Usage: $0 [up, down]"
+        echo "Usage: $0 [lower, raise]"
         exit 1
 esac
 
@@ -54,11 +52,9 @@ else
     echo $iter
     dunstify "backlight" -h int:value:$iter -h string:x-canonical-private-synchronous:brightness -i "/usr/share/icons/feather/$icon.svg" -t 500 &
 
-     bc <<< "$newval * 240" > "$BRI_PATH"
+     bc <<< "$newval * 240" > /sys/class/backlight/*/brightness
 #    bc <<< $newval * 240 > $BRI_PATH 
     # alternatively, if xbacklight does not work:
     # qdbus org.gnome.SettingsDaemon.Power /org/gnome/SettingsDaemon/Power org.gnome.SettingsDaemon.Power.Screen.SetPercentage $newval
 fi
 
-bash ~/scripts/dwm_stats.sh
-exit 0

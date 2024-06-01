@@ -27,6 +27,7 @@ in {
       wget
       htop
       flameshot
+      screenkey
     ];
   };
 }

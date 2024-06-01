@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if xrandr -q | grep "HDMI1 connected" > /dev/null ; then
     xrandr --output HDMI1 --auto --left-of eDP1
