@@ -39,15 +39,12 @@ in {
       # audio
       "super + a ; {j,k,l,h,p,s,r}" = "mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}";
       "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
-      "super + a ; i" = "${volumeScript} raise";
-      "XF86AudioRaiseVolume" = "${volumeScript} raise";
-      "super + a ; d" = "${volumeScript} lower";
-      "XF86AudioLowerVolume" = "${volumeScript} lower";
+      "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
+      "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
 
       # system
       "super + s ; b " = "bluetooth toggle";
-      "XF86MonBrightnessDown" = "${backlightScript} lower";
-      "super + s ; d" = "${backlightScript} lower";
+      "{super + s ; d,XF86MonBrightnessDown}" = "${backlightScript} lower";
       "{super + s ; i,XF86MonBrightnessUp}" = "${backlightScript} raise";
       "{super + s ; s,XF86Display}" = "${screensScript}";
       "{super + x,XF86PowerOff}" = "slock";

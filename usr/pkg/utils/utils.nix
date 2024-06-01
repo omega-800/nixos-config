@@ -22,7 +22,6 @@ in {
       xclip
       xbindkeys
       ripgrep
-      fzf
       curl
       wget
       htop

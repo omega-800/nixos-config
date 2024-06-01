@@ -9,7 +9,11 @@ let
 in
 {
   imports = [ inputs.stylix.nixosModules.stylix ];
-
+  
+  stylix.cursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+  };
   stylix.autoEnable = false;
   stylix.polarity = themePolarity;
   stylix.image = pkgs.fetchurl {
