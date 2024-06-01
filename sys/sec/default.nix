@@ -7,5 +7,6 @@
     ./net.nix
     ./openvpn.nix
     ./sshd.nix
+    ./systemd.nix
   ];
 }
