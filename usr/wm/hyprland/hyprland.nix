@@ -1,6 +1,8 @@
 { inputs, config, lib, pkgs, userSettings, systemSettings, ... }:
-
-{
+let
+    lock_cmd = "pidof hyprlock || hyprlock";
+    suspend_cmd = "pidof steam || systemctl suspend || loginctl suspend"; # fuck nvidia
+in {
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -9,9 +11,15 @@
       inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
       inputs.hycov.packages.${pkgs.system}.hycov
     ];
-    settings = { };
     xwayland = { enable = true; };
     systemd.enable = true;
+    extraConfig = ''
+    ${builtins.readFile ./config/modules/general.conf}
+    ${builtins.readFile ./config/modules/io.conf}
+    ${builtins.readFile ./config/modules/keys.conf}
+    ${builtins.readFile ./config/modules/style.conf}
+    ${builtins.readFile ./config/modules/rules.conf}
+    '';
   };
 
   home.packages = with pkgs; [
@@ -24,9 +32,6 @@
     wl-clipboard
     hyprland-protocols
     hyprpicker
-    hypridle
-    hyprlock
-    swaybg
     fnott
     fuzzel
     keepmenu
@@ -45,7 +50,37 @@
     pamixer
     tesseract4
   ];
-  programs.waybar = {
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = lock_cmd;
+        before_sleep_cmd = lock_cmd;
+      };
+      listener = [
+        {
+          timeout = 180; # 3mins
+          on-timeout = lock_cmd;
+        }
+        {
+          timeout = 240; # 4mins
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        {
+          timeout = 540; # 9mins
+          on-timeout = suspend_cmd;
+        }
+      ];
+    };
+  };
+  programs = {
+  hyprlock = {
+    enable = true;
+    extraConfig = builtins.replaceStrings [ "~/.config/hypr/hyplock/status.sh" ] [ "${lib.writeShellScript "hyprlockstatus" builtins.readFile ./config/hyprlock/status.sh}" ] (builtins.readFile ./config/hyprlock.conf);
+  };
+
+  waybar = {
     enable = true;
     settings = {
       mainBar = {
@@ -182,4 +217,5 @@
       };
     };
   };
+};
 }

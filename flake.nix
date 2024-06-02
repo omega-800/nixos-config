@@ -27,7 +27,7 @@
         homeDir = "/home/${username}";
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
         theme = "nord"; # selcted theme from my themes directory (./themes/)
-        wm = "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
+        wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
         # window manager type (hyprland or x11) translator
         wmType = if (wm == "hyprland") then "wayland" else "x11";
         browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
