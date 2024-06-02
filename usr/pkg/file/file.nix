@@ -20,6 +20,7 @@ in {
       gzip
       ueberzug
       xz
+      trash-cli
     ];
   };
 }

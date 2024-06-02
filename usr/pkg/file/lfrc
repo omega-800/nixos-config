@@ -56,10 +56,51 @@ map O $mimeopen --ask $f
 # use either file extensions and/or mime types here. Below uses an editor for
 # text files and a file opener for the rest.
 cmd open ${{
-    case $(file --mime-type -Lb $f) in
-        text/*) vim $fx;;
-        *) for f in $fx; do xdg-open $f > /dev/null 2> /dev/null & done;;
-    esac
+  case $(file --mime-type "$f" -bL) in
+    text/*|application/json) $EDITOR "$f";;
+    application/x-executable) "$f";;
+    *) xdg-open "$f" ;;
+  esac
+}}
+
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile ${{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+cmd chmod ${{
+  printf "Mode Bits: "
+  read ans
+
+  for file in "$fx"
+  do
+    chmod $ans $file
+  done
+
+  lf -remote 'send reload'
+}}
+
+cmd sudomkfile ${{
+  printf "File Name: "
+  read ans
+  sudo $EDITOR $ans
+}}
+
+cmd fzf_jump ${{
+  res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
+  if [ -f "$res" ]; then
+    cmd="select"
+  elif [ -d "$res" ]; then
+    cmd="cd"
+  fi
+  lf -remote "send $id $cmd \"$res\""
 }}
 
 # mkdir command. See wiki if you want it to select created dir
@@ -74,7 +115,32 @@ map a :push %mkdir<space>
 
 # move current file or selected files to trash folder
 # (also see 'man mv' for backup/overwrite options)
-cmd trash %set -f; mv $fx ~/.trash
+cmd trash ${{
+  files=$(printf "$fx" | tr '\n' ';')
+  while [ "$files" ]; do
+    # extract the substring from start of string up to delimiter.
+    # this is the first "element" of the string.
+    file=${files%%;*}
+
+    trash-put "$(basename "$file")"
+    # if there's only one element left, set `files` to an empty string.
+    # this causes us to exit this `while` loop.
+    # else, we delete the first "element" of the string from files, and move onto the next.
+    if [ "$files" = "$file" ]; then
+      files=''
+    else
+      files="${files#*;}"
+    fi
+  done
+}}
+
+cmd clear_trash %trash-empty
+
+cmd restore_trash ${{
+  trash-restore
+}}
+
+cmd stripspace %stripspace "$f"
 
 # define a custom 'delete' command
 # cmd delete ${{
@@ -120,3 +186,77 @@ cmd zip ${{
     zip -r $1.zip $1
     rm -rf $1
 }}
+
+# mappings
+
+map m
+map o
+map n
+map "'"
+map '"'
+map d
+map c
+map e
+map f
+
+# File Openers
+map ee $$EDITOR "$f"
+map eg $code "$f"
+map u $view "$f"
+
+# Archive Mappings
+map az zip
+map at tar
+map ag targz
+map ab targz
+map au unarchive
+
+# Trash Mappings
+map dd trash
+map tc clear_trash
+map tr restore_trash
+map ttt ${{alacritty}}
+
+map ss stripspace
+
+# Basic Functions
+map . set hidden!
+map DD delete
+map p paste
+map x cut
+map y copy
+map <enter> open
+map mf mkfile
+map mr sudomkfile
+map md mkdir
+map ms $mkscript
+map ch chmod
+map br $vimv $fx
+map r rename
+map H top
+map L bottom
+map R reload
+map C clear
+map U unselect
+
+# Movement
+map gtr cd ~/.local/share/Trash/files
+
+map gD cd ~/Downloads
+
+map gd. cd ~/documents
+map gdi cd ~/documents/img
+
+map gw. cd ~/workspace
+map gwc cd ~/workspace/c
+
+map gs. cd ~/scripts
+map gss cd ~/scripts/screens
+
+map gc cd ~/.config
+map gl cd ~/.local
+map gE cd /etc
+map gU. cd /usr
+map gUs cd /usr/share
+
+map \;j cd ~
