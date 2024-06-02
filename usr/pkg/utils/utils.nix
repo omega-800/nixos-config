@@ -13,6 +13,7 @@ in {
       gzip
       xz
       which
+      cloc
       gnused
       less
       unzip
