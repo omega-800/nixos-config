@@ -1,7 +1,12 @@
 { lib, config, pkgs, systemSettings, ... }: 
 with lib; {
+  systemd.coredump.enable = false;
+  services.journald.forwardToSyslog = true;
   # https://pastebin.com/fi6VBm2z
   systemd.services = mkIf systemSettings.paranoid {
+    systemd-logind.serviceConfig = {
+        SupplementaryGroups = [ "proc" ];
+    };
     systemd-rfkill.serviceConfig = {
       ProtectSystem = "strict";
       ProtectHome = true;

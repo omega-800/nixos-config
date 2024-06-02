@@ -5,6 +5,7 @@ let
   sus-user-dirs = [
     "Downloads"
     ".mozilla"
+    ".vscode"
   ];
   all-normal-users = attrsets.filterAttrs (username: config: config.isNormalUser) config.users.users;
   all-sus-dirs = builtins.concatMap (dir:
@@ -23,12 +24,8 @@ let
   ];
 in {
   config = mkIf systemSettings.paranoid { 
-    security.sudo = {
-      extraConfig  =
-        ''
-        clamav ALL = (ALL) NOPASSWD: SETENV: ${pkgs.libnotify}/bin/notify-send
-        '';
-      };
+    #security.sudo.extraConfig  = "clamav ALL = (ALL) NOPASSWD: SETENV: ${pkgs.libnotify}/bin/notify-send";
+    security.doas.extraConfig  = "permit keepenv nopass clamav as root cmd ${pkgs.libnotify}/bin/notify-send";
       services.clamav = {
         daemon = {
           enable = true;

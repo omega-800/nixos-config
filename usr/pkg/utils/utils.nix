@@ -8,6 +8,7 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
+      vulnix
       iproute2
       iputils
       gzip
@@ -28,6 +29,7 @@ in {
       htop
       flameshot
       screenkey
+      lynis
     ];
   };
 }

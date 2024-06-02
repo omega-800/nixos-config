@@ -10,6 +10,10 @@ with lib; {
       allowSFTP = false;
       challengeResponseAuthentication = false;
       extraConfig = ''
+        LogLevel VERBOSE
+        MaxSessions 2
+        Port 51423
+        TCPKeepAlive no
         PasswordAuthentication no
         PermitRootLogin no
         PermitEmptyPasswords no
