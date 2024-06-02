@@ -1,6 +1,67 @@
 #!/bin/bash
 
+hex_to_rgb() {
+    # Usage: hex_to_rgb "#FFFFFF"
+    #        hex_to_rgb "000000"
+    : "${1/\#}"
+    ((r=16#${_:0:2},g=16#${_:2:2},b=16#${_:4:2}))
+    printf '%s\n' "$r $g $b"
+}
+
+rgb_to_hex() {
+    # Usage: rgb_to_hex "r" "g" "b"
+    printf '#%02x%02x%02x\n' "$1" "$2" "$3"
+}
+
 bri() { echo "$1" > /sys/class/backlight/intel_backlight/brightness; }
+
+upper() {
+    # Usage: upper "string"
+    printf '%s\n' "${1^^}"
+}
+
+lower() {
+    # Usage: lower "string"
+    printf '%s\n' "${1,,}"
+}
+
+reverse_case() {
+    # Usage: reverse_case "string"
+    printf '%s\n' "${1~~}"
+}
+
+strip_all() {
+    printf '%s\n' "${1//$2}"
+}
+
+strip_all() {
+    printf '%s\n' "${1//$2}"
+}
+
+urlencode() {
+    local LC_ALL=C
+    for (( i = 0; i < ${#1}; i++ )); do
+        : "${1:i:1}"
+        case "$_" in
+            [a-zA-Z0-9.~_-])
+                printf '%s' "$_"
+            ;;
+
+            *)
+                printf '%%%02X' "'$_"
+            ;;
+        esac
+    done
+    printf '\n'
+}
+
+urldecode() {
+    # Usage: urldecode "string"
+    : "${1//+/ }"
+    printf '%b\n' "${_//%/\\x}"
+}
+
+bash_cat() { echo "$(<"$1")"; }
 
 countdown() {
     start="$(( $(date '+%s') + $1))"
