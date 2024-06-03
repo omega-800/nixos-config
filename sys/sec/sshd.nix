@@ -6,7 +6,7 @@ with lib; {
       enable = true;
       openFirewall = true;
     })
-    (mkIf systemSettings.paranoid {
+    (mkIf systemSettings.hardened {
       allowSFTP = false;
       challengeResponseAuthentication = false;
       extraConfig = ''

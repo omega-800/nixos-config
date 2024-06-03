@@ -12,12 +12,14 @@
         timezone = "Europe/Zurich"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         kbLayout = "de_CH-latin1"; # select keyboard layout
-        font = "JetBrainsMono"; # select font
+        font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
+        fontPkg = pkgs.tamzen; # Console font package
         bootMode = "bios"; # uefi or bios
         bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
         genericLinux = false;
-        paranoid = true;
+        hardened = true;
+        paranoid = false;
         authorizedSshKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
       };
 
@@ -33,8 +35,8 @@
         browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
         defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
         term = "alacritty"; # Default terminal command;
-        font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
-        fontPkg = pkgs.tamzen; # Console font package
+        font = "JetBrainsMono"; # select font
+        fontPkg = pkgs.jetbrains-mono; # Console font package
         editor = "nvim"; # Default editor;
         # editor spawning translator
         # generates a command that can be used to spawn editor inside a gui
