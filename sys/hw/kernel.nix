@@ -7,7 +7,8 @@ in {
   };
 
   imports = if systemSettings.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
-  config = (if systemSettings.paranoid then {
+  config = (mkMerge [
+    (mkIf systemSettings.paranoid {
     security.allowUserNamespaces = true;
     security.allowSimultaneousMultithreading = true;
     nix.useSandbox = true;
@@ -137,9 +138,11 @@ in {
         "vm.unprivileged_userfaultfd" = "0"; 
       };
     };
-  } else if cfg.zen then {
+  })
+  (mkIf (cfg.zen && (!systemSettings.paranoid)) {
     boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
     boot.consoleLogLevel = 0;
     # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
-  } else {});
+  })
+]);
 }
