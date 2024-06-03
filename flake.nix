@@ -33,8 +33,8 @@
         browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
         defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
         term = "alacritty"; # Default terminal command;
-        font = "JetBrainsMono"; # Selected font
-        fontPkg = pkgs.jetbrains-mono; # Font package
+        font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
+        fontPkg = pkgs.tamzen; # Console font package
         editor = "nvim"; # Default editor;
         # editor spawning translator
         # generates a command that can be used to spawn editor inside a gui

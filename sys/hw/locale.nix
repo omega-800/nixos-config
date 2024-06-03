@@ -15,6 +15,7 @@
   };
   console = {
     font = systemSettings.font;
+    packages = [ systemSettings.fontPkg ];
     keyMap = systemSettings.kbLayout;
   };
   fonts.fontDir.enable = true;
