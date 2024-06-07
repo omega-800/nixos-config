@@ -7,14 +7,14 @@
       systemSettings = {
         extraGrubEntries = "";
         system = "x86_64-linux"; # system arch
-        hostname = "skribl"; # hostname
+        hostname = "z"; # hostname
         profile = "work"; # select a profile defined from my profiles directory
         timezone = "Europe/Zurich"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         kbLayout = "de_CH-latin1"; # select keyboard layout
         font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
         fontPkg = pkgs.tamzen; # Console font package
-        bootMode = "bios"; # uefi or bios
+        bootMode = "uefi"; # uefi or bios
         bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
         grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
         genericLinux = false;
@@ -26,6 +26,8 @@
       # ----- USER SETTINGS ----- #
       userSettings = rec {
         username = "omega"; # username
+        devName = "gs2";
+        devEmail = "georgiy.shevoroshkin@inteco.ch"; 
         homeDir = "/home/${username}";
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
         theme = "catppuccin-mocha"; # selcted theme from my themes directory (./themes/)

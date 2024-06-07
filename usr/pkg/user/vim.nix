@@ -128,9 +128,17 @@ with lib; {
             action = "<CMD>TroubleToggle<CR>";
             options.desc = "Toggle trouble";
           }
+          {
+            mode = "n";
+            key = "<leader>ut";
+            action = "<cmd>UndotreeToggle<CR>";
+            options = {
+              silent = true;
+              desc = "Undotree";
+            };
+          }
         ];
         plugins = {
-          tmux-navigator.enable = true;
           telescope = {
             enable = true;
             keymaps = {
@@ -211,11 +219,37 @@ with lib; {
             enable = true;
             settings.max_lines = 2;
           };
+          undotree = {
+            enable = true;
+            settings = {
+              autoOpenDiff = true;
+              focusOnToggle = true;
+            };
+          };
+          tmux-navigator.enable = true;
+          todo-comments.enable = true;
           rainbow-delimiters.enable = true;
           lightline.enable = true;
           trouble.enable = true;
           nvim-autopairs.enable = true;
           bufferline.enable = true;
+          nvim-colorizer.enable = true;
+          which-key = {
+            enable = true;
+            ignoreMissing = false;
+            icons = {
+              breadcrumb = "»";
+              group = "+";
+              separator = ""; # ➜
+            };
+# registrations = {
+#   "<leader>t" = " Terminal";
+# };
+            window = {
+              border = "none";
+              winblend = 0;
+            };
+          };
           #https://github.com/MikaelFangel/nixvim-config/blob/main/config/cmp.nix
           #          auto-save = {
           #            enable = true;

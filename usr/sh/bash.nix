@@ -20,9 +20,9 @@ fromhex() {
   echo -e `printf "%03d" "$(((r<75?0:(r-35)/40)*6*6+(g<75?0:(g-35)/40)*6+(b<75?0:(b-35)/40)+16))"`
 }
 
-#PS1='\n\[\033[7;49;35m\]\u\[\033[0;40;35m\]\[\033[0;40;35m\] \w\[\033[0;49;30m\]\[\033[m\]\n\[\033[7;49;91m    \]\h\[\033[0;40;91m\]\[\033[0;40;91m\] \j\[\033[0;101;30m\]\[\033[7;49;91m\] \s\[\033[0;40;91m\]\[\033[0;4    0;91m\] \!\[\033[0;49;30m\]\[\033[5;49;91m\]\$\[\033[m\] '
+PS1='\n\[\033[7;49;35m\]\u\[\033[0;40;35m\]\[\033[0;40;35m\] \w\[\033[0;49;30m\]\[\033[m\]\n\[\033[7;49;91m\]\h\[\033[0;40;91m\]\[\033[0;40;91m\] \j\[\033[0;101;30m\]\[\033[7;49;91m\] \s\[\033[0;40;91m\]\[\033[0;40;91m\] \!\[\033[0;49;30m\]\[\033[5;49;91m\]\$\[\033[m\] '
       
-PS1="\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base08}")")\u $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0A}")")\w\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base06}")")\h $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base03}")")\j $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base00}")")\s $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0E}")")\! $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0B}")")> $(tput sgr0)"
+#PS1="\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base08}")")\u $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0A}")")\w\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base06}")")\h $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base03}")")\j $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base00}")")\s $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0E}")")\! $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0B}")")> $(tput sgr0)"
 
 for i in {2..20}; do alias "$(printf '.%.0s' $(seq 1 $i))"="cd $(printf '../%.0s' $(seq 2 $i))"; done
 #bind 'set show-all-if-ambiguous on'
@@ -45,6 +45,10 @@ fi
 set -o vi
 source ${./functions};
 source ${./ssh};
+export GPG_AGENT_INFO
+export SSH_AUTH_SOCK
+export PINENTRY_USER_DATA=USE_TTY=1
+export GPG_TTY=$(tty)
     '';
   };
 }

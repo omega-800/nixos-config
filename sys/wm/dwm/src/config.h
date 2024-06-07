@@ -1,55 +1,56 @@
-  /* See LICENSE file for copyright and license details. */
+/* See LICENSE file for copyright and license details. */
 
-  /* appearance */
-  static const unsigned int borderpx  = 2;        /* border pixel of windows */
-  static const unsigned int snap      = 32;       /* snap pixel */
-  static const int showbar            = 1;        /* 0 means no standard bar */
-  static const int topbar             = 1;        /* 0 means standard bar at bottom */
-  static const int extrabar           = 1;        /* 0 means no extra bar */
-  static const char statussep         = ';';      /* separator between statuses */
-  static const char *fonts[]          = { "monospace:size=10" };
-  static const char dmenufont[]       = "monospace:size=10";
-  static const char col_gray1[]       = "#222222";
-  static const char col_gray2[]       = "#444444";
-  static const char col_gray3[]       = "#bbbbbb";
-  static const char col_gray4[]       = "#eeeeee";
-  static const char col_cyan[]        = "#005577";
-  static const char col_black[]       = "#000000";
-  static const char col_red[]         = "#ff0000";
-  static const char col_yellow[]      = "#ffff00";
-  static const char col_white[]       = "#ffffff";
+/* appearance */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int gappx     = 5;        /* gaps between windows */
+static const unsigned int snap      = 32;       /* snap pixel */
+static const int showbar            = 1;        /* 0 means no standard bar */
+static const int topbar             = 1;        /* 0 means standard bar at bottom */
+static const int extrabar           = 1;        /* 0 means no extra bar */
+static const char statussep         = ';';      /* separator between statuses */
+static const char *fonts[]          = { "monospace:size=10" };
+static const char dmenufont[]       = "monospace:size=10";
+static const char col_gray1[]       = "#222222";
+static const char col_gray2[]       = "#444444";
+static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray4[]       = "#eeeeee";
+static const char col_cyan[]        = "#005577";
+static const char col_black[]       = "#000000";
+static const char col_red[]         = "#ff0000";
+static const char col_yellow[]      = "#ffff00";
+static const char col_white[]       = "#ffffff";
 
-  static const char *colors[][3]      = {
-    /*					fg         bg          border   */
-    [SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 },
-    [SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
-    [SchemeWarn] =	 { col_black, col_yellow, col_red },
-    [SchemeUrgent]=	 { col_white, col_red,    col_red },
-    [SchemeTabActive]  = { col_gray2, col_gray3,  col_gray2 },
-    [SchemeTabInactive]  = { col_gray1, col_gray3,  col_gray1 }
-  };
+static const char *colors[][3]      = {
+	/*					fg         bg          border   */
+	[SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 },
+	[SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
+	[SchemeWarn] =	 { col_black, col_yellow, col_red },
+	[SchemeUrgent]=	 { col_white, col_red,    col_red },
+	[SchemeTabActive]  = { col_gray2, col_gray3,  col_gray2 },
+	[SchemeTabInactive]  = { col_gray1, col_gray3,  col_gray1 }
+};
 
-  /* tagging */
-  static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+/* tagging */
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-  static const Rule rules[] = {
-    /* xprop(1):
-     *	WM_CLASS(STRING) = instance, class
-     *	WM_NAME(STRING) = title
-     */
-    /* class      instance    title       tags mask     isfloating   monitor */
-    { NULL,       NULL,       NULL,       0,            0,           -1 },
-  };
+static const Rule rules[] = {
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
+	 *	WM_NAME(STRING) = title
+	 */
+	/* class      instance    title       tags mask     isfloating   monitor */
+	{ NULL,       NULL,       NULL,       0,            0,           -1 },
+};
 
 /* window following */
-#define WFACTIVE 'f'
-#define WFINACTIVE 'd'
+#define WFACTIVE '>'
+#define WFINACTIVE 'v'
 #define WFDEFAULT WFINACTIVE
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int nviews      = 1;    /* mask of tags highlighted by default (tags 1-4) */
+static const int nviews      = 3;    /* mask of tags highlighted by default (tags 1-4) */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int statusall   = 1;    /* 1 means status is shown in all bars, not just active monitor */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
@@ -132,6 +133,9 @@ static const Key keys[] = {
 	{ WINKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ WINKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ WINKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

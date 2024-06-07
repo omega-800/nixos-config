@@ -48,6 +48,7 @@ in {
       "{super + s ; s : i,XF86MonBrightnessUp}" = "${backlightScript} raise";
       "{super + s ; s : s,XF86Display}" = "${screensScript}";
       "{super + x,XF86PowerOff}" = "slock";
+      "super + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       # switch kb layout
       "super + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
     };

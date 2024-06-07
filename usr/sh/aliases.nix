@@ -1,7 +1,7 @@
 { config, ... }: {
   home.shellAliases = {
-    hms = ''home-manager switch --flake ${config.home.homeDirectory}/nixos-config#user --show-trace'';
-    nrs = ''sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/nixos-config#system --show-trace'';
+    hms = ''home-manager switch --flake ${config.home.homeDirectory}/workspace/nixos-config#user --show-trace'';
+    nrs = ''sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#system --show-trace'';
     ssh = ''TERM=xterm-256color ssh'';
     vf = ''vim $(__fzf_select__)'';
     gst = ''git status'';
@@ -57,5 +57,7 @@
     ls = ''ls --color=auto'';
     dir = ''dir --color=auto'';
     vdir = ''vdir --color=auto'';
+    vim = ''nvim'';
+    rm = ''trash'';
   };
 }

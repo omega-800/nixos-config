@@ -7,9 +7,6 @@ in {
   };
  
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "discord"
-    ];
     home.packages = with pkgs; [
       teamviewer
       # nable?
