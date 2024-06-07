@@ -1,33 +1,38 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no standard bar */
-static const int topbar             = 1;        /* 0 means standard bar at bottom */
+static unsigned int borderpx  = 2;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static int showbar            = 1;        /* 0 means no standard bar */
+static int topbar             = 1;        /* 0 means standard bar at bottom */
+static const double activeopacity   = 0.9f;     /* Window opacity when it's focused (0 <= opacity <= 1) */
+static const double inactiveopacity = 0.7f;     /* Window opacity when it's inactive (0 <= opacity <= 1) */
 static const int extrabar           = 1;        /* 0 means no extra bar */
 static const char statussep         = ';';      /* separator between statuses */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char col_black[]       = "#000000";
-static const char col_red[]         = "#ff0000";
-static const char col_yellow[]      = "#ffff00";
-static const char col_white[]       = "#ffffff";
 
-static const char *colors[][3]      = {
+static char font[]            = "monospace:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
+
+static char normbgcolor[]       = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]       = "#bbbbbb";
+static char selfgcolor[]       = "#eeeeee";
+static char selbgcolor[]       = "#eeeeee";
+static char selbordercolor[]        = "#005577";
+static char warnfggcolor[]       = "#000000";
+static char urgbgcolor[]         = "#ff0000";
+static char warnbggcolor[]      = "#ffff00";
+static char urgfggcolor[]       = "#ffffff";
+
+static char *colors[][3]      = {
 	/*					fg         bg          border   */
-	[SchemeNorm] =	 { col_gray3, col_gray1,  col_gray2 },
-	[SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
-	[SchemeWarn] =	 { col_black, col_yellow, col_red },
-	[SchemeUrgent]=	 { col_white, col_red,    col_red },
-	[SchemeTabActive]  = { col_gray2, col_gray3,  col_gray2 },
-	[SchemeTabInactive]  = { col_gray1, col_gray3,  col_gray1 }
+	[SchemeNorm] =	 { normfgcolor, normbgcolor,  normbordercolor },
+	[SchemeSel]  =	 { selfgcolor, selbgcolor,   selbordercolor },
+	[SchemeWarn] =	 { warnfggcolor, warnbggcolor, urgbgcolor },
+	[SchemeUrgent]=	 { urgfggcolor, urgbgcolor,    urgbgcolor },
+	[SchemeTabActive]  = { normbordercolor, normfgcolor,  normbordercolor },
+	[SchemeTabInactive]  = { normbgcolor, normfgcolor,  normbgcolor }
 };
 
 /* tagging */
@@ -38,8 +43,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,       NULL,       NULL,       0,            0,           -1 },
+	/* class      instance    title       tags mask     isfloating   focusopacity    unfocusopacity     monitor */
+{ NULL,       NULL,       NULL,       0,            0,           1,              1,                 -1 },
+//	{ "st",       NULL,       NULL,       0,            0,           0.9,              0.7,                 -1 },
 };
 
 /* window following */
@@ -48,10 +54,10 @@ static const Rule rules[] = {
 #define WFDEFAULT WFINACTIVE
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int nviews      = 3;    /* mask of tags highlighted by default (tags 1-4) */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int nviews      = 1;    /* mask of tags highlighted by default (tags 1-4) */
 static const int statusall   = 1;    /* 1 means status is shown in all bars, not just active monitor */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
@@ -98,8 +104,33 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+		{ "faceName",           STRING,  &font },
+		{ "faceName",           STRING,  &dmenufont },
+		{ "color0",        STRING,  &normbgcolor },
+		{ "color11",    STRING,  &normbordercolor },
+		{ "color15",        STRING,  &normfgcolor },
+		{ "color10",     STRING,  &selbgcolor },
+		{ "color5",     STRING,  &selbordercolor },
+		{ "foreground",         STRING,  &selfgcolor },
+    { "color11",       STRING,  &warnbggcolor },
+    { "color9",       STRING,  &warnfggcolor },
+    { "color1",         STRING,  &urgbgcolor },
+    { "color0",        STRING,  &urgfggcolor },
+		{ "borderpx",          	INTEGER, &borderpx },
+		{ "snap",          		  INTEGER, &snap },
+		{ "showbar",          	INTEGER, &showbar },
+		{ "topbar",          	  INTEGER, &topbar },
+		{ "nmaster",          	INTEGER, &nmaster },
+		{ "resizehints",       	INTEGER, &resizehints },
+		{ "mfact",      	 	    FLOAT,   &mfact },
+};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -133,9 +164,10 @@ static const Key keys[] = {
 	{ WINKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ WINKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ WINKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
-	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+  { MODKEY|ShiftMask,             XK_a,      changefocusopacity,   {.f = +0.025}},
+  { MODKEY|ShiftMask,             XK_s,      changefocusopacity,   {.f = -0.025}},
+	{ MODKEY|ShiftMask,             XK_y,      changeunfocusopacity, {.f = +0.025}},
+  { MODKEY|ShiftMask,             XK_x,      changeunfocusopacity, {.f = -0.025}},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
