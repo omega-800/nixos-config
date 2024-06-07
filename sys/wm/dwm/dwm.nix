@@ -3,7 +3,11 @@
   services.xserver.windowManager.dwm = {
     enable = true;
     package = pkgs.dwm.overrideAttrs {
-      src = ./src;
+      src = builtins.fetchGit {
+        url = "https://github.com/omega-800/dwm.git"; 
+        ref = "main";
+        rev = "ca6bb2a6860d94e71ba33df97db4abfd844a4028";
+      };
 #      patches = [
 #        (pkgs.fetchpatch {
 #          url = "https://dwm.suckless.org/patches/activetagindicatorbar/dwm-activetagindicatorbar-6.2.diff";

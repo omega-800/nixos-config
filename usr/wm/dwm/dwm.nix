@@ -2,7 +2,11 @@
 let 
   dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh; 
   customSt = pkgs.st.overrideAttrs {
-    src = ./st;
+      src = builtins.fetchGit {
+        url = "https://github.com/omega-800/st.git"; 
+        ref = "main";
+        rev = "f339235f5c99e02c88fd54ac6a2f3827d120480d";
+      };
   };
 in {
   home = {

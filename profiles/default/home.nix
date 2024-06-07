@@ -3,6 +3,7 @@
 {
   imports = [
     ../../usr
+    ./conf.nix
   ];
   nix = {
     package = pkgs.nix;

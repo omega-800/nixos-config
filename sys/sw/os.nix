@@ -7,7 +7,6 @@
     package = pkgs.nixFlakes;
     extraOptions = "experimental-features = nix-command flakes";
     settings.allowed-users = [ "@wheel" ];
-
   };
 
   nixpkgs.config.allowUnfree = true;
