@@ -18,8 +18,9 @@ udiskie &
 ibus-daemon -rxRd
 unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
 picom &
-feh --bg-scale /home/omega/workspace/nixos-config/themes/catppuccin-mocha/1266081.jpg
+/home/omega/.fehbg-stylix
 ${dwm_stats} &
+systemctl --user import-environment DISPLAY
 redshift -O3500; xset r rate 300 50; exec dbus-launch dwm
     '';
     #activation.copyMyFiles = config.lib.dag.entryAfter ["writeBoundary"] ''

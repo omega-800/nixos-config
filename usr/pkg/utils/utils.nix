@@ -30,6 +30,7 @@ in {
       flameshot
       screenkey
       lynis
+      brightnessctl
     ];
   };
 }

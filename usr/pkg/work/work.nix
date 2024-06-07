@@ -14,9 +14,9 @@ in {
       eclipses.eclipse-sdk
       subversionClient
       msgviewer # outlook
-      teams-for-linux
+      # teams-for-linux -> doesn't work
       mysql80
-      mysql-workbench
+      # mysql-workbench -> doesn't work
       postman
       # newman -> postman cli
       inkscape

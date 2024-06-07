@@ -1,7 +1,8 @@
 { ... }: {
   imports = [ 
     ./aliases.nix
-    ./bash.nix
+    #./bash.nix
+    ./zsh.nix
     ./posix.nix
   ];
 }

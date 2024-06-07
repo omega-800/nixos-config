@@ -2,8 +2,8 @@
 
 while true; do
 nrm="\x01"
-warning="\x02"
-critical="\x03"
+warning="\x03"
+critical="\x04"
 cpu="$(bc <<< "scale = 0; ($(awk '{print $1}' /proc/loadavg) * 100) / 1")"
 cps="$( ([ "$cpu" -gt "80" ] && echo "$critical") || ([ "$cpu" -gt "60" ] && echo "$warning") || echo "$nrm")"
 memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"

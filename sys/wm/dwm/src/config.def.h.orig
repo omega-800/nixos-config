@@ -18,6 +18,7 @@ static char normbgcolor[]       = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]       = "#bbbbbb";
 static char selfgcolor[]       = "#eeeeee";
+static char selbgcolor[]       = "#eeeeee";
 static char selbordercolor[]        = "#005577";
 static char warnfggcolor[]       = "#000000";
 static char urgbgcolor[]         = "#ff0000";
@@ -27,7 +28,7 @@ static char urgfggcolor[]       = "#ffffff";
 static char *colors[][3]      = {
 	/*					fg         bg          border   */
 	[SchemeNorm] =	 { normfgcolor, normbgcolor,  normbordercolor },
-	[SchemeSel]  =	 { selfgcolor, selbordercolor,   selbordercolor },
+	[SchemeSel]  =	 { selfgcolor, selbgcolor,   selbordercolor },
 	[SchemeWarn] =	 { warnfggcolor, warnbggcolor, urgbgcolor },
 	[SchemeUrgent]=	 { urgfggcolor, urgbgcolor,    urgbgcolor },
 	[SchemeTabActive]  = { normbordercolor, normfgcolor,  normbordercolor },
@@ -43,7 +44,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   focusopacity    unfocusopacity     monitor */
-	{ NULL,       NULL,       NULL,       0,            0,           1,              1,                 -1 },
+{ NULL,       NULL,       NULL,       0,            0,           1,              1,                 -1 },
+//	{ "st",       NULL,       NULL,       0,            0,           0.9,              0.7,                 -1 },
 };
 
 /* window following */
@@ -109,17 +111,18 @@ static const char *termcmd[]  = { "st", NULL };
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "font",               STRING,  &font },
-		{ "dmenufont",          STRING,  &dmenufont },
-		{ "normbgcolor",        STRING,  &normbgcolor },
-		{ "normbordercolor",    STRING,  &normbordercolor },
-		{ "normfgcolor",        STRING,  &normfgcolor },
-		{ "selfgcolor",         STRING,  &selfgcolor },
-		{ "selbordercolor",     STRING,  &selbordercolor },
-    { "warnfggcolor",       STRING,  &warnfggcolor },
-    { "urgbgcolor",         STRING,  &urgbgcolor },
-    { "warnbggcolor",       STRING,  &warnbggcolor },
-    { "urgfggcolor",        STRING,  &urgfggcolor },
+		{ "faceName",           STRING,  &font },
+		{ "faceName",           STRING,  &dmenufont },
+		{ "color0",        STRING,  &normbgcolor },
+		{ "color11",    STRING,  &normbordercolor },
+		{ "color15",        STRING,  &normfgcolor },
+		{ "color10",     STRING,  &selbgcolor },
+		{ "color5",     STRING,  &selbordercolor },
+		{ "foreground",         STRING,  &selfgcolor },
+    { "color11",       STRING,  &warnbggcolor },
+    { "color9",       STRING,  &warnfggcolor },
+    { "color1",         STRING,  &urgbgcolor },
+    { "color0",        STRING,  &urgfggcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
 		{ "snap",          		  INTEGER, &snap },
 		{ "showbar",          	INTEGER, &showbar },
@@ -164,7 +167,7 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_a,      changefocusopacity,   {.f = +0.025}},
   { MODKEY|ShiftMask,             XK_s,      changefocusopacity,   {.f = -0.025}},
 	{ MODKEY|ShiftMask,             XK_y,      changeunfocusopacity, {.f = +0.025}},
- { MODKEY|ShiftMask,             XK_x,      changeunfocusopacity, {.f = -0.025}},
+  { MODKEY|ShiftMask,             XK_x,      changeunfocusopacity, {.f = -0.025}},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

@@ -2,6 +2,7 @@
 
 /* appearance */
 static unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int gappx     = 5;        /* gaps between windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no standard bar */
 static int topbar             = 1;        /* 0 means standard bar at bottom */
@@ -31,8 +32,8 @@ static char *colors[][3]      = {
 	[SchemeSel]  =	 { selfgcolor, selbgcolor,   selbordercolor },
 	[SchemeWarn] =	 { warnfggcolor, warnbggcolor, urgbgcolor },
 	[SchemeUrgent]=	 { urgfggcolor, urgbgcolor,    urgbgcolor },
-	[SchemeTabActive]  = { normbordercolor, normfgcolor,  normbordercolor },
-	[SchemeTabInactive]  = { normbgcolor, normfgcolor,  normbgcolor }
+	[SchemeTabInactive] =	 { normfgcolor,  normbgcolor, normbordercolor },
+	[SchemeTabActive]  =	 { selbgcolor, selbordercolor, selfgcolor },
 };
 
 /* tagging */
@@ -57,7 +58,7 @@ static const Rule rules[] = {
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int nviews      = 1;    /* mask of tags highlighted by default (tags 1-4) */
+static const int nviews      = 0;    /* mask of tags highlighted by default (tags 1-4) */
 static const int statusall   = 1;    /* 1 means status is shown in all bars, not just active monitor */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
@@ -113,10 +114,10 @@ static const char *termcmd[]  = { "st", NULL };
 ResourcePref resources[] = {
 		{ "faceName",           STRING,  &font },
 		{ "faceName",           STRING,  &dmenufont },
-		{ "color0",        STRING,  &normbgcolor },
+		{ "color10",        STRING,  &normbgcolor },
 		{ "color11",    STRING,  &normbordercolor },
-		{ "color15",        STRING,  &normfgcolor },
-		{ "color10",     STRING,  &selbgcolor },
+		{ "color7",        STRING,  &normfgcolor },
+		{ "color11",     STRING,  &selbgcolor },
 		{ "color5",     STRING,  &selbordercolor },
 		{ "foreground",         STRING,  &selfgcolor },
     { "color11",       STRING,  &warnbggcolor },
@@ -168,6 +169,9 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_s,      changefocusopacity,   {.f = -0.025}},
 	{ MODKEY|ShiftMask,             XK_y,      changeunfocusopacity, {.f = +0.025}},
   { MODKEY|ShiftMask,             XK_x,      changeunfocusopacity, {.f = -0.025}},
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
