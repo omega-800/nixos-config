@@ -1,0 +1,6 @@
+[submodule "sys/wm/dwm/src"]
+	path = sys/wm/dwm/src
+	url = https://github.com/omega-800/dwm
+[submodule "usr/wm/dwm/st"]
+	path = usr/wm/dwm/st
+	url = https://github.com/omega-800/st
