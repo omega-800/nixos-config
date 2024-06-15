@@ -1,15 +1,14 @@
-{ config, lib, pkgs, inputs, userSettings, ... }:
-
+{ config, lib, pkgs, inputs, ... }:
 let
-  themePath = "../../../themes"+("/"+userSettings.theme+"/"+userSettings.theme)+".yaml";
-  themePolarity = lib.removeSuffix "\n" (builtins.readFile (./. + "../../../themes"+("/"+userSettings.theme)+"/polarity.txt"));
-  backgroundUrl = builtins.readFile (./. + "../../../themes"+("/"+userSettings.theme)+"/backgroundurl.txt");
-  backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+userSettings.theme)+"/backgroundsha256.txt");
+  themePath = "../../../themes"+("/"+config.c.usr.theme+"/"+config.c.usr.theme)+".yaml";
+  themePolarity = lib.removeSuffix "\n" (builtins.readFile (./. + "../../../themes"+("/"+config.c.usr.theme)+"/polarity.txt"));
+  backgroundUrl = builtins.readFile (./. + "../../../themes"+("/"+config.c.usr.theme)+"/backgroundurl.txt");
+  backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+config.c.usr.theme)+"/backgroundsha256.txt");
 in
   {
     imports = [ inputs.stylix.homeManagerModules.stylix ];
 
-    home.file.".currenttheme".text = userSettings.theme;
+    home.file.".currenttheme".text = config.c.usr.theme;
     stylix = {
       autoEnable = true;
       base16Scheme = ./. + themePath;
@@ -25,16 +24,16 @@ in
       };
       fonts = {
         monospace = {
-          name = userSettings.font;
-          package = userSettings.fontPkg;
+          name = config.c.usr.font;
+          package = config.c.usr.fontPkg;
         };
         serif = {
-          name = userSettings.font;
-          package = userSettings.fontPkg;
+          name = config.c.usr.font;
+          package = config.c.usr.fontPkg;
         };
         sansSerif = {
-          name = userSettings.font;
-          package = userSettings.fontPkg;
+          name = config.c.usr.font;
+          package = config.c.usr.fontPkg;
         };
         emoji = {
           name = "Noto Color Emoji";
@@ -54,14 +53,14 @@ in
         kde.enable = true;
         kitty.enable = true;
         gtk.enable = true;
-        rofi.enable = (userSettings.wmType == "x11");
-        feh.enable = (userSettings.wmType == "x11");
+        rofi.enable = (config.c.usr.wmType == "x11");
+        feh.enable = (config.c.usr.wmType == "x11");
         nixvim.enable = true;
         vim.enable = true;
         vscode.enable = true;
         waybar.enable = true;
         wezterm.enable = true;
-        xresources.enable = (userSettings.wmType == "x11");
+        xresources.enable = (config.c.usr.wmType == "x11");
         dunst.enable = true;
         fzf.enable = true;
         hyprland.enable = true;
@@ -69,7 +68,7 @@ in
         tmux.enable = true;
         firefox = {
           enable = true;
-          profileNames = [ userSettings.username ];
+          profileNames = [ config.c.usr.username ];
         };
       };
     };

@@ -2,7 +2,6 @@
   imports =
     [
       ../../sys/wm/${userSettings.wm}
-      ../../sys
     ];
   m.audio = {
     enable = true;
@@ -13,8 +12,4 @@
   m.kernel.zen = true;
   m.openGL.enable = true;
   m.printing.enable = true;
-  m.power = {
-    enable = true;
-    performance = true;
-  };
 }

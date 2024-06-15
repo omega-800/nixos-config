@@ -1,4 +1,4 @@
-{ lib, userSettings, systemSettings, ... }:
+{ lib, ... }:
 with lib; {
   # Enable incoming ssh
   services.openssh = mkMerge [
@@ -6,7 +6,7 @@ with lib; {
       enable = true;
       openFirewall = true;
     })
-    (mkIf systemSettings.hardened {
+    (mkIf config.c.sys.hardened {
       allowSFTP = false;
       challengeResponseAuthentication = false;
       extraConfig = ''
@@ -39,5 +39,5 @@ with lib; {
       '';
     })
   ];
-  users.users.${userSettings.username}.openssh.authorizedKeys.keys = systemSettings.authorizedSshKeys;
+  users.users.${config.c.usr.username}.openssh.authorizedKeys.keys = config.c.sys.authorizedSshKeys;
 }

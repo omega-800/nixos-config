@@ -1,8 +1,8 @@
-{ config, pkgs, lib, systemSettings, userSettings, ... }:
+{ config, ... }:
 
 {
   imports = [
-    ../../usr/wm/${userSettings.wm}
+    ../../usr/wm/${config.c.usr.wm}
   ];
 
   # pkgs

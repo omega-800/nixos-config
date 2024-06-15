@@ -5,59 +5,10 @@
   let 
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
-        hostname = "skribl"; # hostname
+        hostname = "z"; # hostname
         profile = "work"; # select a profile defined from my profiles directory
-        authorizedSshKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
-
-        # host
-        extraGrubEntries = "";
         system = "x86_64-linux"; # system arch
-        bootMode = "bios"; # uefi or bios
-        bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
-        grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
         genericLinux = false;
-        # default
-        timezone = "Europe/Zurich"; # select timezone
-        locale = "en_US.UTF-8"; # select locale
-        kbLayout = "de_CH-latin1"; # select keyboard layout
-        font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
-        fontPkg = pkgs.tamzen; # Console font package
-        # profile
-        hardened = true;
-        paranoid = false;
-      };
-
-      # ----- USER SETTINGS ----- #
-      userSettings = rec {
-        username = "omega"; # username
-        homeDir = "/home/${username}";
-        # profile
-        devName = "gs2";
-        devEmail = "georgiy.shevoroshkin@inteco.ch"; 
-        dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
-        theme = "catppuccin-mocha"; # selcted theme from my themes directory (./themes/)
-        wm = "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
-        # window manager type (hyprland or x11) translator
-        wmType = if (wm == "hyprland") then "wayland" else "x11";
-        browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
-        defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
-        term = "alacritty"; # Default terminal command;
-        font = "JetBrainsMono"; # select font
-        fontPkg = pkgs.jetbrains-mono; # Console font package
-        editor = "nvim"; # Default editor;
-        # editor spawning translator
-    # generates a command that can be used to spawn editor inside a gui
-        # EDITOR and TERM session variables must be set in home.nix or other module
-        # I set the session variable SPAWNEDITOR to this in my home.nix for convenience
-        spawnEditor = if (editor == "emacsclient") then
-                        "emacsclient -c -a 'emacs'"
-                      else
-                        (if ((editor == "vim") ||
-                             (editor == "nvim") ||
-                             (editor == "nano")) then
-                               "exec " + term + " -e " + editor
-                         else
-                           editor);
       };
 
       stablePkgs = ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"));
@@ -112,14 +63,13 @@
         user = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
+            ./profiles/default/home.nix
             (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") 
-            ./profiles/default/home.nix 
           ];
           extraSpecialArgs = {
             # pass config variables from above
             inherit pkgs-stable;
             inherit systemSettings;
-            inherit userSettings;
             inherit inputs;
             inherit bashScriptToNix;
           };
@@ -130,6 +80,7 @@
           system = systemSettings.system;
           # load configuration.nix from selected PROFILE
           modules = [
+            ./profiles/default/configuration.nix 
             (./. + "/hosts" + ("/" + systemSettings.hostname) + "/configuration.nix")
             (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
           ];
@@ -137,7 +88,6 @@
             # pass config variables from above
             inherit pkgs-stable;
             inherit systemSettings;
-            inherit userSettings;
             inherit inputs;
             inherit bashScriptToNix;
           };

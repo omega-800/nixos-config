@@ -1,9 +1,9 @@
-{ lib, config, pkgs, systemSettings, ... }: 
+{ lib, config, ... }: 
 with lib; {
   systemd.coredump.enable = false;
   services.journald.forwardToSyslog = true;
   # https://pastebin.com/fi6VBm2z
-  systemd.services = mkIf systemSettings.paranoid {
+  systemd.services = mkIf config.c.sys.paranoid {
     systemd-logind.serviceConfig = {
         SupplementaryGroups = [ "proc" ];
     };

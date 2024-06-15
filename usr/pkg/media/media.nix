@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, systemSettings, ... }: 
+{ lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.media;
 in {
@@ -16,7 +16,7 @@ in {
       bluez
       ffmpeg
       imagemagick
-    ] ++ (if systemSettings.genericLinux then [] else [
+    ] ++ (if config.c.sys.genericLinux then [] else [
       mpv
       ani-cli
     ]);

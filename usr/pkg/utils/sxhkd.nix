@@ -1,4 +1,4 @@
-{ lib, config, home, pkgs, userSettings, ... }: 
+{ lib, config, pkgs, ... }: 
 with lib;
 let
   volumeScript = "${pkgs.writeScript "volume_control" (builtins.readFile ./scripts/volume.sh)}"; 
@@ -14,7 +14,7 @@ in {
       "super + shift + r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
       "super + shift + h" = sxhkdHelperScript;
       "super + shift + s" = "flameshot gui";
-      "super + ctrl + shift + s" = "maim ${userSettings.homeDir}/documents/img/screenshots/$(date +%s).png";
+      "super + ctrl + shift + s" = "maim ${config.c.usr.homeDir}/documents/img/screenshots/$(date +%s).png";
       "super + enter " = "alacritty";
 
       # Show clipmenu
@@ -28,7 +28,7 @@ in {
 
       # r for running stuffs
       # compile / flash qmk keyboard
-      "super + r ; q ; {c,l,r}" = "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,.bl avrdude-split-right}";
+      "super + r ; q ; {c,l,r}" = "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,-bl avrdude-split-right}";
 
       # generate password
       "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, systemSettings, userSettings, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -11,9 +11,9 @@
   };
 
   nixpkgs.config.allowUnfree = lib.mkDefault true;
-  targets.genericLinux.enable = systemSettings.genericLinux;
-  home.username = userSettings.username;
-  home.homeDirectory = "${userSettings.homeDir}";
+  targets.genericLinux.enable = config.c.sys.genericLinux;
+  home.username = config.c.usr.username;
+  home.homeDirectory = "${config.c.usr.homeDir}";
   programs.home-manager.enable = true;
 
   home.file = {

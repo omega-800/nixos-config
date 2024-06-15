@@ -1,55 +1,132 @@
-{ lib, pkgs, ... }: 
+{ config, lib, pkgs, systemSettings, ... }: 
 with lib; 
 {
   options.c = {
     sys = {
+        hostname = mkOption {
+					type = types.str;
+					default = systemSettings.hostname;
+				}; # hostname
+        profile = mkOption {
+					type = types.str;
+					default = systemSettings.profile;
+				}; # select a profile defined from my profiles directory
+        system = mkOption {
+					type = types.str;
+					default = systemSettings.system;
+				}; # system arch
+        genericLinux = mkOption {
+					type = types.bool;
+					default = systemSettings.genericLinux;
+				};
         # host
-        extraGrubEntries = mkDefault "";
-        system = mkDefault "x86_64-linux"; # system arch
-        bootMode = mkDefault "bios"; # uefi or bios
-        bootMountPath = mkDefault "/boot"; # mount path for efi boot partition; only used for uefi boot mode
-        grubDevice = mkDefault "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
-        genericLinux = mkDefault false;
-        # default
-        timezone = mkDefault "Europe/Zurich"; # select timezone
-        locale = mkDefault "en_US.UTF-8"; # select locale
-        kbLayout = mkDefault "de_CH-latin1"; # select keyboard layout
-        font = mkDefault "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
-        fontPkg = mkDefault pkgs.tamzen; # Console font package
-        # profile
-        hardened = mkDefault true;
-        paranoid = mkDefault false;
+        authorizedSshKeys = mkOption {
+					type = types.listOf types.str;
+					default = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
+				};
+        extraGrubEntries = mkOption {
+					type = types.str;
+					default = "";
+				};
+        bootMode = mkOption {
+					type = types.str;
+					default = "bios";
+				}; # uefi or bios
+        bootMountPath = mkOption {
+					type = types.str;
+					default = "/boot";
+				}; # mount path for efi boot partition: only used for uefi boot mode
+        grubDevice = mkOption {
+					type = types.str;
+					default = "/dev/sda";
+				}; # device identifier for grub: only used for legacy (bios) boot mode
+        timezone = mkOption {
+					type = types.str;
+					default = "Europe/Zurich";
+				}; # select timezone
+        locale = mkOption {
+					type = types.str;
+					default = "en_US.UTF-8";
+				}; # select locale
+        kbLayout = mkOption {
+					type = types.str;
+					default = "de_CH-latin1";
+				}; # select keyboard layout
+        font = mkOption {
+					type = types.str;
+					default = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf";
+				}; # Selected console font
+        fontPkg = mkOption {
+					type = types.package;
+					default = pkgs.tamzen;
+				}; # Console font package
+        hardened = mkOption {
+					type = types.bool;
+					default = true;
+				};
+        paranoid = mkOption {
+					type = types.bool;
+					default = false;
+				};
     };
-    usr = rec {
-        username = mkDefault "omega"; # username
-        homeDir = mkDefault "/home/${username}";
-        # profile
-        devName = mkDefault "gs2";
-        devEmail = mkDefault "georgiy.shevoroshkin@inteco.ch"; 
-        dotfilesDir = mkDefault "~/.dotfiles"; # absolute path of the local repo
-        theme = mkDefault "catppuccin-mocha"; # selcted theme from my themes directory (./themes/)
-        wm = mkDefault "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
+    usr = {
+        username = mkOption {
+					type = types.str;
+					default = "omega";
+				}; # username
+        homeDir = mkOption {
+					type = types.str;
+					default = "/home/${config.c.usr.username}";
+				};
+        devName = mkOption {
+					type = types.str;
+					default = "gs2";
+				};
+        devEmail = mkOption {
+					type = types.str;
+					default = "georgiy.shevoroshkin@inteco.ch";
+				}; 
+        dotfilesDir = mkOption {
+					type = types.str;
+					default = "~/.dotfiles";
+				}; # absolute path of the local repo
+        theme = mkOption {
+					type = types.str;
+					default = "catppuccin-mocha";
+				}; # selcted theme from my themes directory (./themes/)
+        wm = mkOption {
+					type = types.str;
+					default = "dwm";
+				}; # Selected window manager or desktop environment: must select one in both ./user/wm/ and ./system/wm/
         # window manager type (hyprland or x11) translator
-        wmType = if (wm == "hyprland") then "wayland" else "x11";
-        browser = mkDefault "qutebrowser"; # Default browser; must select one from ./user/app/browser/
-        defaultRoamDir = mkDefault "Personal.p"; # Default org roam directory relative to ~/Org
-        term = mkDefault "alacritty"; # Default terminal command;
-        font = mkDefault "JetBrainsMono"; # select font
-        fontPkg = mkDefault pkgs.jetbrains-mono; # Console font package
-        editor = mkDefault "nvim"; # Default editor;
-        # editor spawning translator
-    # generates a command that can be used to spawn editor inside a gui
-        # EDITOR and TERM session variables must be set in home.nix or other module
-        # I set the session variable SPAWNEDITOR to this in my home.nix for convenience
-        spawnEditor = if (editor == "emacsclient") then
-                        "emacsclient -c -a 'emacs'"
-                      else
-                        (if ((editor == "vim") ||
-                             (editor == "nvim") ||
-                             (editor == "nano")) then
-                               "exec " + term + " -e " + editor
-                         else
-                           editor);
+        wmType = mkOption {
+					type = types.str;
+					default = if (config.c.usr.wm == "hyprland") then "wayland" else "x11";
+				};
+        browser = mkOption {
+					type = types.str;
+					default = "qutebrowser";
+				}; # Default browser: must select one from ./user/app/browser/
+        defaultRoamDir = mkOption {
+					type = types.str;
+					default = "Personal.p";
+				}; # Default org roam directory relative to ~/Org
+        term = mkOption {
+					type = types.str;
+					default = "alacritty";
+				}; # Default terminal command
+        font = mkOption {
+					type = types.str;
+					default = "JetBrainsMono";
+				}; # select font
+        fontPkg = mkOption {
+					type = types.package;
+					default = pkgs.jetbrains-mono;
+				}; # Console font package
+        editor = mkOption {
+					type = types.str;
+					default = "nvim";
+				}; # Default editor
     };
   };
 }

@@ -1,8 +1,7 @@
-{ userSettings, ... }: {
+{ config, ... }: {
   imports =
     [
-      ../../sys/wm/${userSettings.wm}
-      ../../sys
+      ../../sys/wm/${config.c.usr.wm}
     ];
   m.audio = {
     enable = true;
@@ -13,8 +12,4 @@
   m.kernel.zen = true;
   m.openGL.enable = true;
   m.printing.enable = true;
-  m.power = {
-    enable = true;
-    performance = true;
-  };
 }
