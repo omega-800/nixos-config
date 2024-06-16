@@ -86,7 +86,7 @@ rec {
   mapHosts = dir: attrs @ { system ? system, ... }:
     mapHostConfigs dir "configuration" (path: mkHost path attrs);
 
-  mkHome = path: attrs @ { system ? sys, ... }:
+  mkHome = path: attrs:
     let
       cfg = mkCfg path;
       pkgs = mkPkgs path;
@@ -114,7 +114,7 @@ rec {
           let path = "${toString dir}/${n}"; in
           if v == "directory" && pathExists "${path}/${type}.nix"
           then nameValuePair n (fn path)
-          else nameValuePait "" null)
+          else nameValuePair "" null)
         (readDir dir)
       );
 }
