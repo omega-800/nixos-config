@@ -15,7 +15,11 @@ rec {
     in
     nixosSystem {
       inherit system;
-      specialArgs = { inherit lib inputs system; };
+      specialArgs = { 
+        inherit lib inputs system; 
+        inherit (cfg.config.c) usr;
+      };
+
       modules = [
         ../profiles/${cfg.config.c.sys.profile}/configuration.nix
         (import "${path}/configuration.nix")

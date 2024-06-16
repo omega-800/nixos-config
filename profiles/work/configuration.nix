@@ -1,7 +1,7 @@
-{ config, ... }: {
+{ config, usr, ... }: {
   imports =
     [
-      ../../sys/wm/${config.c.usr.wm}
+      ../../sys/wm/${usr.wm}
     ];
   m.audio = {
     enable = true;
