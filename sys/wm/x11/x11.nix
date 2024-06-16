@@ -13,6 +13,11 @@
     };
   };
   services.libinput = {
-    touchpad.disableWhileTyping = true;
+    enable = true;
+    touchpad = {
+      tapping = true;
+      middleEmulaion = true;
+      disableWhileTyping = true;
+    };
   };
 }
