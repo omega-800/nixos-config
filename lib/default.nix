@@ -24,24 +24,30 @@ rec {
     in 
       pkgs-stable;
 
-  mkPkgs = cfg: 
-    let 
-      stablePkgs = isStable cfg.sys.profile;
-      pkgs = (if stablePkgs then pkgs-stable else
-                (import nixpkgs-patched {
+  mkPkgsUnstable = cfg:
+    let
+      pkgs-unstable = (import nixpkgs-patched {
                   system = cfg.sys.system;
                   config = {
                     allowUnfree = true;
                     allowUnfreePredicate = (_: true);
                   };
                   overlays = [ inputs.rust-overlay.overlays.default ] ++ (if cfg.sys.genericLinux then [ inputs.nixgl.overlay ] else []);
-                }));
+                });
       nixpkgs-patched =
         (import inputs.nixpkgs { inherit (cfg.sys) system; }).applyPatches {
           name = "nixpkgs-patched";
           src = inputs.nixpkgs;
         };
+    in 
+      pkgs-unstable;
+
+  mkPkgs = cfg: 
+    let 
+      stablePkgs = isStable cfg.sys.profile;
       pkgs-stable = mkPkgsStable cfg.sys.system;
+      pkgs-unstable = mkPkgsUnstable cfg.sys.system;
+      pkgs = if stablePkgs then pkgs-stable else pkgs-unstable;
     in  
       pkgs;
 
@@ -96,7 +102,7 @@ rec {
     let
       args = { 
         inherit inputs; 
-        inherit (cfg.sys) system; 
+        #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
         pkgs-stable = (mkPkgsStable cfg.sys.system);
       };
