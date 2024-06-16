@@ -3,6 +3,7 @@
 
   outputs = { self, nixpkgs, ... }@inputs: 
   let 
+      inherit (lib.my) mapHosts;
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
         hostname = "skribl"; # hostname
@@ -89,7 +90,8 @@
       # configure lib
       # use nixpkgs if running a server (homelab or worklab profile)
       # otherwise use patched nixos-unstable nixpkgs
-      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib);
+      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
+        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
 
       # use home-manager-stable if running a server (homelab or worklab profile)
       # otherwise use home-manager-unstable
@@ -125,6 +127,8 @@
           };
         };
       };
+      nixosConfigurations = mapHosts ./hosts {};
+      /*
       nixosConfigurations = {
         system = lib.nixosSystem {
           system = systemSettings.system;
@@ -143,6 +147,7 @@
           };
         };
       };
+      */
     };
 
   inputs = {
