@@ -1,10 +1,23 @@
-{ lib, ... }: with lib; {
-  mkHost = path: attrs @ { system ? sys, ... }:
+{ inputs, pkgs, lib, ... }: 
+with lib; 
+with builtins; 
+rec {
+  mkHost = path: attrs:
+    let 
+      cfg = evalModules {
+        modules = [
+          ({config, ...}: {config._module.args = {inherit pkgs;};})
+          ../profiles/default/options.nix
+          (import "${path}/config.nix")
+        ];
+      };
+      inherit (cfg.config.c.sys) system;
+    in
     nixosSystem {
       inherit system;
       specialArgs = { inherit lib inputs system; };
       modules = [
-        ../profiles/${attrs.config.c.sys.profile}/configuration.nix
+        ../profiles/${cfg.config.c.sys.profile}/configuration.nix
         (import "${path}/configuration.nix")
         {
           nixpkgs.pkgs = pkgs;
