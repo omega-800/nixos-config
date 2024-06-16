@@ -5,8 +5,7 @@ in {
   options.m.kernel = {
     zen = mkEnableOption "enables zen kernel";
   };
-#TODO: fix this
-  #imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
+  imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
   config = (mkMerge [
     (mkIf sys.paranoid {
     security.allowUserNamespaces = true;
