@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ usr, lib, ... }:
 with lib;
 {
   imports = [
@@ -7,5 +7,8 @@ with lib;
   m.power = {
     enable = mkDefault true;
     performance = mkDefault true;
+  };
+  services.swhkd = {
+    enable = (usr.wmType == "wayland");
   };
 }

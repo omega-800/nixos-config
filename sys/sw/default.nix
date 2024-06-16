@@ -7,6 +7,7 @@
     ./virtualization.nix
     ./env.nix
     ./fonts.nix
+    ./swhkd.nix
     #./dev.nix nevermind that
   ];
 }

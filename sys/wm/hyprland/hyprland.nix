@@ -10,13 +10,14 @@ in {
   # copypasta
   environment = {
     systemPackages = with pkgs; [ kaizen ];
-
-    loginShellInit = /* bash */ ''
+/*
+    loginShellInit = ''
       # INFO: If removed, xwayland apps won't work, idk why.
       if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
         exec Hyprland
       fi
     '';
+    */
   };
 
   security.pam.services.ags = {};
