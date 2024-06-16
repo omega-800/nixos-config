@@ -24,13 +24,13 @@
                 }));
 
       nixpkgs-patched =
-        (import inputs.nixpkgs { system = systemSettings.system; }).applyPatches {
+        (import inputs.nixpkgs { inherit (systemSettings) system; }).applyPatches {
           name = "nixpkgs-patched";
           src = inputs.nixpkgs;
         };
 
       pkgs-stable = import inputs.nixpkgs-stable {
-        system = systemSettings.system;
+        inherit (systemSettings) system;
         config = {
           allowUnfree = true;
           allowUnfreePredicate = (_: true);

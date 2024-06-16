@@ -5,19 +5,19 @@ with lib;
     sys = {
         hostname = mkOption {
 					type = types.str;
-					default = systemSettings.hostname;
+					default = "nixie";
 				}; # hostname
         profile = mkOption {
 					type = types.str;
-					default = systemSettings.profile;
+					default = "personal";
 				}; # select a profile defined from my profiles directory
         system = mkOption {
 					type = types.str;
-					default = systemSettings.system;
+					default = "x86_64-linux";
 				}; # system arch
         genericLinux = mkOption {
 					type = types.bool;
-					default = systemSettings.genericLinux;
+					default = false;
 				};
         # host
         authorizedSshKeys = mkOption {
@@ -30,7 +30,7 @@ with lib;
 				};
         bootMode = mkOption {
 					type = types.str;
-					default = "bios";
+					default = "uefi";
 				}; # uefi or bios
         bootMountPath = mkOption {
 					type = types.str;
@@ -40,6 +40,7 @@ with lib;
 					type = types.str;
 					default = "/dev/sda";
 				}; # device identifier for grub: only used for legacy (bios) boot mode
+
         timezone = mkOption {
 					type = types.str;
 					default = "Europe/Zurich";
@@ -60,6 +61,7 @@ with lib;
 					type = types.package;
 					default = pkgs.tamzen;
 				}; # Console font package
+
         hardened = mkOption {
 					type = types.bool;
 					default = true;
@@ -78,14 +80,16 @@ with lib;
 					type = types.str;
 					default = "/home/${config.c.usr.username}";
 				};
+
         devName = mkOption {
 					type = types.str;
-					default = "gs2";
+					default = "omega-800";
 				};
         devEmail = mkOption {
 					type = types.str;
-					default = "georgiy.shevoroshkin@inteco.ch";
+					default = "gshevoroshkin@gmail.com";
 				}; 
+
         dotfilesDir = mkOption {
 					type = types.str;
 					default = "~/.dotfiles";

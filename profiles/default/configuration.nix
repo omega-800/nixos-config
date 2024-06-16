@@ -3,7 +3,7 @@ with lib;
 {
   imports = [
     ../../sys
-    ./conf.nix
+    ./options.nix
   ];
   m.power = {
     enable = mkDefault true;
