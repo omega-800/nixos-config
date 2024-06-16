@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: 
+{ sys, config, pkgs, lib, ... }: 
 with lib;
 let 
   notifyScript = pkgs.writeShellScript "malware_detected" ./malware_detected.sh;
@@ -23,7 +23,7 @@ let
     "/usr"
   ];
 in {
-  config = mkIf config.c.sys.paranoid { 
+  config = mkIf sys.paranoid { 
     #security.sudo.extraConfig  = "clamav ALL = (ALL) NOPASSWD: SETENV: ${pkgs.libnotify}/bin/notify-send";
     security.doas.extraConfig  = "permit keepenv nopass clamav as root cmd ${pkgs.libnotify}/bin/notify-send";
       services.clamav = {

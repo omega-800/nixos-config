@@ -1,5 +1,5 @@
 { pkgs, inputs, config, lib, ... }: with lib; {
-  programs.firefox = mkIf ((!config.c.sys.genericLinux) && config.u.net.enable) {
+  programs.firefox = mkIf ((!sys.genericLinux) && config.u.net.enable) {
     enable = true;
     policies = {
       DisableTelemetry = true;
@@ -21,8 +21,8 @@
       #DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
       #SearchBar = "unified"; # alternative: "separate"
     };
-    profiles.${config.c.usr.username} = {
-      extensions = with inputs.firefox-addons.packages.${config.c.sys.system}; [
+    profiles.${usr.username} = {
+      extensions = with inputs.firefox-addons.packages.${sys.system}; [
         bitwarden
         ublock-origin
         sponsorblock

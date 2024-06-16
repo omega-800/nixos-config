@@ -2,6 +2,38 @@
 with lib; 
 with builtins; 
 rec {
+  mkPkgs = cfg: 
+    let 
+      stablePkgs = (cfg.sys.profile == "homelab" || cfg.sys.profile == "worklab"); 
+
+      pkgs = (if stablePkgs then pkgs-stable else
+                (import nixpkgs-patched {
+                  system = cfg.sys.system;
+                  config = {
+                    allowUnfree = true;
+                    allowUnfreePredicate = (_: true);
+                  };
+                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if systemSettings.genericLinux then [ inputs.nixgl.overlay ] else []);
+                }));
+
+      nixpkgs-patched =
+        (import inputs.nixpkgs { inherit (cfg.sys) system; }).applyPatches {
+          name = "nixpkgs-patched";
+          src = inputs.nixpkgs;
+        };
+
+      pkgs-stable = import inputs.nixpkgs-stable {
+        inherit (cfg.sys) system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
+        };
+      };
+      home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
+    in  
+      pkgs;
+
+
   mkHost = path: attrs:
     let 
       cfg = evalModules {
@@ -11,13 +43,14 @@ rec {
           (import "${path}/config.nix")
         ];
       };
-      inherit (cfg.config.c.sys) system;
+      inherit (cfg.sys) system;
     in
     nixosSystem {
       inherit system;
       specialArgs = { 
         inherit lib inputs system; 
-        inherit (cfg.config.c) usr;
+        inherit (cfg.config.c) usr sys;
+        pkgs-stable = (mkPkgs cfg.congig.c);
       };
 
       modules = [

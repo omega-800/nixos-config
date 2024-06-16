@@ -78,7 +78,7 @@ with lib;
 				}; # username
         homeDir = mkOption {
 					type = types.str;
-					default = "/home/${config.c.usr.username}";
+					default = "/home/${usr.username}";
 				};
 
         devName = mkOption {
@@ -105,7 +105,7 @@ with lib;
         # window manager type (hyprland or x11) translator
         wmType = mkOption {
 					type = types.str;
-					default = if (config.c.usr.wm == "hyprland") then "wayland" else "x11";
+					default = if (usr.wm == "hyprland") then "wayland" else "x11";
 				};
         browser = mkOption {
 					type = types.str;

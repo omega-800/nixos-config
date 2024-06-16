@@ -14,7 +14,7 @@ in {
       "super + shift + r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
       "super + shift + h" = sxhkdHelperScript;
       "super + shift + s" = "flameshot gui";
-      "super + ctrl + shift + s" = "maim ${config.c.usr.homeDir}/documents/img/screenshots/$(date +%s).png";
+      "super + ctrl + shift + s" = "maim ${usr.homeDir}/documents/img/screenshots/$(date +%s).png";
       "super + enter " = "alacritty";
 
       # Show clipmenu

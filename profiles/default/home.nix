@@ -1,9 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ usr, sys, pkgs, lib, ... }:
 
 {
   imports = [
     ../../usr
-    ./options.nix
   ];
   nix = {
     package = pkgs.nix;
@@ -11,11 +10,11 @@
   };
 
   nixpkgs.config.allowUnfree = lib.mkDefault true;
-  targets.genericLinux.enable = config.c.sys.genericLinux;
+  targets.genericLinux.enable = sys.genericLinux;
   programs.home-manager.enable = true;
   home = {
-    username = config.c.usr.username;
-    homeDirectory = "${config.c.usr.homeDir}";
+    username = usr.username;
+    homeDirectory = "${usr.homeDir}";
 
     file = {
 # # Building this configuration will create a copy of 'dotfiles/screenrc' in

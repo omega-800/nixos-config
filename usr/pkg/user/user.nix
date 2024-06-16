@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ sys, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.user;
 in {
@@ -19,7 +19,7 @@ in {
       fortune 
       cowsay 
       lolcat
-    ] ++ (if config.c.sys.genericLinux then [] else [
+    ] ++ (if sys.genericLinux then [] else [
       alacritty
     ]);
   };

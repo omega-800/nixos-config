@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ sys, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.net;
 in {
@@ -12,7 +12,7 @@ in {
       tor
       brave
       wireguard-tools
-    ] ++ (if config.c.sys.genericLinux then [] else [
+    ] ++ (if sys.genericLinux then [] else [
       qutebrowser
     ]);
   };

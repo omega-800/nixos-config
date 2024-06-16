@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../usr/wm/${config.c.usr.wm}
+    ../../usr/wm/${usr.wm}
   ];
 
   # pkgs
