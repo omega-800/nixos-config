@@ -1,4 +1,4 @@
-{ lib, config, home, pkgs, userSettings, ... }: 
+{ lib, config, home, pkgs, usr, ... }: 
 let 
   dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh; 
   customSt = pkgs.st.overrideAttrs {
@@ -29,8 +29,8 @@ redshift -O3500; xset r rate 300 50; exec dbus-launch dwm
     '';
     #activation.copyMyFiles = config.lib.dag.entryAfter ["writeBoundary"] ''
     /*file.".Xresources".text = ''
-dwm.font: ${userSettings.font}
-dwm.dmenufont: ${userSettings.font}
+dwm.font: ${usr.font}
+dwm.dmenufont: ${usr.font}
 dwm.normbgcolor: #${config.lib.stylix.colors.base03}
 dwm.normbordercolor: #${config.lib.stylix.colors.base07}
 dwm.normfgcolor: #${config.lib.stylix.colors.base00}
@@ -41,7 +41,7 @@ dwm.warnbggcolor: #${config.lib.stylix.colors.base0E}
 dwm.urgbgcolor: #${config.lib.stylix.colors.base09}
 dwm.urgfggcolor: #${config.lib.stylix.colors.base00}
 
-*font: ${userSettings.font}
+*font: ${usr.font}
 *color0: #${config.lib.stylix.colors.base00}
 *color1: #${config.lib.stylix.colors.base01}
 *color2: #${config.lib.stylix.colors.base02}
@@ -62,12 +62,12 @@ dwm.urgfggcolor: #${config.lib.stylix.colors.base00}
 *foreground: #${config.lib.stylix.colors.base07}
 *cursorColor: #${config.lib.stylix.colors.base07}
 
-*.faceName: ${userSettings.font}
+*.faceName: ${usr.font}
 *.faceSize: 32
 *.renderFont: true
 Sxiv.background: #${config.lib.stylix.colors.base0C}
 Sxiv.foreground: #${config.lib.stylix.colors.base0A}
-Sxiv.font: ${userSettings.font}-12
+Sxiv.font: ${usr.font}-12
 Xcursor.theme: Bibata-Modern-Ice
 Xcursor.size: 32
     '';*/

@@ -1,4 +1,4 @@
-{ userSettings, pkgs, ... }: 
+{ usr, pkgs, ... }: 
 let 
   qtileEnvironment = pkgs.python3.withPackages (_: with pkgs.python3Packages; [qtile qtile-extras pyyaml]);
 in {
@@ -17,7 +17,7 @@ in {
 
   services.xserver.windowManager.qtile = {
     enable = true;
-    configFile = "/home/${userSettings.username}/.config/qtile/config.py";
+    configFile = "/home/${usr.username}/.config/qtile/config.py";
     backend = "x11";
     extraPackages = p: with p; [
       pyyaml

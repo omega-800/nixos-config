@@ -3,91 +3,18 @@
 
   outputs = { self, nixpkgs, ... }@inputs: 
   let 
-      inherit (lib.my) mapHosts;
-      # ---- SYSTEM SETTINGS ---- #
-      systemSettings = {
-        hostname = "z"; # hostname
-        profile = "work"; # select a profile defined from my profiles directory
-        system = "x86_64-linux"; # system arch
-        genericLinux = false;
-      };
-
-      stablePkgs = ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"));
-
-      pkgs = (if stablePkgs then pkgs-stable else
-                (import nixpkgs-patched {
-                  system = systemSettings.system;
-                  config = {
-                    allowUnfree = true;
-                    allowUnfreePredicate = (_: true);
-                  };
-                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if systemSettings.genericLinux then [ inputs.nixgl.overlay ] else []);
-                }));
-
-      nixpkgs-patched =
-        (import inputs.nixpkgs { inherit (systemSettings) system; }).applyPatches {
-          name = "nixpkgs-patched";
-          src = inputs.nixpkgs;
-        };
-
-      pkgs-stable = import inputs.nixpkgs-stable {
-        inherit (systemSettings) system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
-
-      # configure lib
-      # use nixpkgs if running a server (homelab or worklab profile)
-      # otherwise use patched nixos-unstable nixpkgs
-      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
-        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
-      # use home-manager-stable if running a server (homelab or worklab profile)
-      # otherwise use home-manager-unstable
-      home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
+      inherit (lib.my) mapHosts mapHomes;
+      #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
+      pkgs = nixpkgs;
+      lib = nixpkgs.lib.extend
+        (self: super: { my = import ./lib { inherit inputs pkgs; lib = self; }; });
 
       # hacky hack hack for badly written bash scripts
       bashScriptToNix = n: p: (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ] (builtins.readFile p)));
 
     in {
-      homeConfigurations = {
-        user = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./profiles/default/home.nix
-            (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") 
-          ];
-          extraSpecialArgs = {
-            # pass config variables from above
-            inherit pkgs-stable;
-            inherit systemSettings;
-            inherit inputs;
-            inherit bashScriptToNix;
-          };
-        };
-      };
+      homeConfigurations = mapHomes ./hosts {};
       nixosConfigurations = mapHosts ./hosts {};
-      /*
-      nixosConfigurations = {
-        system = lib.nixosSystem {
-          system = systemSettings.system;
-          # load configuration.nix from selected PROFILE
-          modules = [
-            ./profiles/default/configuration.nix 
-            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/configuration.nix")
-            (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-          ];
-          specialArgs = {
-            # pass config variables from above
-            inherit pkgs-stable;
-            inherit systemSettings;
-            inherit inputs;
-            inherit bashScriptToNix;
-          };
-        };
-      };
-      */
     };
 
   inputs = {

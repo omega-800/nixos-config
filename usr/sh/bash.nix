@@ -1,4 +1,4 @@
-{ config, userSettings, ... }: {
+{ config, usr, ... }: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
