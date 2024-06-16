@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, usr, lib, pkgs, inputs, ... }:
 let
   themePath = "../../../themes"+("/"+usr.theme+"/"+usr.theme)+".yaml";
   themePolarity = lib.removeSuffix "\n" (builtins.readFile (./. + "../../../themes"+("/"+usr.theme)+"/polarity.txt"));

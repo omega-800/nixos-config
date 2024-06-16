@@ -2,12 +2,20 @@
 with lib; 
 with builtins; 
 rec {
-  isStable = cfg: (cfg.sys.profile == "homelab" || cfg.sys.profile == "worklab"); 
+  isStable = profile: (profile == "homelab" || profile == "worklab"); 
 
-  mkPkgsStable = cfg:
+  mkLib = cfg:
+    let 
+      stablePkgs = isStable cfg.sys.profile;
+      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
+        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
+    in
+      lib;
+
+  mkPkgsStable = system:
     let
       pkgs-stable = import inputs.nixpkgs-stable {
-        inherit (cfg.sys) system;
+        inherit system;
         config = {
           allowUnfree = true;
           allowUnfreePredicate = (_: true);
@@ -18,7 +26,7 @@ rec {
 
   mkPkgs = cfg: 
     let 
-      stablePkgs = isStable cfg;
+      stablePkgs = isStable cfg.sys.profile;
       pkgs = (if stablePkgs then pkgs-stable else
                 (import nixpkgs-patched {
                   system = cfg.sys.system;
@@ -33,22 +41,50 @@ rec {
           name = "nixpkgs-patched";
           src = inputs.nixpkgs;
         };
-      pkgs-stable = mkPkgsStable cfg;
+      pkgs-stable = mkPkgsStable cfg.sys.system;
     in  
       pkgs;
 
   mkHomeMgr = cfg:
     let
-      stablePkgs = isStable cfg;
+      stablePkgs = isStable cfg.sys.profile;
       home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
     in
       home-manager;
 
+  tooStupidToMatchRegex = expr: path:
+    (lists.last (flatten (sublist 1 1 (split expr (readFile path)))));
+    
+  hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile = path:
+    let 
+      cfgPath = path + "/config.nix";
+      stablePkgs = isStable (tooStupidToMatchRegex "profile = \"([[:lower:]]+)\";\n" cfgPath);
+      system = (tooStupidToMatchRegex "system = \"([[:print:]]+)\";\n" cfgPath);
+      pkgs = (if stablePkgs then pkgs-stable else
+                (import nixpkgs-patched {
+                  inherit system;
+                  config = {
+                    allowUnfree = true;
+                    allowUnfreePredicate = (_: true);
+                  };
+                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if (tooStupidToMatchRegex "genericLinux = ([[:lower:]]+);\n" cfgPath) == "true" then [ inputs.nixgl.overlay ] else []);
+                }));
+      nixpkgs-patched =
+        (import inputs.nixpkgs { inherit system; }).applyPatches {
+          name = "nixpkgs-patched";
+          src = inputs.nixpkgs;
+        };
+      pkgs-stable = mkPkgsStable system;
+    in  
+      pkgs;
+
+  # fuck it i'm just gonna use unstable 
   mkCfg = path:
     let
+      hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
       cfg = evalModules {
         modules = [
-          ({config, ...}: {config._module.args = {inherit pkgs;};})
+          ({config, ...}: {config._module.args = {pkgs = hackyPkgs;};})
           ../profiles/default/options.nix
           (import "${path}/config.nix")
         ];
@@ -59,9 +95,10 @@ rec {
   mkArgs = cfg:
     let
       args = { 
-        inherit lib inputs system; 
+        inherit inputs; 
+        inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
-        pkgs-stable = (mkPkgsStable cfg);
+        pkgs-stable = (mkPkgsStable cfg.sys.system);
       };
     in 
       args;
@@ -73,7 +110,10 @@ rec {
     in
       nixosSystem {
         inherit system;
-        specialArgs = mkArgs cfg;
+        specialArgs = (mkMerge 
+          (mkArgs cfg)
+          {lib = mkLib cfg;}
+        );
 
         modules = [
           ../profiles/default/configuration.nix
@@ -83,13 +123,13 @@ rec {
         ];
       };
 
-  mapHosts = dir: attrs @ { system ? system, ... }:
+  mapHosts = dir: attrs:
     mapHostConfigs dir "configuration" (path: mkHost path attrs);
 
   mkHome = path: attrs:
     let
       cfg = mkCfg path;
-      pkgs = mkPkgs path;
+      pkgs = mkPkgs cfg;
       home-manager = mkHomeMgr cfg;
     in
       home-manager.lib.homeManagerConfiguration {
@@ -103,7 +143,7 @@ rec {
         ];
       };
 
-  mapHomes = dir: attrs @ { system ? system, ... }:
+  mapHomes = dir: attrs:
     mapHostConfigs dir "home" (path: mkHome path attrs);
 
   mapHostConfigs = dir: type: fn:

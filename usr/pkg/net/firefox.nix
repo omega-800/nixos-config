@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, lib, ... }: with lib; {
+{ usr, sys, pkgs, inputs, config, lib, ... }: with lib; {
   programs.firefox = mkIf ((!sys.genericLinux) && config.u.net.enable) {
     enable = true;
     policies = {

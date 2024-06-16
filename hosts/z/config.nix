@@ -1,9 +1,9 @@
 { ... }: {
   config.c = {
     sys = {
-      hostname = "z"; # hostname
-      profile = "work"; # select a profile defined from my profiles directory
-      system = "x86_64-linux"; # system arch
+      hostname = "z";
+      profile = "work";
+      system = "x86_64-linux";
       genericLinux = false;
     };
     usr = {

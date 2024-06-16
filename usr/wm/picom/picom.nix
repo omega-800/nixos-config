@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ sys, usr, pkgs, lib, ... }:
 
 {
   config = lib.mkIf (!sys.genericLinux) {

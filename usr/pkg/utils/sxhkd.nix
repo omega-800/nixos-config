@@ -1,12 +1,13 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let
   volumeScript = "${pkgs.writeScript "volume_control" (builtins.readFile ./scripts/volume.sh)}"; 
   backlightScript = "${pkgs.writeScript "brightness_control" (builtins.readFile ./scripts/backlight.sh)}"; 
   screensScript = "${pkgs.writeScript "screens_control" (builtins.readFile ./scripts/home.sh)}";
   sxhkdHelperScript = "${pkgs.writeScript "sxhkd_helper" (builtins.readFile ./scripts/sxhkd_helper.sh)}";
+  cfg = config.u.utils;
 in {
-  services.sxhkd = mkIf config.u.utils.enable {
+  services.sxhkd = mkIf cfg.enable {
     enable = true;
     keybindings = {
       "super + y" = "${pkgs.screenkey}/bin/screenkey &";

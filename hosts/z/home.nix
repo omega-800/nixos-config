@@ -1,4 +1,4 @@
 { ... }:
 {
-  u.social.enable = true;
+  u.social.enable = false;
 }
