@@ -1,4 +1,4 @@
-{ pkgs, userSettings, ... }: {
+{ pkgs, usr, ... }: {
   nix = {
     nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
                   "nixos-config=$HOME/dotfiles/system/configuration.nix"
@@ -11,7 +11,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  users.users.${userSettings.username} = {
+  users.users.${usr.username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };

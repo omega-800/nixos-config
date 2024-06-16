@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, userSettings, systemSettings, ... }:
+{ inputs, config, lib, pkgs, ... }:
 let
     lock_cmd = "pidof hyprlock || hyprlock";
     suspend_cmd = "pidof steam || systemctl suspend || loginctl suspend"; # fuck nvidia

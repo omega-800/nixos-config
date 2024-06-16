@@ -3,146 +3,18 @@
 
   outputs = { self, nixpkgs, ... }@inputs: 
   let 
-      # ---- SYSTEM SETTINGS ---- #
-      systemSettings = {
-        hostname = "skribl"; # hostname
-        profile = "work"; # select a profile defined from my profiles directory
-        authorizedSshKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
+      inherit (lib.my) mapHosts mapHomes;
+      #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
+      pkgs = nixpkgs;
+      lib = nixpkgs.lib.extend
+        (self: super: { my = import ./lib { inherit inputs pkgs; lib = self; }; });
 
-        # host
-        extraGrubEntries = "";
-        system = "x86_64-linux"; # system arch
-        bootMode = "bios"; # uefi or bios
-        bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
-        grubDevice = "/dev/sda"; # device identifier for grub; only used for legacy (bios) boot mode
-        genericLinux = false;
-        # default
-        timezone = "Europe/Zurich"; # select timezone
-        locale = "en_US.UTF-8"; # select locale
-        kbLayout = "de_CH-latin1"; # select keyboard layout
-        font = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf"; # Selected console font
-        fontPkg = pkgs.tamzen; # Console font package
-        # profile
-        hardened = true;
-        paranoid = false;
-      };
-
-      # ----- USER SETTINGS ----- #
-      userSettings = rec {
-        username = "omega"; # username
-        homeDir = "/home/${username}";
-        # profile
-        devName = "gs2";
-        devEmail = "georgiy.shevoroshkin@inteco.ch"; 
-        dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
-        theme = "catppuccin-mocha"; # selcted theme from my themes directory (./themes/)
-        wm = "dwm"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
-        # window manager type (hyprland or x11) translator
-        wmType = if (wm == "hyprland") then "wayland" else "x11";
-        browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
-        defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
-        term = "alacritty"; # Default terminal command;
-        font = "JetBrainsMono"; # select font
-        fontPkg = pkgs.jetbrains-mono; # Console font package
-        editor = "nvim"; # Default editor;
-        # editor spawning translator
-    # generates a command that can be used to spawn editor inside a gui
-        # EDITOR and TERM session variables must be set in home.nix or other module
-        # I set the session variable SPAWNEDITOR to this in my home.nix for convenience
-        spawnEditor = if (editor == "emacsclient") then
-                        "emacsclient -c -a 'emacs'"
-                      else
-                        (if ((editor == "vim") ||
-                             (editor == "nvim") ||
-                             (editor == "nano")) then
-                               "exec " + term + " -e " + editor
-                         else
-                           editor);
-      };
-
-      stablePkgs = ((systemSettings.profile == "homelab") || (systemSettings.profile == "worklab"));
-
-      pkgs = (if stablePkgs then pkgs-stable else
-                (import nixpkgs-patched {
-                  system = systemSettings.system;
-                  config = {
-                    allowUnfree = true;
-                    allowUnfreePredicate = (_: true);
-                  };
-                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if systemSettings.genericLinux then [ inputs.nixgl.overlay ] else []);
-                }));
-
-      nixpkgs-patched =
-        (import inputs.nixpkgs { system = systemSettings.system; }).applyPatches {
-          name = "nixpkgs-patched";
-          src = inputs.nixpkgs;
-        };
-
-      pkgs-stable = import inputs.nixpkgs-stable {
-        system = systemSettings.system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
-
-      # configure lib
-      # use nixpkgs if running a server (homelab or worklab profile)
-      # otherwise use patched nixos-unstable nixpkgs
-      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib);
-
-      # use home-manager-stable if running a server (homelab or worklab profile)
-      # otherwise use home-manager-unstable
-      home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
-
-      # Systems that can run tests:
-      supportedSystems = [ "aarch64-linux" "i686-linux" "x86_64-linux" ];
-
-      # Function to generate a set based on supported systems:
-      forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
-
-      # Attribute set of nixpkgs for each system:
-      nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
-  
       # hacky hack hack for badly written bash scripts
       bashScriptToNix = n: p: (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ] (builtins.readFile p)));
 
     in {
-      homeConfigurations = {
-        user = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") 
-            ./profiles/default/home.nix 
-          ];
-          extraSpecialArgs = {
-            # pass config variables from above
-            inherit pkgs-stable;
-            inherit systemSettings;
-            inherit userSettings;
-            inherit inputs;
-            inherit bashScriptToNix;
-          };
-        };
-      };
-      nixosConfigurations = {
-        system = lib.nixosSystem {
-          system = systemSettings.system;
-          # load configuration.nix from selected PROFILE
-          modules = [
-            (./. + "/hosts" + ("/" + systemSettings.hostname) + "/configuration.nix")
-            (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-          ];
-          specialArgs = {
-            # pass config variables from above
-            inherit pkgs-stable;
-            inherit systemSettings;
-            inherit userSettings;
-            inherit inputs;
-            inherit bashScriptToNix;
-          };
-        };
-      };
+      homeConfigurations = mapHomes ./hosts {};
+      nixosConfigurations = mapHosts ./hosts {};
     };
 
   inputs = {

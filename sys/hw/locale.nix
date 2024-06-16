@@ -1,22 +1,22 @@
-{ systemSettings, ... }: {
+{ sys, ... }: {
   i18n = {
-    defaultLocale = systemSettings.locale;
+    defaultLocale = sys.locale;
     extraLocaleSettings = {
-      LC_ADDRESS = systemSettings.locale;
-      LC_IDENTIFICATION = systemSettings.locale;
-      LC_MEASUREMENT = systemSettings.locale;
-      LC_MONETARY = systemSettings.locale;
-      LC_NAME = systemSettings.locale;
-      LC_NUMERIC = systemSettings.locale;
-      LC_PAPER = systemSettings.locale;
-      LC_TELEPHONE = systemSettings.locale;
-      LC_TIME = systemSettings.locale;
+      LC_ADDRESS = sys.locale;
+      LC_IDENTIFICATION = sys.locale;
+      LC_MEASUREMENT = sys.locale;
+      LC_MONETARY = sys.locale;
+      LC_NAME = sys.locale;
+      LC_NUMERIC = sys.locale;
+      LC_PAPER = sys.locale;
+      LC_TELEPHONE = sys.locale;
+      LC_TIME = sys.locale;
     };
   };
   console = {
-    font = systemSettings.font;
-    packages = [ systemSettings.fontPkg ];
-    keyMap = systemSettings.kbLayout;
+    font = sys.font;
+    packages = [ sys.fontPkg ];
+    keyMap = sys.kbLayout;
   };
   fonts.fontDir.enable = true;
 }

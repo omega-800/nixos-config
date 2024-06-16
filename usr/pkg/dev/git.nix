@@ -1,8 +1,8 @@
-{ userSettings, pkgs, ... }: {
+{ usr, pkgs, ... }: {
   programs.git = {
     enable = true;
-    userName = userSettings.devName;
-    userEmail = userSettings.devEmail;
+    userName = usr.devName;
+    userEmail = usr.devEmail;
     prompt.enable = true;
     aliases = {
       ci = "commit";

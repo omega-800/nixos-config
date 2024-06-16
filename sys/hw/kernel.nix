@@ -1,4 +1,4 @@
-{ lib, config, pkgs, systemSettings, modulesPath, ... }: 
+{ sys, lib, config, pkgs, modulesPath, ... }: 
 with lib;
 let cfg = config.m.kernel;
 in {
@@ -6,9 +6,9 @@ in {
     zen = mkEnableOption "enables zen kernel";
   };
 
-  imports = if systemSettings.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
+  imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
   config = (mkMerge [
-    (mkIf systemSettings.paranoid {
+    (mkIf sys.paranoid {
     security.allowUserNamespaces = true;
     security.allowSimultaneousMultithreading = true;
     nix.useSandbox = true;
@@ -139,8 +139,8 @@ in {
       };
     };
   })
-  (mkIf (cfg.zen && (!systemSettings.paranoid)) {
-    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
+  (mkIf (cfg.zen && (!sys.paranoid)) {
+    boot.kernelPackages = mkDefault pkgs.linuxPackages_zen;
     boot.consoleLogLevel = 0;
     # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
   })

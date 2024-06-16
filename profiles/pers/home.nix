@@ -1,9 +1,9 @@
-{ config, pkgs, lib, systemSettings, userSettings, ... }:
+{ sys, usr, pkgs, ... }:
 
 {
   imports = [
     ../../usr/pkg
-    ../../usr/wm/${userSettings.wm}
+    ../../usr/wm/${usr.wm}
     ../../usr/style
   ];
 
@@ -13,12 +13,12 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  targets.genericLinux.enable = systemSettings.genericLinux;
+  targets.genericLinux.enable = sys.genericLinux;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = userSettings.username;
-  home.homeDirectory = "/home/${userSettings.username}";
+  home.username = usr.username;
+  home.homeDirectory = "/home/${usr.username}";
   programs.home-manager.enable = true;
 
   # pkgs

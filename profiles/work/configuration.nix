@@ -1,20 +1,17 @@
-{ userSettings, ... }: {
+{ usr, ... }: {
   imports =
     [
-      ../../sys/wm/${userSettings.wm}
-      ../../sys
+      ../../sys/wm/${usr.wm}
     ];
-  m.audio = {
-    enable = true;
-    pipewire = true;
-    bluetooth = true;
-  };
-  m.automount.enable = true;
-  m.kernel.zen = true;
-  m.openGL.enable = true;
-  m.printing.enable = true;
-  m.power = {
-    enable = true;
-    performance = true;
+  m = {
+    audio = {
+      enable = true;
+      pipewire = true;
+      bluetooth = true;
+    };
+    automount.enable = true;
+    kernel.zen = true;
+    openGL.enable = true;
+    printing.enable = true;
   };
 }

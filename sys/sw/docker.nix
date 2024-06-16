@@ -1,4 +1,4 @@
-{ pkgs, lib, userSettings, ... }:
+{ pkgs, lib, usr, ... }:
 
 {
   virtualisation.docker = {
@@ -6,7 +6,7 @@
     enableOnBoot = true;
     autoPrune.enable = true;
   };
-  users.users.${userSettings.username}.extraGroups = [ "docker" ];
+  users.users.${usr.username}.extraGroups = [ "docker" ];
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
