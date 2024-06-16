@@ -1,8 +1,14 @@
-{ usr, ... }: {
+{ lib, pkgs, usr, ... }: 
+let 
+  swhkd = (pkgs.callPackage ./swhkd.nix {});
+in {
   imports = [
     ./utils.nix
     ./sxhkd.nix
     ./dunst.nix
     ./fzf.nix
-  ] ++ (if usr.wmType == "x11" then [ ./sxhkd.nix ] else [ ./swhkd.nix ]);
+  ] ++ (if usr.wmType == "x11" then [ ./sxhkd.nix ] else [ ]);
+  home.packages = lib.mkIf (usr.wmType == "wayland") [
+    swhkd
+  ];
 }

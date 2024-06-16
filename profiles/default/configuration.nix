@@ -1,4 +1,4 @@
-{ usr, lib, ... }:
+{ pkgs, usr, lib, ... }:
 with lib;
 {
   imports = [
@@ -8,7 +8,5 @@ with lib;
     enable = mkDefault true;
     performance = mkDefault true;
   };
-  services.swhkd = {
-    enable = (usr.wmType == "wayland");
-  };
+  services.swhkd.enable = mkDefault false;#(usr.wmType == "wayland");
 }
