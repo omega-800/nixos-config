@@ -3,6 +3,7 @@
     [
       ../../sys/wm/${usr.wm}
       ../../sys/wm/${usr.wmType}
+      ../../sys/wm/dm
     ];
   m = {
     audio = {

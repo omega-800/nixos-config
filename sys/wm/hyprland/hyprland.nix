@@ -2,9 +2,6 @@
 let
   kaizen = inputs.kaizen.packages.${pkgs.system}.default;
 in {
-  imports = [ 
-    ../dm
-  ];
   
   # for faster build times
   nix.settings = {
