@@ -7,8 +7,8 @@ rec {
   mkLib = cfg:
     let 
       stablePkgs = isStable cfg.sys.profile;
-      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
-        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
+      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib);#.extend
+  #      (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
     in
       lib;
 
@@ -106,14 +106,13 @@ rec {
   mkHost = path: attrs:
     let 
       cfg = mkCfg path;
-      inherit (cfg.sys) system;
     in
       nixosSystem {
-        inherit system;
-        specialArgs = (mkMerge 
+        inherit (cfg.sys) system;
+        specialArgs = mkMerge [
           (mkArgs cfg)
           {lib = mkLib cfg;}
-        );
+        ];
 
         modules = [
           ../profiles/default/configuration.nix

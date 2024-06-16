@@ -22,7 +22,7 @@ in {
     optimise.automatic = true;
   };
 
-  nixpkgs.config.a#llowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
   users.users.${usr.username} = {
     isNormalUser = true;
