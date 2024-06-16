@@ -1,4 +1,4 @@
-{ config, lib, pkgs, systemSettings, ... }: 
+{ config, lib, pkgs, ... }: 
 with lib; 
 {
   options.c = {
