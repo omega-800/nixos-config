@@ -9,7 +9,7 @@
     usr = {
       devName = "gs2";
       devEmail = "georgiy.shevoroshkin@inteco.ch";
-      wm = "hyprland";
+      wm = "dwm";
     };
   };
 }
