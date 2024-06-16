@@ -1,5 +1,7 @@
-{ ... }: {
-  xsession.profileExtra = ''
+{ lib, ... }: with lib; {
+  options.u.x11.initExtra = mkOption {
+    type = types.str;
+    default = ''
 sxhkd &
 xrandr
 xrdb ~/.Xresources
@@ -12,5 +14,6 @@ unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
 picom &
 /home/omega/.fehbg-stylix
 systemctl --user import-environment DISPLAY
-  '';
+    '';
+  };
 }

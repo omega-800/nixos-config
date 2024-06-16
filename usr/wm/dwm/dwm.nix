@@ -12,8 +12,7 @@ in {
   home = {
     packages = with pkgs; [ customSt ];
     file.".xinitrc".text = ''
-#setxkbmap -layout ch -variant de 
-
+${config.u.x11.initExtra}
 ${dwm_stats} &
 exec dbus-launch dwm
     '';
