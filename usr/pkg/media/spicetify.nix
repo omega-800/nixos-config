@@ -6,6 +6,12 @@ in {
   theme = spicePkgs.themes.catppuccin;
   colorScheme = "mocha";
 
+  enabledCustomApps = with spicePkgs.apps; [
+    new-releases
+    lyrics-plus
+    reddit
+  ];
+
   enabledExtensions = with spicePkgs.extensions; [
     fullAppDisplay
     shuffle

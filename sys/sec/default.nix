@@ -9,5 +9,7 @@
     ./sshd.nix
     ./systemd.nix
     ./antivirus.nix
+    ./mac.nix
+    ./vpn.nix
   ];
 }

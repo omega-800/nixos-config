@@ -31,6 +31,7 @@ in {
       screenkey
       lynis
       brightnessctl
+      thefuck
     ];
   };
 }
