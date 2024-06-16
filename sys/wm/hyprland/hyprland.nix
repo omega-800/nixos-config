@@ -3,7 +3,6 @@ let
   kaizen = inputs.kaizen.packages.${pkgs.system}.default;
 in {
   imports = [ 
-    ../wayland/wayland.nix 
     ../dm
   ];
   

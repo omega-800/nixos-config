@@ -3,6 +3,7 @@ with lib;
 {
   imports = [
     ../../usr/wm/${usr.wm}
+    ../../usr/wm/${usr.wmType}
   ];
 
   # pkgs

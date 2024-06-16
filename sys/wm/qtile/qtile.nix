@@ -2,7 +2,6 @@
 let 
   qtileEnvironment = pkgs.python3.withPackages (_: with pkgs.python3Packages; [qtile qtile-extras pyyaml]);
 in {
-  imports = [ ../x11/x11.nix ];
 
   environment.systemPackages = with pkgs; [
   (writeShellScriptBin "qtile_start" ''

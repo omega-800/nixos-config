@@ -13,19 +13,9 @@ in {
     packages = with pkgs; [ customSt ];
     file.".xinitrc".text = ''
 #setxkbmap -layout ch -variant de 
-sxhkd &
-xrandr
-xrdb ~/.Xresources
-xset -b
 
-udiskie &
-ibus-daemon -rxRd
-unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
-picom &
-/home/omega/.fehbg-stylix
 ${dwm_stats} &
-systemctl --user import-environment DISPLAY
-redshift -O3500; xset r rate 300 50; exec dbus-launch dwm
+exec dbus-launch dwm
     '';
     #activation.copyMyFiles = config.lib.dag.entryAfter ["writeBoundary"] ''
     /*file.".Xresources".text = ''

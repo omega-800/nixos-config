@@ -2,6 +2,7 @@
   imports =
     [
       ../../sys/wm/${usr.wm}
+      ../../sys/wm/${usr.wmType}
     ];
   m = {
     audio = {
