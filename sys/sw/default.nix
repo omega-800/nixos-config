@@ -8,6 +8,7 @@
     ./env.nix
     ./fonts.nix
     ./swhkd.nix
+    ./flatpak.nix
     #./dev.nix nevermind that
   ];
 }
