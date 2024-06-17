@@ -130,6 +130,12 @@ rec {
 */
         specialArgs = mkArgs cfg;
         modules = [
+        ({
+# clearly i do NOT understand how nix works
+            nixpkgs.overlays = [
+                inputs.nur.overlay
+            ];
+          })
           ../profiles/default/configuration.nix
           ../profiles/${cfg.sys.profile}/configuration.nix
           (import "${path}/configuration.nix")
