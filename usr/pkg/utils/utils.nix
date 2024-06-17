@@ -33,6 +33,7 @@ in {
       brightnessctl
       thefuck
       bind
+      translate-shell
     ];
   };
 }
