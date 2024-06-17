@@ -27,14 +27,23 @@
       };
       profiles.${usr.username} = {
         extensions = with inputs.firefox-addons.packages.${sys.system}; [
-          bitwarden
+            bitwarden
             ublock-origin
             sponsorblock
             darkreader
             vimium
             multi-account-containers
             youtube-shorts-block
-        ];
+        ] ++ (with pkgs.nur.repos.rycee.firefox-addons; [
+            anchors-reveal
+            cookie-autodelete
+            decentraleyes
+            i-dont-care-about-cookies
+            link-cleaner
+            privacy-badger
+            reddit-enhancement-suite
+            tree-style-tab
+          ]);
 
         search.engines = {
           "Nix Packages" = {

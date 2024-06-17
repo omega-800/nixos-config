@@ -27,16 +27,16 @@ rec {
   mkPkgsUnstable = cfg:
     let
       pkgs-unstable = (import nixpkgs-patched {
-                  system = cfg.sys.system;
-                  config = {
-                    allowUnfree = true;
-                    allowUnfreePredicate = (_: true);
-                  };
-                  overlays = [ 
-                    inputs.rust-overlay.overlays.default 
-                    inputs.nur.overlay 
-                  ] ++ (if cfg.sys.genericLinux then [ inputs.nixgl.overlay ] else []);
-                });
+        system = cfg.sys.system;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
+        };
+        overlays = [ 
+          inputs.rust-overlay.overlays.default 
+          inputs.nur.overlay 
+        ] ++ (if cfg.sys.genericLinux then [ inputs.nixgl.overlay ] else []);
+      });
       nixpkgs-patched =
         (import inputs.nixpkgs { inherit (cfg.sys) system; }).applyPatches {
           name = "nixpkgs-patched";
@@ -76,7 +76,10 @@ rec {
                     allowUnfree = true;
                     allowUnfreePredicate = (_: true);
                   };
-                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if (tooStupidToMatchRegex "genericLinux = ([[:lower:]]+);\n" cfgPath) == "true" then [ inputs.nixgl.overlay ] else []);
+                  overlays = [ 
+                    inputs.rust-overlay.overlays.default 
+                    inputs.nur.overlay 
+                  ] ++ (if (tooStupidToMatchRegex "genericLinux = ([[:lower:]]+);\n" cfgPath) == "true"  then [ inputs.nixgl.overlay ] else []);
                 }));
       nixpkgs-patched =
         (import inputs.nixpkgs { inherit system; }).applyPatches {
@@ -114,6 +117,7 @@ rec {
 
   mkHost = path: attrs:
     let 
+      pkgs = mkPkgs cfg;
       cfg = mkCfg path;
     in
       nixosSystem {
