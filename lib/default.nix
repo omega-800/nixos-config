@@ -32,7 +32,10 @@ rec {
                     allowUnfree = true;
                     allowUnfreePredicate = (_: true);
                   };
-                  overlays = [ inputs.rust-overlay.overlays.default ] ++ (if cfg.sys.genericLinux then [ inputs.nixgl.overlay ] else []);
+                  overlays = [ 
+                    inputs.rust-overlay.overlays.default 
+                    inputs.nur.overlay 
+                  ] ++ (if cfg.sys.genericLinux then [ inputs.nixgl.overlay ] else []);
                 });
       nixpkgs-patched =
         (import inputs.nixpkgs { inherit (cfg.sys) system; }).applyPatches {

@@ -1,6 +1,7 @@
 { usr, pkgs, ... }: {
   programs.git = {
     enable = true;
+    package = pkgs.gitFull;
     userName = usr.devName;
     userEmail = usr.devEmail;
     prompt.enable = true;

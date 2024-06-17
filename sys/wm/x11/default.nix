@@ -17,9 +17,9 @@ in {
       enableNotifier = true;
       notifier = "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds'";
       notify = 10;
-      locker = "${pkgs.slock}/bin/slock -m 'lockidy lockedoodled'";
+      locker = "${slock}/bin/slock -m 'lockidy lockedoodled'";
       time = 10;
-      nowlocker = "${pkgs.slock}/bin/slock -m 'lockidy lock locked'";
+      nowlocker = "${slock}/bin/slock -m 'lockidy lock locked'";
       killtime = 20;
       killer = "/run/current-system/systemd/bin/systemctl suspend";
       extraOptions = [ "-secure" ];

@@ -4,6 +4,7 @@
       ../../sys/wm/${usr.wm}
       ../../sys/wm/${usr.wmType}
       ../../sys/wm/dm
+      ../../sys/wm/inputs
     ];
   m = {
     audio = {

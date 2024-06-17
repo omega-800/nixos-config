@@ -1,7 +1,6 @@
 { lib, stdenv, writeText
-, xorgproto, libX11, libXext, libXrandr, libxcrypt
+, xorgproto, libX11, libXext, libXrandr, libxcrypt, cargo, libXinerama
 , fetchFromGitHub
-, conf ? null
 }:
 stdenv.mkDerivation {
     pname = "slock";
@@ -10,19 +9,18 @@ stdenv.mkDerivation {
     src = fetchFromGitHub {
       owner = "omega-800";
       repo = "slock";
-      ref = "main";
-      rev = "6fa28f6895b0ccbdaf7d8c9806359ccd28cc8a91";
-      hash = "sha256-zyGyZOG8gAtsRkzSRH1M777fPv1wudbVsBrSTJ5CBnY=";
+      rev = "4267b2d175940500e288a52ec3eebe29075da7e5";
+      hash = "sha256-Kb/YslQDgq4gBaa4/YyH9DxWA6uaFQR2vNYGKgSuHoM=";
     };
 
-  buildInputs = [ xorgproto libX11 libXext libXrandr libxcrypt ];
+  buildInputs = [ cargo xorgproto libX11 libXext libXrandr libxcrypt libXinerama ];
 
   installFlags = [ "PREFIX=$(out)" ];
 
   postPatch = "sed -i '/chmod u+s/d' Makefile";
 
-  preBuild = lib.optionalString (conf != null) ''
-    cp ${writeText "config.def.h" conf} config.def.h
+  preBuild = ''
+    cp config.def.h config.h
   '';
 
   makeFlags = [ "CC:=$(CC)" ];

@@ -32,6 +32,7 @@ in {
       lynis
       brightnessctl
       thefuck
+      bind
     ];
   };
 }
