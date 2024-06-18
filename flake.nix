@@ -28,6 +28,10 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
@@ -53,7 +57,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
-    sops-nix.url = "github:mic92/sops-nix"; # TODO: Implement this
     disko.url = "github:nix-community/disko";
 
     nur.url = "github:nix-community/NUR";
