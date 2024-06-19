@@ -9,10 +9,7 @@
     ./systemd.nix
     ./antivirus.nix
     ./sops.nix
-    ./vpn/wireguard.nix
-    ./vpn/fortissl.nix
-    ./vpn/openvpn.nix
-    ./vpn/mullvad.nix
     ./mac.nix
+    ./vpn
   ];
 }
