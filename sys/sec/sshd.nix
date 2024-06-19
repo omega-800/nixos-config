@@ -1,5 +1,6 @@
-{ lib, sys, usr, ... }:
+{ config, lib, sys, usr, ... }:
 with lib; {
+  # sops.secrets.sshd_port = {};
   # Enable incoming ssh
   services.openssh = mkMerge [
     ({
@@ -12,7 +13,7 @@ with lib; {
       extraConfig = ''
         LogLevel VERBOSE
         MaxSessions 2
-        Port 51423
+        Port 51423 #TODO: fix this without readFile $${config.sops.secrets.sshd_port.path}
         TCPKeepAlive no
         PasswordAuthentication no
         PermitRootLogin no
@@ -39,5 +40,6 @@ with lib; {
       '';
     })
   ];
+# TODO: take these from sops
   users.users.${usr.username}.openssh.authorizedKeys.keys = sys.authorizedSshKeys;
 }

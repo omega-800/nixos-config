@@ -16,4 +16,7 @@ in {
   environment.systemPackages = with pkgs; [
     greetd.tuigreet
   ];
+  boot.kernel.sysctl = {
+    "kernel.printk" = "3 3 3 3";
+  };
 }

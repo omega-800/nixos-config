@@ -72,6 +72,10 @@ with lib;
 				};
     };
     usr = {
+        style = mkOption {
+					type = types.bool;
+					default = true;
+				};
         username = mkOption {
 					type = types.str;
 					default = "omega";
@@ -131,6 +135,10 @@ with lib;
 					type = types.str;
 					default = "nvim";
 				}; # Default editor
+        shell = mkOption {
+					type = types.package;
+					default = pkgs.bash;
+				}; # hostname
     };
   };
 }

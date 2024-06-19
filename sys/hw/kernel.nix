@@ -4,9 +4,16 @@ let cfg = config.m.kernel;
 in {
   options.m.kernel = {
     zen = mkEnableOption "enables zen kernel";
+    swappiness = mkOption {
+      type = types.number;
+      default = 60;
+    };
   };
   imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];
   config = (mkMerge [
+    ({
+      boot.kernel.sysctl."vm.swappiness" = cfg.swappiness;
+     })
     (mkIf sys.paranoid {
     security.allowUserNamespaces = true;
     security.allowSimultaneousMultithreading = true;
@@ -139,9 +146,11 @@ in {
     };
   })
   (mkIf (cfg.zen && (!sys.paranoid)) {
-    boot.kernelPackages = mkDefault pkgs.linuxPackages_zen;
-    boot.consoleLogLevel = 0;
-    # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
+    boot = {
+      kernelPackages = mkDefault pkgs.linuxPackages_zen;
+      consoleLogLevel = 0;
+      kernelModules = [ "i2c-dev" "i2c-piix4" "cpufreq_powersave" ];
+    };
   })
 ]);
 }

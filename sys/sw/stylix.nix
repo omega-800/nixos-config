@@ -8,7 +8,8 @@ let
   backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+usr.theme)+"/backgroundsha256.txt");
 in
   {
-    imports = [ inputs.stylix.nixosModules.stylix ];
+    imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [];
+    config = lib.mkIf usr.style {
     stylix = {
       autoEnable = true;
       polarity = themePolarity;
@@ -51,5 +52,6 @@ in
 #    };
     environment.sessionVariables = {
       QT_QPA_PLATFORMTHEME = "qt5ct";
+    };
     };
   }

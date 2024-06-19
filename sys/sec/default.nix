@@ -8,10 +8,11 @@
     ./sshd.nix
     ./systemd.nix
     ./antivirus.nix
-    #./vpn/wireguard.nix
+    ./sops.nix
+    ./vpn/wireguard.nix
     ./vpn/fortissl.nix
-    #./vpn/openvpn.nix
-    #./vpn/mullvad.nix
-    #./mac.nix
+    ./vpn/openvpn.nix
+    ./vpn/mullvad.nix
+    ./mac.nix
   ];
 }

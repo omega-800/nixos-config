@@ -1,4 +1,4 @@
-{ ... }: {
+{ usr, ... }: {
   environment.sessionVariables = rec {
     XDG_CACHE_HOME  = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";
@@ -8,5 +8,6 @@
     PATH = [
       "${XDG_BIN_HOME}"
     ];
+    EDITOR = usr.editor;
   };
 }

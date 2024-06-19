@@ -1,6 +1,12 @@
-{ pkgs, ... }:
+{ lib, config, pkgs, usr, ... }: 
+with lib;
+let cfg = config.m.fancyfonts;
+in {
+  options.m.fancyfonts = {
+    enable = mkEnableOption "enables fancyfonts";
+  };
 
-{
+  config = mkIf cfg.enable {
   # Fonts are nice to have
   fonts.packages = with pkgs; [
     # Fonts
@@ -13,5 +19,6 @@
     ubuntu_font_family
     terminus_font
   ];
+};
 
 }

@@ -25,9 +25,14 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
+  sops.secrets.user_init_pass = {
+    neededForUsers = true;
+  };
+  #broken :(
+  #users.mutableUsers = false;
   users.users.${usr.username} = {
     isNormalUser = true;
-    initialPassword = "password"; # TODO: Encrypt password
+    passwordFile = (config.sops.secrets.user_init_pass.path);
     extraGroups = [ "wheel" "video" "audio" ] ++ ifExist [
       "kvm"
       "docker"

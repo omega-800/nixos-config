@@ -6,8 +6,8 @@ let
   backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+usr.theme)+"/backgroundsha256.txt");
 in
   {
-    imports = [ inputs.stylix.homeManagerModules.stylix ];
-
+    imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [];
+    config = lib.mkIf usr.style {
     home.file.".currenttheme".text = usr.theme;
     stylix = {
       autoEnable = true;
@@ -144,4 +144,5 @@ in
 
     wallpaper = DP-1,''+config.stylix.image+''
     '';
-}
+  };
+  }

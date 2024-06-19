@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }: {
-  #config = lib.mkIf config.u.work.enable {
-    services.mysql = {
-      enable = true;
-      package = pkgs.mariadb;
-      initialScript = ./mysql_setup.sql;
-    };
-    services.gnome.gnome-keyring.enable = true;
-  #};
-  programs.nix-ld.enable = true;
+{ lib, config, pkgs, usr, ... }: 
+with lib;
+let cfg = config.m.devtools;
+in {
+  options.m.devtools = {
+    enable = mkEnableOption "enables devtools";
+  };
+
+  config = mkIf cfg.enable {
+    programs.nix-ld.enable = true;
+  };
 }
