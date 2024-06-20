@@ -13,7 +13,7 @@
       forti.enable = false;
       mullvad.enable = false;
       openvpn.enable = false;
-      wireguard.enable = true;
+      wg.enable = true;
     };
   };
   c = {

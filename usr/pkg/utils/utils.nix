@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.utils;
 in {
@@ -11,22 +11,22 @@ in {
       vulnix
       iproute2
       iputils
+      curl
+      wget
       gzip
       xz
+      unzip
       which
       cloc
       gnused
+      ripgrep
       less
-      unzip
       bc
       stow
       xdg-ninja
       xclip
       xbindkeys
-      ripgrep
-      curl
-      wget
-      htop
+      htop-vim
       flameshot
       screenkey
       lynis

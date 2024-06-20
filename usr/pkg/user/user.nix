@@ -9,10 +9,8 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       #starship
-      #uwufetch
       pass
       tree-sitter
-      fastfetch
       rofi
       feh
       maim

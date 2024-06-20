@@ -9,6 +9,7 @@
     ./fonts.nix
     ./swhkd.nix
     ./flatpak.nix
-    #./dev.nix nevermind that
+    ./mysql.nix
+    ./dev.nix
   ];
 }
