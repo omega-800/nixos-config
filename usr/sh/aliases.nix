@@ -1,5 +1,6 @@
 { sys, config, ... }: {
   home.shellAliases = {
+    ndx = ''nix-shell -p nodejs_22 --run "npx create-directus-extension@latest"'';
     hms = ''home-manager switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace'';
     nrs = ''sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace'';
     ssh = ''TERM=xterm-256color ssh'';

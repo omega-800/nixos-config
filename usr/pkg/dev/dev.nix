@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.dev;
 in {
@@ -19,7 +19,6 @@ in {
       vscode
       qmk
       jq
-      git
       ncurses
       # ciscoPacketTracer8
       # put this in a nix-shell

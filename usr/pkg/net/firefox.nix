@@ -1,5 +1,5 @@
 { usr, sys, pkgs, inputs, config, lib, ... }: with lib; {
-  config =  mkIf ((!sys.genericLinux) && config.u.net.enable) {
+  config =  mkIf (config.u.net.enable) {
     home.sessionVariables = mkIf (usr.wmType == "wayland") {
       MOZ_ENABLE_WAYLAND = 1;
     };
