@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.dev;
 in {
@@ -6,23 +6,20 @@ in {
     home.packages = with pkgs; [
       git-secrets
     ];
-    programs.git = {
+    programs.git = mkIf cfg.enable {
       enable = true;
       package = pkgs.gitFull;
       userName = usr.devName;
       userEmail = usr.devEmail;
-      prompt.enable = true;
       aliases = {
         ci = "commit";
         co = "checkout";
         s = "status";
         p = "pull";
       };
-      config = {
-        init.defaultBranch = "main";
-      };
       extraConfig = {
-        credential.helper = "${pkgs.git.override { withLibSecret = true; }}/bin/git-credential-libsecret";
+        init.defaultBranch = "main";
+        credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
         push.autoSetupRemote = true;
       }; 
 #pkgs.pinentry-tty;
@@ -31,7 +28,7 @@ in {
         changeHunkIndicators = true;
         markEmptyLines = true;
       };
-      ignores = [ "*.swp" ];
+      ignores = [ "*.swp" "node_modules" ];
     };
   };
 }
