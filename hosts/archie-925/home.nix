@@ -1,5 +1,5 @@
-{ nixGL, sys, ... }:
+{ sys, pkgs,  ... }:
 {
   u.social.enable = false;
-  nixGLPrefix = "${nixGL.packages.${sys.system}.nixGLIntel}/bin/nixGLIntel";
+  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
 }

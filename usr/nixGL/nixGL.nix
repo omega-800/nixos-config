@@ -4,7 +4,7 @@
 # Wrap a single package
 pkg:
 
-if config.nixGLPrefix == "" then
+if config.u.nixGLPrefix == "" then
   pkg
 else
 # Wrap the package's binaries with nixGL, while preserving the rest of
