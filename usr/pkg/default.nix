@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
     ./dev
+    ./style 
     ./work
     ./file
     ./media

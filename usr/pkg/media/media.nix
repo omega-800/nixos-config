@@ -1,6 +1,8 @@
 { sys, lib, config, pkgs, ... }: 
 with lib;
-let cfg = config.u.media;
+let 
+  cfg = config.u.media;
+  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
 in {
   options.u.media = {
     enable = mkEnableOption "enables media packages";
@@ -16,9 +18,8 @@ in {
       bluez
       ffmpeg
       imagemagick
-    ] ++ (if sys.genericLinux then [] else [
-      mpv
-      ani-cli
-    ]);
+      (nixGL mpv)
+      (nixGL ani-cli)
+    ];
   };
 }

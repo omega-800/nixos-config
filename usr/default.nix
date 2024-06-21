@@ -2,7 +2,7 @@
   imports = [
     ./pkg
     ./sh
-    ./style
+    ./nixGL
     ./wm/picom/picom.nix
   ];
 }
