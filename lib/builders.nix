@@ -3,6 +3,7 @@ with lib;
 with builtins;
 let
   util = import ./util.nix { inherit inputs pkgs lib; };
+  script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in rec {
   inherit (util) mkCfg mkArgs mkPkgs mkHomeMgr;
 
@@ -45,7 +46,7 @@ in rec {
     in
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = mkArgs cfg;
+        extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = script.writeCfgToScript cfg; } ];
         modules = [
           ../profiles/default/home.nix
           ../profiles/${cfg.sys.profile}/home.nix

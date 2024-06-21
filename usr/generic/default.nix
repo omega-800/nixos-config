@@ -1,7 +1,11 @@
-{ lib, sys, usr, pkgs, ... }: 
+{ lib, sys, usr, pkgs, genericLinuxSystemInstaller, ... }: 
 with lib;
 {
   config = mkIf sys.genericLinux {
+    home.file."system_installer.sh" = {
+      executable = true;
+      text = genericLinuxSystemInstaller;
+    };
     home.packages =
       (with pkgs; [
         brotli
