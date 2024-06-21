@@ -2,9 +2,9 @@
 with lib;
 with builtins; 
 let
-  mkPkgs = import ./mkPkgs.nix { inherit inputs pkgs lib; };
-in {
-  inherit (mkPkgs) stablePkgs mkPkgsStable mkHomeMgr mkPkgs;
+  pkgsUtil = import ./pkgs.nix { inherit inputs pkgs lib; };
+in rec {
+  inherit (pkgsUtil) isStable mkPkgsStable mkHomeMgr mkPkgs;
 
   tooStupidToMatchRegex = expr: path:
     (lists.last (flatten (sublist 1 1 (split expr (readFile path)))));
