@@ -1,9 +1,9 @@
 { inputs, pkgs, lib, ...}: 
 with lib;
 let
-  iamstupid = import ./hack.nix { inherit inputs pkgs lib; };
+  iamstupidandthatisokay = import ./hack.nix { inherit inputs pkgs lib; };
 in rec {
-  inherit (iamstupid) hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile mkPkgsStable mkPkgs mkHomeMgr;
+  inherit (iamstupidandthatisokay) hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile mkPkgsStable mkPkgs mkHomeMgr;
 
   mkCfg = path:
     let
