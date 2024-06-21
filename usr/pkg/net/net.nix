@@ -1,6 +1,8 @@
 { sys, lib, config, pkgs, ... }: 
 with lib;
-let cfg = config.u.net;
+let 
+  cfg = config.u.net;
+  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
 in {
   options.u.net = {
     enable = mkEnableOption "enables net packages";
@@ -9,11 +11,10 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       rtorrent
-      tor
-      brave
+      (nixGL tor)
+      (nixGL brave)
       wireguard-tools
-    ] ++ (if sys.genericLinux then [] else [
-      qutebrowser
-    ]);
+      (nixGL qutebrowser)
+    ];
   };
 }

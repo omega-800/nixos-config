@@ -16,6 +16,7 @@ in {
       pipewire
       pavucontrol
       bluez
+      bluez-tools
       ffmpeg
       imagemagick
       (nixGL mpv)

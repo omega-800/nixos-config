@@ -1,9 +1,9 @@
 { config, usr, lib, pkgs, inputs, ... }:
 let
-  themePath = "../../../themes"+("/"+usr.theme+"/"+usr.theme)+".yaml";
-  themePolarity = lib.removeSuffix "\n" (builtins.readFile (./. + "../../../themes"+("/"+usr.theme)+"/polarity.txt"));
-  backgroundUrl = builtins.readFile (./. + "../../../themes"+("/"+usr.theme)+"/backgroundurl.txt");
-  backgroundSha256 = builtins.readFile (./. + "../../../themes/"+("/"+usr.theme)+"/backgroundsha256.txt");
+  themePath = "../../../../themes"+("/"+usr.theme+"/"+usr.theme)+".yaml";
+  themePolarity = lib.removeSuffix "\n" (builtins.readFile (./. + "../../../../themes"+("/"+usr.theme)+"/polarity.txt"));
+  backgroundUrl = builtins.readFile (./. + "../../../../themes"+("/"+usr.theme)+"/backgroundurl.txt");
+  backgroundSha256 = builtins.readFile (./. + "../../../../themes/"+("/"+usr.theme)+"/backgroundsha256.txt");
 in
   {
     imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [];

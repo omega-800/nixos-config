@@ -1,6 +1,8 @@
-{ sys, lib, config, pkgs, ... }: 
+{ lib, config, pkgs, ... }: 
 with lib;
-let cfg = config.u.user;
+let 
+  cfg = config.u.user;
+  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
 in {
   options.u.user = {
     enable = mkEnableOption "enables userspace packages";
@@ -17,8 +19,7 @@ in {
       fortune 
       cowsay 
       lolcat
-    ] ++ (if sys.genericLinux then [] else [
-      alacritty
-    ]);
+      (nixGL alacritty)
+    ];
   };
 }

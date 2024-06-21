@@ -1,9 +1,11 @@
-{ sys, usr, pkgs, lib, ... }:
+{ config, usr, pkgs, lib, ... }:
 
-{
-  config = lib.mkIf (!sys.genericLinux) {
-    home.packages = with pkgs; [ picom ];
-
+with lib;
+let 
+  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+in {
+    home.packages = with pkgs; [ 
+      (nixGL picom)
+    ];
     home.file.".config/picom/picom.conf".source = if usr.wm == "dwm" then ./picom_dwm.conf else ./picom.conf;
-  };
 }

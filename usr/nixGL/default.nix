@@ -1,5 +1,5 @@
 { lib, ... }: {
-  options.u.nixGlPrefix = lib.mkOption {
+  options.u.nixGLPrefix = lib.mkOption {
     type = lib.types.str;
     default = "";
     description = ''
