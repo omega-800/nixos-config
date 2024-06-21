@@ -6,6 +6,7 @@ let
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in rec {
   inherit (util) mkCfg mkArgs mkPkgs mkHomeMgr;
+  inherit (script) writeCfgToScript;
 
   mkHost = path: attrs:
     let 
@@ -46,7 +47,7 @@ in rec {
     in
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = script.writeCfgToScript cfg; } ];
+        extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
         modules = [
           ../profiles/default/home.nix
           ../profiles/${cfg.sys.profile}/home.nix
