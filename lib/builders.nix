@@ -1,9 +1,11 @@
 { inputs, pkgs, lib, ...}: 
 with lib;
+with builtins;
 let
-  util = import ./util.nix;
+  util = import ./util.nix { inherit inputs pkgs lib; };
 in rec {
-  inherit (util) mkPkgs mkCfg mkArgs;
+  inherit (util) mkCfg mkArgs mkPkgs mkHomeMgr;
+
   mkHost = path: attrs:
     let 
       pkgs = mkPkgs cfg;

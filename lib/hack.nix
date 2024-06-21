@@ -1,6 +1,11 @@
-{ lib, ... }: 
+{ inputs, pkgs, lib, ... }: 
 with lib;
-with builtins; {
+with builtins; 
+let
+  mkPkgs = import ./mkPkgs.nix { inherit inputs pkgs lib; };
+in {
+  inherit (mkPkgs) stablePkgs mkPkgsStable mkHomeMgr mkPkgs;
+
   tooStupidToMatchRegex = expr: path:
     (lists.last (flatten (sublist 1 1 (split expr (readFile path)))));
     
