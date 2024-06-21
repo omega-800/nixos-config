@@ -2,7 +2,7 @@
 with lib;
 {
   config = mkIf sys.genericLinux {
-    programs =
+    home.packages =
       (with pkgs; [
         brotli
         cairo
@@ -15,7 +15,6 @@ with lib;
         mount
         polkit
         rsync
-        sudo
         timeshift
         acl
       ]) ++ (if usr.wmType == "x11" then (with pkgs.xorg; [
