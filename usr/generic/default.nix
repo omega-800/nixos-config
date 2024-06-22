@@ -21,8 +21,10 @@ with lib;
         rsync
         timeshift
         acl
-      ]) ++ (if usr.wmType == "x11" then (with pkgs.xorg; [
-        xorgserver
+        xterm
+      ]) ++ (if true #usr.wmType == "x11" 
+      then (with pkgs.xorg; [
+        #xorgserver
         xset
         xrdb
         xprop

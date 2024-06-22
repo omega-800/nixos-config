@@ -2,7 +2,6 @@
 with lib;
 let 
   cfg = config.u.user;
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
 in {
   options.u.user = {
     enable = mkEnableOption "enables userspace packages";
@@ -19,7 +18,6 @@ in {
       fortune 
       cowsay 
       lolcat
-      (nixGL alacritty)
     ];
   };
 }

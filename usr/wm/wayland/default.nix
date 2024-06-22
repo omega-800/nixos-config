@@ -32,4 +32,14 @@
       systemdTarget = "graphical-session.target";
     };
   };
+    systemd.user.services.swhkd= {
+      Service.Type = "simple";
+      Unit.Description = "swhkd hotkey daemon";
+      Install.WantedBy = [ "default.target" ];
+      Service.ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
+        #!/usr/bin/env bash
+        killall swhks
+        swhks & pkexec swhkd;
+      ''}";
+    };
 }
