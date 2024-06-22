@@ -12,21 +12,21 @@ in {
         live_config_reload = true;
         selection.save_to_clipboard = true;
         window = {
-          opacity = 0.9;
+          opacity = 0.8;
           padding = {
             y = 8;
             x = 8;
           };
-          dimensions = {
-            lines = 3;
-            columns = 200;
-          };
+#          dimensions = {
+#            lines = 3;
+#            columns = 200;
+#          };
         };
         cursor = {
           unfocused_hollow = true;
           style = {
             blinking = "On";
-            shape = "Underline";
+            shape = "Block";
           };
           vi_mode_style = {
             blinking = "Off";
@@ -34,7 +34,7 @@ in {
           };
         };
         font = {
-          size = 6;
+          size = 8;
           bold = {
             family = usr.font;
             style = "Bold";

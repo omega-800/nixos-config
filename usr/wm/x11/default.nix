@@ -10,10 +10,20 @@ xset -b
 xset r rate 300 50
 udiskie &
 ibus-daemon -rxRd
-unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
+#unclutter --jitter 10 --ignore-scrolling --start-hidden --fork
 picom &
 /home/omega/.fehbg-stylix
 systemctl --user import-environment DISPLAY
     '';
+  };
+  config.services.unclutter = {
+    enable = true;
+    threshold = 5;
+    timeout = 2;
+    extraOptions = [
+    "ignore-scrolling"
+    "fork"
+    "start-hidden"
+    ];
   };
 }

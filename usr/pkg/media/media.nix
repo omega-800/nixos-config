@@ -10,9 +10,6 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      mpd
-      mpc-cli
-      ncmpcpp
       pipewire
       pavucontrol
       bluez

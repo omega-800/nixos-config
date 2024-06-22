@@ -5,6 +5,7 @@ in {
   imports = [
     ./media.nix
     ./newsboat.nix
+    ./mpd.nix
     spicetify-nix.homeManagerModule
   ];
   /*
