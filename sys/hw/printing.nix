@@ -7,10 +7,14 @@ in {
   };
  
   config = lib.mkIf cfg.enable {
-    services.printing.enable = true;
-    services.avahi.enable = true;
-    services.avahi.nssmdns4 = true;
-    services.avahi.openFirewall = true;
+    services = {
+      printing.enable = true;
+      avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = true;
+      };
+    };
     environment.systemPackages = [ pkgs.cups-filters ];
   };
 }

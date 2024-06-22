@@ -4,6 +4,7 @@ let
 in {
   imports = [
     ./media.nix
+    ./newsboat.nix
     spicetify-nix.homeManagerModule
   ];
   /*

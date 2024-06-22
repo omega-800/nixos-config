@@ -19,7 +19,6 @@ in {
       bluez-tools
       ffmpeg
       imagemagick
-      newsboat
       (nixGL mpv)
       (nixGL ani-cli)
     ];

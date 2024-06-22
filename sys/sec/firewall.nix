@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   # Firewall
   networking.firewall = {
