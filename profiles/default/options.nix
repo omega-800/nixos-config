@@ -40,7 +40,6 @@ with lib;
 					type = types.str;
 					default = "/dev/sda";
 				}; # device identifier for grub: only used for legacy (bios) boot mode
-
         timezone = mkOption {
 					type = types.str;
 					default = "Europe/Zurich";
@@ -84,7 +83,6 @@ with lib;
 					type = types.str;
 					default = "/home/${config.c.usr.username}";
 				};
-
         devName = mkOption {
 					type = types.str;
 					default = "omega-800";
@@ -93,7 +91,6 @@ with lib;
 					type = types.str;
 					default = "gshevoroshkin@gmail.com";
 				}; 
-
         dotfilesDir = mkOption {
 					type = types.str;
 					default = "~/.dotfiles";

@@ -5,12 +5,12 @@ let
   util = import ./util.nix { inherit inputs pkgs lib; };
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in rec {
-  inherit (util) mkCfg mkArgs mkPkgs mkHomeMgr;
+  inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable;
   inherit (script) writeCfgToScript;
 
   mkHost = path: attrs:
     let 
-      pkgs = mkPkgs cfg;
+      pkgs = mkPkgs cfg.sys.profile cfg.sys.system cfg.sys.genericLinux;
       cfg = mkCfg path;
     in
       nixosSystem {
@@ -42,12 +42,20 @@ in rec {
   mkHome = path: attrs:
     let
       cfg = mkCfg path;
-      pkgs = mkPkgs cfg;
+      pkgs = mkPkgs cfg.sys.profile cfg.sys.system cfg.sys.genericLinux;
       home-manager = mkHomeMgr cfg;
     in
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
+# ok so calling mkArgs does not work because it causes infinite recursion of usr attr set?? bc mkConfig's usr is being passed to mkArgs as well as writeCfgToScript???? but usr isn't even used in writeCfgToScript????????? i am brain hurty
+        #extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
+      extraSpecialArgs  = { 
+        inherit inputs; 
+        #inherit (cfg.sys) system; 
+        inherit (cfg) usr sys;
+        pkgs-stable = (mkPkgsStable cfg.sys.system);
+        genericLinuxSystemInstaller = writeCfgToScript (mkSysCfg path);
+      };
         modules = [
           ../profiles/default/home.nix
           ../profiles/${cfg.sys.profile}/home.nix

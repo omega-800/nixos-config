@@ -1,9 +1,9 @@
 { lib, pkgs, ... }: {
   writeCfgToScript = cfg:
       ''
-      #!${pkgs.bash}
+      #!/usr/bin/env bash
       ${
-        lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables
+        lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
       }
       '';
 }

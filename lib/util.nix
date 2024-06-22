@@ -1,13 +1,26 @@
 { inputs, pkgs, lib, ...}: 
 with lib;
 let
-  iamstupidandthatisokay = import ./hack.nix { inherit inputs pkgs lib; };
+  pkgUtil = import ./pkgs.nix { inherit inputs pkgs lib; };
 in rec {
-  inherit (iamstupidandthatisokay) hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile mkPkgsStable mkPkgs mkHomeMgr;
+  inherit (pkgUtil) mkPkgsStable mkPkgs mkHomeMgr;
+
+  # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
+  getCfgAttr = path: type: name:
+    let
+      cfg = evalModules {
+        modules = [
+          ../profiles/default/options.nix
+          (import "${path}/config.nix")
+        ];
+      };
+    in
+      cfg.config.c.${type}.${name};
 
   mkCfg = path:
     let
-      hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
+      #hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
+      hackyPkgs = mkPkgs (getCfgAttr path "sys" "profile") (getCfgAttr path "sys" "system") (getCfgAttr path "sys" "genericLinux");
       cfg = evalModules {
         modules = [
           ({config, ...}: {config._module.args = {pkgs = hackyPkgs;};})
@@ -17,6 +30,22 @@ in rec {
       };
     in 
       cfg.config.c;
+
+  mkSysCfg = path:
+    let
+      #hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
+      hackyPkgs = mkPkgs (getCfgAttr path "sys" "profile") (getCfgAttr path "sys" "system") (getCfgAttr path "sys" "genericLinux");
+      sysCfgPath =  "/profiles/${getCfgAttr path "sys" "profile"}/configuration.nix";
+      cfg = evalModules {
+        modules = [
+          ({config, ...}: {config._module.args = {pkgs = hackyPkgs;};})
+          ../profiles/default/options.nix
+          (import "${path}/config.nix")
+          (import (../. + sysCfgPath))
+        ];
+      };
+    in 
+      cfg.config;
 
   mkArgs = cfg:
     let

@@ -1,9 +1,7 @@
 { usr, ... }: {
   imports =
     [
-      ../../sys/wm/${usr.wm}
-      ../../sys/wm/${usr.wmType}
-      ../../sys/wm/dm
+      ../../sys/wm
     ];
   m = {
     audio = {
