@@ -19,8 +19,10 @@ in {
       bluez-tools
       ffmpeg
       imagemagick
+      zathura
       (nixGL mpv)
       (nixGL ani-cli)
     ];
+    home.file.".profile".text = "[ ! -s ~/.config/mpd/pid ] && mpd";
   };
 }

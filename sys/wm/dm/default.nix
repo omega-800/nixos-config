@@ -1,6 +1,6 @@
 { usr, pkgs, ... }:
 let
-  cmd = if usr.wmType == "x11" then "startx" else "Hyprland"; 
+  cmd = if usr.wmType == "x11" then "startx" else if usr.wm == "hyprland" then "Hyprland" else usr.wm; 
 in {
   # Enable Display Manager
   services.greetd = {

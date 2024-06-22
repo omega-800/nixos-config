@@ -8,9 +8,9 @@ in {
       enable = true;
       autoReload = true;
       urls = [
-        "https://hnrss.org/newest"
-          "https://hnrss.org/newest?q=git+OR+linux"
-          "https://hnrss.org/best"
+        { url = "https://hnrss.org/newest"; }
+        { url = "https://hnrss.org/newest?q=git+OR+linux"; }
+        { url = "https://hnrss.org/best"; }
       ];
     };
   };
