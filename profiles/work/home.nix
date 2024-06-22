@@ -2,9 +2,7 @@
 with lib;
 {
   imports = [
-    ../../usr/wm/${usr.wm}
-    ../../usr/wm/${usr.wmType}
-    ../../usr/wm/input
+    ../../usr/wm
   ];
 
   # pkgs
