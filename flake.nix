@@ -15,8 +15,7 @@
     in {
       homeConfigurations = mapHomes ./hosts {};
       nixosConfigurations = mapHosts ./hosts {};
-      packages = mapModules ./packages (p: pkgs.callPackage p {});
-      #packages = mapModules ./packages import;
+      packages = mapModules ./packages import;
     };
 
   inputs = {

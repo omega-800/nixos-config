@@ -34,13 +34,10 @@ in rec {
   mkSysCfg = path:
     let
       #hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
-      hackyPkgs = mkPkgs (getCfgAttr path "sys" "profile") (getCfgAttr path "sys" "system") (getCfgAttr path "sys" "genericLinux");
       sysCfgPath =  "/profiles/${getCfgAttr path "sys" "profile"}/configuration.nix";
       cfg = evalModules {
         modules = [
-          ({config, ...}: {config._module.args = {pkgs = hackyPkgs;};})
-          ../profiles/default/options.nix
-          (import "${path}/config.nix")
+          ../profiles/default/configuration.nix
           (import (../. + sysCfgPath))
         ];
       };

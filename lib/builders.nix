@@ -54,8 +54,8 @@ in rec {
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
         pkgs-stable = (mkPkgsStable cfg.sys.system);
-        genericLinuxSystemInstaller = writeCfgToScript cfg;# (mkSysCfg path);
-        genericLinuxSystemInstallerList = generateInstallerList cfg;# (mkSysCfg path);
+        genericLinuxSystemInstaller = writeCfgToScript cfg;#(mkSysCfg path);
+        #genericLinuxSystemInstallerList = generateInstallerList cfg;# (mkSysCfg path);
         
       };
         modules = [
@@ -97,5 +97,4 @@ in rec {
           else nameValuePair "" null)
         (readDir dir)
       );
-
 }

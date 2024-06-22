@@ -3,7 +3,7 @@
       ''
       #!/usr/bin/env bash
       ${
-        "asdf"#lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
+        "no"#lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
       }
       '';
 

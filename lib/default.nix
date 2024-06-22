@@ -2,5 +2,5 @@
 let
   builders = import ./builders.nix { inherit inputs pkgs lib; };
 in {
-  inherit (builders) mapHosts mapHomes;
+  inherit (builders) mapHosts mapHomes mapModules mapPkgs;
 }

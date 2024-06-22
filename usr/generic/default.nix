@@ -1,10 +1,10 @@
-{ lib, sys, usr, pkgs, genericLinuxSystemInstaller, ... }: 
+{ lib, sys, usr, pkgs, genericLinuxSystemInstaller, config, ... }: 
 with lib;
 {
   config = mkIf sys.genericLinux {
     home.file."system_installer.sh" = {
       executable = true;
-      text = genericLinuxSystemInstaller;
+      text = "${genericLinuxSystemInstaller}${config.programs.bash.bashrcExtra}";
     };
     home.packages =
       (with pkgs; [
