@@ -1,8 +1,5 @@
-{ usr, ... }: {
-  imports =
-    [
-      ../../sys/wm
-    ];
+{ ... }: {
+  imports = [ ../../sys/wm ];
   m = {
     audio = {
       enable = true;

@@ -2,8 +2,8 @@
   description = "Nixos config flake";
 
   outputs = { self, nixpkgs, ... }@inputs: 
-  let 
-      inherit (lib.my) mapHosts mapHomes;
+    let 
+      inherit (lib.my) mapHosts mapHomes mapModules;
       #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
       pkgs = nixpkgs;
       lib = nixpkgs.lib.extend
@@ -15,6 +15,8 @@
     in {
       homeConfigurations = mapHomes ./hosts {};
       nixosConfigurations = mapHosts ./hosts {};
+      packages = mapModules ./packages (p: pkgs.callPackage p {});
+      #packages = mapModules ./packages import;
     };
 
   inputs = {

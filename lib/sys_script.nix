@@ -3,7 +3,10 @@
       ''
       #!/usr/bin/env bash
       ${
-        lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
+        "asdf"#lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
       }
       '';
+
+  generateInstallerList = cfg:
+      lib.mkBefore [ "" ];
 }

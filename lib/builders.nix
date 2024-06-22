@@ -6,7 +6,7 @@ let
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in rec {
   inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable;
-  inherit (script) writeCfgToScript;
+  inherit (script) writeCfgToScript generateInstallerList;
 
   mkHost = path: attrs:
     let 
@@ -54,7 +54,9 @@ in rec {
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
         pkgs-stable = (mkPkgsStable cfg.sys.system);
-        genericLinuxSystemInstaller = writeCfgToScript (mkSysCfg path);
+        genericLinuxSystemInstaller = writeCfgToScript cfg;# (mkSysCfg path);
+        genericLinuxSystemInstallerList = generateInstallerList cfg;# (mkSysCfg path);
+        
       };
         modules = [
           ../profiles/default/home.nix
@@ -78,4 +80,22 @@ in rec {
           else nameValuePair "" null)
         (readDir dir)
       );
+
+  mapModules = dir: fn:
+    filterAttrs
+      (n: v: v != null && !(hasPrefix "_" n))
+      (mapAttrs'
+        (n: v:
+          let path = "${toString dir}/${n}"; in
+          if v == "directory" && pathExists "${path}/default.nix"
+          then nameValuePair n (fn path)
+          else if v == "regular" &&
+                  n != "default.nix" &&
+                  n != "flake.nix" &&
+                  hasSuffix ".nix" n
+          then nameValuePair (removeSuffix ".nix" n) (fn path)
+          else nameValuePair "" null)
+        (readDir dir)
+      );
+
 }
