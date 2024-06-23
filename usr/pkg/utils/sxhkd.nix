@@ -37,6 +37,25 @@ in {
       # clip password
       "super + r ; p" = ''passmenu'';
 
+      "super + r ; t" = ''rofi-theme-selector'';
+      "super + r ; rp" = ''rofi-pass'';
+      "super + r ; s" = ''rofi -show ssh'';
+
+      "super + r ; {c,a,d,e,v,t,m,o,s,p,f,u,w}" = ''rofi {-show calc -modi calc -no-show-match -no-sort,,,,,-show top -modi top,,,,,-show filebrowser,,-show window}'';
+      #TODO: implement these
+      #rofi-calc
+      #rofi-mpd
+      #rofi-systemd
+      #rofimoji
+      #rofi-vpn
+      #rofi-top
+      #rofi-menugen
+      #rofi-obsidian
+      #rofi-screenshot
+      #rofi-power-menu
+      #rofi-file-browser (extended)
+      #rofi-pulse-select
+
       # nixOS
       "super + n ; {s,h}" = ''{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}'';
 
