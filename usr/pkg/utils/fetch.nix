@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.utils.fetch;
 in {
@@ -9,11 +9,12 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      owofetch
       fastfetch
+    ] ++ (if usr.extraBloat then [
+      owofetch
       onefetch
       bunnyfetch
       ghfetch
-    ];
+    ] else []);
   };
 }

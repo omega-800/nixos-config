@@ -1,4 +1,4 @@
-{ sys, lib, config, pkgs, ... }: 
+{ usr, sys, lib, config, pkgs, ... }: 
 with lib;
 let 
   cfg = config.u.media;
@@ -10,16 +10,16 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      pipewire
-      pavucontrol
       bluez
       bluez-tools
+      (nixGL mpv)
+    ] ++ (if usr.extraBloat then [
+      (nixGL ani-cli)
       ffmpeg
       imagemagick
       zathura
-      (nixGL mpv)
-      (nixGL ani-cli)
-    ];
+      pavucontrol
+    ] else []);
     home.file.".profile".text = "[ ! -s ~/.config/mpd/pid ] && mpd";
   };
 }

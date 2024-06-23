@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.dev;
 in {
@@ -13,20 +13,21 @@ in {
     ];
     home.packages = with pkgs; [
       # development
-      qemu
-      virt-manager
       gnumake
-      vscode
       qmk
       jq
+    ] ++ (if usr.extraBloat then [
+      qemu
+      virt-manager
       ncurses
-      # ciscoPacketTracer8
-      # put this in a nix-shell
+      ciscoPacketTracer8
+      vscode
+      # TODO: put this in a nix-shell
       # nvm
       # npm
       # node
       # ansible-core
       # python3
-    ];
+    ] else []);
   };
 }

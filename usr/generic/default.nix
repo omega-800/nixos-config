@@ -6,7 +6,7 @@ with lib;
       executable = true;
       text = "${genericLinuxSystemInstaller}${config.programs.bash.bashrcExtra}";
     };
-    home.packages =
+    home.packages = mkIf usr.extraBloat (
       (with pkgs; [
         brotli
         cairo
@@ -37,6 +37,6 @@ with lib;
         setxkbmap
         encodings
         xf86videointel
-      ]) else []);
+      ]) else []));
   };
 }

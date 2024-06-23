@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let 
   cfg = config.u.user;
@@ -14,9 +14,10 @@ in {
       tree-sitter
       feh
       maim
+    ] ++ (if usr.extraBloat then [
       fortune 
       cowsay 
       lolcat
-    ];
+    ] else []);
   };
 }

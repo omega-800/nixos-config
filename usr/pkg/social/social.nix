@@ -12,7 +12,8 @@ in {
     ];
     home.packages = with pkgs; [
       aerc
+    ] ++ (if usr.extraBloat && usr.profile == "pers" then [
       discord
-    ];
+    ] else []);
   };
 }

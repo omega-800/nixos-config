@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.utils;
 in {
@@ -8,32 +8,33 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      vulnix
       iproute2
       iputils
       curl
       wget
       gzip
-      xz
       unzip
       which
-      cloc
-      gnused
-      ripgrep
       less
       bc
       stow
-      xdg-ninja
       xclip
       xbindkeys
       htop-vim
+      brightnessctl
+      bind
+    ] ++ (if usr.extraBloat then [
+      vulnix
+      thefuck
       flameshot
       screenkey
-      lynis
-      brightnessctl
-      thefuck
-      bind
+      ripgrep
+      xz
+      cloc
+      gnused
+      xdg-ninja
       translate-shell
-    ];
+      lynis
+    ] else []);
   };
 }

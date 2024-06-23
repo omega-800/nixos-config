@@ -82,6 +82,10 @@ with lib;
 					type = types.str;
 					default = "/home/${config.c.usr.username}";
 				};
+        extraBloat = mkOption {
+					type = types.bool;
+					default = false;
+				};
         devName = mkOption {
 					type = types.str;
 					default = "omega-800";

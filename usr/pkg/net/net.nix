@@ -1,4 +1,4 @@
-{ sys, lib, config, pkgs, ... }: 
+{ sys, usr, lib, config, pkgs, ... }: 
 with lib;
 let 
   cfg = config.u.net;
@@ -10,11 +10,12 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      rtorrent
-      (nixGL tor)
       (nixGL brave)
-      wireguard-tools
       (nixGL qutebrowser)
-    ];
+    ] ++ if usr.extraBloat then [
+      (nixGL tor)
+      rtorrent
+      wireguard-tools
+    ] else [];
   };
 }

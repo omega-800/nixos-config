@@ -1,4 +1,4 @@
-{ ... }: {
+{
   config.c = {
     sys = {
       hostname = "archie";
@@ -7,9 +7,8 @@
       genericLinux = true;
     };
     usr = {
-      devName = "omega-800";
-      devEmail = "gshevoroshkin@gmail.com";
       wm = "dwm";
+      extraBloat = false;
     };
   };
 }

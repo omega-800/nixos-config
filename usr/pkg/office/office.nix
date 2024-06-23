@@ -1,5 +1,5 @@
-{ lib, config, pkgs, home, ... }: 
-with lib;
+{ usr, lib, config, pkgs, home, ... }: 
+with lusr, ib;
 let cfg = config.u.office;
 in {
   options.u.office = {
@@ -14,12 +14,14 @@ in {
       drawio
       libreoffice
       gimp
-      gpick
-      skanpage
-      valentina
+    ] ++ (if usr.extraBloat then [
       obsidian
-      homebank
+      skanpage
+      gpick
+    ] else []) ++ (if usr.extraBloat && usr.profile == "pers" then [
       cointop
-    ];
+      valentina
+      homebank
+    ] else []);
   };
 }

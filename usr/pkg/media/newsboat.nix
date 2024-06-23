@@ -1,9 +1,9 @@
-{ lib, config, ... }: 
+{ usr, lib, config, ... }: 
 with lib;
 let 
 cfg = config.u.media;
 in {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && usr.extraBloat) {
     programs.newsboat = {
       enable = true;
       autoReload = true;

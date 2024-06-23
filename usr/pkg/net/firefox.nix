@@ -35,15 +35,16 @@
             multi-account-containers
             youtube-shorts-block
         ] ++ (with pkgs.nur.repos.rycee.firefox-addons; [
-            anchors-reveal
             cookie-autodelete
-            decentraleyes
             i-dont-care-about-cookies
-            link-cleaner
             privacy-badger
+          ] ++ if usr.extraBloat then with pkgs.nur.repos.rycee.firefox-addons; [
+            link-cleaner
+            decentraleyes
+            anchors-reveal
             reddit-enhancement-suite
             tree-style-tab
-          ]);
+          ] else []);
 
         search.engines = {
           "Nix Packages" = {
