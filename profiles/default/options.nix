@@ -9,7 +9,7 @@ with lib;
 				}; # hostname
         profile = mkOption {
 					type = types.str;
-					default = "personal";
+					default = "pers";
 				}; # select a profile defined from my profiles directory
         system = mkOption {
 					type = types.str;
@@ -60,7 +60,6 @@ with lib;
 					type = types.package;
 					default = pkgs.tamzen;
 				}; # Console font package
-
         hardened = mkOption {
 					type = types.bool;
 					default = true;
@@ -111,11 +110,7 @@ with lib;
         browser = mkOption {
 					type = types.str;
 					default = "qutebrowser";
-				}; # Default browser: must select one from ./user/app/browser/
-        defaultRoamDir = mkOption {
-					type = types.str;
-					default = "Personal.p";
-				}; # Default org roam directory relative to ~/Org
+				};
         term = mkOption {
 					type = types.str;
 					default = "alacritty";
@@ -135,7 +130,7 @@ with lib;
         shell = mkOption {
 					type = types.package;
 					default = pkgs.bash;
-				}; # hostname
+				};
     };
   };
 }
