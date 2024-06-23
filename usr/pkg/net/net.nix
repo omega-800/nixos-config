@@ -12,10 +12,10 @@ in {
     home.packages = with pkgs; [
       (nixGL brave)
       (nixGL qutebrowser)
-    ] ++ if usr.extraBloat then [
+    ] ++ (if usr.extraBloat then [
       (nixGL tor)
       rtorrent
       wireguard-tools
-    ] else [];
+    ] else []);
   };
 }

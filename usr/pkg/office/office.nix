@@ -1,5 +1,5 @@
 { usr, lib, config, pkgs, home, ... }: 
-with lusr, ib;
+with lib;
 let cfg = config.u.office;
 in {
   options.u.office = {

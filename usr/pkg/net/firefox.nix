@@ -38,13 +38,13 @@
             cookie-autodelete
             i-dont-care-about-cookies
             privacy-badger
-          ] ++ if usr.extraBloat then with pkgs.nur.repos.rycee.firefox-addons; [
+          ] ++ (if usr.extraBloat then with pkgs.nur.repos.rycee.firefox-addons; [
             link-cleaner
             decentraleyes
             anchors-reveal
             reddit-enhancement-suite
             tree-style-tab
-          ] else []);
+          ] else []));
 
         search.engines = {
           "Nix Packages" = {

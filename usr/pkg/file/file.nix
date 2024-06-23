@@ -15,13 +15,13 @@ in {
       eza
       gzip
       ueberzug
-    ] ++ if usr.extraBloat then [
+    ] ++ (if usr.extraBloat then [
       udiskie
       udisks
       sshfs
       syncthing
       xz
       trash-cli
-    ] else [];
+    ] else []);
   };
 }
