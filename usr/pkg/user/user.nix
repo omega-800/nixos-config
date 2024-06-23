@@ -12,7 +12,6 @@ in {
       #starship
       pass
       tree-sitter
-      rofi
       feh
       maim
       fortune 

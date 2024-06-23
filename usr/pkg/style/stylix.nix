@@ -53,7 +53,7 @@ in
         kde.enable = true;
         kitty.enable = true;
         gtk.enable = true;
-        rofi.enable = (usr.wmType == "x11");
+        #rofi.enable = (usr.wmType == "x11");
         feh.enable = (usr.wmType == "x11");
         nixvim.enable = true;
         vim.enable = true;
@@ -61,7 +61,7 @@ in
         waybar.enable = true;
         wezterm.enable = true;
         xresources.enable = (usr.wmType == "x11");
-        dunst.enable = true;
+        #dunst.enable = true;
         fzf.enable = true;
         hyprland.enable = true;
         qutebrowser.enable = true;

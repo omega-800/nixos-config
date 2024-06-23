@@ -6,6 +6,7 @@ in {
     ./utils.nix
     ./sxhkd.nix
     ./dunst.nix
+    ./rofi.nix
     ./fzf.nix
     ./fetch.nix
   ] ++ (if usr.wmType == "x11" then [ ./sxhkd.nix ] else [ ]);

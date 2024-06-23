@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ lib, config, pkgs, usr, ... }: 
 with lib;
 let 
   cfg = config.u.media;
@@ -25,7 +25,8 @@ in {
     };
     services.mpd = {
       enable = true;
-      startWhenNeeded = true;
+      musicDirectory = "${usr.homeDir}/music";
+      network.startWhenNeeded = true;
     };
   };
 }

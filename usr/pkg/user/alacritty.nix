@@ -12,7 +12,7 @@ in {
         live_config_reload = true;
         selection.save_to_clipboard = true;
         window = {
-          opacity = 0.8;
+          opacity = 0.85;
           padding = {
             y = 8;
             x = 8;
