@@ -9,6 +9,7 @@ in {
     ./rofi.nix
     ./fzf.nix
     ./fetch.nix
+    ./clipmenu.nix
   ] ++ (if usr.wmType == "x11" then [ ./sxhkd.nix ] else [ ]);
   home.packages = lib.mkIf (usr.wmType == "wayland") [
     swhkd

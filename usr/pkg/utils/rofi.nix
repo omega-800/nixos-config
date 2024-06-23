@@ -11,7 +11,23 @@
       enable = true;
       stores = [ "~/.password-store" ];
     };
+    plugins = with pkgs; [
+      rofi-calc
+      rofi-mpd
+      rofi-systemd
+    ] ++ (if usr.extraBloat then with pkgs; [
+      rofimoji
+      rofi-vpn
+      rofi-top
+      rofi-menugen
+      rofi-obsidian
+      rofi-screenshot
+      rofi-power-menu
+      rofi-file-browser
+      rofi-pulse-select
+    ] else []);
     terminal = "${pkgs.alacritty}/bin/alacritty";
+
     /*
     theme = ''
 * {

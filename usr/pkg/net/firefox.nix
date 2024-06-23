@@ -27,13 +27,14 @@
       };
       profiles.${usr.username} = {
         extensions = with inputs.firefox-addons.packages.${sys.system}; [
-            bitwarden
             ublock-origin
             sponsorblock
             darkreader
             vimium
             multi-account-containers
             youtube-shorts-block
+            passff
+            #bitwarden
         ] ++ (with pkgs.nur.repos.rycee.firefox-addons; [
             cookie-autodelete
             i-dont-care-about-cookies

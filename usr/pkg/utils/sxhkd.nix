@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }: 
+{ sys, usr, lib, config, pkgs, ... }: 
 with lib;
 let
   volumeScript = "${pkgs.writeScript "volume_control" (builtins.readFile ./scripts/volume.sh)}"; 
@@ -33,6 +33,12 @@ in {
 
       # generate password
       "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
+
+      # clip password
+      "super + r ; p" = ''passmenu'';
+
+      # nixOS
+      "super + n ; {s,h}" = ''{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}'';
 
       # open
       "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,firefox,discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
