@@ -14,7 +14,8 @@ in {
     file.".xinitrc".text = ''
 ${config.u.x11.initExtra}
 ${dwm_stats} &
-exec dbus-launch dwm
+#exec dbus-launch dwm
+exec dwm
     '';
     #activation.copyMyFiles = config.lib.dag.entryAfter ["writeBoundary"] ''
     /*file.".Xresources".text = ''

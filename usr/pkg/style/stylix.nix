@@ -81,7 +81,7 @@ in
         waybar.enable = true;
         wezterm.enable = true;
         xresources.enable = (usr.wmType == "x11");
-        #dunst.enable = true;
+        dunst.enable = true;
         fzf.enable = true;
         hyprland.enable = true;
         qutebrowser.enable = true;

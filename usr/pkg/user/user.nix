@@ -18,6 +18,8 @@ in {
       fortune 
       cowsay 
       lolcat
+      #slic3r
+#cura
     ] else []);
   };
 }

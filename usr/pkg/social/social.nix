@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, home, ... }: 
+{ sys, usr, lib, config, pkgs, home, ... }: 
 with lib;
 let cfg = config.u.social;
 in {
@@ -12,7 +12,7 @@ in {
     ];
     home.packages = with pkgs; [
       aerc
-    ] ++ (if usr.extraBloat && usr.profile == "pers" then [
+    ] ++ (if usr.extraBloat && sys.profile == "pers" then [
       discord
     ] else []);
   };

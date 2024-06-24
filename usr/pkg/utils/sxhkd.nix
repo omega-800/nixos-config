@@ -35,13 +35,13 @@ in {
       "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
 
       # clip password
-      "super + r ; p" = ''passmenu'';
+      "super + r ; rp" = ''passmenu'';
 
       "super + r ; t" = ''rofi-theme-selector'';
-      "super + r ; rp" = ''rofi-pass'';
+      "super + r ; p" = ''rofi-pass'';
       "super + r ; s" = ''rofi -show ssh'';
 
-      "super + r ; {c,a,d,e,v,t,m,o,s,p,f,u,w}" = ''rofi {-show calc -modi calc -no-show-match -no-sort,,,,,-show top -modi top,,,,,-show filebrowser,,-show window}'';
+      "super + r ; {c,a,d,e,v,x,m,o,s,p,f,u,w}" = ''rofi {-show calc -modi calc -no-show-match -no-sort,,,,,-show top -modi top,,,,,-show filebrowser,,-show window}'';
       #TODO: implement these
       #rofi-calc
       #rofi-mpd

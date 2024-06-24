@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, home, ... }: 
+{ sys, usr, lib, config, pkgs, home, ... }: 
 with lib;
 let cfg = config.u.office;
 in {
@@ -18,7 +18,7 @@ in {
       obsidian
       skanpage
       gpick
-    ] else []) ++ (if usr.extraBloat && usr.profile == "pers" then [
+    ] else []) ++ (if usr.extraBloat && sys.profile == "pers" then [
       cointop
       valentina
       homebank

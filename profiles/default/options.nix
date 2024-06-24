@@ -22,7 +22,7 @@ with lib;
         # host
         authorizedSshKeys = mkOption {
 					type = types.listOf types.str;
-					default = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBVYpXJvGwWCWy+sv+LQAERdI9pUfC+iTIag1gsQgx2 omega@archie" ];
+					default = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBG4vyC8dYQEEv7JUeWmHqeKNBrB/GmV4sXED4dkhT2u omega@archie" ];
 				};
         extraGrubEntries = mkOption {
 					type = types.str;

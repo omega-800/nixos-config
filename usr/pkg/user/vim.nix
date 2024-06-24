@@ -6,9 +6,26 @@ with lib; {
     programs = {
       nixvim = {
         enable = true;
+        withNodeJs = true;
         globals.mapleader = " ";
         extraConfigVim = builtins.readFile ./.vimrc;
         keymaps = [
+        {
+          mode = "n";
+          key = "<leader>co";
+          action = "<cmd>TSToolsOrganizeImports<cr>";
+          options = {
+            desc = "Organize Imports";
+          };
+        }
+        {
+          mode = "n";
+          key = "<leader>cR";
+          action = "<cmd>TSToolsRemoveUnusedImports<cr>";
+          options = {
+            desc = "Remove Unused Imports";
+          };
+        }
           # Global
           # Default mode is "" which means normal-visual-op
           {
@@ -164,6 +181,22 @@ with lib; {
               bashls.enable = true;
               clangd.enable = true;
               nixd.enable = true;
+              volar.enable = true;
+              cssls.enable = true;
+              #tailwindcss.enable = true;
+              eslint.enable = true;
+              graphql.enable = true;
+              html.enable = true;
+              jsonls.enable = true;
+              tsserver.enable = true;
+              vuels.enable = true;
+              yamlls.enable = true;
+              typos-lsp.enable = true;
+              lua-ls.enable = true;
+              #htmx.enable = true;
+              #java-language-server.enable = true;
+              dockerls.enable = true;
+              docker-compose-language-service.enable = true;
             };
             keymaps.lspBuf = {
               "gd" = "definition";
@@ -234,6 +267,32 @@ with lib; {
           nvim-autopairs.enable = true;
           bufferline.enable = true;
           nvim-colorizer.enable = true;
+          typescript-tools = {
+            enable = true;
+            onAttach = ''
+              function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentRangeFormattingProvider = false
+
+              if vim.lsp.inlay_hint then
+                vim.lsp.inlay_hint(bufnr, true)
+                  end
+                  end
+                  '';
+            settings = {
+              tsserverFilePreferences = {
+# Inlay Hints
+                includeInlayParameterNameHints = "all";
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true;
+                includeInlayFunctionParameterTypeHints = true;
+                includeInlayVariableTypeHints = true;
+                includeInlayVariableTypeHintsWhenTypeMatchesName = true;
+                includeInlayPropertyDeclarationTypeHints = true;
+                includeInlayFunctionLikeReturnTypeHints = true;
+                includeInlayEnumMemberValueHints = true;
+              };
+            };
+          };
           which-key = {
             enable = true;
             ignoreMissing = false;

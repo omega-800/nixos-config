@@ -45,7 +45,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "%I %a\n<b>%s</b>\n%b\n%p"
+    format = "%a\n<b>%s</b>\n%b\n%p"
     alignment = left
     vertical_alignment = center
     show_age_threshold = 60

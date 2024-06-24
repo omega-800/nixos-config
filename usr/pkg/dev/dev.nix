@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }: 
+{ sys, usr, lib, config, pkgs, ... }: 
 with lib;
 let cfg = config.u.dev;
 in {
@@ -20,7 +20,6 @@ in {
       qemu
       virt-manager
       ncurses
-      ciscoPacketTracer8
       vscode
       # TODO: put this in a nix-shell
       # nvm
@@ -28,6 +27,8 @@ in {
       # node
       # ansible-core
       # python3
-    ] else []);
+    ] else []) ++ (if usr.extraBloat && sys.profile == "pers" then [
+      ciscoPacketTracer8
+    ] else []) ;
   };
 }
