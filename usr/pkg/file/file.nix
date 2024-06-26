@@ -16,6 +16,7 @@ in {
       gzip
       ueberzug
     ] ++ (if usr.extraBloat then [
+      xfce.thunar
       udiskie
       udisks
       sshfs

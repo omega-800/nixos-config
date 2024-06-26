@@ -78,19 +78,21 @@ set-window-option -g window-status-format "\
 #[fg="#${base0E}",bg="#${base03}"] #I \
 #[fg="#${base0E}", bg="#${base03}"] #W \
 #[fg="#${base03}", bg="#${base01}"]"
-
-set -g status-right-length 80
+set -g status-right-length 120
 set-option -g status-right "\
 #[fg="#${base02}", bg="#${base01}"]\
-#[fg="#${base0B}", bg="#${base02}"] #h #(ip a | grep -e 'state UP' -A 2 | awk '/inet /{printf $2}')\
-#[fg="#${base08}", bg="#${base02}"]  #(ip a | grep -E 'wg0|ppp0|tun0' -A 2 | awk '/inet /{printf $2}' | grep '\.' || echo 'no vpn')\
-#[fg="#${base0A}", bg="#${base02}"]  #(curl ifconfig.me)\
+#[fg="#${base08}", bg="#${base02}"] #h\
+#[fg="#${base09}", bg="#${base02}"]  [E]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'e.*:.*state UP' -A 2 | awk '/inet /{printf $2}')\
+#[fg="#${base0A}", bg="#${base02}"]  [W]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'wlp.*state UP' -A 2 | awk '/inet /{printf $2}')\
+#[fg="#${base0B}", bg="#${base02}"]  [I]#(curl ifconfig.me)\
+#[fg="#${base0C}", bg="#${base02}"]  [V]#(ip a | grep -E 'wg0|ppp0|tun0' -A 2 | awk '/inet /{printf $2}' | grep '\.' || echo 'none')\
 #[fg="#${base01}", bg="#${base02}"] \
 #[fg="#${base02}", bg="#${base01}"] \
 #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\
-#[fg="#${base0F}", bg="#${base02}"]  %H:%M \
+#[fg="#${base0E}", bg="#${base02}"]  %H:%M \
 #[fg="#${base0D}", bg="#${base06}"]" 
         '';
+#ip a | grep -vE '(veth|br-|docker)' | grep -e 'state UP' -A 2 | grep -Po '(?<=inet)[^/]*'
       };
     };
 }

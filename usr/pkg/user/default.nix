@@ -1,8 +1,9 @@
 { ... }: {
   imports = [
     ./user.nix
-    ./vim.nix
     ./tmux.nix
     ./alacritty.nix
+    ./vim.nix
+    ./nixvim
   ];
 }

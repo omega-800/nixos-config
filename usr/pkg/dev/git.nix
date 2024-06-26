@@ -12,10 +12,12 @@ in {
       userName = usr.devName;
       userEmail = usr.devEmail;
       aliases = {
-        ci = "commit";
+        ci = "commit -m";
         co = "checkout";
         s = "status";
         p = "pull";
+        ps = "push";
+        alias = "config --get-regexp ^alias";
       };
       extraConfig = {
         init.defaultBranch = "main";

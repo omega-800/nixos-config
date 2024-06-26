@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 downloads_dir="/home/omega/Downloads/"
 shops_dir="/home/omega/documents/Shops/"

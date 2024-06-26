@@ -1,9 +1,21 @@
 { config, lib, usr, pkgs, ... }: with lib; {
+  home.file.".config/networkmanager-dmenu/config.ini".text = lib.readFile ./networkmanager-dmenu.config.ini;
+  home.packages = with pkgs; [
+      rofi-mpd
+      rofi-systemd
+      rofi-bluetooth
+      networkmanager_dmenu
+    ] ++ (if usr.extraBloat then with pkgs; [
+      rofi-vpn
+      rofi-screenshot
+      rofi-power-menu
+      rofi-pulse-select
+    ] else []);
   programs.rofi = mkIf config.u.utils.enable {
     enable = true;
     cycle = false;
     extraConfig = {
-      modi = "drun,ssh,window,run";
+      modi = "drun,run,ssh,window,windowcd,combi,keys,filebrowser,calc" + (if usr.extraBloat then ",emoji,top,file-browser-extended" else "");
     };
     font = "${usr.font} 12";
     location = "center";
@@ -13,18 +25,10 @@
     };
     plugins = with pkgs; [
       rofi-calc
-      rofi-mpd
-      rofi-systemd
     ] ++ (if usr.extraBloat then with pkgs; [
-      rofimoji
-      rofi-vpn
+      rofi-emoji
       rofi-top
-      rofi-menugen
-      rofi-obsidian
-      rofi-screenshot
-      rofi-power-menu
       rofi-file-browser
-      rofi-pulse-select
     ] else []);
     terminal = "${pkgs.alacritty}/bin/alacritty";
 

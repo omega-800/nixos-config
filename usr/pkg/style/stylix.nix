@@ -8,9 +8,18 @@ in
   {
     imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [];
     config = lib.mkIf usr.style {
+      fonts.fontconfig.enable = true;
+      home.packages = with pkgs; [
+
+      (nerdfonts.override { fonts = [ "CascadiaCode" "CodeNewRoman" "FantasqueSansMono" "Iosevka" "ShareTechMono" "Hermit" "JetBrainsMono" "FiraCode" "FiraMono" "Hack" "Hasklig" "Ubuntu" "UbuntuMono" ]; })
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      noto-fonts-monochrome-emoji
+      ];
     home.file = {
       ".currenttheme".text = usr.theme;
-      ".currentcolors".text = ''
+      ".currentcolors.conf".text = ''
         base00 = #${config.lib.stylix.colors.base00}
         base01 = #${config.lib.stylix.colors.base01}
         base02 = #${config.lib.stylix.colors.base02}
@@ -73,7 +82,7 @@ in
         kde.enable = true;
         kitty.enable = true;
         gtk.enable = true;
-        #rofi.enable = (usr.wmType == "x11");
+        rofi.enable = (usr.wmType == "x11");
         feh.enable = (usr.wmType == "x11");
         nixvim.enable = true;
         vim.enable = true;

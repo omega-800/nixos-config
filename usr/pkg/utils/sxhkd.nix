@@ -2,6 +2,13 @@
 with lib;
 let
   volumeScript = "${pkgs.writeScript "volume_control" (builtins.readFile ./scripts/volume.sh)}"; 
+  kaomojiScript = "${pkgs.writeShellScript "kaomoji" ''
+db="${./scripts/kaomoji.txt}"
+selection=$(rofi -i -dmenu $@ < "$db")
+kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
+echo -n "$kaomoji" | xclip -selection clipboard
+  ''}"; 
+  bluetoothScript = "${pkgs.writeScript "rofi_bluetooth" (builtins.readFile ./scripts/rofi-bluetooth.sh)}"; 
   backlightScript = "${pkgs.writeScript "brightness_control" (builtins.readFile ./scripts/backlight.sh)}"; 
   screensScript = "${pkgs.writeScript "screens_control" (builtins.readFile ./scripts/home.sh)}";
   sxhkdHelperScript = "${pkgs.writeScript "sxhkd_helper" (builtins.readFile ./scripts/sxhkd_helper.sh)}";
@@ -9,10 +16,16 @@ let
 in {
   services.sxhkd = mkIf cfg.enable {
     enable = true;
-    keybindings = {
+    keybindings = let 
+      r = {
+        calc = "calc -modi calc -no-show-match -no-sort";
+        top = "top -modi top";
+        power = "p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
+      };
+    in {
       "super + y" = "${pkgs.screenkey}/bin/screenkey &";
       "super + alt + y" = "pkill -f screenkey";
-      "super + shift + r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
+      "super + shift + r" = "pkill -f sxhkd; sxhkd &; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
       "super + shift + h" = sxhkdHelperScript;
       "super + shift + s" = "flameshot gui";
       "super + ctrl + shift + s" = "maim ${usr.homeDir}/documents/img/screenshots/$(date +%s).png";
@@ -35,26 +48,11 @@ in {
       "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
 
       # clip password
-      "super + r ; rp" = ''passmenu'';
-
-      "super + r ; t" = ''rofi-theme-selector'';
-      "super + r ; p" = ''rofi-pass'';
-      "super + r ; s" = ''rofi -show ssh'';
-
-      "super + r ; {c,a,d,e,v,x,m,o,s,p,f,u,w}" = ''rofi {-show calc -modi calc -no-show-match -no-sort,,,,,-show top -modi top,,,,,-show filebrowser,,-show window}'';
-      #TODO: implement these
-      #rofi-calc
-      #rofi-mpd
-      #rofi-systemd
-      #rofimoji
-      #rofi-vpn
-      #rofi-top
-      #rofi-menugen
-      #rofi-obsidian
-      #rofi-screenshot
-      #rofi-power-menu
-      #rofi-file-browser (extended)
-      #rofi-pulse-select
+      "super + r ; y" = ''passmenu'';
+      "super + r ; k" = kaomojiScript;
+      "super + r ; {t,p,o,s}" = ''rofi-{theme-selector,pass,obsidian,screenshot'';
+      "super + r ; {c,e,f,w}" = ''rofi -show {${r.calc},emoji,${if usr.extraBloat then "file-browser-extended" else "filebrowser"},window}'';
+      "super + r ; h ; {d}" = ''echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -dmenu'';
 
       # nixOS
       "super + n ; {s,h}" = ''{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}'';
@@ -64,15 +62,22 @@ in {
 
       # audio
       "super + a ; {j,k,l,h,p,s,r}" = "mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}";
+      "super + a ; p ; {o,i}" = "rofi-pulse-select {sink,source}";
+      "super + a ; m" = "rofi-mpd";
       "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
       "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
       "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
 
       # system
-      "super + s ; b " = "bluetooth toggle";
+      #"super + s ; b " = "bluetooth toggle";
+      #"super + s ; b " = bluetoothScript;
+      "super + s ; {b,v,d}" = "rofi-{bluetooth,vpn,systemd}";
+      "super + s ; n" = "networkmanager_dmenu";
+      "super + s ; {t,h}" = "rofi -show {${r.top},ssh}";
+      "super + s ; p" = "rofi -show p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
       "{super + s ; s : d,XF86MonBrightnessDown}" = "${backlightScript} lower";
       "{super + s ; s : i,XF86MonBrightnessUp}" = "${backlightScript} raise";
-      "{super + s ; s : s,XF86Display}" = "${screensScript}";
+      "{super + s ; s : r,XF86Display}" = "${screensScript}";
       "{super + x,XF86PowerOff}" = "slock";
       "super + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       # switch kb layout

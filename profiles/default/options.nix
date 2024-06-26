@@ -121,7 +121,7 @@ with lib;
 				}; # Default terminal command
         font = mkOption {
 					type = types.str;
-					default = "JetBrainsMono";
+					default = "JetBrainsMono Nerd Font Mono";
 				}; # select font
         fontPkg = mkOption {
 					type = types.package;

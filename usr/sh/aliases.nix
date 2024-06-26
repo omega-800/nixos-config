@@ -4,6 +4,7 @@
     hms = ''home-manager switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace'';
     nrs = ''sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace'';
     ssh = ''TERM=xterm-256color ssh'';
+    rg = ''rg --hidden'';
     vf = ''vim $(__fzf_select__)'';
     gst = ''git status'';
     gp = ''git fetch && git pull'';

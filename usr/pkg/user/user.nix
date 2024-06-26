@@ -19,7 +19,7 @@ in {
       cowsay 
       lolcat
       #slic3r
-#cura
+      cura
     ] else []);
   };
 }
