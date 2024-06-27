@@ -1,139 +1,179 @@
 {
+  imports = [ 
+  ./keymaps.nix 
+#./firenvim.nix 
+  ];
   programs.nixvim = {
-    keymaps =
-      let
-        forceWrite = {
-          action = "<cmd>silent! update! | redraw<cr>";
-          options.desc = "Force write";
+    keymaps = [
+      # harpoon
+      {
+        mode = "n";
+        key = "<leader>h";
+        action = "+harpoon";
+      }
+      # undo
+      {
+        mode = "n";
+        key = "<leader>u";
+        action = "+undo";
+      }
+      {
+        # Escape terminal mode using ESC
+        mode = "t";
+        key = "<esc>";
+        action = "<C-\\><C-n>";
+        options.desc = "Escape terminal mode";
+      }
+      # npm
+      {
+        mode = "n";
+        key = "<leader>j";
+        action = "+js";
+      }
+      {
+        mode = "n";
+        key = "<leader>jb";
+        action = "<CMD>!npm run build<CR>";
+        options.desc = "Build npm project";
+      }
+      {
+        mode = "n";
+        key = "<leader>ut";
+        action = "<cmd>UndotreeToggle<CR>";
+        options = {
+          silent = true;
+          desc = "Undotree";
         };
-      in
-      [
-        # Default
-        {
-          mode = "n";
-          key = "<leader>w";
-          action = "<cmd>w<cr>";
-          options.desc = "Save";
-        }
-        {
-          mode = "n";
-          key = "<leader>q";
-          action = "<cmd>confirm q<cr>";
-          options.desc = "Quit window";
-        }
-        {
-          mode = "n";
-          key = "<leader>Q";
-          action = "<cmd>confirm qall<cr>";
-          options.desc = "Exit neovim";
-        }
-        {
-          mode = "n";
-          key = "<leader>n";
-          action = "<cmd>enew<cr>";
-          options.desc = "New file";
-        }
-        {
-          inherit (forceWrite) action options;
-          mode = "n";
-          key = "<c-s>";
-        }
-        {
-          inherit (forceWrite) options;
-          mode = [ "i" "x" ];
-          key = "<c-s>";
-          action = "<esc>" + forceWrite.action;
-        }
-        {
-          mode = "n";
-          key = "<c-q>";
-          action = "<cmd>q!<cr>";
-          options.desc = "Force quit";
-        }
-        {
-          mode = "v";
-          key = "<S-Tab>";
-          action = "<gv";
-          options.desc = "Unindent line";
-        }
-        {
-          mode = "v";
-          key = "<Tab>";
-          action = ">gv";
-          options.desc = "Indent line";
-        }
-        # Windows
-        {
-          mode = "n";
-          key = "<C-Up>";
-          action = "<Cmd>resize -2<CR>";
-          options.desc = "Resize split up";
-        }
-        {
-          mode = "n";
-          key = "<C-Down>";
-          action = "<Cmd>resize +2<CR>";
-          options.desc = "Resize split down";
-        }
-        {
-          mode = "n";
-          key = "<C-Left>";
-          action = "<Cmd>vertical resize -2<CR>";
-          options.desc = "Resize split left";
-        }
-        {
-          mode = "n";
-          key = "<C-Right>";
-          action = "<Cmd>vertical resize +2<CR>";
-          options.desc = "Resize split right";
-        }
-        # File
-        {
-          mode = "n";
-          key = "<leader>f";
-          action = "+find/file";
-        }
-        # harpoon
-        {
-          mode = "n";
-          key = "<leader>h";
-          action = "+harpoon";
-        }
-        # undo
-        {
-          mode = "n";
-          key = "<leader>u";
-          action = "+undo";
-        }
-        {
-          # Escape terminal mode using ESC
-          mode = "t";
-          key = "<esc>";
-          action = "<C-\\><C-n>";
-          options.desc = "Escape terminal mode";
-        }
-        # npm
-        {
-          mode = "n";
-          key = "<leader>j";
-          action = "+js";
-        }
-        {
-          mode = "n";
-          key = "<leader>jb";
-          action = "<CMD>!npm run build<CR>";
-          options.desc = "Build npm project";
-        }
-        {
-          mode = "n";
-          key = "<leader>ut";
-          action = "<cmd>UndotreeToggle<CR>";
-          options = {
-            silent = true;
-            desc = "Undotree";
-          };
-        }
-      ];
+      }
+      # telescope
+      # file
+      {
+        mode = "n";
+        key = "<leader>f";
+        action = "+find/file";
+      }
+      {
+        mode = "n";
+        key = "<leader>fF";
+        action = "<cmd>Telescope find_files hidden=true<cr>";
+        options.desc = "Find files Hidden Also";
+      }
+      {
+        mode = "n";
+        key = "<leader>go";
+        action = "<cmd>Telescope git_status<cr>";
+        options.desc = "Open changed file";
+      }
+      {
+        mode = "n";
+        key = "<leader>gb";
+        action = "<cmd>Telescope git_branches<cr>";
+        options.desc = "Checkout branch";
+      }
+      {
+        mode = "n";
+        key = "<leader>gc";
+        action = "<cmd>Telescope git_commits<cr>";
+        options.desc = "Checkout commit";
+      }
+
+      {
+        mode = "n";
+        key = "<leader>sd";
+        action = "<cmd>Telescope diagnostics theme=ivy<cr>";
+        options.desc = "Search Diagnostics";
+      }
+      {
+        mode = "n";
+        key = "<leader>sn";
+        action = "<cmd>Telescope notify<cr>";
+        options.desc = "Notifications Search";
+      }
+      {
+        mode = "n";
+        key = "<leader>sk";
+        action = "<cmd>Telescope keymaps theme=dropdown<cr>";
+        options.desc = "Search Keymaps";
+      }
+      {
+        mode = "n";
+        key = "<leader>ss";
+        action = "<cmd>Telescope builtin<cr>";
+        options.desc = "Search Telescope";
+      }
+      {
+        mode = "n";
+        key = "<leader>sg";
+        action = "<cmd>Telescope live_grep<cr>";
+        options.desc = "Search Live Grep";
+      }
+      {
+        mode = "n";
+        key = "<leader>sH";
+        action = "<cmd>Telescope help_tags<cr>";
+        options.desc = "Search Help Tags";
+      }
+      {
+        mode = "n";
+        key = "<leader>sb";
+        action = "<cmd>Telescope buffers<cr>";
+        options.desc = "Search Buffers";
+      }
+      {
+        mode = "n";
+        key = "<leader>sc";
+        action = "<cmd>Telescope commands<cr>";
+        options.desc = "Search Commands";
+      }
+      {
+        mode = "n";
+        key = "<leader>sm";
+        action = "<cmd>Telescope marks<cr>";
+        options.desc = "Search in Media Mode";
+      }
+      {
+        mode = "n";
+        key = "<leader>so";
+        action = "<cmd>Telescope vim_options<cr>";
+        options.desc = "Search Vim Options";
+      }
+      {
+        mode = "n";
+        key = "<leader>sq";
+        action = "<cmd>Telescope quickfix<cr>";
+        options.desc = "Search Quickfix";
+      }
+      {
+        mode = "n";
+        key = "<leader>sl";
+        action = "<cmd>Telescope loclist<cr>";
+        options.desc = "Search Location List";
+      }
+      {
+        mode = "n";
+        key = "<leader>sp";
+        action = "<cmd>Telescope projects<cr>";
+        options.desc = "Search Projects";
+      }
+      {
+        mode = "n";
+        key = "<leader>sP";
+        action = "<cmd>Telescope colorscheme<cr>";
+        options.desc = "Search ColorScheme with previews";
+      }
+      {
+        mode = "n";
+        key = "<leader>su";
+        action = "<cmd>Telescope undo<cr>";
+        options.desc = "Search undo";
+      }
+      {
+        mode = "n";
+        key = "<leader>s/";
+        action = "<cmd>Telescope current_buffer_fuzzy_find<cr>";
+        options.desc = "Fuzzy Buffer Search";
+      }
+    ];
     plugins = {
       telescope = {
         enable = true;
@@ -146,7 +186,20 @@
             options.desc = "Telescope Git Files";
           };
         };
-        extensions.fzf-native.enable = true;
+        extensions = {
+          fzf-native.enable = true;
+          undo.enable = true;
+        };
+        settings = {
+          pickers = { colorscheme.enable_preview = true; };
+          defaults.mappings = {
+            n = {
+              q = { __raw = "require('telescope.actions').close"; };
+              s = { __raw = "require('telescope.actions').select_horizontal"; };
+              v = { __raw = "require('telescope.actions').select_vertical"; };
+            };
+          };
+        };
       };
       harpoon = {
         enable = true;
@@ -169,11 +222,6 @@
           ignoreDoneAlready = true;
           pollRate = 0.5;
         };
-      };
-      nvim-tree = {
-        enable = true;
-        openOnSetupFile = true;
-        autoReloadOnWrite = true;
       };
       undotree = {
         enable = true;

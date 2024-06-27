@@ -1,20 +1,28 @@
 {
   description = "Nixos config flake";
 
-  outputs = { self, nixpkgs, ... }@inputs: 
-    let 
+  outputs = { self, nixpkgs, ... }@inputs:
+    let
       inherit (lib.my) mapHosts mapHomes mapModules;
       #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
       pkgs = nixpkgs;
-      lib = nixpkgs.lib.extend
-        (self: super: { my = import ./lib { inherit inputs pkgs; lib = self; }; });
+      lib = nixpkgs.lib.extend (self: super: {
+        my = import ./lib {
+          inherit inputs pkgs;
+          lib = self;
+        };
+      });
 
       # hacky hack hack for badly written bash scripts
-      bashScriptToNix = n: p: (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ] (builtins.readFile p)));
+      bashScriptToNix = n: p:
+        (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ]
+          [ "#!${pkgs.bash}/bin/bash" ]
+          (builtins.readFile p)));
 
-    in {
-      homeConfigurations = mapHomes ./hosts {};
-      nixosConfigurations = mapHosts ./hosts {};
+    in
+    {
+      homeConfigurations = mapHomes ./hosts { };
+      nixosConfigurations = mapHosts ./hosts { };
       packages = mapModules ./packages import;
     };
 
@@ -33,7 +41,8 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
+    hyprland.url =
+      "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
@@ -49,15 +58,15 @@
     stylix.url = "github:danth/stylix";
     rust-overlay.url = "github:oxalica/rust-overlay";
     nixgl.url = "github:nix-community/nixGL";
-		firefox-addons = {
+    firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:omega-800/nixvim/deb417548131a847dacb2b0d3228ff6677fd8cc3";
+      #inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     disko.url = "github:nix-community/disko";
 
     nur.url = "github:nix-community/NUR";

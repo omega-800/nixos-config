@@ -14,6 +14,7 @@ in {
       (nixGL qutebrowser)
     ] ++ (if usr.extraBloat then [
       (nixGL tor)
+      (nixGL vieb)
       rtorrent
       wireguard-tools
     ] else []);
