@@ -32,8 +32,7 @@
           marksman.enable = true;
           typos-lsp.enable = true;
           nixd.enable = true;
-	  #???
-          #bashls.enable = true;
+          bashls.enable = true;
 
           eslint.enable = true;
           #tsserver.enable = true;
