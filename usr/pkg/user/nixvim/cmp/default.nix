@@ -8,6 +8,12 @@
       cmp-path = { enable = true; };
       cmp_luasnip = { enable = true; };
       cmp-cmdline = { enable = false; }; # autocomplete for cmdline
+      /* schemastore = {
+              enable = true;
+              yaml.enable = true;
+              json.enable = false;
+            };
+      */
 
       cmp = {
         enable = true;

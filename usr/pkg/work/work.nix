@@ -1,17 +1,15 @@
-{ lib, config, pkgs, home, ... }: 
+{ lib, config, pkgs, home, ... }:
 with lib;
 let cfg = config.u.work;
 in {
-  options.u.work = {
-    enable = mkEnableOption "enables work packages";
-  };
- 
+  options.u.work = { enable = mkEnableOption "enables work packages"; };
+
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       teamviewer
       # nable?
       # rdm -> https://devolutions.net/remote-desktop-manager/home/download/
-      eclipses.eclipse-sdk
+      eclipses.eclipse-jee
       subversionClient
       msgviewer # outlook
       # teams-for-linux -> doesn't work

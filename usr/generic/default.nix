@@ -22,6 +22,7 @@ with lib;
         timeshift
         acl
         xterm
+        xdg-utils
       ]) ++ (if true #usr.wmType == "x11" 
       then (with pkgs.xorg; [
         #xorgserver
