@@ -106,36 +106,36 @@
           options.desc = "Select all";
         }
         # moving line
-        {
-          mode = "v";
-          key = "<a-k>";
-          action = ":m '<lt>-2<CR>gv-gv";
-        }
-        {
-          mode = "v";
-          key = "<a-j>";
-          action = ":m '>+1<CR>gv-gv";
-        }
-        {
-          mode = "n";
-          key = "<a-k>";
-          action = "<Cmd>m .-2<CR>==";
-        }
-        {
-          mode = "n";
-          key = "<a-j>";
-          action = "<Cmd>m .+1<CR>==";
-        }
-        {
-          mode = "i";
-          key = "<a-k>";
-          action = "<esc>:m .-2<CR>==gi";
-        }
-        {
-          mode = "i";
-          key = "<a-j>";
-          action = "<esc>:m .+1<CR>==gi";
-        }
+        # {
+        #   mode = "v";
+        #   key = "<M-k>";
+        #   action = ":m '<lt>-2<CR>gv-gv";
+        # }
+        # {
+        #   mode = "v";
+        #   key = "<M-j>";
+        #   action = ":m '>+1<CR>gv-gv";
+        # }
+        # {
+        #   mode = "n";
+        #   key = "<M-k>";
+        #   action = "<Cmd>m .-2<CR>==";
+        # }
+        # {
+        #   mode = "n";
+        #   key = "<M-j>";
+        #   action = "<Cmd>m .+1<CR>==";
+        # }
+        # {
+        #   mode = "i";
+        #   key = "<M-k>";
+        #   action = "<esc>:m .-2<CR>==gi";
+        # }
+        # {
+        #   mode = "i";
+        #   key = "<M-j>";
+        #   action = "<esc>:m .+1<CR>==gi";
+        # }
       ];
     /* extraPlugins = with pkgs.vimUtils;
          [

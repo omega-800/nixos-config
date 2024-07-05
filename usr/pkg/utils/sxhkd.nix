@@ -54,11 +54,9 @@ in {
       "super + r ; {c,e,f,w}" = ''rofi -show {${r.calc},emoji,${if usr.extraBloat then "file-browser-extended" else "filebrowser"},window}'';
       "super + r ; h ; {d}" = ''echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -dmenu'';
 
-      # nixOS
-      "super + n ; {s,h}" = ''{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}'';
-
       # open
-      "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,firefox,discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
+# firefox has to be opened through bash because otherwise the nixGL wrapper doesn't get applied?? /webGL doesn't work if not run through bash. don't ask why because i don't know
+      "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
 
       # audio
       "super + a ; {j,k,l,h,p,s,r}" = "mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}";
@@ -82,6 +80,9 @@ in {
       "super + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       # switch kb layout
       "super + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
+
+      # nixOS
+      "super + s ; r ; {s,h}" = ''{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}'';
     };
   };
 }
