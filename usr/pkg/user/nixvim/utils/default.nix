@@ -176,21 +176,21 @@
       }
     ];
     plugins = {
-      codesnap = {
-        enable = true;
-        settings = {
-          breadcrumbs_separator = "/";
-          has_breadcrumbs = true;
-          has_line_number = true;
-          mac_window_bar = true;
-          show_workspace = true;
-          save_path = "~/documents/img/screenshots/";
-          title = "CodeSnap.nvim";
-          code_font_family = usr.font;
-          watermark_font_family = usr.font;
-          watermark = "";
-        };
-      };
+      # codesnap = {
+      #   enable = true;
+      #   settings = {
+      #     breadcrumbs_separator = "/";
+      #     has_breadcrumbs = true;
+      #     has_line_number = true;
+      #     mac_window_bar = true;
+      #     show_workspace = true;
+      #     save_path = "~/documents/img/screenshots/";
+      #     title = "CodeSnap.nvim";
+      #     code_font_family = usr.font;
+      #     watermark_font_family = usr.font;
+      #     watermark = "";
+      #   };
+      # };
       telescope = {
         enable = true;
         keymaps = {
