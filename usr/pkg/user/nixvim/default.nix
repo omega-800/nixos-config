@@ -16,6 +16,7 @@ in {
     ./cmp
     ./opts
     ./autocmd
+    ./dap
   ];
 
   config = mkIf cfg.enable {
