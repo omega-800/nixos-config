@@ -1,13 +1,23 @@
-{ lib, config, ... }: with lib; {
-  programs.fzf = mkIf config.u.utils.enable {
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    changeDirWidgetCommand = "fd --type d";
-    changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
-    defaultCommand = "fd --type f";
-    fileWidgetCommand = "fd --type f";
-    fileWidgetOptions = [ "--preview 'head {}'" ];
-    tmux.enableShellIntegration = true;
+{ lib, config, ... }:
+with lib;
+let cfg = config.u.utils.fzf;
+in {
+  options.u.utils.fzf.enable = mkOption {
+    type = types.bool;
+    default = config.u.utils.enable;
+  };
+
+  config = mkIf cfg.enable {
+    programs.fzf = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      changeDirWidgetCommand = "fd --type d";
+      changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
+      defaultCommand = "fd --type f";
+      fileWidgetCommand = "fd --type f";
+      fileWidgetOptions = [ "--preview 'head {}'" ];
+      tmux.enableShellIntegration = true;
+    };
   };
 }

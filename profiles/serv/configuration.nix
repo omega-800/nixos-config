@@ -18,6 +18,9 @@
   };
   c = {
     sys.paranoid = true;
-    usr.style = false;
+    usr = {
+      style = false;
+      minimal = true;
+    };
   };
 }

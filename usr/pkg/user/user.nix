@@ -1,25 +1,22 @@
-{ usr, lib, config, pkgs, ... }: 
+{ usr, lib, config, pkgs, ... }:
 with lib;
-let 
-  cfg = config.u.user;
+let cfg = config.u.user;
 in {
-  options.u.user = {
-    enable = mkEnableOption "enables userspace packages";
-  };
- 
+  options.u.user = { enable = mkEnableOption "enables userspace packages"; };
+
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      #starship
-      pass
-      tree-sitter
-      feh
-      maim
-    ] ++ (if usr.extraBloat then [
-      fortune 
-      cowsay 
-      lolcat
-      #slic3r
-      cura
-    ] else []);
+    home.packages = with pkgs;
+      [
+        #starship
+        pass
+      ] ++ (if !usr.minimal then [ tree-sitter feh maim ] else [ ])
+      ++ (if usr.extraBloat then [
+        fortune
+        cowsay
+        lolcat
+        #slic3r
+        cura
+      ] else
+        [ ]);
   };
 }

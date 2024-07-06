@@ -12,20 +12,19 @@ in {
       iputils
       curl
       wget
-      gzip
-      unzip
       which
       less
+      htop-vim
+      ripgrep
+    ] ++ (if !usr.minimal then [
       bc
       stow
       xclip
       xbindkeys
-      htop-vim
       brightnessctl
       bind
       freecad
-      ripgrep
-    ] ++ (if usr.extraBloat then [
+    ] else []) ++ (if usr.extraBloat then [
       vulnix
       thefuck
       flameshot

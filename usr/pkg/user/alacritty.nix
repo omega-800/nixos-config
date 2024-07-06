@@ -1,9 +1,15 @@
-{ lib, config, pkgs, usr, ... }: 
+{ lib, config, pkgs, usr, ... }:
 with lib;
-let 
-  cfg = config.u.user;
+let
   nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
-in {
+  cfg = config.u.user.alacritty;
+in
+{
+  options.u.user.alacritty.enable = mkOption {
+    type = types.bool;
+    default = config.u.user.enable && !usr.minimal;
+  };
+
   config = mkIf cfg.enable {
     programs.alacritty = {
       enable = true;
@@ -17,10 +23,10 @@ in {
             y = 8;
             x = 8;
           };
-#          dimensions = {
-#            lines = 3;
-#            columns = 200;
-#          };
+          #          dimensions = {
+          #            lines = 3;
+          #            columns = 200;
+          #          };
         };
         cursor = {
           unfocused_hollow = true;

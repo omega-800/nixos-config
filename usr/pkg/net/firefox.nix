@@ -1,6 +1,12 @@
 { usr, sys, pkgs, inputs, config, lib, ... }:
-with lib; {
-  config = mkIf (config.u.net.enable) {
+with lib;
+let cfg = config.u.net.firefox;
+in {
+  options.u.net.firefox.enable = mkOption {
+    type = types.bool;
+    default = config.u.net.enable && !usr.minimal;
+  };
+  config = mkIf cfg.enable {
     home.sessionVariables =
       mkIf (usr.wmType == "wayland") { MOZ_ENABLE_WAYLAND = 1; };
     programs.firefox = {

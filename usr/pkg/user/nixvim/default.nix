@@ -1,5 +1,12 @@
 { inputs, config, lib, usr, pkgs, ... }:
-with lib; {
+with lib;
+let cfg = config.u.user.nixvim;
+in {
+  options.u.user.nixvim.enable = mkOption {
+    type = types.bool;
+    default = config.u.user.enable && !usr.minimal;
+  };
+
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
     ./lsp
@@ -10,7 +17,8 @@ with lib; {
     ./opts
     ./autocmd
   ];
-  config = mkIf config.u.user.enable {
+
+  config = mkIf cfg.enable {
     programs.nixvim = {
       enable = true;
       defaultEditor = true;

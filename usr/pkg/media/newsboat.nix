@@ -1,9 +1,13 @@
 { usr, lib, config, ... }: 
 with lib;
-let 
-cfg = config.u.media;
+let cfg = config.u.media.newsboat;
 in {
-  config = mkIf (cfg.enable && usr.extraBloat) {
+  options.u.media.newsboat.enable = mkOption {
+    type = types.bool;
+    default = config.u.media.enable && usr.extraBloat;
+  };
+
+  config = mkIf cfg.enable {
     programs.newsboat = {
       enable = true;
       autoReload = true;

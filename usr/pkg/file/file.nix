@@ -8,15 +8,17 @@ in {
  
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      gdu
       rsync
+    ] ++ (if !usr.minimal then [
+      gzip
+      unzip
+      gdu
       ctpv
       tree
       eza
-      gzip
       ueberzug
       trash-cli
-    ] ++ (if usr.extraBloat then [
+    ] else []) ++ (if usr.extraBloat then [
       xfce.thunar
       udiskie
       udisks

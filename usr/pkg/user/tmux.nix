@@ -1,7 +1,15 @@
 { lib, config, pkgs, ... }: 
 with lib; 
+let
+  cfg = config.u.user.tmux;
+in
 {
-  config = mkIf config.u.user.enable {
+  options.u.user.tmux.enable = mkOption {
+    type = types.bool;
+    default = config.u.user.enable;
+  };
+
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [ tmux ];
     programs.tmux = {
         enable = true;

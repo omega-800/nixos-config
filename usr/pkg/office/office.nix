@@ -12,15 +12,15 @@ in {
         #wtff this worked yesterday??
         #pdfslicer
         drawio
-#wtff this worked yesterday??
+        #wtff this worked yesterday??
         libreoffice
         gimp
-      ] ++ (if usr.extraBloat then [ obsidian skanpage gpick ] else [ ])
-      ++ (if usr.extraBloat && sys.profile == "pers" then [
-        cointop
-        valentina
-        homebank
-      ] else
-        [ ]);
+      ] ++ (if usr.extraBloat then
+        ([ obsidian skanpage gpick ] ++ (if sys.profile == "pers" then [
+          cointop
+          valentina
+          homebank
+        ] else
+          [ ])) else [ ]);
   };
 }
