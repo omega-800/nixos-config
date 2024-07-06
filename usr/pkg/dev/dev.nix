@@ -8,11 +8,8 @@ in {
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "vscode" "ciscoPacketTracer8" ];
     home.packages = with pkgs;
-      [
-        # development
-        gnumake
-        jq
-      ] ++ (if !usr.minimal then [ qmk ] else [ ]) ++ (if usr.extraBloat then [
+      (if !usr.minimal then [ qmk perl strace jq gnumake ] else [ ])
+      ++ (if usr.extraBloat then [
         qemu
         virt-manager
         ncurses

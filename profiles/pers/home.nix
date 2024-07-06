@@ -1,23 +1,13 @@
 { lib, usr, ... }:
-with lib;
-{
+with lib; {
   imports = [
-    ../../usr/wm
+    # basically like work profile but with fun enabled
+    ../work/home.nix
   ];
 
   # pkgs
   u = {
-    dev.enable = mkDefault true;
-    posix.enable = mkDefault true;
-    work.enable = mkDefault true;
-    file.enable = mkDefault true;
-    net.enable = mkDefault true;
-    office.enable = mkDefault true;
-    user.enable = mkDefault true;
-    utils.enable = mkDefault true;
-
-    # no fun only work
-    media.enable = mkDefault true;
-    social.enable = mkDefault true;
+    media.enable = mkForce true;
+    social.enable = mkForce true;
   };
 }

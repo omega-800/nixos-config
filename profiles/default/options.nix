@@ -69,6 +69,10 @@ with lib; {
         type = types.bool;
         default = false;
       };
+      services = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+      };
     };
     usr = {
       style = mkOption {

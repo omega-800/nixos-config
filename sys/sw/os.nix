@@ -1,12 +1,16 @@
-{ config, pkgs, usr, ... }: 
+{ config, pkgs, usr, ... }:
 let
-  ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in {
+  ifExist = groups:
+    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in
+{
+  environment.defaultPackages = [ ];
   nix = {
-    nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-                  "nixos-config=$HOME/dotfiles/system/configuration.nix"
-                  "/nix/var/nix/profiles/per-user/root/channels"
-                ];
+    nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=$HOME/dotfiles/system/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
     package = pkgs.nixFlakes;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
@@ -25,9 +29,7 @@ in {
 
   nixpkgs.config.allowUnfree = true;
 
-  sops.secrets.user_init_pass = {
-    neededForUsers = true;
-  };
+  sops.secrets.user_init_pass = { neededForUsers = true; };
   #broken :(
   #users.mutableUsers = false;
   users.users.${usr.username} = {
@@ -43,12 +45,7 @@ in {
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    curl
-    git
-  ];
+  environment.systemPackages = with pkgs; [ vim wget curl git ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

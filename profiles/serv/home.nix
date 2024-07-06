@@ -1,18 +1,15 @@
 { lib, usr, ... }:
-with lib;
-{
+with lib; {
   imports = [ ];
-
-  # pkgs
-  u.dev.enable = mkDefault false;
-  u.work.enable = mkDefault false;
-  u.file.enable = mkDefault false;
-  u.net.enable = mkDefault false;
-  u.office.enable = mkDefault false;
-  u.user.enable = mkDefault false;
-  u.utils.enable = mkDefault false;
-
-  # no fun only work
-  u.media.enable = mkDefault false;
-  u.social.enable = mkDefault false;
+  u = {
+    dev.enable = mkDefault true;
+    file.enable = mkDefault true;
+    net.enable = mkDefault true;
+    user.enable = mkDefault true;
+    utils.enable = mkDefault true;
+    office.enable = false;
+    work.enable = false;
+    media.enable = false;
+    social.enable = false;
+  };
 }

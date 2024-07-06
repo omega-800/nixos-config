@@ -1,27 +1,28 @@
-{ ... }: {
+{ lib, ... }:
+with lib; {
   imports = [ ../../sys/wm ];
   m = {
     audio = {
-      enable = true;
-      pipewire = true;
-      bluetooth = true;
+      enable = mkDefault true;
+      pipewire = mkDefault true;
+      bluetooth = mkDefault true;
     };
-    automount.enable = true;
-    kernel.zen = true;
-    openGL.enable = true;
-    printing.enable = true;
-    docker.enable = true;
-    virt.enable = true;
-    flatpak.enable = true;
-    mysql.enable = true;
-    devtools.enable = true;
-    fancyfonts.enable = true;
+    automount.enable = mkDefault true;
+    kernel.zen = mkDefault true;
+    openGL.enable = mkDefault true;
+    printing.enable = mkDefault true;
+    docker.enable = mkDefault true;
+    virt.enable = mkDefault true;
+    flatpak.enable = mkDefault true;
+    mysql.enable = mkDefault true;
+    devtools.enable = mkDefault true;
+    fancyfonts.enable = mkDefault true;
     vpn = {
-      forti.enable = true;
-      wg.enable = true;
-# wrong one
-      openvpn.enable = false;
-      mullvad.enable = false;
+      forti.enable = mkDefault true;
+      wg.enable = mkDefault true;
+      # wrong one
+      openvpn.enable = mkDefault false;
+      mullvad.enable = mkDefault false;
     };
   };
 }
