@@ -3,12 +3,12 @@
 fromhex() {
   hex=$1
   if [[ $hex == "#"* ]]; then
-    hex=$(echo $1 | awk '{print substr($0,2)}')
+    hex=$(echo "$1" | awk '{print substr($0,2)}')
   fi
   r=$(printf '0x%0.2s' "$hex")
   g=$(printf '0x%0.2s' $${hex#??})
   b=$(printf '0x%0.2s' $${hex#????})
-  echo -e `printf "%03d" "$(((r<75?0:(r-35)/40)*6*6+(g<75?0:(g-35)/40)*6+(b<75?0:(b-35)/40)+16))"`
+  echo -e "$(printf "%03d" "$(((r<75?0:(r-35)/40)*6*6+(g<75?0:(g-35)/40)*6+(b<75?0:(b-35)/40)+16))")"
 }
 
 hex_to_rgb() {
@@ -76,7 +76,7 @@ bash_cat() { echo "$(<"$1")"; }
 
 countdown() {
     start="$(( $(date '+%s') + $1))"
-    while [ $start -ge $(date +%s) ]; do
+    while [ "$start" -ge "$(date +%s)" ]; do
         time="$(( $start - $(date +%s) ))"
         printf '%s\r' "$(date -u -d "@$time" +%H:%M:%S)"
         sleep 0.1
@@ -98,21 +98,21 @@ clean_node_modules() {
 }
 
 unlink_node_modules() {
-  d=$(pwd)
-  for dir in $(find . -type d -name ".bin"); do
-    cd $d && cd $dir
+  d=$PWD
+  for dir in "$(find . -type d -name ".bin")"; do
+    cd "$d" && cd "$dir"
     ls -l | xargs -I{} bash -c '[[ '\''{}'\'' =~ .+[[:digit:]][[:space:]](.+)[[:space:]]-\>[[:space:]](.+) ]] && rm "${BASH_REMATCH[1]}" && cp "${BASH_REMATCH[2]}" "./${BASH_REMATCH[1]}"'
   done
-  cd $d
+  cd "$d"
 }
 
 fuck_you_eclipse() {
   clean_node_modules && unlink_node_modules
 }
 
-cdc() { cd $(pwd | sed "s/$1/$2/g"); }
+cdc() { cd "$(pwd | sed "s/$1/$2/g")"; }
 
-gca() { git commit -am "$1" && git push; }
+gcap() { git commit -am "$1" && git push; }
 
 newws() {
     git clone -b wip 'https://git.getonline.ch/inteco/services/core/web/source/development-env/template-webapp-WS.git' "$1-workspace"
@@ -123,12 +123,12 @@ newws() {
     npm i && npm run init && node tool.js
     cd .. && node checkout.js #&& rm -rf .git*
     cd .backup
-    ./backup.sh -sluyo a -c $1 -t c -p ../$1-webapp/src/main/webapp
-    mv ../$1-webapp/src/main/webapp/backup ../$1-webapp/src/main/webapp/restore
-    mkdir ../$1-webapp/src/main/webapp/restore2
-    mv ../$1-webapp/src/main/webapp/restore/data.* ../$1-webapp/src/main/webapp/restore2
+    ./backup.sh -sluyo a -c "$1" -t c -p ../"$1"-webapp/src/main/webapp
+    mv ../"$1"-webapp/src/main/webapp/backup ../"$1"-webapp/src/main/webapp/restore
+    mkdir ../"$1"-webapp/src/main/webapp/restore2
+    mv ../"$1"-webapp/src/main/webapp/restore/data.* ../"$1"-webapp/src/main/webapp/restore2
 
-    ./backup.sh -slyc $1 -t d
+    ./backup.sh -slyc "$1" -t d
     echo "badabing badabum $1 lauft krumm"
 }
 
@@ -138,62 +138,62 @@ newws_old() {
     git submodule init && git submodule update
     [ -f '../.env' ] && sed -i "s@\[\[customer_id\]\]@$1@g" '../.env'
     npm i && npm run init && node tool.js
-    [ -z $2 ] && cd .. && node checkout.js && rm -rf .git*
+    [ "$2" = "" ] && cd .. && node checkout.js && rm -rf .git*
 }
 
-note() { vim $(date +%F)$( [ ! -z $1 ] && echo "_$1" ).md; }
-space() { sudo du -hsx $1* | sort -rh | head -n 40; }
+note() { vim "$(date +%F)$( [ ! -z "$1" ] && echo "_$1" )".md; }
+space() { sudo du -hsx "$1"* | sort -rh | head -n 40; }
 rmr() { ls | grep -P "$1" | xargs -d"\n" rm; }
 calc() { awk "BEGIN{print $1}"; }
 cddir() {
-    mkdir $1
-    cd $1
+    mkdir "$1"
+    cd "$1"
 }
 mvdir() {
-    mkdir $2
-    mv $1 $2
+    mkdir "$2"
+    mv "$1" "$2"
 }
 mvcd() {
-    mv $1 $2
-    cd $2
+    mv "$1" "$2"
+    cd "$2"
 }
 cpbak() { cp -- "$1"{,.bak}; }
 cds() {
     dir=${1//\\//}
     cd "${dir/[cC]:/'/mnt/c'}"
 }
-catg() { cat $1 | grep $2; }
-findr() { find / -name $1 -print 2>/dev/null; }
+catg() { cat "$1" | grep "$2"; }
+findr() { find / -name "$1" -print 2>/dev/null; }
 
 cdloc() {
-    loc=$(locate -A $1 $2 $3 $4)
+    loc=$(locate -A "$1" "$2" "$3" "$4")
     hasDirectory=0
     while IFS= read -r line; do
         if [[ -d $line ]]; then
             hasDirectory=1
-            cd $line
+            cd "$line"
             break
         fi
-    done <<<$(locate -A $1 $2 $3 $4)
+    done <<<"$(locate -A "$1" "$2" "$3" "$4")"
     if [[ $hasDirectory -eq 0 ]]; then
         echo "No directory found"
     fi
 }
 
 extract() {
-    if [ -f $1 ]; then
+    if [ -f "$1" ]; then
         case $1 in
-        *.tar.bz2) tar xjf $1 ;;
-        *.tar.gz) tar xzvf $1 ;;
-        *.bz2) bunzip2 $1 ;;
-        *.rar) unrar e $1 ;;
-        *.gz) gunzip $1 ;;
-        *.tar) tar xf $1 ;;
-        *.tbz2) tar xjf $1 ;;
-        *.tgz) tar xzvf $1 ;;
-        *.zip) unzip $1 ;;
-        *.Z) uncompress $1 ;;
-        *.7z) 7z x $1 ;;
+        *.tar.bz2) tar xjf "$1" ;;
+        *.tar.gz) tar xzvf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) unrar e "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar xf "$1" ;;
+        *.tbz2) tar xjf "$1" ;;
+        *.tgz) tar xzvf "$1" ;;
+        *.zip) unzip "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) 7z x "$1" ;;
         *) echo "'$1' cannot be extracted via extract()" ;;
         esac
     else
@@ -203,7 +203,7 @@ extract() {
 
 color() {
     for c; do
-        printf '\e[48;5;%dm%03d' $c $c
+        printf '\e[48;5;%dm%03d' "$c" "$c"
     done
     printf '\e[0m \n'
 }
@@ -212,7 +212,7 @@ colors() {
     IFS=$' \t\n'
     color {0..15}
     for ((i = 0; i < 6; i++)); do
-        color $(seq $((i * 36 + 16)) $((i * 36 + 51)))
+        color "$(seq $((i * 36 + 16)) $((i * 36 + 51)))"
     done
     color {232..255}
 }
@@ -257,11 +257,11 @@ formats() {
 flog() {
   # taskset -c '{=$_=slot()-1=}' 
 
-    sort -S4G --parallel=8 <<< $(find . -maxdepth 1 -type f -name "*$1*" | 
+    sort -S4G --parallel=8 <<< "$(find . -maxdepth 1 -type f -name "*$1*" | 
       xargs -P0 -I{} bash -c "parallel -a {} -j 0 --block 10M -P 0 --pipe-part grep -vaE '[[:space:]]+at' |
       grep -ave '\.\.\.' -e ': produktebilder/' -e 'from workspace dms' -e '\.importer\.' |
       sed -r 's/[0-9]{1,2}-[a-zA-Z]{3}-[0-9]{4} [0-9\.:]+ (SEVERE|INFO) \[[a-z0-9-]+\] //' |
-      sed -r 's/(([0-9]{4}(-[0-9]{2}){2}T)?([0-9]{2}[:\.]){2}[0-9]{2}\.?([0-9]{6}Z|[0-9]{2,3})?([[:space:]]+[0-9]{1,6}[[:space:]])?|([0-9]{2}-[A-Z][a-z]{2}-[0-9]{4}))//'" ) | 
+      sed -r 's/(([0-9]{4}(-[0-9]{2}){2}T)?([0-9]{2}[:\.]){2}[0-9]{2}\.?([0-9]{6}Z|[0-9]{2,3})?([[:space:]]+[0-9]{1,6}[[:space:]])?|([0-9]{2}-[A-Z][a-z]{2}-[0-9]{4}))//'" )" | 
       uniq -c | 
       sort -S4G --parallel=8 -n | 
       sed "s@^[[:space:]]\+\([0-9]\+\)@$(tput setaf 1)\1$(tput sgr0)@"
@@ -272,8 +272,8 @@ flog() {
 flogold() {
   output=""
   filenames=$(find . -maxdepth 1 -type f -name "*$1*")
-  for filename in $filenames; do
-    output="$output\n$(cat $filename |
+  for filename in "${filenames[@]}"; do
+    output="$output\n$(cat "$filename" |
       grep -v -E '[[:space:]]+at' |
       grep -v '\.\.\.' |
       grep -v ': produktebilder/' |
@@ -283,5 +283,5 @@ flogold() {
       sed -r 's/(([0-9]{4}(-[0-9]{2}){2}T)?([0-9]{2}[:\.]){2}[0-9]{2}\.?([0-9]{6}Z|[0-9]{2,3})?([[:space:]]+[0-9]{1,6}[[:space:]])?|([0-9]{2}-[A-Z][a-z]{2}-[0-9]{4}))//g' )"
     done
 
-    sort <<< $output | uniq -c | sort -n | sed "s@^[[:space:]]\+\([0-9]\+\)@$(tput setaf 1)\1$(tput sgr0)@g"
+    sort <<< "$output" | uniq -c | sort -n | sed "s@^[[:space:]]\+\([0-9]\+\)@$(tput setaf 1)\1$(tput sgr0)@g"
 }

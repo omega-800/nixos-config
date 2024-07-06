@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   config.c = {
     sys = {
       hostname = "archie";
@@ -8,6 +8,7 @@
     };
     usr = {
       wm = "dwm";
+      shell = pkgs.zsh;
       extraBloat = false;
     };
   };

@@ -15,6 +15,7 @@ in {
       eza
       gzip
       ueberzug
+      trash-cli
     ] ++ (if usr.extraBloat then [
       xfce.thunar
       udiskie
@@ -22,7 +23,6 @@ in {
       sshfs
       syncthing
       xz
-      trash-cli
     ] else []);
   };
 }

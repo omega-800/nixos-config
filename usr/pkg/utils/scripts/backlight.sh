@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 case $1 in
-  "lower") brightnessctl set 5%- ;;
-  "raise") brightnessctl set 5%+ ;;
+  "lower") brightnessctl set 2%- ;;
+  "raise") brightnessctl set 2%+ ;;
   *)
     echo "Usage: $0 [lower, raise]"
     exit 1

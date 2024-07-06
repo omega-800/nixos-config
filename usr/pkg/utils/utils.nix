@@ -23,12 +23,13 @@ in {
       htop-vim
       brightnessctl
       bind
+      freecad
+      ripgrep
     ] ++ (if usr.extraBloat then [
       vulnix
       thefuck
       flameshot
       screenkey
-      ripgrep
       xz
       cloc
       gnused
