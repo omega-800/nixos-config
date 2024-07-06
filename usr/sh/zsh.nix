@@ -28,6 +28,7 @@
       initExtra = ''
         ${shellInitExtra}
         setopt noautomenu
+        #PROMPT=$${PROMPT/\%c/\%~}
       '';
       history = {
         expireDuplicatesFirst = true;
