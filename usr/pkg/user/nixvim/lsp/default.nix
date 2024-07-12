@@ -64,11 +64,21 @@
           lspBuf = {
             "K" = "hover";
             "gd" = "definition";
-            "gD" = "references";
+            "gD" = "declaration";
+            "gr" = "references";
             "gt" = "type_definition";
             "gi" = "implementation";
+            "la" = "code_action";
+            "lh" = "signature_help";
+            "ld" = "document_symbol";
+            "lc" = "rename";
+            "lf" = "formatting";
           };
           extra = [
+            {
+              action = "<CMD>LspInfo<Enter>";
+              key = "<leader>li";
+            }
             {
               action = "<CMD>LspStop<Enter>";
               key = "<leader>lx";
