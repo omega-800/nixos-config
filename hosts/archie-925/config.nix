@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   config.c = {
     sys = {
       hostname = "archie-925";
@@ -10,6 +10,7 @@
       devName = "gs2";
       devEmail = "georgiy.shevoroshkin@inteco.ch";
       wm = "dwm";
+      shell = pkgs.zsh;
       extraBloat = true;
     };
   };

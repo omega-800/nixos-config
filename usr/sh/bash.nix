@@ -14,7 +14,8 @@
             
       #PS1="\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base08}")")\u $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0A}")")\w\n$(tput setaf "$(fromhex "#${config.lib.stylix.colors.base06}")")\h $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base03}")")\j $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base00}")")\s $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0E}")")\! $(tput setaf "$(fromhex "#${config.lib.stylix.colors.base0B}")")> $(tput sgr0)"
 
-      for i in {2..20}; do alias "$(printf '.%.0s' $(seq 1 $i))"="cd $(printf '../%.0s' $(seq 2 $i))"; done
+      #solved in the nix way
+      #for i in {2..20}; do alias "$(printf '.%.0s' $(seq 1 $i))"="cd $(printf '../%.0s' $(seq 2 $i))"; done
       #bind 'set show-all-if-ambiguous on'
       #bind 'TAB:menu-complete'
       #bind '"\e[Z":menu-complete-backward'
