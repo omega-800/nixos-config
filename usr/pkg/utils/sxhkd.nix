@@ -5,7 +5,7 @@ let
     (builtins.readFile ./scripts/volume.sh)}";
   kaomojiScript = "${pkgs.writeShellScript "kaomoji" ''
     db="${./scripts/kaomoji.txt}"
-    selection=$(rofi -i -dmenu $@ < "$db")
+    selection=$(rofi -m -4 -i -dmenu $@ < "$db")
     kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
     echo -n "$kaomoji" | xclip -selection clipboard
   ''}";
@@ -72,16 +72,16 @@ in
           "super + r ; k" = kaomojiScript;
           "super + r ; {t,p,o,s}" =
             "rofi-{theme-selector,pass,obsidian,screenshot";
-          "super + r ; {c,e,f,w}" = "rofi -show {${r.calc},emoji,${
+          "super + r ; {c,e,f,w}" = "rofi -m -4 -show {${r.calc},emoji,${
             if usr.extraBloat then "file-browser-extended" else "filebrowser"
           },window}";
           "super + r ; h ; {d}" = ''
-            echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -dmenu'';
+            echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -m -4 -dmenu'';
 
           # open
           # firefox has to be opened through bash because otherwise the nixGL wrapper doesn't get applied?? /webGL doesn't work if not run through bash. don't ask why because i don't know
           "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" =
-            "{rofi -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
+            "{rofi -m -4 -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
 
           # audio
           "super + a ; {j,k,l,h,p,s,r}" =
@@ -97,9 +97,9 @@ in
           #"super + s ; b " = bluetoothScript;
           "super + s ; {b,v,d}" = "rofi-{bluetooth,vpn,systemd}";
           "super + s ; n" = "networkmanager_dmenu";
-          "super + s ; {t,h}" = "rofi -show {${r.top},ssh}";
+          "super + s ; {t,h}" = "rofi -m -4 -show {${r.top},ssh}";
           "super + s ; p" =
-            "rofi -show p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
+            "rofi -m -4 -show p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
           "{super + s ; s : d,XF86MonBrightnessDown}" =
             "${backlightScript} lower";
           "{super + s ; s : i,XF86MonBrightnessUp}" = "${backlightScript} raise";
