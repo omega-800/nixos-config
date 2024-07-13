@@ -3,7 +3,6 @@ with lib; {
 
   u = {
     net.enable = mkForce false;
-    style.enable = mkForce true;
     posix.enable = mkForce true;
     file = {
       #enable = mkForce false;
