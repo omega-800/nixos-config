@@ -7,6 +7,7 @@
       genericLinux = true;
     };
     usr = {
+      username = "dev";
       devName = "";
       devEmail = "";
       wm = "";
