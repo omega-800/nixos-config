@@ -62,10 +62,10 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    #omega-nixvim = {
-    #url = "github:omega-800/nixvim/5929737ec16d17f82b8e6c6df4df9407b7dd3d73";
-    #inputs.nixpkgs.follows = "nixpkgs";
-    #};
+    # omega-nixvim = {
+    #   url = "github:omega-800/nixvim";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";

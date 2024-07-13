@@ -1,4 +1,4 @@
-{ lib, sys, config, ... }:
+{ usr, lib, sys, config, ... }:
 with builtins;
 with lib;
 let
@@ -8,7 +8,6 @@ let
       value = "cd ${concatStrings (replicate (v + 1) "../")}";
     })
     (genList (x: x) 20));
-
 in
 {
 
@@ -17,7 +16,8 @@ in
       ndx = ''
         nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
       hms =
-        "home-manager switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace";
+        "home-manager switch --flake ${config.home.homeDirectory # toString ./.
+        }/workspace/nixos-config#${sys.hostname} --show-trace";
       nrs =
         "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace";
       ssh = "TERM=xterm-256color ssh";
@@ -84,8 +84,8 @@ in
       dir = "dir --color=auto";
       vdir = "vdir --color=auto";
       vim = "nvim";
-      rm = "trash";
     }
+    (mkIf (!usr.minimal) { rm = "trash"; })
     cdAliases
   ]);
 }

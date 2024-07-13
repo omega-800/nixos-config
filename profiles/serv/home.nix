@@ -7,6 +7,7 @@ with lib; {
     net.enable = mkDefault true;
     user.enable = mkDefault true;
     utils.enable = mkDefault true;
+    posix.enable = mkDefault false;
     office.enable = false;
     work.enable = false;
     media.enable = false;
