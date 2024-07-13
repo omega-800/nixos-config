@@ -66,15 +66,36 @@
             "gd" = "definition";
             "gD" = "declaration";
             "gr" = "references";
-            "gt" = "type_definition";
-            "gi" = "implementation";
-            "la" = "code_action";
-            "lh" = "signature_help";
-            "ld" = "document_symbol";
-            "lc" = "rename";
-            "lf" = "formatting";
+            "gI" = "implementation";
+            "gy" = "type_definition";
           };
           extra = [
+            #nprstx
+            {
+              action = "<CMD>lua vim.lsp.buf.signature_help()<CR>";
+              key = "<leader>lh";
+              options.desc = "Signature help";
+            }
+            {
+              action = "<CMD>lua vim.lsp.buf.document_symbol()<CR>";
+              key = "<leader>ld";
+              options.desc = "Document symbol";
+            }
+            {
+              action = "<CMD>lua vim.lsp.buf.rename()<CR>";
+              key = "<leader>lc";
+              options.desc = "Change/rename";
+            }
+            {
+              action = "<CMD>lua vim.lsp.buf.format()<CR>";
+              key = "<leader>lf";
+              options.desc = "Format";
+            }
+            {
+              action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
+              key = "<leader>la";
+              options.desc = "Action/quickfix";
+            }
             {
               action = "<CMD>LspInfo<Enter>";
               key = "<leader>li";

@@ -16,7 +16,7 @@
       autosuggestion.enable = true;
       syntaxHighlighting = {
         enable = true;
-        highlighters = [ "main" "brackets" "line" "cursor" "root" ];
+        highlighters = [ "main" "brackets" "line" /*"cursor"*/ "root" ];
         patterns = { "rm -rf" = "fg=white,bold,bg=red"; };
       };
       #zprof.enable = true;
