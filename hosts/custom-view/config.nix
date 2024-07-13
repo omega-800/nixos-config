@@ -14,6 +14,7 @@
       wm = "";
       shell = pkgs.zsh;
       extraBloat = false;
+      minimal = true;
     };
   };
 }
