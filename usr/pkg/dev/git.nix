@@ -4,7 +4,7 @@ let cfg = config.u.dev.git;
 in {
   options.u.dev.git.enable = mkOption {
     type = types.bool;
-    default = config.u.dev.git.enable;
+    default = config.u.dev.enable;
   };
 
   config = mkIf cfg.enable {
