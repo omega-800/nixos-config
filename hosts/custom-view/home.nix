@@ -5,7 +5,7 @@ with lib; {
     net.enable = mkForce false;
     posix.enable = mkForce true;
     file = {
-      #enable = mkForce false;
+      enable = mkForce false;
       lf.enable = mkForce false;
     };
     utils = {

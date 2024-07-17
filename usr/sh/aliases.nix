@@ -84,6 +84,7 @@ in
       dir = "dir --color=auto";
       vdir = "vdir --color=auto";
       vim = "nvim";
+      dbr = "docker run --rm -it $(docker build -q .)";
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
     cdAliases
