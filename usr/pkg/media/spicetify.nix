@@ -1,16 +1,13 @@
 pkgs: spicetify-nix:
-let
-  spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
+let spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
 in {
   enable = true;
-  theme = spicePkgs.themes.catppuccin;
-  colorScheme = "mocha";
+  #theme = spicePkgs.themes.catppuccin;
+  #colorScheme = "mocha";
+  theme = spicePkgs.themes.Dribbblish;
+  colorScheme = "gruvbox";
 
-  enabledCustomApps = with spicePkgs.apps; [
-    new-releases
-    lyrics-plus
-    reddit
-  ];
+  enabledCustomApps = with spicePkgs.apps; [ new-releases lyrics-plus reddit ];
 
   enabledExtensions = with spicePkgs.extensions; [
     fullAppDisplay
@@ -24,4 +21,3 @@ in {
     powerBar
   ];
 }
-

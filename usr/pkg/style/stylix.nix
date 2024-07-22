@@ -1,13 +1,18 @@
 { config, usr, lib, pkgs, inputs, ... }:
 let
-  themePath = "../../../../themes" + ("/" + usr.theme + "/" + usr.theme)
-    + ".yaml";
-  themePolarity = lib.removeSuffix "\n" (builtins.readFile
-    (./. + "../../../../themes" + ("/" + usr.theme) + "/polarity.txt"));
-  backgroundUrl = builtins.readFile
-    (./. + "../../../../themes" + ("/" + usr.theme) + "/backgroundurl.txt");
-  backgroundSha256 = builtins.readFile
-    (./. + "../../../../themes/" + ("/" + usr.theme) + "/backgroundsha256.txt");
+
+  themePath = ./. + "../../../../themes/${usr.theme}";
+  themeYamlPath = themePath + "/${usr.theme}.yaml";
+  themePolarity =
+    lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
+  themeImage =
+    if builtins.pathExists (themePath + "/${usr.theme}.png") then
+      themePath + "/${usr.theme}.png"
+    else
+      pkgs.fetchurl {
+        url = builtins.readFile (themePath + "/backgroundurl.txt");
+        sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
+      };
 in
 {
   imports =
@@ -61,17 +66,14 @@ in
     };
     stylix = {
       autoEnable = true;
-      base16Scheme = ./. + themePath;
+      base16Scheme = themeYamlPath;
       cursor = {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Ice";
         size = 32;
       };
       polarity = themePolarity;
-      image = pkgs.fetchurl {
-        url = backgroundUrl;
-        sha256 = backgroundSha256;
-      };
+      image = themeImage;
       fonts = {
         monospace = {
           name = usr.font;
@@ -98,8 +100,8 @@ in
       };
 
       targets = {
-        alacritty.enable = false;
-        bat.enable = false;
+        alacritty.enable = true;
+        bat.enable = true;
         kde.enable = true;
         kitty.enable = true;
         gtk.enable = true;

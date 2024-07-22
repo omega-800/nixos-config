@@ -1,9 +1,10 @@
-{ config, pkgs, usr, ... }:
+{ config, pkgs, usr, sys, ... }:
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
+  system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   nix = {
     nixPath = [

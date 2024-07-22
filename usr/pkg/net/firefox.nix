@@ -11,6 +11,7 @@ in {
       mkIf (usr.wmType == "wayland") { MOZ_ENABLE_WAYLAND = 1; };
     programs.firefox = {
       enable = true;
+      #package = pkgs.librewolf;
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;

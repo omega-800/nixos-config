@@ -3,7 +3,7 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
-      inherit (lib.my) mapHosts mapHomes mapModules;
+      inherit (lib.my) mapHosts mapHomes mapGeneric mapModules;
       #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
       pkgs = nixpkgs;
       lib = nixpkgs.lib.extend (self: super: {
@@ -23,6 +23,7 @@
     {
       homeConfigurations = mapHomes ./hosts { };
       nixosConfigurations = mapHosts ./hosts { };
+      systemConfigs = mapGeneric ./hosts { };
       packages = mapModules ./packages import;
     };
 
@@ -36,6 +37,11 @@
     home-manager-stable = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    # OHMYGOD THANK YOU NUMTIDE
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";

@@ -10,7 +10,8 @@
       wm = "dwm";
       shell = pkgs.zsh;
       extraBloat = false;
-      #theme = "god";
+      theme = "gruvbox-dark-hard";
+      #theme = "catppuccin-mocha";
     };
   };
 }

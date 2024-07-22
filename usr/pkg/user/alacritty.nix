@@ -18,7 +18,7 @@ in
         live_config_reload = true;
         selection.save_to_clipboard = true;
         window = {
-          opacity = 0.85;
+          opacity = mkForce 0.85;
           padding = {
             y = 8;
             x = 8;
@@ -40,7 +40,7 @@ in
           };
         };
         font = {
-          size = 8;
+          size = mkForce 8;
           bold = {
             family = usr.font;
             style = "Bold";
@@ -58,6 +58,7 @@ in
             style = "Regular";
           };
         };
+
         keyboard.bindings = [
           {
             action = "IncreaseFontSize";
