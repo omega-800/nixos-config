@@ -5,7 +5,7 @@
       src = builtins.fetchGit {
         url = "https://github.com/omega-800/dwm.git"; 
         ref = "main";
-        rev = "ca6bb2a6860d94e71ba33df97db4abfd844a4028";
+        rev = "8f08ba04505ffa904f6d1869f2cd606f677df48f";
       };
 #      patches = [
 #        (pkgs.fetchpatch {

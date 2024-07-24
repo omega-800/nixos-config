@@ -4,7 +4,7 @@ let
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
-  system-manager.allowAnyDistro = sys.genericLinux;
+  #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   nix = {
     nixPath = [
