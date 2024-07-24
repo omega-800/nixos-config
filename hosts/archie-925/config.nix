@@ -12,6 +12,7 @@
       wm = "dwm";
       shell = pkgs.zsh;
       extraBloat = true;
+      #theme = "gruvbox-dark-hard";
     };
   };
 }
