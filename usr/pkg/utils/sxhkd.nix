@@ -46,7 +46,7 @@ in
           "super + shift + s" = "flameshot gui";
           "super + ctrl + shift + s" =
             "maim ${usr.homeDir}/documents/img/screenshots/$(date +%s).png";
-          "super + enter " = "alacritty";
+          "super + enter " = usr.term;
 
           # Show clipmenu
           "alt + v" = ''
@@ -81,7 +81,7 @@ in
           # open
           # firefox has to be opened through bash because otherwise the nixGL wrapper doesn't get applied?? /webGL doesn't work if not run through bash. don't ask why because i don't know
           "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" =
-            "{rofi -m -4 -show drun,minecraft-launcher,obsidian,code,alacritty -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,alacritty -e aerc,alacritty -e ncmpcpp,alacritty -e lf,libreoffice,homebank,brave}";
+            "{rofi -m -4 -show drun,minecraft-launcher,obsidian,code,${usr.term} -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,${usr.term} -e aerc,${usr.term} -e ncmpcpp,${usr.term} -e lf,libreoffice,homebank,brave}";
 
           # audio
           "super + a ; {j,k,l,h,p,s,r}" =

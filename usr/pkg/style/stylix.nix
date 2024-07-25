@@ -103,6 +103,7 @@ in
         alacritty.enable = true;
         bat.enable = true;
         kde.enable = true;
+        yazi.enable = true;
         kitty.enable = true;
         gtk.enable = true;
         rofi.enable = (usr.wmType == "x11");

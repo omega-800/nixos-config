@@ -3,6 +3,7 @@
     ./user.nix
     ./tmux.nix
     ./alacritty.nix
+    ./kitty.nix
     ./vim.nix
     ./nixvim
     # inputs.nixvim.homeManagerModules.nixvim

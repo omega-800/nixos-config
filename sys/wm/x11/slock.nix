@@ -9,18 +9,13 @@
 , cargo
 , libXinerama
 , fetchFromGitHub
+, omega-slock
 }:
 stdenv.mkDerivation {
   pname = "slock";
   version = "1.5";
 
-  src = fetchFromGitHub {
-    owner = "omega-800";
-    repo = "slock";
-    rev = "56e5114cdd30136c2c93a768561c8fa5ea624e26";
-    hash = "sha256-nURLfUR155KgpkPt2DIFOI34oB5OqS5yXUsRKnTjb50=";
-  };
-
+  src = omega-slock;
   buildInputs =
     [ cargo xorgproto libX11 libXext libXrandr libxcrypt libXinerama ];
 

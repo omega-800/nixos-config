@@ -39,7 +39,7 @@ in {
           with pkgs; [ rofi-emoji rofi-top rofi-file-browser ]
         else
           [ ]);
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.${usr.term}}/bin/${usr.term}";
 
       /* theme = ''
          * {
@@ -53,10 +53,10 @@ in {
            }
 
            configuration {
-                   	modi:                       "drun";
+                     	modi:                       "drun";
            show-icons:                 true;
            display-drun:               "";
-                   	drun-display-format:        "{name}";
+                     	drun-display-format:        "{name}";
            }
 
            window {

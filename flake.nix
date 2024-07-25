@@ -68,6 +68,18 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    omega-dwm = {
+      url = "github:omega-800/dwm";
+      flake = false;
+    };
+    omega-st = {
+      url = "github:omega-800/st";
+      flake = false;
+    };
+    omega-slock = {
+      url = "github:omega-800/slock";
+      flake = false;
+    };
     # omega-nixvim = {
     #   url = "github:omega-800/nixvim";
     #   inputs.nixpkgs.follows = "nixpkgs";

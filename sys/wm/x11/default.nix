@@ -1,6 +1,6 @@
-{ pkgs, ... }: 
+{ pkgs, inputs, ... }: 
 let 
-  slock = (pkgs.callPackage ./slock.nix {});
+  slock = (pkgs.callPackage ./slock.nix { inherit (inputs) omega-slock; });
 in {
   services.xserver = {
     enable = true;
