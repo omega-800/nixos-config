@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ usr,lib, config, pkgs, inputs, ... }:
 with lib;
 let
   cfg = config.u.media.spicetify;
@@ -20,6 +20,6 @@ in
        "spotify"
        ];
     */
-    programs = { spicetify = import ./spicetify.nix pkgs spicetify-nix; };
+    programs = { spicetify = import ./spicetify.nix pkgs usr.theme spicetify-nix; };
   };
 }

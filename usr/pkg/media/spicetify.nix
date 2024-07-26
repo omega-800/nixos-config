@@ -1,11 +1,24 @@
-pkgs: spicetify-nix:
-let spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
-in {
+pkgs: curtheme: spicetify-nix:
+let
+  spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
+  #TODO: make this better
+  theme =
+    if pkgs.lib.strings.hasPrefix "gruvbox" curtheme then
+      spicePkgs.themes.Dribblish
+    else
+      spicePkgs.themes.catppuccin;
+  colorScheme =
+    if pkgs.lib.strings.hasPrefix "gruvbox" curtheme then
+      "gruvbox"
+    else
+      "mocha";
+
+in
+{
   enable = true;
   #theme = spicePkgs.themes.catppuccin;
   #colorScheme = "mocha";
-  theme = spicePkgs.themes.Dribbblish;
-  colorScheme = "gruvbox";
+  inherit theme colorScheme;
 
   enabledCustomApps = with spicePkgs.apps; [ new-releases lyrics-plus reddit ];
 

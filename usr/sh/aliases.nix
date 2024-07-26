@@ -46,6 +46,9 @@ in
       # rm = ''rm -Iv'';
       # ll = ''ls -alF'';
       ll = "exa --icons -a -l -F -h -g -s size --git";
+      treea = "exa --tree --icons -a -l -F -h -g -s size --git";
+      treed = "exa --tree --icons -a -D";
+      tree = "exa --tree --icons -a";
       la = "ls -A";
       l = "ls -CF";
       lt = "ls --human-readable --size -1 -S --classify";

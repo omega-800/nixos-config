@@ -6,7 +6,11 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      [ rsync tree eza ] ++ (if !usr.minimal then [
+      [
+        rsync
+        # tree (replaced by eza)
+        eza
+      ] ++ (if !usr.minimal then [
         gzip
         unzip
         gdu
