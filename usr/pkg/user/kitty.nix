@@ -14,6 +14,7 @@ in
     programs.kitty = {
       enable = true;
       package = (nixGL pkgs.kitty);
+      font.size = mkForce 12;
       shellIntegration = {
         mode = "no-sudo no-rc";
         enableZshIntegration = true;
