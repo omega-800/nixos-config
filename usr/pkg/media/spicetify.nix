@@ -4,7 +4,7 @@ let
   #TODO: make this better
   theme =
     if pkgs.lib.strings.hasPrefix "gruvbox" curtheme then
-      spicePkgs.themes.Dribblish
+      spicePkgs.themes.Dribbblish
     else
       spicePkgs.themes.catppuccin;
   colorScheme =

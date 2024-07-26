@@ -9,12 +9,16 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;
-      (if !usr.minimal then [ (nixGL brave) (nixGL qutebrowser) ] else [ ])
-      ++ (if usr.extraBloat then [
+      (if !usr.minimal then [
+        (nixGL brave)
+        (nixGL qutebrowser)
+        wireguard-tools
+      ] else
+        [ ]) ++ (if usr.extraBloat then [
         (nixGL tor)
         (nixGL vieb)
         rtorrent
-        wireguard-tools
+
       ] else
         [ ]);
   };

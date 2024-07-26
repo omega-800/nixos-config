@@ -1,68 +1,24 @@
-{ inputs, lib, config, home, pkgs, usr, ... }: 
-let 
-  dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh; 
+{ inputs, lib, config, home, pkgs, usr, ... }:
+let dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh;
 in {
+  xresources.properties = { "*term" = usr.term; };
   home = {
     packages = with pkgs; [ inputs.omega-st ];
     file.".xinitrc".text = ''
-${config.u.x11.initExtra}
-${dwm_stats} &
-#exec dbus-launch dwm
-exec dwm
+      ${config.u.x11.initExtra}
+      ${dwm_stats} &
+      #exec dbus-launch dwm
+      exec dwm
     '';
-    #activation.copyMyFiles = config.lib.dag.entryAfter ["writeBoundary"] ''
-    /*file.".Xresources".text = ''
-dwm.font: ${usr.font}
-dwm.dmenufont: ${usr.font}
-dwm.normbgcolor: #${config.lib.stylix.colors.base03}
-dwm.normbordercolor: #${config.lib.stylix.colors.base07}
-dwm.normfgcolor: #${config.lib.stylix.colors.base00}
-dwm.selfgcolor: #${config.lib.stylix.colors.base05}
-dwm.selbordercolor: #${config.lib.stylix.colors.base0B}
-dwm.warnfggcolor: #${config.lib.stylix.colors.base0A}
-dwm.warnbggcolor: #${config.lib.stylix.colors.base0E}
-dwm.urgbgcolor: #${config.lib.stylix.colors.base09}
-dwm.urgfggcolor: #${config.lib.stylix.colors.base00}
-
-*font: ${usr.font}
-*color0: #${config.lib.stylix.colors.base00}
-*color1: #${config.lib.stylix.colors.base01}
-*color2: #${config.lib.stylix.colors.base02}
-*color3: #${config.lib.stylix.colors.base03}
-*color4: #${config.lib.stylix.colors.base04}
-*color5: #${config.lib.stylix.colors.base05}
-*color6: #${config.lib.stylix.colors.base06}
-*color7: #${config.lib.stylix.colors.base07}
-*color8: #${config.lib.stylix.colors.base08}
-*color9: #${config.lib.stylix.colors.base09}
-*color10: #${config.lib.stylix.colors.base0A}
-*color11: #${config.lib.stylix.colors.base0B}
-*color12: #${config.lib.stylix.colors.base0C}
-*color13: #${config.lib.stylix.colors.base0D}
-*color14: #${config.lib.stylix.colors.base0E}
-*color15: #${config.lib.stylix.colors.base0F}
-*background: #${config.lib.stylix.colors.base00}
-*foreground: #${config.lib.stylix.colors.base07}
-*cursorColor: #${config.lib.stylix.colors.base07}
-
-*.faceName: ${usr.font}
-*.faceSize: 32
-*.renderFont: true
-Sxiv.background: #${config.lib.stylix.colors.base0C}
-Sxiv.foreground: #${config.lib.stylix.colors.base0A}
-Sxiv.font: ${usr.font}-12
-Xcursor.theme: Bibata-Modern-Ice
-Xcursor.size: 32
-    '';*/
   };
 
-#  services.dwm-status = {
-#    enable = true;
-#    order = [ "cpu_load" "network" "backlight" "audio" "battery" "time" ];
-#    extraConfig = {
-#      battery = {
-#        notifier_levels = [ 2 5 10 15 20 25 30 ];
-#      };
-#    };
-#  };
+  #  services.dwm-status = {
+  #    enable = true;
+  #    order = [ "cpu_load" "network" "backlight" "audio" "battery" "time" ];
+  #    extraConfig = {
+  #      battery = {
+  #        notifier_levels = [ 2 5 10 15 20 25 30 ];
+  #      };
+  #    };
+  #  };
 }

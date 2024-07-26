@@ -29,6 +29,11 @@ in {
 
       extraConfig = with config.lib.stylix.colors; ''
         ${builtins.readFile ./.tmux.conf}
+        # needed for yazi
+        set -g allow-passthrough on
+        set -ga update-environment TERM
+        set -ga update-environment TERM_PROGRAM
+
         set-option -ga terminal-overrides ",xterm-256color:Tc"
 
         # Default statusbar color

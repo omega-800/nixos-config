@@ -15,6 +15,7 @@ in
       enable = true;
       package = (nixGL pkgs.kitty);
       shellIntegration = {
+        mode = "no-sudo no-rc";
         enableZshIntegration = true;
         enableBashIntegration = true;
       };
