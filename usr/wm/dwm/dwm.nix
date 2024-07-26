@@ -1,16 +1,9 @@
-{ lib, config, home, pkgs, usr, ... }: 
+{ inputs, lib, config, home, pkgs, usr, ... }: 
 let 
   dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh; 
-  customSt = pkgs.st.overrideAttrs {
-      src = builtins.fetchGit {
-        url = "https://github.com/omega-800/st.git"; 
-        ref = "main";
-        rev = "f339235f5c99e02c88fd54ac6a2f3827d120480d";
-      };
-  };
 in {
   home = {
-    packages = with pkgs; [ customSt ];
+    packages = with pkgs; [ inputs.omega-st ];
     file.".xinitrc".text = ''
 ${config.u.x11.initExtra}
 ${dwm_stats} &

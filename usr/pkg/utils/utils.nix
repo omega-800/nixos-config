@@ -18,6 +18,7 @@ in {
       ripgrep
     ] ++ (if !usr.minimal then [
       bc
+      flameshot
       stow
       xclip
       xbindkeys
@@ -27,7 +28,6 @@ in {
     ] else []) ++ (if usr.extraBloat then [
       vulnix
       thefuck
-      flameshot
       screenkey
       xz
       cloc

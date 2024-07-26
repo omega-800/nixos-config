@@ -10,7 +10,7 @@ in
     default = config.u.user.enable && !usr.minimal;
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && usr.term == "alacritty") {
     programs.alacritty = {
       enable = true;
       package = (nixGL pkgs.alacritty);

@@ -28,6 +28,7 @@ in {
             pkgs.git.override { withLibsecret = true; }
           }/bin/git-credential-libsecret";
         push.autoSetupRemote = true;
+        safe.directory = "*";
       };
       #pkgs.pinentry-tty;
       diff-so-fancy = {

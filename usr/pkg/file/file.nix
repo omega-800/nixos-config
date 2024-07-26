@@ -11,6 +11,7 @@ in {
         # tree (replaced by eza)
         eza
       ] ++ (if !usr.minimal then [
+        yazi
         gzip
         unzip
         gdu

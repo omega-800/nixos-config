@@ -1,19 +1,23 @@
-{ lib, stdenv, writeText
-, xorgproto, libX11, libXext, libXrandr, libxcrypt, cargo, libXinerama
+{ lib
+, stdenv
+, writeText
+, xorgproto
+, libX11
+, libXext
+, libXrandr
+, libxcrypt
+, cargo
+, libXinerama
 , fetchFromGitHub
+, omega-slock
 }:
 stdenv.mkDerivation {
-    pname = "slock";
-    version = "1.5";
+  pname = "slock";
+  version = "1.5";
 
-    src = fetchFromGitHub {
-      owner = "omega-800";
-      repo = "slock";
-      rev = "4267b2d175940500e288a52ec3eebe29075da7e5";
-      hash = "sha256-Kb/YslQDgq4gBaa4/YyH9DxWA6uaFQR2vNYGKgSuHoM=";
-    };
-
-  buildInputs = [ cargo xorgproto libX11 libXext libXrandr libxcrypt libXinerama ];
+  src = omega-slock;
+  buildInputs =
+    [ cargo xorgproto libX11 libXext libXrandr libxcrypt libXinerama ];
 
   installFlags = [ "PREFIX=$(out)" ];
 
@@ -35,4 +39,5 @@ stdenv.mkDerivation {
     license = licenses.mit;
     maintainers = with maintainers; [ astsmtl qusic ];
     platforms = platforms.linux;
-  };}
+  };
+}
