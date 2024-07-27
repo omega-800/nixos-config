@@ -21,3 +21,4 @@
 
 - devcontainer??
 - serv
+    - [selinux](https://nixos.wiki/wiki/Workgroup:SELinux) questionmark?

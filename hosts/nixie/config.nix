@@ -7,7 +7,7 @@
       genericLinux = false;
     };
     usr = {
-      wm = "dwm";
+      wm = "sway";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = false;

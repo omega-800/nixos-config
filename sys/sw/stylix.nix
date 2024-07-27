@@ -1,7 +1,8 @@
 { lib, pkgs, inputs, usr, ... }:
 
 let
-  themePath = "../../../themes/" + usr.theme + "/" + usr.theme + ".yaml";
+  themePath = ./. + "../../../../themes/${usr.theme}";
+  themeYamlPath = themePath + "/${usr.theme}.yaml";
   themePolarity = lib.removeSuffix "\n" (builtins.readFile
     (./. + "../../../themes" + ("/" + usr.theme) + "/polarity.txt"));
   themeImage =
@@ -27,7 +28,7 @@ in
       };
       polarity = themePolarity;
       image = themeImage;
-      base16Scheme = ./. + themePath;
+      base16Scheme = themeYamlPath;
       fonts = {
         monospace = {
           name = usr.font;
