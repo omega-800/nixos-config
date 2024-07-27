@@ -6,7 +6,8 @@ let
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in
 rec {
-  inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable mkOverlays;
+  inherit (util)
+    mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable mkOverlays mkGlobals;
   inherit (script) writeCfgToScript generateInstallerList;
 
   mkHost = path: attrs:
@@ -51,6 +52,10 @@ rec {
         inherit inputs;
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
+        globals = (import ../profiles/default/globals.nix {
+          inherit (cfg) usr sys;
+          inherit pkgs lib;
+        });
         pkgs-stable = (mkPkgsStable cfg.sys.system);
         genericLinuxSystemInstaller = writeCfgToScript cfg; # (mkSysCfg path);
         #genericLinuxSystemInstallerList = generateInstallerList cfg;# (mkSysCfg path);
