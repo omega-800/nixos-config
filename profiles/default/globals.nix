@@ -15,7 +15,10 @@
     XDG_TEMPLATES_DIR = "${XDG_DOCUMENTS_DIR}/templ";
     XDG_VIDEOS_DIR = "${XDG_DOCUMENTS_DIR}/vid";
 
-    PATH = "${XDG_BIN_HOME}";
+# uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
+# fixed this with `. /etc/set-environment`
+# and prepending $PATH to the value, duh
+    PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
   };
   styling =

@@ -1,10 +1,10 @@
 { lib, pkgs, inputs, usr, ... }:
 
 let
-  themePath = ./. + "../../../../themes/${usr.theme}";
+  themePath = ./. + "../../../themes/${usr.theme}";
   themeYamlPath = themePath + "/${usr.theme}.yaml";
-  themePolarity = lib.removeSuffix "\n" (builtins.readFile
-    (./. + "../../../themes" + ("/" + usr.theme) + "/polarity.txt"));
+  themePolarity =
+    lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
   themeImage =
     if builtins.pathExists (themePath + "/${usr.theme}.png") then
       themePath + "/${usr.theme}.png"
