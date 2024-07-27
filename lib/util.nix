@@ -50,6 +50,10 @@ in rec {
         inherit inputs;
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
+        globals = (import ../profiles/default/globals.nix {
+          inherit (cfg) usr sys;
+          inherit pkgs lib;
+        });
         pkgs-stable = (mkPkgsStable cfg.sys.system);
       };
     in

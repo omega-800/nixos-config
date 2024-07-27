@@ -11,6 +11,7 @@
 
 ## general
 
+- stylix opacity
 - wayland setup
 - global vars
     - stylix generalization (hm & os)
