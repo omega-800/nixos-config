@@ -6,7 +6,7 @@ let
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in
 rec {
-  inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable;
+  inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable mkOverlays;
   inherit (script) writeCfgToScript generateInstallerList;
 
   mkHost = path: attrs:
@@ -25,7 +25,7 @@ rec {
       modules = [
         ({
           # clearly i do NOT understand how nix works
-          nixpkgs.overlays = [ inputs.nur.overlay ];
+          nixpkgs.overlays = mkOverlays cfg.sys.genericLinux;
         })
         ../profiles/default/configuration.nix
         ../profiles/${cfg.sys.profile}/configuration.nix

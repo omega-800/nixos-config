@@ -1,22 +1,31 @@
-{ inputs, pkgs, lib, ...}: 
-with lib;
-rec {
-  isStable = profile: (profile == "homelab" || profile == "worklab"); 
+{ inputs, pkgs, lib, ... }:
+with lib; rec {
+  isStable = profile: (profile == "homelab" || profile == "worklab");
 
   mkLib = cfg:
-    let 
+    let
       stablePkgs = isStable cfg.sys.profile;
-      lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
-        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
+      lib = (if stablePkgs then
+        inputs.nixpkgs-stable.lib
+      else
+        inputs.nixpkgs.lib).extend (self: super: {
+        my = import ./lib {
+          inherit pkgs inputs;
+          lib = self;
+        };
+      });
     in
-      lib;
+    lib;
 
   mkHomeMgr = cfg:
     let
       stablePkgs = isStable cfg.sys.profile;
-      home-manager = (if stablePkgs then inputs.home-manager-stable else inputs.home-manager-unstable);
+      home-manager = (if stablePkgs then
+        inputs.home-manager-stable
+      else
+        inputs.home-manager-unstable);
     in
-      home-manager;
+    home-manager;
 
   mkPkgsStable = system:
     let
@@ -27,8 +36,12 @@ rec {
           allowUnfreePredicate = (_: true);
         };
       };
-    in 
-      pkgs-stable;
+    in
+    pkgs-stable;
+
+  mkOverlays = genericLinux:
+    [ inputs.rust-overlay.overlays.default inputs.nur.overlay ]
+    ++ (if genericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
   mkPkgsUnstable = system: genericLinux:
     let
@@ -38,26 +51,23 @@ rec {
           allowUnfree = true;
           allowUnfreePredicate = (_: true);
         };
-        overlays = [ 
-          inputs.rust-overlay.overlays.default 
-          inputs.nur.overlay 
-        ] ++ (if genericLinux then [ inputs.nixgl.overlay ] else []);
+        overlays = mkOverlays genericLinux;
       });
       nixpkgs-patched =
         (import inputs.nixpkgs { inherit system; }).applyPatches {
           name = "nixpkgs-patched";
           src = inputs.nixpkgs;
         };
-    in 
-      pkgs-unstable;
+    in
+    pkgs-unstable;
 
   mkPkgs = profile: system: genericLinux:
-    let 
+    let
       stablePkgs = isStable profile;
       pkgs-stable = mkPkgsStable system;
       pkgs-unstable = mkPkgsUnstable system genericLinux;
       pkgs = if stablePkgs then pkgs-stable else pkgs-unstable;
-    in  
-      pkgs;
+    in
+    pkgs;
 
 }

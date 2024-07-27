@@ -13,6 +13,7 @@ in
 {
   imports = [
     ./aliases.nix
+    ./env.nix
     (import ./${usr.shell.pname}.nix { inherit shellInitExtra; })
     #./zsh.nix
     #./bash.nix
