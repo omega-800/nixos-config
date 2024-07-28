@@ -41,6 +41,7 @@ in
         device = "/dev/disk/by-uuid/027c3d99-8995-438c-8c27-9d7d5ba1b12a";
         keyFile = "/key/keyfile.lek";
         preLVM = false;
+        fallbackToPassword = true;
       };
     };
     kernelModules = [ "kvm-intel" ];

@@ -7,10 +7,10 @@
       genericLinux = false;
     };
     usr = {
-      wm = "sway";
+      wm = "dwm";
       shell = pkgs.zsh;
       term = "kitty";
-      extraBloat = false;
+      extraBloat = true;
       theme = "gruvbox-dark-hard";
       #theme = "catppuccin-mocha";
     };

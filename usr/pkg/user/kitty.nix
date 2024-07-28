@@ -21,6 +21,7 @@ in
         enableBashIntegration = true;
       };
       settings = {
+        background_opacity = mkForce "0.85";
         scrollback_lines = 10000;
         enable_audio_bell = false;
         update_check_interval = 0;

@@ -2,19 +2,22 @@
 let
   inherit (lib) mkIf mkOption mkEnableOption mkPackageOption optional;
   cfg = config.services.swhkd;
-in {
+in
+{
   options.services.swhkd = {
     enable = mkEnableOption "simple wayland hotkey daemon";
-    package = mkPackageOption pkgs "swhkd" {};
+    package = mkPackageOption pkgs "swhkd" { };
     swhkdrc = mkOption {
       type = lib.types.lines;
       default = "";
-      description = "contents of the system-wide swhkdrc file. See {manpage}`swhkd(5) for more details on the config format.";
+      description =
+        "contents of the system-wide swhkdrc file. See {manpage}`swhkd(5) for more details on the config format.";
     };
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ] ++ [ cfg.package.out ];
+    #yeah...
+    #environment.systemPackages = [ cfg.package ] ++ [ cfg.package.out ];
     environment.etc."swhkd/swhkdrc".text = cfg.swhkdrc;
     security.polkit.enable = true;
   };

@@ -22,7 +22,9 @@ in {
         # python3
       ] else
         [ ]) ++ (if usr.extraBloat && sys.profile == "pers" then
-        [ ciscoPacketTracer8 ]
+        [
+          # ciscoPacketTracer8 
+        ]
       else
         [ ]);
   };

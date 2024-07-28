@@ -67,10 +67,6 @@ in
         };
       };
     };
-    #    services.xserver.displayManager.lightdm = {
-    #      greeters.slick.enable = true;
-    #      greeters.slick.theme.name = myLightDMTheme;
-    #    };
     environment.sessionVariables = { QT_QPA_PLATFORMTHEME = "qt5ct"; };
   };
 }

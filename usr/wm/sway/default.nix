@@ -1,9 +1,11 @@
 { config, pkgs, usr, ... }:
 let nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
 in {
+  home.packages = with pkgs; [ pinentry-gnome3 polkit_gnome ];
   wayland.windowManager.sway = {
     enable = true;
     package = (nixGL pkgs.sway);
+    xwayland = true;
     systemd.enable = true;
     config = rec {
       modifier = "Mod4";
@@ -13,6 +15,14 @@ in {
         "*" = {
           xkb_layout = "ch";
           xkb_variant = "de";
+        };
+        "type:keyboard" = {
+          repeat_delay = "300";
+          repeat_rate = "50";
+        };
+        "type:touchpad" = {
+          tap = "enabled";
+          natural_scroll = "disabled";
         };
       };
     };

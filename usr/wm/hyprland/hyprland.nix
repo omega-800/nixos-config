@@ -11,7 +11,7 @@ in {
       inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
       inputs.hycov.packages.${pkgs.system}.hycov
     ];
-    xwayland = { enable = true; };
+    xwayland.enable = true;
     systemd.enable = true;
     extraConfig = ''
     ${builtins.readFile ./config/modules/general.conf}
@@ -25,6 +25,7 @@ in {
   home.packages = with pkgs; [
     kitty
     killall
+    pinentry-gnome3
     polkit_gnome
     wlr-randr
     wtype
@@ -35,7 +36,6 @@ in {
     fnott
     fuzzel
     keepmenu
-    pinentry-gnome3
     wev
     grim
     slurp

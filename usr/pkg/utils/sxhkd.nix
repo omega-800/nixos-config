@@ -43,9 +43,12 @@ in
           "super + shift + r" =
             "pkill -f sxhkd; sxhkd &; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
           "super + shift + h" = sxhkdHelperScript;
-          "super + shift + s" = "flameshot gui";
-          "super + ctrl + shift + s" =
-            "maim ${usr.homeDir}/documents/img/screenshots/$(date +%s).png";
+          # flameshot & disown solves the copy issue
+          "super + shift + s" = "${
+            if sys.genericLinux then "" else "flameshot & disown && "
+          }flameshot gui";
+          "super + ctrl + shift + s" = "flameshot screen";
+          "super + alt + shift + s" = "flameshot full";
           "super + enter " = usr.term;
 
           # Show clipmenu

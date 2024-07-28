@@ -18,7 +18,6 @@ in {
       ripgrep
     ] ++ (if !usr.minimal then [
       bc
-      flameshot
       stow
       xclip
       xbindkeys

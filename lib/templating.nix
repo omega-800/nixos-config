@@ -1,4 +1,10 @@
 { pkgs, ... }: {
+  parseYaml = path:
+    builtins.fromJSON (builtins.readFile
+      # this import <nixpkgs> is a tEmPoRaRy fix *saying this while applying clown makeup*
+      ((import <nixpkgs> { }).runCommandNoCC "converted-yaml.json"
+        ''${pkgs.yj}/bin/yj < "${path}" > "$out"''));
+
   templateFile = name: template: data:
     pkgs.stdenv.mkDerivation {
 

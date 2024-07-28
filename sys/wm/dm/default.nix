@@ -3,10 +3,10 @@ let
   cmd =
     if usr.wmType == "x11" then
       "startx"
-    else if usr.wm == "hyprland" then
+    else ("lxqt-policykit-agent " + (if usr.wm == "hyprland" then
       "Hyprland"
     else
-      usr.wm;
+      usr.wm));
 in
 {
   # Enable Display Manager
