@@ -5,4 +5,8 @@
     ];
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
   system.stateVersion = "23.11"; 
+services.unifi = {
+enable = true;
+unifiPackage = pkgs.unifi8;
+};
 }

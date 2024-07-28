@@ -10,7 +10,7 @@
     usr = {
       wm = "dwm";
       shell = pkgs.zsh;
-      term = "kitty";
+      term = "alacritty";
       extraBloat = false;
       theme = "gruvbox-dark-hard";
       #theme = "catppuccin-mocha";

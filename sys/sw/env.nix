@@ -1,1 +1,1 @@
-{ globals, ... }: { environment.sessionVariables = globals.envVars; }
+{ globals, ... }: { }

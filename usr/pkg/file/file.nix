@@ -15,8 +15,6 @@ in {
         gzip
         unzip
         gdu
-        ctpv
-        ueberzug
         trash-cli
       ] else
         [ ]) ++ (if usr.extraBloat then [
