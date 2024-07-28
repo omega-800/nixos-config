@@ -44,12 +44,18 @@ in rec {
     in
     cfg.config;
 
+  mkLib = pkgs: cfg: {
+    nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
+    templateFile = import ./templating.nix { inherit pkgs; };
+  };
+
   mkArgs = cfg:
     let
       args = {
         inherit inputs;
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
+        myLib = mkLib pkgs config;
         globals = (import ../profiles/default/globals.nix {
           inherit (cfg) usr sys;
           inherit pkgs lib;

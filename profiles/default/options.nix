@@ -121,7 +121,7 @@ with lib; {
         default =
           if config.c.usr.minimal then
             ""
-          else if (config.c.usr.wm == "hyprland") then
+          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm == "sway") then
             "wayland"
           else
             "x11";

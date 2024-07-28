@@ -1,6 +1,8 @@
 # interpreter for shell commands
 set shell sh
 
+# test @hi@
+
 # my custom settings
 set hidden true
 set icons
