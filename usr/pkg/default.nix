@@ -1,4 +1,8 @@
-{ ... }: {
+{ config, lib, ... }: with lib; {
+  options.u.extraPkgs = mkOption {
+	type = types.listOf types.package;
+	default = [];
+}; 
   imports = [
     ./dev
     ./style 
@@ -11,4 +15,5 @@
     ./user
     ./utils
   ];
+config.home.packages = config.u.extraPkgs;
 }

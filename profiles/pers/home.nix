@@ -7,7 +7,7 @@ with lib; {
 
   # pkgs
   u = {
-    media.enable = mkForce true;
-    social.enable = mkForce true;
+    media.enable = true;
+    social.enable = true;
   };
 }
