@@ -11,8 +11,8 @@
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;
-      theme = "gruvbox-dark-hard";
-      #theme = "catppuccin-mocha";
+      #theme = "gruvbox-dark-hard";
+      theme = "atom-dark";
     };
   };
 }
