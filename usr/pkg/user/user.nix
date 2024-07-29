@@ -9,7 +9,7 @@ in {
       [
         #starship
         pass
-      ] ++ (if !usr.minimal then [ tree-sitter feh maim ] else [ ])
+      ] ++ (if !usr.minimal then [ tree-sitter feh ] else [ ])
       ++ (if usr.extraBloat then [
         fortune
         cowsay

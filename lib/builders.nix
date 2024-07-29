@@ -6,7 +6,9 @@ let
   script = import ./sys_script.nix { inherit inputs pkgs lib; };
 in
 rec {
-  inherit (util) mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable;
+  inherit (util)
+    mkCfg mkSysCfg mkArgs mkPkgs mkHomeMgr mkPkgsStable mkOverlays mkGlobals
+    mkLib;
   inherit (script) writeCfgToScript generateInstallerList;
 
   mkHost = path: attrs:
@@ -17,15 +19,15 @@ rec {
     nixosSystem {
       inherit (cfg.sys) system;
       /* specialArgs = mkMerge [
-           (mkArgs cfg)
-           {lib = mkLib cfg;}
-         ];
+               (mkArgs cfg)
+               {lib = mkLib cfg;}
+             ];
       */
       specialArgs = mkArgs cfg;
       modules = [
         ({
           # clearly i do NOT understand how nix works
-          nixpkgs.overlays = [ inputs.nur.overlay ];
+          nixpkgs.overlays = mkOverlays cfg.sys.genericLinux;
         })
         ../profiles/default/configuration.nix
         ../profiles/${cfg.sys.profile}/configuration.nix
@@ -51,6 +53,11 @@ rec {
         inherit inputs;
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
+        myLib = mkLib pkgs cfg;
+        globals = (import ../profiles/default/globals.nix {
+          inherit (cfg) usr sys;
+          inherit pkgs lib;
+        });
         pkgs-stable = (mkPkgsStable cfg.sys.system);
         genericLinuxSystemInstaller = writeCfgToScript cfg; # (mkSysCfg path);
         #genericLinuxSystemInstallerList = generateInstallerList cfg;# (mkSysCfg path);

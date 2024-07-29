@@ -25,14 +25,6 @@ in {
       extraOptions = [ "-secure" ];
     };
   };
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      tapping = true;
-      middleEmulation = true;
-      disableWhileTyping = true;
-    };
-  };
   programs = {
     slock = {
       enable = true;

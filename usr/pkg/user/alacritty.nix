@@ -11,6 +11,7 @@ in
   };
 
   config = mkIf (cfg.enable && usr.term == "alacritty") {
+    home.packages = with pkgs; [ ueberzugpp ctpv];
     programs.alacritty = {
       enable = true;
       package = (nixGL pkgs.alacritty);

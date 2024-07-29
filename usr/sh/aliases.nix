@@ -86,10 +86,12 @@ in
       ls = "ls --color=auto";
       dir = "dir --color=auto";
       vdir = "vdir --color=auto";
-      vim = "nvim";
       dbr = "docker run --rm -it $(docker build -q .)";
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
+    (mkIf (config.u.user.nixvim.enable) { 
+      vim = "nvim";
+})
     cdAliases
   ]);
 }

@@ -43,25 +43,25 @@ in
       noto-fonts-emoji
       noto-fonts-monochrome-emoji
     ];
-    home.file = {
+    home.file = with config.lib.stylix.colors; {
       ".currenttheme".text = usr.theme;
       ".currentcolors.conf".text = ''
-        base00 = #${config.lib.stylix.colors.base00}
-        base01 = #${config.lib.stylix.colors.base01}
-        base02 = #${config.lib.stylix.colors.base02}
-        base03 = #${config.lib.stylix.colors.base03}
-        base04 = #${config.lib.stylix.colors.base04}
-        base05 = #${config.lib.stylix.colors.base05}
-        base06 = #${config.lib.stylix.colors.base06}
-        base07 = #${config.lib.stylix.colors.base07}
-        base08 = #${config.lib.stylix.colors.base08}
-        base09 = #${config.lib.stylix.colors.base09}
-        base0A = #${config.lib.stylix.colors.base0A}
-        base0B = #${config.lib.stylix.colors.base0B}
-        base0C = #${config.lib.stylix.colors.base0C}
-        base0D = #${config.lib.stylix.colors.base0D}
-        base0E = #${config.lib.stylix.colors.base0E}
-        base0F = #${config.lib.stylix.colors.base0F}
+        base00 = #${base00}
+        base01 = #${base01}
+        base02 = #${base02}
+        base03 = #${base03}
+        base04 = #${base04}
+        base05 = #${base05}
+        base06 = #${base06}
+        base07 = #${base07}
+        base08 = #${base08}
+        base09 = #${base09}
+        base0A = #${base0A}
+        base0B = #${base0B}
+        base0C = #${base0C}
+        base0D = #${base0D}
+        base0E = #${base0E}
+        base0F = #${base0F}
       '';
     };
     stylix = {
@@ -120,6 +120,11 @@ in
         qutebrowser.enable = true;
         tmux.enable = true;
         zathura.enable = true;
+        sway.enable = true;
+        swaylock = {
+          enable = true;
+          useImage = true;
+        };
         firefox = {
           enable = true;
           profileNames = [ usr.username ];
@@ -155,51 +160,51 @@ in
     #      bright.white = "#"+config.lib.stylix.colors.base07;
     #    };
     #  };
-    home.file.".fehbg-stylix".text = ''
-      #!/bin/sh
-      feh --no-fehbg --bg-fill '' + config.stylix.image + ''
-      ;
-    '';
-    home.file.".fehbg-stylix".executable = true;
-    home.file.".swaybg-stylix".text = ''
-      #!/bin/sh
-        swaybg -m fill -i '' + config.stylix.image + ''
-      ;
-    '';
-    home.file.".swaybg-stylix".executable = true;
-    home.file.".swayidle-stylix".text = ''
-      #!/bin/sh
-        swaylock_cmd='swaylock --indicator-radius 200 --screenshots --effect-blur 10x10'
-        swayidle -w timeout 300 "$swaylock_cmd --fade-in 0.5 --grace 5" \
-                timeout 600 'hyprctl dispatch dpms off' \
-                resume 'hyprctl dispatch dpms on' \
-                before-sleep "$swaylock_cmd"
-    '';
-    home.file.".swayidle-stylix".executable = true;
-    home.file = {
-      ".config/qt5ct/colors/oomox-current.conf".source =
-        config.lib.stylix.colors {
-          template = builtins.readFile ./oomox-current.conf.mustache;
-          extension = ".conf";
-        };
-      ".config/Trolltech.conf".source = config.lib.stylix.colors {
-        template = builtins.readFile ./Trolltech.conf.mustache;
-        extension = ".conf";
-      };
-      ".config/kdeglobals".source = config.lib.stylix.colors {
-        template = builtins.readFile ./Trolltech.conf.mustache;
-        extension = "";
-      };
-      ".config/qt5ct/qt5ct.conf".text =
-        pkgs.lib.mkBefore (builtins.readFile ./qt5ct.conf);
-    };
-    home.file.".config/hypr/hyprpaper.conf".text = "preload = "
-      + config.stylix.image + ''
-
-        wallpaper = eDP-1,'' + config.stylix.image + ''
-
-          wallpaper = HDMI-A-1,'' + config.stylix.image + ''
-
-            wallpaper = DP-1,'' + config.stylix.image + "";
+    # home.file.".fehbg-stylix".text = ''
+    #   #!/bin/sh
+    #   feh --no-fehbg --bg-fill '' + config.stylix.image + ''
+    #   ;
+    # '';
+    # home.file.".fehbg-stylix".executable = true;
+    # home.file.".swaybg-stylix".text = ''
+    #   #!/bin/sh
+    #     swaybg -m fill -i '' + config.stylix.image + ''
+    #   ;
+    # '';
+    # home.file.".swaybg-stylix".executable = true;
+    # home.file.".swayidle-stylix".text = ''
+    #   #!/bin/sh
+    #     swaylock_cmd='swaylock --indicator-radius 200 --screenshots --effect-blur 10x10'
+    #     swayidle -w timeout 300 "$swaylock_cmd --fade-in 0.5 --grace 5" \
+    #             timeout 600 'hyprctl dispatch dpms off' \
+    #             resume 'hyprctl dispatch dpms on' \
+    #             before-sleep "$swaylock_cmd"
+    # '';
+    # home.file.".swayidle-stylix".executable = true;
+    # home.file = {
+    #   ".config/qt5ct/colors/oomox-current.conf".source =
+    #     config.lib.stylix.colors {
+    #       template = builtins.readFile ./oomox-current.conf.mustache;
+    #       extension = ".conf";
+    #     };
+    #   ".config/Trolltech.conf".source = config.lib.stylix.colors {
+    #     template = builtins.readFile ./Trolltech.conf.mustache;
+    #     extension = ".conf";
+    #   };
+    #   ".config/kdeglobals".source = config.lib.stylix.colors {
+    #     template = builtins.readFile ./Trolltech.conf.mustache;
+    #     extension = "";
+    #   };
+    #   ".config/qt5ct/qt5ct.conf".text =
+    #     pkgs.lib.mkBefore (builtins.readFile ./qt5ct.conf);
+    # };
+    # home.file.".config/hypr/hyprpaper.conf".text = "preload = "
+    #   + config.stylix.image + ''
+    #
+    #     wallpaper = eDP-1,'' + config.stylix.image + ''
+    #
+    #       wallpaper = HDMI-A-1,'' + config.stylix.image + ''
+    #
+    #         wallpaper = DP-1,'' + config.stylix.image + "";
   };
 }

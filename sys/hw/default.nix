@@ -11,5 +11,6 @@
     ./systemd.nix
     ./time.nix
     ./keyd.nix
+    ./io.nix
   ];
 }
