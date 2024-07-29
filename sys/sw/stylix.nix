@@ -17,11 +17,17 @@ in
     stylix = {
       autoEnable = true;
       polarity = themePolarity;
+      opacity.terminal = 0.85;
       image = pkgs.fetchurl {
         url = backgroundUrl;
         sha256 = backgroundSha256;
       };
       base16Scheme = ./. + themePath;
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Ice";
+        size = 32;
+      };
       fonts = {
         monospace = {
           name = usr.font;
@@ -43,10 +49,24 @@ in
       targets = {
         lightdm.enable = true;
         console.enable = true;
+        feh.enable = true;
+        gnome.enable = true;
+        gtk.enable = true;
+        nixos-icons.enable = true;
+        nixvim.enable = true;
         chromium.enable = true;
         grub = {
           enable = true;
-          useImage = false;
+          useImage = true;
+        };
+        plymouth = {
+          enable = true;
+          logo = pkgs.fetchurl {
+            url = backgroundUrl;
+            sha256 = backgroundSha256;
+          };
+          logoAnimated = true;
+
         };
       };
     };
