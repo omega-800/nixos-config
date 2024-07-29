@@ -65,6 +65,7 @@ in
       '';
     };
     stylix = {
+      opacity.terminal = 0.85;
       autoEnable = true;
       base16Scheme = themeYamlPath;
       cursor = {
