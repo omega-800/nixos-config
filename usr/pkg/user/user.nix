@@ -5,6 +5,10 @@ in {
   options.u.user = { enable = mkEnableOption "enables userspace packages"; };
 
   config = mkIf cfg.enable {
+    services.gnome-keyring = {
+      enable = true;
+      components = ["ssh" "secrets"];
+    };
     home.packages = with pkgs;
       [
         #starship
