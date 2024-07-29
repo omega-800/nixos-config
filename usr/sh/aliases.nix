@@ -65,7 +65,7 @@ in
       src = "source ~/.bashrc && source ~/.bash_aliases";
       x = "exit";
       cpr = "tar -czvf";
-      fd = "find . -size 0 -print -delete";
+      fdel = "find . -size 0 -print -delete";
       loc = "locate -A";
       entry = "vim $(date +%y%m%d).txt";
       qmk_left =

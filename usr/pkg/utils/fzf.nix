@@ -8,6 +8,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    programs.fd = {
+      enable = true;
+      hidden = true;
+    };
     programs.fzf = {
       enable = true;
       enableBashIntegration = true;
