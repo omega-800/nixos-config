@@ -37,6 +37,12 @@ in {
           user = "inteco";
           extraOptions = { Ciphers = "aes256-cbc"; };
         };
+        SB = {
+          host = "SB";
+          hostname = "scherer-buehler.ch";
+          port = 6699;
+          user = "inteco";
+        };
         Ares = {
           host = "Ares";
           hostname = "ares.inteco.ch";
