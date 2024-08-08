@@ -9,7 +9,7 @@ let
   backgroundUrl = builtins.readFile
     (./. + "../../../themes" + ("/" + usr.theme) + "/backgroundurl.txt");
   backgroundSha256 = builtins.readFile
-    (./. + "../../../themes/" + ("/" + usr.theme) + "/backgroundsha256.txt");
+    (./. + "../../../themes" + ("/" + usr.theme) + "/backgroundsha256.txt");
 in
 {
   imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];

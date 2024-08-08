@@ -12,7 +12,12 @@
     plugins.none-ls = {
       enable = true;
       sources = {
-        diagnostics = { statix.enable = true; };
+        diagnostics = {
+          statix.enable = true;
+          gitlint.enable = true;
+          golangci_lint.enable = true;
+          zsh.enable = true;
+        };
         formatting = {
           fantomas.enable = true;
           nixfmt.enable = true;
@@ -21,6 +26,8 @@
           sqlfluff.enable = true;
           stylelint.enable = true;
           yamlfix.enable = true;
+          gofmt.enable = true;
+          goimports.enable = true;
           prettierd = {
             enable = true;
             withArgs = # lua

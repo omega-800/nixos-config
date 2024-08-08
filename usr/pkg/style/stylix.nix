@@ -1,6 +1,5 @@
 { config, usr, lib, pkgs, inputs, ... }:
 let
-
   themePath = ./. + "../../../../themes/${usr.theme}";
   themeYamlPath = themePath + "/${usr.theme}.yaml";
   themePolarity =
