@@ -40,8 +40,8 @@ in
         {
           "super + y" = "${pkgs.screenkey}/bin/screenkey &";
           "super + alt + y" = "pkill -f screenkey";
-          "super + shift + r" =
-            "pkill -f sxhkd; sxhkd &; dunstify 'sxhkd' 'Reloaded keybindings' -t 500";
+          "super + shift + r" = ''
+            bash -c "pkill -f sxhkd; sxhkd & dunstify 'sxhkd' 'Reloaded keybindings' -t 500"'';
           "super + shift + h" = sxhkdHelperScript;
           # flameshot & disown solves the copy issue
           "super + shift + s" = "${
@@ -63,7 +63,7 @@ in
 
           # r for running stuffs
           # compile / flash qmk keyboard
-          "super + r ; q ; {c,l,r}" =
+          "super + r ; q ; {c,l,r}" = r
             "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,-bl avrdude-split-right}";
 
           # generate password
@@ -72,6 +72,7 @@ in
 
           # clip password
           "super + r ; y" = "passmenu";
+          "super + r ; r" = ''bash -c "$(rofi -dmenu -p 'Run command')"'';
           "super + r ; k" = kaomojiScript;
           "super + r ; {t,p,o,s}" =
             "rofi-{theme-selector,pass,obsidian,screenshot";
