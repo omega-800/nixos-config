@@ -16,7 +16,7 @@ in
 {
   imports =
     if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
-  config = lib.mkIf usr.style {
+  config = if !usr.style then {} else {
     fonts.fontconfig.enable = true;
     home.packages = with pkgs; [
 

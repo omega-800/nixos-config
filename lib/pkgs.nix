@@ -1,6 +1,8 @@
 { inputs, pkgs, lib, ... }:
 with lib; rec {
-  isStable = profile: profile == "never"; # because this breaks home-manager
+  isStable = profile: profile == "serv"; 
+  # because this breaks home-manager
+  # fuck me. and here i thought nixOS was stable
 
   mkLib = cfg:
     let
