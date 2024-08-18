@@ -17,6 +17,7 @@ in {
     ./opts
     ./autocmd
     ./dap
+    ./py
   ];
 
   config = mkIf cfg.enable {
