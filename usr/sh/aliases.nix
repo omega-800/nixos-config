@@ -19,7 +19,7 @@ in
         "home-manager switch --flake ${config.home.homeDirectory # toString ./.
         }/workspace/nixos-config#${sys.hostname} --show-trace";
       nrs =
-        "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace";
+        "nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace --use-remote-sudo";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
       vf = "vim $(__fzf_select__)";

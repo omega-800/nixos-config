@@ -18,10 +18,10 @@ in
       autoEnable = true;
       polarity = themePolarity;
       opacity.terminal = 0.85;
-      image = pkgs.fetchurl {
-        url = backgroundUrl;
-        sha256 = backgroundSha256;
-      };
+      # image = pkgs.fetchurl {
+      #   url = backgroundUrl;
+      #   sha256 = backgroundSha256;
+      # };
       base16Scheme = ./. + themePath;
       cursor = {
         package = pkgs.bibata-cursors;
