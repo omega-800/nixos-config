@@ -10,10 +10,12 @@ in {
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "discord"
     ];
-    home.packages = with pkgs; [
+    home.packages = with pkgs; mkMerge ([
       aerc
-    ] ++ (if usr.extraBloat && sys.profile == "pers" then [
+    ]
+    (mkIf usr.extraBloat && sys.profile == "pers" [
       discord
-    ] else []);
+    ])
+    );
   };
 }

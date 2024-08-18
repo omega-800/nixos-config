@@ -16,11 +16,4 @@
       wg.enable = true;
     };
   };
-  c = {
-    sys.paranoid = true;
-    usr = {
-      style = false;
-      minimal = true;
-    };
-  };
 }

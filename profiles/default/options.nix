@@ -32,7 +32,7 @@ with lib; {
       bootMode = mkOption {
         type = types.str;
         default = "uefi";
-      }; # uefi or bios
+      }; # uefi or bios or ext
       bootMountPath = mkOption {
         type = types.str;
         default = "/boot";
