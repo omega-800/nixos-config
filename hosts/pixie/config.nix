@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   config.c = {
     sys = {
       hostname = "pixie";
@@ -6,14 +6,14 @@
       system = "aarch64-linux";
       bootMode = "ext";
       genericLinux = false;
-      paranoid = true;
+      #paranoid = true;
+      paranoid = lib.mkForce false;
     };
     usr = {
       shell = pkgs.zsh;
       extraBloat = false;
       theme = "gruvbox-dark-hard";
-      style = true;
-      #style = false;
+      style = false;
       minimal = true;
     };
   };
