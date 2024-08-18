@@ -1,6 +1,6 @@
 { inputs, pkgs, lib, ... }:
 with lib; rec {
-  isStable = profile: (profile == "homelab" || profile == "worklab");
+  isStable = profile: profile == "never"; # because this breaks home-manager
 
   mkLib = cfg:
     let

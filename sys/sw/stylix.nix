@@ -13,7 +13,7 @@ let
 in
 {
   imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];
-  config = lib.mkIf usr.style {
+  config = if !usr.style then {} else {
     stylix = {
       autoEnable = true;
       polarity = themePolarity;

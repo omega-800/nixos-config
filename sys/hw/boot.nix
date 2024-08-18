@@ -13,7 +13,7 @@
     # grub.efiInstallAsRemovable = true;
     # grub.efiSupport = true;
     grub = {
-      enable = sys.bootMode == "grub";
+      enable = sys.bootMode == "bios";
       device = sys.grubDevice; # does nothing if running uefi rather than bios
       useOSProber = true;
       extraEntries = sys.extraGrubEntries;
