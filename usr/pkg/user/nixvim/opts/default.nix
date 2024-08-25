@@ -1,6 +1,6 @@
 { usr, lib, pkgs, ... }: {
   programs.nixvim.opts = {
-    completeopt = [ "menu" "menuone" "noselect" ];
+    # completeopt = [ "menu" "menuone" "noselect" ];
     updatetime = 50; # Faster completion
 
     number = true;
