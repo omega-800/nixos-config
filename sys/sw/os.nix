@@ -35,7 +35,7 @@ in
   #users.mutableUsers = false;
   users.users.${usr.username} = {
     isNormalUser = true;
-    passwordFile = (config.sops.secrets.user_init_pass.path);
+    hashedPasswordFile = (config.sops.secrets.user_init_pass.path);
     extraGroups = [ "wheel" "video" "audio" ] ++ ifExist [
       "kvm"
       "docker"

@@ -1,5 +1,4 @@
 { lib, pkgs, inputs, usr, ... }:
-
 let
   themePath = "../../../themes/" + usr.theme + "/" + usr.theme + ".yaml";
   themePolarity = lib.removeSuffix "\n" (builtins.readFile
@@ -13,25 +12,28 @@ let
 in
 {
   imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];
-  config = if !usr.style then {} else {
-    stylix = {
-      autoEnable = true;
-      polarity = themePolarity;
-      opacity.terminal = 0.85;
-      # image = pkgs.fetchurl {
-      #   url = backgroundUrl;
-      #   sha256 = backgroundSha256;
-      # };
-      base16Scheme = ./. + themePath;
-      cursor = {
-        package = pkgs.bibata-cursors;
-        name = "Bibata-Modern-Ice";
-        size = 32;
-      };
-      fonts = {
-        monospace = {
-          name = usr.font;
-          package = usr.fontPkg;
+  config =
+    if !usr.style then
+      { }
+    else {
+      stylix = {
+        autoEnable = true;
+        polarity = themePolarity;
+        opacity.terminal = 0.85;
+        image = pkgs.fetchurl {
+          url = backgroundUrl;
+          sha256 = backgroundSha256;
+        };
+        base16Scheme = ./. + themePath;
+        cursor = {
+          package = pkgs.bibata-cursors;
+          name = "Bibata-Modern-Ice";
+          size = 32;
+        };
+        fonts = {
+          monospace = {
+            name = usr.font;
+            package = usr.fontPkg;
           };
           serif = {
             name = usr.font;
@@ -49,7 +51,7 @@ in
         targets = {
           lightdm.enable = true;
           console.enable = true;
-          feh.enable = true;
+          # feh.enable = true;
           gnome.enable = true;
           gtk.enable = true;
           nixos-icons.enable = true;
@@ -66,7 +68,6 @@ in
               sha256 = backgroundSha256;
             };
             logoAnimated = true;
-
           };
         };
       };

@@ -30,7 +30,7 @@
           goimports.enable = true;
           prettierd = {
             enable = true;
-            withArgs = # lua
+            settings = # lua
               ''
                 {
                   filetypes = {

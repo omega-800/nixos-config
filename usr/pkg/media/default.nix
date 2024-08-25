@@ -1,4 +1,4 @@
-{ usr,lib, config, pkgs, inputs, ... }:
+{ usr, lib, config, pkgs, inputs, ... }:
 with lib;
 let
   cfg = config.u.media.spicetify;
@@ -10,8 +10,12 @@ in
     default = config.u.media.enable;
   };
 
-  imports =
-    [ ./media.nix ./newsboat.nix ./mpd.nix spicetify-nix.homeManagerModule ];
+  imports = [
+    ./media.nix
+    ./newsboat.nix
+    ./mpd.nix
+    spicetify-nix.homeManagerModules.default
+  ];
 
   config = mkIf cfg.enable {
     /* # i don't think this is needed?
@@ -20,6 +24,9 @@ in
        "spotify"
        ];
     */
-    programs = { spicetify = import ./spicetify.nix pkgs usr.theme spicetify-nix; };
+    programs = {
+      spicetify =
+        import ./spicetify.nix pkgs config.lib.stylix.colors spicetify-nix;
+    };
   };
 }
