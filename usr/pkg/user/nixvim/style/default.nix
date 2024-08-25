@@ -79,7 +79,7 @@
         };
       };
       wilder = {
-        enable = true;
+        enable = false;
         modes = [ ":" "/" "?" ];
         enableCmdlineEnter = true;
         acceptCompletionAutoSelect = true;

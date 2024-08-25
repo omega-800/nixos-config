@@ -63,7 +63,7 @@ in
 
           # r for running stuffs
           # compile / flash qmk keyboard
-          "super + r ; q ; {c,l,r}" = r
+          "super + r ; q ; {c,l,r}" = 
             "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,-bl avrdude-split-right}";
 
           # generate password
