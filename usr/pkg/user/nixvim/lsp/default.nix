@@ -54,6 +54,7 @@
           pylsp.enable = true;
           clangd.enable = true;
           cmake.enable = true;
+          golangci-lint-ls.enable = true;
           #java-language-server.enable = true;
         };
         keymaps = {

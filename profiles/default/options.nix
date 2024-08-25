@@ -23,6 +23,7 @@ with lib; {
         type = types.listOf types.str;
         default = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBG4vyC8dYQEEv7JUeWmHqeKNBrB/GmV4sXED4dkhT2u omega@archie"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
         ];
       };
       extraGrubEntries = mkOption {
@@ -32,7 +33,7 @@ with lib; {
       bootMode = mkOption {
         type = types.str;
         default = "uefi";
-      }; # uefi or bios
+      }; # uefi or bios or ext
       bootMountPath = mkOption {
         type = types.str;
         default = "/boot";

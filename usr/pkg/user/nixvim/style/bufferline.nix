@@ -101,20 +101,20 @@
     ];
     plugins.bufferline = {
       enable = true;
-      diagnostics = "nvim_lsp";
-      mode = "buffers";
-      truncateNames = true;
-
-      closeIcon = " ";
-      bufferCloseIcon = "󰱝 ";
-      modifiedIcon = "󰔯 ";
-
-      offsets = [{
-        filetype = "neo-tree";
-        text = "Neo-tree";
-        highlight = "Directory";
-        text_align = "left";
-      }];
+      settings.options = {
+        diagnostics = "nvim_lsp";
+        truncate_names = true;
+        offsets = [{
+          filetype = "neo-tree";
+          text = "Neo-tree";
+          highlight = "Directory";
+          text_align = "left";
+        }];
+        mode = "buffers";
+        close_icon = " ";
+        buffer_close_icon = "󰱝 ";
+        modified_icon = "󰔯 ";
+      };
     };
   };
 }

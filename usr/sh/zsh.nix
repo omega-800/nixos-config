@@ -25,13 +25,9 @@
         abbreviations = config.home.shellAliases;
       };
       #defaultKeymap = "vicmd";
-      initExtra = with config.lib.stylix.colors; ''
+      #PROMPT=$'\n'"%F{#${base08}}%n%F{#${base0A}}%F{#${base0A}} %~%F{#${base0E}}%f$"$'\n'"%F{#${base00}}%m%F{#${base03}}%F{#${base03}} %j%F{#${base06}}%F{#${base00}} zsh%F{#${base03}}%F{#${base03}} %!%F{#${base0E}}%F{#${base0B}}%(!.%F{red}#.%F{green}$)%f "
+      initExtra = ''
                   ${shellInitExtra}
-        #PS1='\n\[\033[7;49;35m\]\u\[\033[0;40;35m\]\[\033[0;40;35m\] \w\[\033[0;49;30m\]\[\033[m\]\n\[\033[7;49;91m\]\h\[\033[0;40;91m\]\[\033[0;40;91m\] \j\[\033[0;101;30m\]\[\033[7;49;91m\] \s\[\033[0;40;91m\]\[\033[0;40;91m\] \!\[\033[0;49;30m\]\[\033[5;49;91m\]\$\[\033[m\] '
-        #REFERENCE_PROMPT='%(?.%F{green}✓.%F{red}×)%f %F{5}%~%f %(!.%F{red}#.%F{#123456}>)%f '
-        #PROMPT=$'\n'"%F{#${base08}}%n%F{#${base0A}}%F{#${base0A}} %~%F{#${base0E}}%f$"$'\n'"%F{#${base00}}%m%F{#${base03}}%F{#${base03}} %j%F{#${base06}}%F{#${base00}} zsh%F{#${base03}}%F{#${base03}} %!%F{#${base0E}}%F{#${base0B}}%(!.%F{red}#.%F{green}$)%f "
-
-
         setopt noautomenu
 
         PROMPT=$'\n%{\e[7;49;35m%}'"%n"$'%{\e[0;40;35m%}'""$'%{\e[0;40;35m%}'" %~"$'%{\e[0;49;30m%}'""$'%{\e[m%}\n%{\e[7;49;91m%}'"%m"$'%{\e[0;40;91m%}'""$'%{\e[0;40;91m%}'" %j"$'%{\e[0;101;30m%}'""$'%{\e[7;49;91m%}'" zsh"$'%{\e[0;40;91m%}'""$'%{\e[0;40;91m%}'" %!"$'%{\e[0;49;30m%}'""$'%{\e[5;49;91m%}'"%(!.#.$) "$'%{\e[m%}'

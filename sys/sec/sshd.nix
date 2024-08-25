@@ -9,11 +9,11 @@ with lib; {
     })
     (mkIf sys.hardened {
       allowSFTP = false;
-      challengeResponseAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
       extraConfig = ''
         LogLevel VERBOSE
         MaxSessions 2
-        Port 51423 #TODO: fix this without readFile $${config.sops.secrets.sshd_port.path}
+        Port 51423 #TODO: fix this without readFile $''${config.sops.secrets.sshd_port.path}
         TCPKeepAlive no
         PasswordAuthentication no
         PermitRootLogin no
@@ -40,6 +40,7 @@ with lib; {
       '';
     })
   ];
-# TODO: take these from sops
-  users.users.${usr.username}.openssh.authorizedKeys.keys = sys.authorizedSshKeys;
+  # TODO: take these from sops
+  users.users.${usr.username}.openssh.authorizedKeys.keys =
+    sys.authorizedSshKeys;
 }

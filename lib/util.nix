@@ -21,11 +21,13 @@ in rec {
         (getCfgAttr path "sys" "system")
         (getCfgAttr path "sys" "genericLinux");
       cfg = evalModules {
-        modules = [
+        modules = let 
+profileCfg = ../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
+in [
           ({ config, ... }: { config._module.args = { pkgs = hackyPkgs; }; })
           ../profiles/default/options.nix
           (import "${path}/config.nix")
-        ];
+        ] ++ (if pathExists profileCfg then [ profileCfg ] else []);
       };
     in
     cfg.config.c;

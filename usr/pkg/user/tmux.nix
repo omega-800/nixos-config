@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.user.tmux;
 in {
@@ -27,7 +27,7 @@ in {
         { plugin = vim-tmux-navigator; }
       ];
 
-      extraConfig = with config.lib.stylix.colors; ''
+      extraConfig = ''
         ${builtins.readFile ./.tmux.conf}
         # needed for yazi
         set -g allow-passthrough on
@@ -35,7 +35,9 @@ in {
         set -ga update-environment TERM_PROGRAM
 
         set-option -ga terminal-overrides ",xterm-256color:Tc"
-
+''
++ (if usr.minimal then "" else with config.lib.stylix.colors; 
+''
         # Default statusbar color
         set-option -g status-style bg="#${base01}",fg="#${base0F}"
 
@@ -98,7 +100,8 @@ in {
         #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\
         #[fg="#${base0E}", bg="#${base02}"]  %H:%M \
         #[fg="#${base0D}", bg="#${base06}"]" 
-      '';
+      '');
+
       #ip a | grep -vE '(veth|br-|docker)' | grep -e 'state UP' -A 2 | grep -Po '(?<=inet)[^/]*'
     };
   };

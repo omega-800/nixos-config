@@ -19,7 +19,8 @@ in {
         cowsay
         lolcat
         #slic3r
-        cura
+        # needs to be updated, build is failing
+        #cura
       ] else
         [ ]);
   };

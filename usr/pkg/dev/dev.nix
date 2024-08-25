@@ -27,5 +27,9 @@ in {
         ]
       else
         [ ]);
+    home.file.".config/qmk/qmk.ini".text = ''
+      [user]
+      qmk_home = ${usr.homeDir}/workspace/qmk_firmware
+    '';
   };
 }

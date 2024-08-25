@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ lib, config, pkgs, ... }:
 with lib;
 let cfg = config.m.audio;
 in {
@@ -11,9 +11,10 @@ in {
   config = mkIf cfg.enable (mkMerge [
     ({
       # Enable sound.
-      sound.enable = true;
+      # sound.enable = true;
       hardware.pulseaudio.enable = !cfg.pipewire;
-      environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
+      environment.systemPackages =
+        [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
       security.rtkit.enable = cfg.pipewire;

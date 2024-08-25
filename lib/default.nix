@@ -6,4 +6,5 @@ in
 {
   inherit (builders) mapHosts mapHomes mapModules mapPkgs;
   inherit (templating) parseYaml templateFile;
+  mapListToAttrs = fun: items: lib.mkMerge (builtins.concatMap fun items);
 }
