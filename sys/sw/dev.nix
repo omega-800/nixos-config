@@ -1,12 +1,15 @@
-{ lib, config, pkgs, usr, ... }: 
+{ inputs, lib, config, pkgs, usr, ... }:
 with lib;
 let cfg = config.m.devtools;
 in {
-  options.m.devtools = {
-    enable = mkEnableOption "enables devtools";
-  };
+  options.m.devtools = { enable = mkEnableOption "enables devtools"; };
 
   config = mkIf cfg.enable {
     programs.nix-ld.enable = true;
+    environment.systemPackages =
+      if usr.extraBloat then
+        [ inputs.zen-browser.packages."${pkgs.system}".default ]
+      else
+        [ ];
   };
 }

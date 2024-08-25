@@ -1,8 +1,8 @@
 { lib, ... }:
-with lib; {
-  options.u.x11.initExtra = mkOption {
-    type = types.str;
-    default = ''
+with lib; 
+let 
+
+    defaultInit = ''
       sxhkd &
       xrandr
       xrdb ~/.Xresources
@@ -15,6 +15,10 @@ with lib; {
       systemctl --user import-environment DISPLAY
       # source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
     '';
+in {
+  options.u.x11.initExtra = mkOption {
+    type = types.lines;
+    default = defaultInit;
   };
   config.services.unclutter = {
     enable = true;
@@ -22,4 +26,5 @@ with lib; {
     timeout = 2;
     extraOptions = [ "ignore-scrolling" "fork" "start-hidden" ];
   };
+  config.u.x11.initExtra = defaultInit;
 }
