@@ -31,10 +31,10 @@ in
 
   enabledCustomApps = with spicePkgs.apps; [
     newReleases
-    lyricsPlus
-    reddit
+    #lyricsPlus
+    #reddit
     historyInSidebar
-    ncsVisualizer
+    #ncsVisualizer
   ];
 
   enabledExtensions = with spicePkgs.extensions; [
@@ -42,14 +42,14 @@ in
     shuffle
     trashbin
     loopyLoop
-    popupLyrics
+    #popupLyrics
     keyboardShortcut
     # Community Extensions
     adblock
     powerBar
     groupSession
-    wikify
-    songStats
+    #wikify
+    #songStats
     playNext
     beautifulLyrics
   ];

@@ -7,6 +7,7 @@
       genericLinux = true;
     };
     usr = {
+      term = "kitty";
       devName = "gs2";
       devEmail = "georgiy.shevoroshkin@inteco.ch";
       wm = "dwm";

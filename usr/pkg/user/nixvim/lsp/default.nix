@@ -34,7 +34,7 @@
           nixd.enable = true;
           bashls.enable = true;
 
-          eslint.enable = true;
+          #eslint.enable = true;
           #tsserver.enable = true;
           volar.enable = true;
           #vuels.enable = true;

@@ -6,6 +6,10 @@ in {
 
   config = mkIf cfg.enable {
     programs.nix-ld.enable = true;
+    documentation = {
+      dev.enable = true;
+      man-db.enable = true;
+    };
     environment.systemPackages =
       if usr.extraBloat then
         [ inputs.zen-browser.packages."${pkgs.system}".default ]

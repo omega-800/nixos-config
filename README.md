@@ -44,6 +44,17 @@ Default configs which get applied to all of the hosts.
 ##### options.nix
 
 Here live all of the options (which ideally should be set inside of hosts/${hostname}/config.nix) as well as their defaults.
+```
+# assuming your pwd is the root of this repo
+nix repl
+# now you'll be teleported to the nix repl shell
+# :lf means load flake (the one in the current directory)
+:lf .
+# show options for the home-manager module of host 
+homeConfigurations.${hostname}.options
+# :q for quitting the repl
+:q
+```
 
 #### work/\*
 

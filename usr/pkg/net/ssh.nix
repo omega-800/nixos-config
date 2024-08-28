@@ -17,18 +17,21 @@ in {
           hostname = "apollo.inteco.ch";
           port = 6699;
           user = "inteco";
+          identityFile = "~/.ssh/id_ed25519";
         };
         Pluto = {
           host = "Pluto";
           hostname = "ns1.inteco.ch";
           port = 6699;
           user = "root";
+          identityFile = "~/.ssh/id_ed25519";
         };
         Zeus = {
           host = "Zeus";
           hostname = "zeus.inteco.ch";
           port = 6699;
           user = "root";
+          identityFile = "~/.ssh/id_ed25519";
         };
         Morpheus = {
           host = "Morpheus";
@@ -36,12 +39,14 @@ in {
           port = 6699;
           user = "inteco";
           extraOptions = { Ciphers = "aes256-cbc"; };
+          identityFile = "~/.ssh/id_ed25519";
         };
         SB = {
           host = "SB";
           hostname = "scherer-buehler.ch";
           port = 6699;
           user = "inteco";
+          identityFile = "~/.ssh/id_ed25519";
         };
         Ares = {
           host = "Ares";
@@ -49,12 +54,14 @@ in {
           port = 6699;
           user = "inteco";
           extraOptions = { Ciphers = "aes256-cbc"; };
+          identityFile = "~/.ssh/id_ed25519";
         };
         Dionysos = {
           host = "Dionysos";
           hostname = "172.16.200.121";
           port = 22;
           user = "inteco";
+          identityFile = "~/.ssh/id_ed25519";
         };
       };
     };

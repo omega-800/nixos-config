@@ -1,8 +1,8 @@
-{ usr, ... }: {
+{ lib, usr, ... }: {
   c = {
     sys.paranoid = true;
     usr = {
-      style = false;
+      style = lib.mkDefault false;
       minimal = true;
     };
   };

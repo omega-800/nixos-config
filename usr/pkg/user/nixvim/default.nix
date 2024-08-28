@@ -1,7 +1,11 @@
-{ inputs, config, lib, usr, pkgs, ... }:
+{ inputs, config, lib, usr, ... }:
 with lib;
-let cfg = config.u.user.nixvim;
-in {
+let
+  cfg = config.u.user.nixvim;
+  mapCfgImports = modules:
+    map (m: (import m { enabled = cfg.enabled; })) modules;
+in
+{
   options.u.user.nixvim.enable = mkOption {
     type = types.bool;
     default = config.u.user.enable && !usr.minimal;
