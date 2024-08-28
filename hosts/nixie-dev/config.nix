@@ -11,6 +11,7 @@
     usr = {
       shell = pkgs.zsh;
       theme = "gruvbox-dark-hard";
+      style = lib.mkForce true;
     };
   };
 }

@@ -1,5 +1,5 @@
-{
-  programs.nixvim = {
+{ lib, sys, ... }: {
+  programs.nixvim = lib.mkIf (!sys.stable) {
     keymaps = [
       {
         mode = "n";
@@ -101,7 +101,7 @@
     ];
     plugins.bufferline = {
       enable = true;
-      settings.options = {
+      settings.options = {        
         diagnostics = "nvim_lsp";
         truncate_names = true;
         offsets = [{

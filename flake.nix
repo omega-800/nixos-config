@@ -38,7 +38,6 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    # OHMYGOD THANK YOU NUMTIDE
     system-manager = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -87,6 +86,9 @@
     nixvim = {
       url = "github:nix-community/nixvim";
       #inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim/nixos-24.05";
     };
 
     disko.url = "github:nix-community/disko";

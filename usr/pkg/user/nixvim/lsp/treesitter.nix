@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, sys, pkgs, ... }: {
   programs.nixvim = {
     keymaps = [
       # Treesitter
@@ -13,14 +13,14 @@
       }
     ];
     plugins = {
-      treesitter = {
+      treesitter = lib.mkMerge [({
         enable = true;
         nixGrammars = true;
-        settings = { indent.enable = true; };
         folding = false;
         nixvimInjections = true;
         grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-      };
+      })
+      (if sys.stable then {} else { settings.indent.enable = true; })];
       treesitter-context = {
         enable = true;
         settings.max_lines = 2;

@@ -10,6 +10,10 @@ with lib; {
         type = types.str;
         default = "pers";
       }; # select a profile defined from my profiles directory
+      stable = mkOption {
+        type = types.bool;
+        default = config.c.sys.profile == "serv";
+      }; 
       system = mkOption {
         type = types.str;
         default = "x86_64-linux";
