@@ -1,7 +1,8 @@
-{ usr, sys, pkgs, inputs, config, lib, ... }:
+{ globals, usr, sys, pkgs, inputs, config, lib, ... }:
 with lib;
 let cfg = config.u.net.firefox;
 in {
+  #TODO: check this one out https://github.com/schizofox/schizofox/tree/main
   options.u.net.firefox.enable = mkOption {
     type = types.bool;
     default = config.u.net.enable && !usr.minimal;
@@ -28,6 +29,7 @@ in {
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
         DontCheckDefaultBrowser = true;
+        DefaultDownloadDirectory = globals.envVars.XDG_DOWNLOAD_DIR;
         #DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
         #DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
         #SearchBar = "unified"; # alternative: "separate"
@@ -57,83 +59,94 @@ in {
           else
             [ ]));
 
-        search.engines = {
-          "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                {
-                  name = "type";
-                  value = "packages";
-                }
-                {
-                  name = "channel";
-                  value = "unstable";
-                }
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }];
-            icon =
-              "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@n" ];
-          };
-          "NixOS Wiki" = {
-            urls = [{
-              template =
-                "https://wiki.nixos.org/index.php?search={searchTerms}";
-            }];
-            iconUpdateURL = "https://wiki.nixos.org/favicon.png";
-            updateInterval = 24 * 60 * 60 * 1000; # every day
-            definedAliases = [ "@nw" ];
-          };
-          "Youtube" = {
-            urls = [{
-              template =
-                "https://www.youtube.com/results?search_query={searchTerms}";
-            }];
-            definedAliases = [ "@y" ];
-          };
-          "Reddit" = {
-            urls = [{
-              template = "https://www.reddit.com/search/?q={searchTerms}";
-            }];
-            definedAliases = [ "@r" ];
-          };
-          "Subreddit" = {
-            urls = [{ template = "https://www.reddit.com/r/{searchTerms}/"; }];
-            definedAliases = [ "@rr" ];
-          };
-          "Github" = {
-            urls = [{
-              template =
-                "https://github.com/search?q={searchTerms}&type=repositories";
-            }];
-            definedAliases = [ "@gh" ];
-          };
-          "Github Link" = {
-            urls = [{ template = "https://github.com/{searchTerms}"; }];
-            definedAliases = [ "@ghl" ];
-          };
-          "Github Self" = {
-            urls = [{
-              template = "https://github.com/${usr.devName}/{searchTerms}";
-            }];
-            definedAliases = [ "@ghs" ];
-          };
+        search = {
+          force = true;
+          default = "DuckDuckGo";
+          privateDefault = "DuckDuckGo";
 
-          "Bing".metaData.hidden = true;
-          "Google".metaData.alias =
-            "@g"; # builtin engines only support specifying one additional alias
+          engines = {
+            "Nix Packages" = {
+              urls = [{
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "channel";
+                    value = "unstable";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }];
+              icon =
+                "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@n" ];
+            };
+            "NixOS Wiki" = {
+              urls = [{
+                template =
+                  "https://wiki.nixos.org/index.php?search={searchTerms}";
+              }];
+              iconUpdateURL = "https://wiki.nixos.org/favicon.png";
+              updateInterval = 24 * 60 * 60 * 1000; # every day
+              definedAliases = [ "@nw" ];
+            };
+            "Youtube" = {
+              urls = [{
+                template =
+                  "https://www.youtube.com/results?search_query={searchTerms}";
+              }];
+              definedAliases = [ "@y" ];
+            };
+            "Reddit" = {
+              urls = [{
+                template = "https://www.reddit.com/search/?q={searchTerms}";
+              }];
+              definedAliases = [ "@r" ];
+            };
+            "Subreddit" = {
+              urls =
+                [{ template = "https://www.reddit.com/r/{searchTerms}/"; }];
+              definedAliases = [ "@rr" ];
+            };
+            "Github" = {
+              urls = [{
+                template =
+                  "https://github.com/search?q={searchTerms}&type=repositories";
+              }];
+              definedAliases = [ "@gh" ];
+            };
+            "Github Link" = {
+              urls = [{ template = "https://github.com/{searchTerms}"; }];
+              definedAliases = [ "@ghl" ];
+            };
+            "Github Self" = {
+              urls = [{
+                template = "https://github.com/${usr.devName}/{searchTerms}";
+              }];
+              definedAliases = [ "@ghs" ];
+            };
+
+            "Bing".metaData.hidden = true;
+            "Google".metaData.alias =
+              "@g"; # builtin engines only support specifying one additional alias
+          };
         };
 
-        search.force = true;
-
         settings = {
+          "app.shield.optoutstudies.enabled" = false;
+          "browser.tabs.warnOnClose" = true;
+          "browser.startup.page" = 3;
           "browser.disableResetPrompt" = true;
+          "browser.download.dir" = globals.envVars.XDG_DOWNLOAD_DIR;
           "browser.download.panel.shown" = true;
+          "browser.urlbar.placeholderName" = "DuckDuckGo";
+          "browser.urlbar.placeholderName.private" = "DuckDuckGo";
           "browser.shell.checkDefaultBrowser" = false;
           "browser.shell.defaultBrowserCheckCount" = 1;
           "browser.startup.homepage" = "https://start.duckduckgo.com";
