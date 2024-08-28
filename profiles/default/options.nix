@@ -13,7 +13,7 @@ with lib; {
       stable = mkOption {
         type = types.bool;
         default = config.c.sys.profile == "serv";
-      }; 
+      };
       system = mkOption {
         type = types.str;
         default = "x86_64-linux";
@@ -126,7 +126,8 @@ with lib; {
         default =
           if config.c.usr.minimal then
             ""
-          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm == "sway") then
+          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
+            == "sway") then
             "wayland"
           else
             "x11";
@@ -154,6 +155,24 @@ with lib; {
       shell = mkOption {
         type = types.package;
         default = pkgs.bash;
+      };
+      termColors = mkOption {
+        default = {
+          c1 = "35";
+          c2 = "91";
+        };
+        type = types.submodule {
+          options = {
+            c1 = mkOption {
+              type = types.str;
+              default = "35"; # pink
+            };
+            c2 = mkOption {
+              type = types.str;
+              default = "91"; # orange
+            };
+          };
+        };
       };
     };
   };
