@@ -5,6 +5,7 @@
       profile = "pers";
       system = "x86_64-linux";
       genericLinux = false;
+      stable = false;
     };
     usr = {
       wm = "dwm";
