@@ -7,8 +7,17 @@ in {
   config = mkIf cfg.enable {
     programs.nix-ld.enable = true;
     documentation = {
+      enable = true;
       dev.enable = true;
-      man-db.enable = true;
+      man = {
+        enable = true;
+        generateCaches = true;
+        man-db.enable = true;
+      };
+      nixos = {
+        enable = true;
+        includeAllModules = true;
+      };
     };
     environment.systemPackages =
       if usr.extraBloat then

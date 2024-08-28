@@ -1,4 +1,4 @@
-{ pkgs, usr, ... }: {
+{ lib, sys, pkgs, usr, ... }: {
   imports = [
     ./keymaps.nix
     ./oil.nix
@@ -268,8 +268,10 @@
         filetypesDenylist =
           [ "Outline" "TelescopePrompt" "alpha" "harpoon" "reason" ];
       };
-      which-key = {
+      which-key = lib.mkMerge [({
         enable = true;
+      })
+      (if sys.stable then {} else {
         settings = {
           ignoreMissing = false;
           icons = {
@@ -285,7 +287,7 @@
             wo.winblend = 0;
           };
         };
-      };
+      })];
       hardtime = {
         enable = false;
         enabled = false;

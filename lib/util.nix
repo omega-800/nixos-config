@@ -17,7 +17,7 @@ in rec {
   mkCfg = path:
     let
       #hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
-      hackyPkgs = mkPkgs (getCfgAttr path "sys" "profile")
+      hackyPkgs = mkPkgs (getCfgAttr path "sys" "stable")
         (getCfgAttr path "sys" "system")
         (getCfgAttr path "sys" "genericLinux");
       cfg = evalModules {

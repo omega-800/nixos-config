@@ -1,4 +1,4 @@
-{
+{ lib, sys, ... }: {
   programs.nixvim = {
     keymaps = [
       # Format file
@@ -9,7 +9,36 @@
       }
     ];
 
-    plugins.none-ls = {
+    plugins.none-ls = lib.mkMerge [(
+        if sys.stable then {} else {
+          sources.diagnostics.prettierd = {
+          enable = true;
+          settings = # lua
+            ''
+              {
+                filetypes = {
+                  -- "javascript", -- now done by biome
+                  -- "javascriptreact", -- now done by biome
+                  -- "typescript", -- now done by biome
+                  -- "typescriptreact", -- now done by biome
+                  -- "json", -- now done by biome
+                  -- "jsonc", -- now done by biome
+                  "vue",
+                  "css",
+                  "scss",
+                  "less",
+                  "html",
+                  "yaml",
+                  "markdown",
+                  "markdown.mdx",
+                  "graphql",
+                  "handlebars",
+                },
+              }
+            '';
+        };
+      })
+      ({
       enable = true;
       sources = {
         diagnostics = {
@@ -28,32 +57,6 @@
           yamlfix.enable = true;
           gofmt.enable = true;
           goimports.enable = true;
-          prettierd = {
-            enable = true;
-            settings = # lua
-              ''
-                {
-                  filetypes = {
-                    -- "javascript", -- now done by biome
-                    -- "javascriptreact", -- now done by biome
-                    -- "typescript", -- now done by biome
-                    -- "typescriptreact", -- now done by biome
-                    -- "json", -- now done by biome
-                    -- "jsonc", -- now done by biome
-                    "vue",
-                    "css",
-                    "scss",
-                    "less",
-                    "html",
-                    "yaml",
-                    "markdown",
-                    "markdown.mdx",
-                    "graphql",
-                    "handlebars",
-                  },
-                }
-              '';
-          };
           biome.enable = true;
           markdownlint.enable = true;
           mdformat.enable = true;
@@ -63,6 +66,6 @@
           htmlbeautifier.enable = true;
         };
       };
-    };
+    })];
   };
 }

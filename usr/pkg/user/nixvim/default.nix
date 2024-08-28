@@ -1,4 +1,4 @@
-{ inputs, config, lib, usr, ... }:
+{ inputs, config, lib, usr, sys, ... }:
 with lib;
 let
   cfg = config.u.user.nixvim;
@@ -12,7 +12,7 @@ in
   };
 
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.${if sys.stable then "nixvim-stable" else "nixvim"}.homeManagerModules.nixvim
     ./lsp
     ./git
     ./style

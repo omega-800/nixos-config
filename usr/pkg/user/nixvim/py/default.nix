@@ -1,6 +1,6 @@
-{ usr, pkgs, lib, ... }: {
+{ sys, usr, pkgs, lib, ... }: {
   programs.nixvim = {
-    plugins = {
+    plugins = lib.mkMerge [({
       molten = {
         enable = true;
         # package = pkgs.callPackage pkgs.vimUtils.buildVimPlugin {
@@ -18,7 +18,6 @@
           auto_open_output = true;
           copy_output = false;
           enter_output_behavior = "open_then_enter";
-          image_provider = "image.nvim";
           output_crop_border = true;
           output_show_more = false;
           output_virt_lines = false;
@@ -33,6 +32,9 @@
           wrap_output = false;
         };
       };
+    })
+    (if usr.minimal then {} else {
+      molten.settings.image_provider = "image.nvim";
       image = {
         enable = true;
         hijackFilePatterns = [ "*.png" "*.jpg" "*.jpeg" "*.gif" "*.webp" ];
@@ -52,6 +54,7 @@
           };
         };
       };
-    };
+     })
+    ];
   };
 }

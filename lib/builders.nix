@@ -13,7 +13,7 @@ rec {
 
   mkHost = path: attrs:
     let
-      pkgs = mkPkgs cfg.sys.profile cfg.sys.system cfg.sys.genericLinux;
+      pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       cfg = mkCfg path;
     in
     nixosSystem {
@@ -42,7 +42,7 @@ rec {
   mkHome = path: attrs:
     let
       cfg = mkCfg path;
-      pkgs = mkPkgs cfg.sys.profile cfg.sys.system cfg.sys.genericLinux;
+      pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       home-manager = mkHomeMgr cfg;
     in
     home-manager.lib.homeManagerConfiguration {

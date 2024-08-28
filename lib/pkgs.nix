@@ -1,16 +1,9 @@
 { inputs, pkgs, lib, ... }:
 with lib; rec {
-  isStable = profile: profile == "serv"; 
-  # because this breaks home-manager
-  # fuck me. and here i thought nixOS was stable
-
   mkLib = cfg:
     let
-      stablePkgs = isStable cfg.sys.profile;
-      lib = (if stablePkgs then
-        inputs.nixpkgs-stable.lib
-      else
-        inputs.nixpkgs.lib).extend (self: super: {
+      lib = (if cfg.sys.stable then inputs.nixpkgs-stable.lib
+        else inputs.nixpkgs.lib).extend (self: super: {
         my = import ./lib {
           inherit pkgs inputs;
           lib = self;
@@ -21,8 +14,7 @@ with lib; rec {
 
   mkHomeMgr = cfg:
     let
-      stablePkgs = isStable cfg.sys.profile;
-      home-manager = (if stablePkgs then
+      home-manager = (if cfg.sys.stable then
         inputs.home-manager-stable
       else
         inputs.home-manager-unstable);
@@ -63,12 +55,11 @@ with lib; rec {
     in
     pkgs-unstable;
 
-  mkPkgs = profile: system: genericLinux:
+  mkPkgs = stable: system: genericLinux:
     let
-      stablePkgs = isStable profile;
       pkgs-stable = mkPkgsStable system;
       pkgs-unstable = mkPkgsUnstable system genericLinux;
-      pkgs = if stablePkgs then pkgs-stable else pkgs-unstable;
+      pkgs = if stable then pkgs-stable else pkgs-unstable;
     in
     pkgs;
 

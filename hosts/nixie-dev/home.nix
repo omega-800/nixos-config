@@ -1,3 +1,3 @@
 { 
-  #u.user.nixvim.enable = false;
+  u.user.nixvim.enable = true;
 }
