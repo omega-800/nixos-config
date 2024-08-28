@@ -14,6 +14,10 @@
       shell = pkgs.zsh;
       extraBloat = true;
       theme = "catppuccin-mocha";
+      termColors = {
+        c1 = "35";
+        c2 = "91";
+      };
     };
   };
 }

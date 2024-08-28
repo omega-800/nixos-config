@@ -13,6 +13,10 @@
       extraBloat = true;
       theme = "gruvbox-dark-hard";
       #theme = "atom-dark";
+      termColors = {
+        c1 = "36";
+        c2 = "35";
+      };
     };
   };
 }
