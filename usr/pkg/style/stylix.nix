@@ -86,12 +86,12 @@ in
             };
             polarity = themePolarity;
             # image = themeImage;
-            image = lib.mkIf (!usr.minimal) (pkgs.fetchurl {
+            image = pkgs.fetchurl {
               url = builtins.readFile
                 (./. + "../../../../themes/${usr.theme}/backgroundurl.txt");
               sha256 = builtins.readFile
                 (./. + "../../../../themes/${usr.theme}/backgroundsha256.txt");
-            });
+            };
 
             fonts = {
               monospace = {

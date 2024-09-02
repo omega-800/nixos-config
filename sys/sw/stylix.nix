@@ -20,10 +20,10 @@ in
         autoEnable = true;
         polarity = themePolarity;
         opacity.terminal = 0.85;
-        image = lib.mkIf (!usr.minimal) (pkgs.fetchurl {
+        image = pkgs.fetchurl {
           url = backgroundUrl;
           sha256 = backgroundSha256;
-        });
+        };
         base16Scheme = ./. + themePath;
         cursor = lib.mkIf (!usr.minimal) {
           package = pkgs.bibata-cursors;
