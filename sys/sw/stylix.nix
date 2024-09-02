@@ -56,7 +56,7 @@ in
           gtk.enable = true;
           nixos-icons.enable = true;
           nixvim.enable = true;
-          chromium.enable = true;
+          # chromium.enable = true;
           grub = {
             enable = true;
             useImage = true;
