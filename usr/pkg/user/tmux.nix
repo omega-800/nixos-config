@@ -35,9 +35,7 @@ in {
         set -ga update-environment TERM_PROGRAM
 
         set-option -ga terminal-overrides ",xterm-256color:Tc"
-      '' + (if usr.minimal then
-        ""
-      else
+      '' + (if usr.style then
         with config.lib.stylix.colors; ''
           # Default statusbar color
           set-option -g status-style bg="#${base01}",fg="#${base0F}"
@@ -101,7 +99,9 @@ in {
           #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\
           #[fg="#${base0E}", bg="#${base02}"]  %H:%M \
           #[fg="#${base0D}", bg="#${base06}"]" 
-        '');
+        ''
+      else
+        "");
 
       #ip a | grep -vE '(veth|br-|docker)' | grep -e 'state UP' -A 2 | grep -Po '(?<=inet)[^/]*'
     };

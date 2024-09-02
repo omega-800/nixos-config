@@ -1,4 +1,4 @@
-{ sys, usr, lib, config, pkgs, home, ... }:
+{ sys, usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.office;
 in {
@@ -12,7 +12,6 @@ in {
         #wtff this worked yesterday??
         #pdfslicer
         drawio
-        #wtff this worked yesterday??
         libreoffice
         gimp
       ] ++ (if usr.extraBloat then
@@ -21,6 +20,8 @@ in {
           valentina
           homebank
         ] else
-          [ ])) else [ ]);
+          [ ]))
+      else
+        [ ]);
   };
 }

@@ -18,7 +18,6 @@ in
         (nixGL tor)
         (nixGL vieb)
         rtorrent
-
       ] else
         [ ]);
   };
