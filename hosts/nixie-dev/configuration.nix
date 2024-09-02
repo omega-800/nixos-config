@@ -1,9 +1,12 @@
-{ lib, pkgs, ... }: {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+{ config,lib, pkgs, ... }: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+  config.m.boot = {
+    bootMode = "bios";
+    grubDevice = "/dev/sda"; # or "nodev" for efi only
+  };
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
 
   boot.loader.grub.extraConfig = ''
@@ -12,5 +15,5 @@
     terminal_output serial
   '';
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
-  system.stateVersion = "24.05"; 
+  system.stateVersion = "24.05";
 }

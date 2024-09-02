@@ -2,41 +2,44 @@
 with lib;
 let cfg = config.u.dev;
 in {
-  options.u.dev = { enable = mkEnableOption "enables dev packages"; };
+  options.u.dev = {
+    enable = mkEnableOption "enables dev packages";
+    dev.enable = mkEnableOption "enables packages for development";
+    bloat.enable = mkEnableOption "enables bloat";
+    gui.enable = mkEnableOption "enables graphical packages";
+  };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [ "vscode" "ciscoPacketTracer8" ];
+    nixpkgs.config = mkIf (cfg.gui.enable && cfg.dev.enable) {
+      allowUnfreePredicate = pkg:
+        builtins.elem (lib.getName pkg) [ "vscode" "ciscoPacketTracer8" ];
+    };
     home.packages = with pkgs;
-      [ jq ] ++ (if !usr.minimal then [
-        qmk
-        perl
-        strace
+      (if (cfg.dev.enable) then [
+        jq
         gnumake
+        strace
         man-pages
         man-pages-posix
-      ] else
-        [ ]) ++ (if usr.extraBloat then [
         qemu
-        virt-manager
-        ncurses
-        vscode
-        # TODO: put this in a nix-shell
-        # nvm
-        # npm
-        # node
-        # ansible-core
-        # python3
       ] else
-        [ ]) ++ (if usr.extraBloat && sys.profile == "pers" then
-        [
-          # ciscoPacketTracer8 
-        ]
-      else
+        [ ]) ++ (if (cfg.dev.enable && cfg.bloat.enable) then [
+        qmk
+        perl
+        ncurses
+      ] else
+        [ ])
+      ++ (if (cfg.dev.enable && cfg.gui.enable && cfg.bloat.enable) then [
+        virt-manager
+        vscode
+        # ciscoPacketTracer8 
+      ] else
         [ ]);
-    home.file.".config/qmk/qmk.ini".text = ''
-      [user]
-      qmk_home = ${globals.envVars.WORKSPACE_DIR}/qmk_firmware
-    '';
+    home.file = mkIf (cfg.dev.enable && cfg.bloat.enable) {
+      ".config/qmk/qmk.ini".text = ''
+        [user]
+        qmk_home = ${globals.envVars.WORKSPACE_DIR}/qmk_firmware
+      '';
+    };
   };
 }

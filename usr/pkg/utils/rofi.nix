@@ -2,9 +2,9 @@
 with lib;
 let cfg = config.u.utils.rofi;
 in {
-  options.u.utils.rofi.enable = mkOption {
-    type = types.bool;
-    default = config.u.utils.enable && !usr.minimal;
+  options.u.utils.rofi = {
+    enable = mkEnableOption "enables rofi";
+    bloat.enable = mkEnableOption "enables bloat";
   };
 
   config = mkIf cfg.enable {
@@ -12,7 +12,7 @@ in {
       lib.readFile ./networkmanager-dmenu.config.ini;
     home.packages = with pkgs;
       [ rofi-mpd rofi-systemd rofi-bluetooth networkmanager_dmenu ]
-      ++ (if usr.extraBloat then
+      ++ (if cfg.bloat.enable then
         with pkgs; [
           rofi-vpn
           rofi-screenshot
@@ -26,7 +26,10 @@ in {
       cycle = false;
       extraConfig = {
         modi = "drun,run,ssh,window,windowcd,combi,keys,filebrowser,calc"
-          + (if usr.extraBloat then ",emoji,top,file-browser-extended" else "");
+          + (if cfg.bloat.enable then
+          ",emoji,top,file-browser-extended"
+        else
+          "");
       };
       font = "${usr.font} 12";
       location = "center";
@@ -35,7 +38,7 @@ in {
         stores = [ "~/.password-store" ];
       };
       plugins = with pkgs;
-        [ rofi-calc ] ++ (if usr.extraBloat then
+        [ rofi-calc ] ++ (if cfg.bloat.enable then
           with pkgs; [ rofi-emoji rofi-top rofi-file-browser ]
         else
           [ ]);
@@ -53,10 +56,10 @@ in {
            }
 
            configuration {
-                     	modi:                       "drun";
+                             	modi:                       "drun";
            show-icons:                 true;
            display-drun:               "";
-                     	drun-display-format:        "{name}";
+                             	drun-display-format:        "{name}";
            }
 
            window {

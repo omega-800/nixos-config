@@ -21,9 +21,9 @@ let
   cfg = config.u.utils.sxhkd;
 in
 {
-  options.u.utils.sxhkd.enable = mkOption {
-    type = types.bool;
-    default = config.u.utils.enable && !usr.minimal && usr.wmType == "x11";
+  options.u.utils.sxhkd = {
+    enable = mkEnableOption "enables sxhkd";
+    bloat.enable = mkEnableOption "enables bloat";
   };
 
   config = mkIf cfg.enable {
@@ -78,7 +78,7 @@ in
           "super + r ; {t,p,o,s}" =
             "rofi-{theme-selector,pass,obsidian,screenshot";
           "super + r ; {c,e,f,w}" = "rofi -m -4 -show {${r.calc},emoji,${
-            if usr.extraBloat then "file-browser-extended" else "filebrowser"
+            if cfg.bloat.enable then "file-browser-extended" else "filebrowser"
           },window}";
           "super + r ; h ; {d}" = ''
             echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -m -4 -dmenu'';

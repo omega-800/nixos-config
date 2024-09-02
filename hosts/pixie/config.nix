@@ -4,7 +4,6 @@
       hostname = "pixie";
       profile = "serv";
       system = "aarch64-linux";
-      bootMode = "ext";
       genericLinux = false;
       #paranoid = true;
       paranoid = lib.mkForce false;

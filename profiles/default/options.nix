@@ -30,22 +30,6 @@ with lib; {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
         ];
       };
-      extraGrubEntries = mkOption {
-        type = types.str;
-        default = "";
-      };
-      bootMode = mkOption {
-        type = types.str;
-        default = "uefi";
-      }; # uefi or bios or ext
-      bootMountPath = mkOption {
-        type = types.str;
-        default = "/boot";
-      }; # mount path for efi boot partition: only used for uefi boot mode
-      grubDevice = mkOption {
-        type = types.str;
-        default = "/dev/sda";
-      }; # device identifier for grub: only used for legacy (bios) boot mode
       timezone = mkOption {
         type = types.str;
         default = "Europe/Zurich";
