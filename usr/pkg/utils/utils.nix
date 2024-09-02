@@ -16,19 +16,18 @@ in {
       less
       htop-vim
       ripgrep
-    ] ++ (if !usr.minimal then [
       bc
+    ] ++ (if !usr.minimal then [
       stow
       xclip
       xbindkeys
       brightnessctl
       bind
-      freecad
     ] else []) ++ (if usr.extraBloat then [
+      freecad
       vulnix
       thefuck
       screenkey
-      xz
       cloc
       gnused
       xdg-ninja

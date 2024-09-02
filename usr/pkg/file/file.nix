@@ -10,11 +10,11 @@ in {
         rsync
         # tree (replaced by eza)
         eza
+        gdu
       ] ++ (if !usr.minimal then [
         yazi
         gzip
         unzip
-        gdu
         trash-cli
       ] else
         [ ]) ++ (if usr.extraBloat then [
