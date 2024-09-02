@@ -29,7 +29,8 @@
     IPYTHONDIR = "${XDG_CONFIG_HOME}/ipython";
     PYTHONSTARTUP = "${XDG_CONFIG_HOME}/python/pythonrc";
     JUPYTER_CONFIG_DIR = "${XDG_CONFIG_HOME}/jupyter";
-    XCURSOR_PATH = "/usr/share/icons:${XDG_DATA_HOME}/icons";
+    XCURSOR_PATH =
+      lib.mkForce "/usr/share/icons:${XDG_DATA_HOME}/icons:${HOME}/.icons";
     XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
     XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
