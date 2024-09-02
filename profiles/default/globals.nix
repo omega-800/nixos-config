@@ -1,38 +1,41 @@
 { usr, pkgs, lib, ... }: {
   envVars = rec {
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
-    XDG_BIN_HOME = "$HOME/.local/bin";
+    HOME = usr.homeDir;
+    XDG_CACHE_HOME = "${HOME}/.cache";
+    XDG_CONFIG_HOME = "${HOME}/.config";
+    XDG_DATA_HOME = "${HOME}/.local/share";
+    XDG_STATE_HOME = "${HOME}/.local/state";
+    XDG_BIN_HOME = "${HOME}/.local/bin";
+    XDG_RUNTIME_DIR = "/run/user/$(id -u)";
 
-    XDG_DESKTOP_DIR = "$HOME/desk";
-    XDG_DOCUMENTS_DIR = "$HOME/doc";
-    XDG_DOWNLOAD_DIR = "$HOME/dl";
+    XDG_DESKTOP_DIR = "${HOME}/desk";
+    XDG_DOCUMENTS_DIR = "${HOME}/doc";
+    XDG_DOWNLOAD_DIR = "${HOME}/dl";
     XDG_MUSIC_DIR = "${XDG_DOCUMENTS_DIR}/music";
     XDG_PICTURES_DIR = "${XDG_DOCUMENTS_DIR}/img";
     XDG_PUBLICSHARE_DIR = "${XDG_DOCUMENTS_DIR}/share";
     XDG_TEMPLATES_DIR = "${XDG_DOCUMENTS_DIR}/templ";
     XDG_VIDEOS_DIR = "${XDG_DOCUMENTS_DIR}/vid";
 
-    WORKSPACE_DIR = "$HOME/ws";
-    SCREENSHOTS_DIR = (builtins.replaceStrings [ "$HOME" ] [ "${usr.homeDir}" ]
-      XDG_PICTURES_DIR) + "/screenshots";
+    WORKSPACE_DIR = "${HOME}/ws";
+    SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
 
-    HISTFILE = lib.mkForce "$XDG_STATE_HOME/shell/history";
-    PASSWORD_STORE_DIR = lib.mkForce "$XDG_DATA_HOME/pass";
-    GNUPGHOME = lib.mkForce "$XDG_DATA_HOME/gnupg";
-    GOPATH = lib.mkForce "$XDG_DATA_HOME/go";
-    GOBIN = lib.mkForce "$XDG_BIN_HOME/go";
-    GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
-    IPYTHONDIR = lib.mkForce "$XDG_CONFIG_HOME/ipython";
-    PYTHONSTARTUP = lib.mkForce "$XDG_CONFIG_HOME/python/pythonrc";
-    JUPYTER_CONFIG_DIR = lib.mkForce "$XDG_CONFIG_HOME/jupyter";
-    XCURSOR_PATH = lib.mkForce "/usr/share/icons:$XDG_DATA_HOME/icons";
-    XINITRC = lib.mkForce "$XDG_CONFIG_HOME/X11/xinitrc";
-    ZDOTDIR = lib.mkForce "$XDG_CONFIG_HOME/zsh";
-    XAUTHORITY = lib.mkForce "$XDG_RUNTIME_DIR/Xauthority";
-
+    HISTFILE = "${XDG_STATE_HOME}/shell/history";
+    PASSWORD_STORE_DIR = "${XDG_DATA_HOME}/pass";
+    GNUPGHOME = "${XDG_DATA_HOME}/gnupg";
+    GOPATH = "${XDG_DATA_HOME}/go";
+    GOBIN = "${XDG_BIN_HOME}/go";
+    # GTK2_RC_FILES = lib.mkForce "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
+    IPYTHONDIR = "${XDG_CONFIG_HOME}/ipython";
+    PYTHONSTARTUP = "${XDG_CONFIG_HOME}/python/pythonrc";
+    JUPYTER_CONFIG_DIR = "${XDG_CONFIG_HOME}/jupyter";
+    XCURSOR_PATH = "/usr/share/icons:${XDG_DATA_HOME}/icons";
+    XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
+    ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
+    XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
+    XRESOURCES = "${XDG_CONFIG_HOME}/X11/xresources";
+    TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
     # uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
     # fixed this with `. /etc/set-environment`
     # and prepending $PATH to the value, duh

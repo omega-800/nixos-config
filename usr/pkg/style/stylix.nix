@@ -55,8 +55,8 @@ in
             ] else
               [ ]);
           home.file = with config.lib.stylix.colors; {
-            ".currenttheme".text = usr.theme;
-            ".currentcolors.conf".text = ''
+            ".config/.currenttheme".text = usr.theme;
+            ".config/.currentcolors.conf".text = ''
               base00 = #${base00}
               base01 = #${base01}
               base02 = #${base02}

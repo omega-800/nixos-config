@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }:
+{ globals, usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.user.tmux;
 in {
@@ -12,6 +12,7 @@ in {
     programs.tmux = {
       enable = true;
       clock24 = true;
+      newSession = true;
       historyLimit = 5000;
       plugins = with pkgs.tmuxPlugins; [
         cpu
@@ -29,6 +30,7 @@ in {
 
       extraConfig = ''
         ${builtins.readFile ./.tmux.conf}
+        set-environment -g TMUX_PLUGIN_MANAGER_PATH '${globals.envVars.TMUX_PLUGIN_MANAGER_PATH}'
         # needed for yazi
         set -g allow-passthrough on
         set -ga update-environment TERM

@@ -17,7 +17,7 @@ in
       { }
     else {
       stylix = {
-        autoEnable = true;
+        autoEnable = false;
         polarity = themePolarity;
         opacity.terminal = 0.85;
         image = pkgs.fetchurl {
@@ -25,7 +25,7 @@ in
           sha256 = backgroundSha256;
         };
         base16Scheme = ./. + themePath;
-        cursor = lib.mkIf (!usr.minimal) {
+        cursor = {
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Ice";
           size = 32;
@@ -43,34 +43,33 @@ in
             name = usr.font;
             package = usr.fontPkg;
           };
-          emoji = lib.mkIf (!usr.minimal) {
+          emoji = {
             name = "Noto Color Emoji";
             package = pkgs.noto-fonts-emoji-blob-bin;
           };
         };
         targets = {
-          lightdm.enable = true;
+          # lightdm.enable = true;
           console.enable = true;
           # feh.enable = true;
-          gnome.enable = true;
-          gtk.enable = true;
-          nixos-icons.enable = true;
+          gnome.enable = false;
+          # gtk.enable = true;
+          # nixos-icons.enable = true;
+          chromium.enable = false;
           nixvim.enable = true;
-          # chromium.enable = true;
           grub = {
             enable = true;
-            useImage = true;
+            # useImage = true;
           };
-          plymouth = {
-            enable = true;
-            logo = pkgs.fetchurl {
-              url = backgroundUrl;
-              sha256 = backgroundSha256;
-            };
-            logoAnimated = true;
-          };
+          # plymouth = {
+          #   enable = true;
+          #   logo = pkgs.fetchurl {
+          #     url = backgroundUrl;
+          #     sha256 = backgroundSha256;
+          #   };
+          #   logoAnimated = true;
+          # };
         };
       };
-      environment.sessionVariables = { QT_QPA_PLATFORMTHEME = "qt5ct"; };
     };
 }

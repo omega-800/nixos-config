@@ -14,7 +14,7 @@
       autocd = true;
       enableCompletion = true;
       autosuggestion.enable = true;
-      dotDir = globals.envVars.ZDOTDIR;
+      dotDir = ".config/zsh"; # globals.envVars.ZDOTDIR;
       syntaxHighlighting = {
         enable = true;
         highlighters = [
