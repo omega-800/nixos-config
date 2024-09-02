@@ -15,9 +15,26 @@
     XDG_TEMPLATES_DIR = "${XDG_DOCUMENTS_DIR}/templ";
     XDG_VIDEOS_DIR = "${XDG_DOCUMENTS_DIR}/vid";
 
-# uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
-# fixed this with `. /etc/set-environment`
-# and prepending $PATH to the value, duh
+    WORKSPACE_DIR = "$HOME/ws";
+    SCREENSHOTS_DIR = (builtins.replaceStrings [ "$HOME" ] [ "${usr.homeDir}" ]
+      XDG_PICTURES_DIR) + "/screenshots";
+
+    HISTFILE = "$XDG_STATE_HOME/shell/history";
+    PASSWORD_STORE_DIR = "$XDG_DATA_HOME/pass";
+    GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+    GOPATH = "$XDG_DATA_HOME/go";
+    GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
+    PYTHONSTARTUP = "$XDG_CONFIG_HOME/python/pythonrc";
+    JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
+    XCURSOR_PATH = "/usr/share/icons:$XDG_DATA_HOME/icons";
+    XINITRC = "$XDG_CONFIG_HOME/X11/xinitrc";
+    ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
+    XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
+
+    # uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
+    # fixed this with `. /etc/set-environment`
+    # and prepending $PATH to the value, duh
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
   };
