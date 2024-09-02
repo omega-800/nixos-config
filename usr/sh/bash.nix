@@ -1,10 +1,10 @@
 { shellInitExtra }:
-{ config, usr, ... }: {
+{ config, usr, globals, ... }: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
     historyControl = [ "ignorespace" "ignoredups" ];
-    historyFile = "${config.home.homeDirectory}/.local/state/bash/history";
+    historyFile = globals.envVars.HISTFILE;
     historyFileSize = 100000;
     historyIgnore = [ "ll" "ls" "exit" "cd" "clear" "c" "x" "l" ];
     historySize = 10000;
