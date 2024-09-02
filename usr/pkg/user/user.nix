@@ -9,10 +9,10 @@ in {
       enable = true;
       components = [ "ssh" "secrets" ];
     };
-    programs.gpg = {
-      enable = true;
-      homedir = globals.envVars.GNUPGHOME;
-    };
+    # programs.gpg = {
+    #   enable = true;
+    #   homedir = /home/${usr.username}/.local/share/gnupg; # globals.envVars.GNUPGHOME;
+    # };
     home.packages = with pkgs;
       [
         #starship
