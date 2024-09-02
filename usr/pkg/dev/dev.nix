@@ -1,5 +1,6 @@
 { sys, usr, lib, config, pkgs, globals, ... }:
 with lib;
+with globals.envVars;
 let cfg = config.u.dev;
 in {
   options.u.dev = { enable = mkEnableOption "enables dev packages"; };
@@ -36,7 +37,11 @@ in {
         [ ]);
     home.file.".config/qmk/qmk.ini".text = ''
       [user]
-      qmk_home = ${globals.envVars.WORKSPACE_DIR}/qmk_firmware
+      qmk_home = ${WORKSPACE_DIR}/qmk_firmware
     '';
+    programs.go = {
+      goBin = GOBIN;
+      goPath = GOPATH;
+    };
   };
 }

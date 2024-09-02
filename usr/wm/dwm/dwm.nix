@@ -4,7 +4,7 @@ in {
   xresources.properties = { "*term" = usr.term; };
   home = {
     packages = with pkgs; [ inputs.omega-st ];
-    file.".xinitrc".text = ''
+    file.".config/X11/xinitrc".text = ''
       ${config.u.x11.initExtra}
       ${dwm_stats} &
       #exec dbus-launch dwm

@@ -23,6 +23,7 @@
     PASSWORD_STORE_DIR = lib.mkForce "$XDG_DATA_HOME/pass";
     GNUPGHOME = lib.mkForce "$XDG_DATA_HOME/gnupg";
     GOPATH = lib.mkForce "$XDG_DATA_HOME/go";
+    GOBIN = lib.mkForce "$XDG_BIN_HOME/go";
     GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
     IPYTHONDIR = lib.mkForce "$XDG_CONFIG_HOME/ipython";
     PYTHONSTARTUP = lib.mkForce "$XDG_CONFIG_HOME/python/pythonrc";
