@@ -22,7 +22,7 @@ in
         "nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace --use-remote-sudo";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
-      vf = "vim $(__fzf_select__)";
+      vf = "vim $(fzf)";
       gst = "git status";
       gp = "git fetch && git pull";
       please = "sudo";

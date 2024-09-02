@@ -1,5 +1,5 @@
 { shellInitExtra }:
-{ config, usr, ... }: {
+{ config, usr, globals, ... }: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -16,14 +16,14 @@
       #bind 'TAB:menu-complete'
       #bind '"\e[Z":menu-complete-backward'
 
-      if [ -d /home/omega/documents/Shops ]; then
-        for dirname in $(find /home/omega/documents/Shops/ -maxdepth 1 -type d);do
+      if [ -d ${globals.envVars.XDG_DOCUMENTS_DIR}/work/shops ]; then
+        for dirname in $(find ${globals.envVars.XDG_DOCUMENTS_DIR}/work/shops/ -maxdepth 1 -type d);do
           [[ $dirname =~ ^.+/([^/]+)$ ]] && customer_id=$''${BASH_REMATCH[1]} && alias d_$customer_id="cd $dirname"
         done
       fi
 
-      if [ -d /mnt/c/Users/GeorgiyShevoroshkin/coding-win/magnolia_webapps/ ]; then
-        for dirname in $(find /mnt/c/Users/GeorgiyShevoroshkin/coding-win/magnolia_webapps/ -maxdepth 1 -type d);do
+      if [ -d ${globals.envVars.WORKSPACE_DIR}/work/mgnl ]; then
+        for dirname in $(find ${globals.envVars.WORKSPACE_DIR}/work/mgnl/ -maxdepth 1 -type d);do
           [[ $dirname =~ ^.+/([^/]+)-workspace$ ]] && customer_id=$''${BASH_REMATCH[1]} && alias w_$customer_id="cd $dirname"
         done
       fi
