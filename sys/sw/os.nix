@@ -6,6 +6,7 @@ in
 {
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
+  services.gnome.gnome-keyring.enable = true;
   nix = {
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"

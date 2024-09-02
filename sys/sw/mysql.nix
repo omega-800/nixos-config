@@ -12,6 +12,5 @@ in {
       package = pkgs.mariadb;
       initialScript = ./mysql_setup.sql;
     };
-    services.gnome.gnome-keyring.enable = true;
 };
 }
