@@ -1,4 +1,4 @@
-{ lib, sys, pkgs, usr, ... }: {
+{ globals, lib, sys, pkgs, usr, ... }: {
   imports = [
     ./keymaps.nix
     ./oil.nix
@@ -184,7 +184,7 @@
       #     has_line_number = true;
       #     mac_window_bar = true;
       #     show_workspace = true;
-      #     save_path = "~/documents/img/screenshots/";
+      #     save_path = globals.envVars.SCREENSHOTS_DIR;
       #     title = "CodeSnap.nvim";
       #     code_font_family = usr.font;
       #     watermark_font_family = usr.font;
@@ -268,26 +268,28 @@
         filetypesDenylist =
           [ "Outline" "TelescopePrompt" "alpha" "harpoon" "reason" ];
       };
-      which-key = lib.mkMerge [({
-        enable = true;
-      })
-      (if sys.stable then {} else {
-        settings = {
-          ignoreMissing = false;
-          icons = {
-            breadcrumb = "»";
-            group = "+";
-            separator = ""; # ➜
+      which-key = lib.mkMerge [
+        ({ enable = true; })
+        (if sys.stable then
+          { }
+        else {
+          settings = {
+            ignoreMissing = false;
+            icons = {
+              breadcrumb = "»";
+              group = "+";
+              separator = ""; # ➜
+            };
+            # registrations = {
+            #   "<leader>t" = " Terminal";
+            # };
+            win = {
+              border = "none";
+              wo.winblend = 0;
+            };
           };
-          # registrations = {
-          #   "<leader>t" = " Terminal";
-          # };
-          win = {
-            border = "none";
-            wo.winblend = 0;
-          };
-        };
-      })];
+        })
+      ];
       hardtime = {
         enable = false;
         enabled = false;

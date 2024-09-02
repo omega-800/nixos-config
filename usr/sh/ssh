@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-downloads_dir="/home/omega/Downloads/"
-shops_dir="/home/omega/documents/Shops/"
+downloads_dir="/home/omega/dl/"
+shops_dir="/home/omega/doc/work/shops/"
 
 #alias Pluto='ssh -p6699 root@ns1.inteco.ch'
 cpPluto() {

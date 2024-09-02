@@ -1,4 +1,4 @@
-{ sys, usr, lib, config, pkgs, ... }:
+{ sys, usr, lib, config, pkgs, globals, ... }:
 with lib;
 let cfg = config.u.dev;
 in {
@@ -36,7 +36,7 @@ in {
         [ ]);
     home.file.".config/qmk/qmk.ini".text = ''
       [user]
-      qmk_home = ${usr.homeDir}/workspace/qmk_firmware
+      qmk_home = ${globals.envVars.WORKSPACE_DIR}/qmk_firmware
     '';
   };
 }

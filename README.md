@@ -79,11 +79,11 @@ In this file the previously mentioned options are set, and defaults get overridd
 
 #### home.nix
 
-If this file is present, then a homeManagerConfiguration flake output is created, which can be applied by running `hms`, which is an alias for `home-manager switch --flake /home/${username}/workspace/nixos-config#${hostname}`.
+If this file is present, then a homeManagerConfiguration flake output is created, which can be applied by running `hms`, which is an alias for `home-manager switch --flake /home/${username}/ws/nixos-config#${hostname}`.
 
 #### configuration.nix
 
-If this file is present, then a nixosSystem flake output is created, which can be applied by running `nrs`, which is an alias for `nixos-rebuild switch --flake /home/${username}/workspace/nixos-config#${hostname}`.
+If this file is present, then a nixosSystem flake output is created, which can be applied by running `nrs`, which is an alias for `nixos-rebuild switch --flake /home/${username}/ws/nixos-config#${hostname}`.
 
 #### hardware-configuration.nix
 

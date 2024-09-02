@@ -1,5 +1,6 @@
-{ sys, usr, lib, config, pkgs, ... }:
+{ sys, usr, globals, lib, config, pkgs, ... }:
 with lib;
+with globals.envVars;
 let
   volumeScript = "${pkgs.writeScript "volume_control"
     (builtins.readFile ./scripts/volume.sh)}";
@@ -115,7 +116,7 @@ in
 
           # nixOS
           "super + s ; r ; {s,h}" =
-            "{nixos-rebuild,home-manager} switch --flake ${usr.homeDir}/workspace/nixos-config#${sys.hostname}";
+            "{nixos-rebuild,home-manager} switch --flake ${WORKSPACE_DIR}/nixos-config#${sys.hostname}";
         };
     };
   };

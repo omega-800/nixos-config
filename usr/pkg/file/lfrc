@@ -244,16 +244,16 @@ map U unselect
 # Movement
 map gtr cd ~/.local/share/Trash/files
 
-map gD cd ~/Downloads
+map gD cd ~/dl
 
-map gd. cd ~/documents
-map gdi cd ~/documents/img
+map gd. cd ~/doc
+map gdi cd ~/doc/img
 
-map gw. cd ~/workspace
-map gwc cd ~/workspace/c
+map gw. cd ~/ws
+map gwc cd ~/ws/c
 
-map gs. cd ~/scripts
-map gss cd ~/scripts/screens
+map gs. cd ~/ws/scripts
+map gss cd ~/ws/scripts/screens
 
 map gc cd ~/.config
 map gl cd ~/.local

@@ -1,6 +1,7 @@
-{ usr, lib, sys, config, ... }:
+{ globals, usr, lib, sys, config, ... }:
 with builtins;
 with lib;
+with globals.envVars;
 let
   cdAliases = listToAttrs (map
     (v: {
@@ -16,10 +17,9 @@ in
       ndx = ''
         nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
       hms =
-        "home-manager switch --flake ${config.home.homeDirectory # toString ./.
-        }/workspace/nixos-config#${sys.hostname} --show-trace";
+        "home-manager switch --flake ${WORKSPACE_DIR}/nixos-config#${sys.hostname} --show-trace";
       nrs =
-        "nixos-rebuild switch --flake ${config.home.homeDirectory}/workspace/nixos-config#${sys.hostname} --show-trace --use-remote-sudo";
+        "nixos-rebuild switch --flake ${WORKSPACE_DIR}/nixos-config#${sys.hostname} --show-trace --use-remote-sudo";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
       vf = "vim $(fzf)";
@@ -89,9 +89,7 @@ in
       dbr = "docker run --rm -it $(docker build -q .)";
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
-    (mkIf (config.u.user.nixvim.enable) { 
-      vim = "nvim";
-})
+    (mkIf (config.u.user.nixvim.enable) { vim = "nvim"; })
     cdAliases
   ]);
 }
