@@ -9,9 +9,11 @@
       }
     ];
 
-    plugins.none-ls = lib.mkMerge [(
-        if sys.stable then {} else {
-          sources.diagnostics.prettierd = {
+    plugins.none-ls = lib.mkMerge [
+      (if sys.stable then
+        { }
+      else {
+        sources.formatting.prettierd = {
           enable = true;
           settings = # lua
             ''
@@ -39,33 +41,34 @@
         };
       })
       ({
-      enable = true;
-      sources = {
-        diagnostics = {
-          statix.enable = true;
-          gitlint.enable = true;
-          golangci_lint.enable = true;
-          zsh.enable = true;
+        enable = true;
+        sources = {
+          diagnostics = {
+            statix.enable = true;
+            gitlint.enable = true;
+            golangci_lint.enable = true;
+            zsh.enable = true;
+          };
+          formatting = {
+            fantomas.enable = true;
+            nixfmt.enable = true;
+            nixpkgs_fmt.enable = true;
+            pg_format.enable = true;
+            sqlfluff.enable = true;
+            stylelint.enable = true;
+            yamlfix.enable = true;
+            gofmt.enable = true;
+            goimports.enable = true;
+            biome.enable = true;
+            markdownlint.enable = true;
+            mdformat.enable = true;
+            shellharden.enable = true;
+            shfmt.enable = true;
+            clang_format.enable = true;
+            htmlbeautifier.enable = true;
+          };
         };
-        formatting = {
-          fantomas.enable = true;
-          nixfmt.enable = true;
-          nixpkgs_fmt.enable = true;
-          pg_format.enable = true;
-          sqlfluff.enable = true;
-          stylelint.enable = true;
-          yamlfix.enable = true;
-          gofmt.enable = true;
-          goimports.enable = true;
-          biome.enable = true;
-          markdownlint.enable = true;
-          mdformat.enable = true;
-          shellharden.enable = true;
-          shfmt.enable = true;
-          clang_format.enable = true;
-          htmlbeautifier.enable = true;
-        };
-      };
-    })];
+      })
+    ];
   };
 }
