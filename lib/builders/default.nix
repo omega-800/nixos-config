@@ -31,7 +31,7 @@ rec {
 
   mapHosts = dir: attrs:
     mapHostConfigs dir "configuration"
-      (path: extraAttrs: mkGeneric path (attrs // extraAttrs));
+      (path: extraAttrs: mkHost path (attrs // extraAttrs));
 
   mkHome = path: attrs:
     let
@@ -47,7 +47,7 @@ rec {
 
   mapHomes = dir: attrs:
     mapHostConfigs dir "home"
-      (path: extraAttrs: mkGeneric path (attrs // extraAttrs));
+      (path: extraAttrs: mkHome path (attrs // extraAttrs));
 
   mkDroid = path: attrs:
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
@@ -58,7 +58,7 @@ rec {
 
   mapDroids = dir: attrs:
     mapHostConfigs dir "configuration"
-      (path: extraAttrs: mkGeneric path (attrs // extraAttrs));
+      (path: extraAttrs: mkDroid path (attrs // extraAttrs));
 
   mkGeneric = path: attrs:
     let cfg = mkCfg path;
@@ -79,7 +79,7 @@ rec {
         let path = "${toString dir}/${n}";
         in if v == "directory" && pathExists "${path}/${type}.nix" then
           nameValuePair n
-            (fn path (if type == "home" then { } else { networking.hostname = n; }))
+            (fn path (if type == "home" then { } else { networking.hostName = n; }))
         else
           nameValuePair "" null)
       (readDir dir));

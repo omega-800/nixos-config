@@ -1,7 +1,6 @@
 { lib, pkgs, ... }: {
   config.c = {
     sys = {
-      hostname = "nixie-dev";
       profile = "serv";
       bootMode = "bios";
       system = "x86_64-linux";

@@ -1,7 +1,6 @@
 { pkgs, lib, ... }: {
   config.c = {
     sys = {
-      hostname = "pixie";
       profile = "serv";
       system = "aarch64-linux";
       bootMode = "ext";

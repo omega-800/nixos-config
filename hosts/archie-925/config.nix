@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   config.c = {
     sys = {
-      hostname = "archie-925";
       profile = "work";
       system = "x86_64-linux";
       genericLinux = true;

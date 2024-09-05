@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   config.c = {
     sys = {
-      hostname = "nixie";
       profile = "pers";
       system = "x86_64-linux";
       genericLinux = false;
