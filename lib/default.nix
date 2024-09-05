@@ -1,10 +1,10 @@
-{ inputs, pkgs, lib, ... }:
+{ inputs, ... }:
 let
-  builders = import ./builders.nix { inherit inputs pkgs lib; };
-  templating = import ./templating.nix { inherit inputs pkgs lib; };
-  net = import ./networking.nix;
+  builders = import ./builders { inherit inputs; };
+  templating = import ./my/templating.nix { inherit inputs; };
+  net = import ./my/networking.nix;
 in
-{
+with inputs.nixpkgs-unstable; {
   inherit (builders) mapHosts mapHomes mapModules mapPkgs;
   inherit (templating) parseYaml templateFile;
   mapListToAttrs = fun: items: lib.mkMerge (builtins.concatMap fun items);

@@ -1,6 +1,6 @@
-{ inputs, pkgs, lib, ... }:
-with lib;
-let pkgUtil = import ./pkgs.nix { inherit inputs pkgs lib; };
+{ inputs, ... }:
+with inputs.nixpkgs-unstable.lib;
+let pkgUtil = import ./pkgs.nix { inherit inputs; };
 in rec {
   inherit (pkgUtil) mkPkgsStable mkPkgs mkOverlays;
 
@@ -35,10 +35,11 @@ in rec {
     in
     cfg.config.c;
 
-  mkHomeMgr = cfg: (if cfg.sys.stable then
-        inputs.home-manager-stable
-      else
-        inputs.home-manager-unstable);
+  mkHomeMgr = cfg:
+    (if cfg.sys.stable then
+      inputs.home-manager-stable
+    else
+      inputs.home-manager-unstable);
 
   mkLib = cfg:
     let
@@ -46,14 +47,15 @@ in rec {
       lib = (if cfg.sys.stable then
         inputs.nixpkgs-stable
       else
-        inputs.nixpkgs).lib.extend (final: prev: {
-        my = import ./. {
-          inherit pkgs inputs;
-          lib = final;
-        };
-        # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
-        # templateFile = import ./templating.nix { inherit pkgs; };
-      } // home-manager.lib);
+        inputs.nixpkgs).lib.extend (final: prev:
+        {
+          my = import ./. {
+            inherit inputs;
+            lib = final;
+          };
+          # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
+          # templateFile = import ./templating.nix { inherit pkgs; };
+        } // home-manager.lib);
     in
     lib;
 
@@ -61,13 +63,13 @@ in rec {
 
   mkArgs = cfg:
     let
-        finalPkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
+      finalPkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       args = {
         inherit inputs;
         #inherit (cfg.sys) system; 
         inherit (cfg) usr sys;
-        nixpkgs =finalPkgs;
-        pkgs =finalPkgs;
+        nixpkgs = finalPkgs;
+        pkgs = finalPkgs;
         lib = mkLib cfg;
         globals = (import ../profiles/default/globals.nix {
           inherit (cfg) usr sys;

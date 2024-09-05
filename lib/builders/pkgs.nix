@@ -1,5 +1,5 @@
-{ inputs, pkgs, lib, ... }:
-with lib; rec {
+{ inputs, ... }:
+with inputs.nixpkgs-unstable.lib; rec {
   mkOverlays = genericLinux:
     [
       # inputs.rust-overlay.overlays.default

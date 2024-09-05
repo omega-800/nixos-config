@@ -3,30 +3,33 @@
 
   nixConfig = {
     #keep-outputs = false;       # Nice for developers
-#keep-derivations = false;   # Idem
-extra-experimental-features = [ "nix-command" "flakes" ];
-auto-optimise-store = true;
-bash-prompt = ">";
-use-xdg-base-directories = true;
+    #keep-derivations = false;   # Idem
+    extra-experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
+    bash-prompt = ">";
+    use-xdg-base-directories = true;
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
-      inherit (lib.my) mapHosts mapHomes mapGeneric mapModules;
-      #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
-      pkgs = nixpkgs;
-      lib = nixpkgs.lib.extend (self: super: {
-        my = import ./lib {
-          inherit inputs pkgs;
-          lib = self;
-        };
-      });
+      inherit (import ./lib/builders { inherit inputs; })
+        mapHosts mapHomes mapGeneric mapModules;
 
-      # hacky hack hack for badly written bash scripts
-      bashScriptToNix = n: p:
-        (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ]
-          [ "#!${pkgs.bash}/bin/bash" ]
-          (builtins.readFile p)));
+      # inherit (lib.my) mapHosts mapHomes mapGeneric mapModules;
+      # #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
+      # pkgs = nixpkgs;
+      # lib = nixpkgs.lib.extend (self: super: {
+      #   my = import ./lib {
+      #     inherit inputs pkgs;
+      #     lib = self;
+      #   };
+      # });
+      #
+      # # hacky hack hack for badly written bash scripts
+      # bashScriptToNix = n: p:
+      #   (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ]
+      #     [ "#!${pkgs.bash}/bin/bash" ]
+      #     (builtins.readFile p)));
 
     in
     {
@@ -37,7 +40,7 @@ use-xdg-base-directories = true;
     };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
     home-manager-unstable = {
       url = "github:nix-community/home-manager/master";
@@ -96,9 +99,7 @@ use-xdg-base-directories = true;
       url = "github:nix-community/nixvim";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim-stable = {
-      url = "github:nix-community/nixvim/nixos-24.05";
-    };
+    nixvim-stable = { url = "github:nix-community/nixvim/nixos-24.05"; };
 
     # disko.url = "github:nix-community/disko";
 
@@ -111,7 +112,7 @@ use-xdg-base-directories = true;
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  
+
     zen-browser.url = "github:MarceColl/zen-browser-flake";
   };
 }

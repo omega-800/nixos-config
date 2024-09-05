@@ -1,26 +1,25 @@
-{ inputs, pkgs, lib, ... }:
-with lib;
+{ inputs, ... }:
+with inputs.nixpkgs-unstable.lib;
 with builtins;
 let
-  util = import ./util.nix { inherit inputs pkgs lib; };
-  script = import ./sys_script.nix { inherit inputs pkgs lib; };
+  util = import ./util.nix { inherit inputs; };
+  script = import ./sys_script.nix { inherit inputs; };
 in
 rec {
   inherit (util)
     mkCfg mkArgs mkPkgs mkPkgsStable mkOverlays mkGlobals mkHomeMgr;
   inherit (script) writeCfgToScript generateInstallerList;
 
-  mkModules = cfg: path: attrs: type:
-      [
-        ({
-          # clearly i do NOT understand how nix works
-          nixpkgs.overlays = [ inputs.nur.overlay ];
-        })
-        ../profiles/default/${type}.nix
-        ../profiles/${cfg.sys.profile}/${type}.nix
-        (import "${path}/${type}.nix")
-        (filterAttrs (n: v: !elem n [ "system" ]) attrs)
-      ];
+  mkModules = cfg: path: attrs: type: [
+    ({
+      # clearly i do NOT understand how nix works
+      nixpkgs.overlays = [ inputs.nur.overlay ];
+    })
+    ../profiles/default/${type}.nix
+    ../profiles/${cfg.sys.profile}/${type}.nix
+    (import "${path}/${type}.nix")
+    (filterAttrs (n: v: !elem n [ "system" ]) attrs)
+  ];
 
   mkHost = path: attrs:
     let
@@ -32,7 +31,7 @@ rec {
       #pkgs = pkgsFinal;
       specialArgs = mkArgs cfg;
       modules = mkModules cfg path attrs "configuration";
-      };
+    };
 
   mapHosts = dir: attrs:
     mapHostConfigs dir "configuration" (path: mkHost path attrs);
