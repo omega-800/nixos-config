@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }:
+{ globals, usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.dev.vscode;
 in {
@@ -97,12 +97,11 @@ in {
         }
       ];
 
-      userSettings = {
+      userSettings = with config.lib.stylix.colors; {
         "editor.defaultFormatter" = "biomejs.biome";
         "editor.formatOnSave" = true;
         "workbench.activityBar.location" = "top";
         "window.customTitleBarVisibility" = "auto";
-        "workbench.colorTheme" = "Catppuccin Mocha";
         "editor.cursorSurroundingLines" = 8;
         "zenMode.hideStatusBar" = false;
         "zenMode.hideActivityBar" = false;
@@ -113,7 +112,7 @@ in {
         "vim.vimrc.path" = "${globals.envVars.HOME}/.vimrc";
         "vim.leader" = "<space>";
         "vim.highlightedyank.enable" = true;
-        "vim.highlightedyank.color" = "#a9dc7660";
+        "vim.highlightedyank.color" = "#${base09}";
         "vim.highlightedyank.duration" = 250;
         "vim.hlsearch" = true;
         "vim.enableNeovim" = false;
@@ -121,24 +120,24 @@ in {
         "editor.renderWhitespace" = "selection";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
-        "vim.statusBarColors.normal" = [ "#8FBCBB" "#434C5E" ];
-        "vim.statusBarColors.insert" = "#BF616A";
-        "vim.statusBarColors.visual" = "#B48EAD";
-        "vim.statusBarColors.visualline" = "#B48EAD";
-        "vim.statusBarColors.visualblock" = "#A3BE8C";
-        "vim.statusBarColors.replace" = "#D08770";
-        "vim.statusBarColors.commandlineinprogress" = "#007ACC";
-        "vim.statusBarColors.searchinprogressmode" = "#007ACC";
-        "vim.statusBarColors.easymotionmode" = "#007ACC";
-        "vim.statusBarColors.easymotioninputmode" = "#007ACC";
-        "vim.statusBarColors.surroundinputmode" = "#007ACC";
+        "vim.statusBarColors.normal" = [ "#${base0D}" "#${base02}" ];
+        "vim.statusBarColors.insert" = "#${base0B}";
+        "vim.statusBarColors.visual" = "#${base0E}";
+        "vim.statusBarColors.visualline" = "#${base0E}";
+        "vim.statusBarColors.visualblock" = "#${base0E}";
+        "vim.statusBarColors.replace" = "#${base08}";
+        "vim.statusBarColors.commandlineinprogress" = "#${base07}";
+        "vim.statusBarColors.searchinprogressmode" = "#${base07}";
+        "vim.statusBarColors.easymotionmode" = "#${base07}";
+        "vim.statusBarColors.easymotioninputmode" = "#${base07}";
+        "vim.statusBarColors.surroundinputmode" = "#${base07}";
         "extensions.experimental.affinity" = { "vscodevim.vim" = 1; };
         "workbench.colorCustomizations" = {
-          "statusBar.background" = "#8FBCBB";
-          "statusBar.noFolderBackground" = "#8FBCBB";
-          "statusBar.debuggingBackground" = "#8FBCBB";
-          "statusBar.foreground" = "#434C5E";
-          "statusBar.debuggingForeground" = "#434C5E";
+          "statusBar.background" = "#${base0C}";
+          "statusBar.noFolderBackground" = "#${base0C}";
+          "statusBar.debuggingBackground" = "#${base0C}";
+          "statusBar.foreground" = "#${base04}";
+          "statusBar.debuggingForeground" = "#${base04}";
         };
         "vim.normalModeKeyBindings" = [
           {
@@ -187,22 +186,13 @@ in {
             "bitbucket-pipelines.yml";
         };
         "atlascode.bitbucket.enabled" = false;
-        "atlascode.jira.jqlList" = [{
-          "id" = "335c6fc6-665c-4824-8650-bd001433c6e1";
-          "enabled" = true;
-          "name" = "My inteco Issues";
-          "query" =
-            "assignee = currentUser() AND resolution = Unresolved ORDER BY lastViewed DESC";
-          "siteId" = "f70fc1d1-2771-4603-b0f4-aa6f2f6a6c06";
-          "monitor" = true;
-        }];
-        "[liquid]" = {
-          "editor.defaultFormatter" = "vscode.html-language-features";
-        };
         "redhat.telemetry.enabled" = false;
         "vim.digraphs" = { };
         "[typescript]" = { "editor.defaultFormatter" = "biomejs.biome"; };
         "[vue]" = { "editor.defaultFormatter" = "Vue.volar"; };
+        "[liquid]" = {
+          "editor.defaultFormatter" = "vscode.html-language-features";
+        };
       };
     };
   };
