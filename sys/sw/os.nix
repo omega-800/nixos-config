@@ -1,4 +1,4 @@
-{ config, pkgs, usr, sys, ... }:
+{ config, pkgs, usr, sys, lib, ... }:
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -6,7 +6,7 @@ in
 {
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
-  services.gnome.gnome-keyring.enable = true;
+  services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
