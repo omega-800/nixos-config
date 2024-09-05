@@ -23,11 +23,12 @@
     PASSWORD_STORE_DIR = "$XDG_DATA_HOME/pass";
     GNUPGHOME = "$XDG_DATA_HOME/gnupg";
     GOPATH = "$XDG_DATA_HOME/go";
-    GTK2_RC_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    XCURSOR_PATH = lib.mkForce
+      "$XCURSOR_PATH\${XCURSOR_PATH:+:}/home/omega/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:$XDG_DATA_HOME/icons";
     IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
     PYTHONSTARTUP = "$XDG_CONFIG_HOME/python/pythonrc";
     JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
-    XCURSOR_PATH = "/usr/share/icons:$XDG_DATA_HOME/icons";
     XINITRC = "$XDG_CONFIG_HOME/X11/xinitrc";
     ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
