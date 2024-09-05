@@ -8,6 +8,9 @@
         inputs.nur.overlay
       ] ++ (if isGenericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
+  getHomeMgrFlake = isStable:
+    inputs."home-manager-${if isStable then "" else "un"}stable";
+
   getPkgsFlake = isStable:
     inputs."nixpkgs-${if isStable then "" else "un"}stable";
 
@@ -20,5 +23,4 @@
       };
       overlays = mkOverlays isGenericLinux isStable;
     });
-
 }

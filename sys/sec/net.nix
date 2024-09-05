@@ -5,7 +5,7 @@
   networking = {
     networkmanager.enable =
       true; # Easiest to use and most distros use this by default.
-    # hostName = sys.hostname;
+    hostName = sys.hostname;
     extraHosts = ''
       127.0.0.1 local.sendy.inteco.ch
     '';

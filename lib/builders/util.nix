@@ -1,43 +1,49 @@
 { inputs, ... }:
 let pkgUtil = import ./pkgs.nix { inherit inputs; };
 in rec {
-  inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake;
+  inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
 
   # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
   getCfgAttr = path: type: name:
-    let
-      cfg = inputs.nixpkgs-unstable.lib.evalModules {
-        modules =
-          [ ../../profiles/default/options.nix (import "${path}/config.nix") ];
-      };
-    in
-    cfg.config.c.${type}.${name};
+    (inputs.nixpkgs-unstable.lib.evalModules {
+      modules =
+        [ ../../profiles/default/options.nix (import "${path}/config.nix") ];
+    }).config.c.${type}.${name};
 
   mkCfg = path:
     let
-      hackyPkgs =
-        mkPkgs (getCfgAttr path "sys" "stable") (getCfgAttr path "sys" "system")
-          (getCfgAttr path "sys" "genericLinux");
-      cfg = inputs.nixpkgs-unstable.lib.evalModules {
-        modules =
-          let
-            profileCfg =
-              ../../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
-          in
-          [
-            ({ config, ... }: { config._module.args = { pkgs = hackyPkgs; }; })
-            ../../profiles/default/options.nix
-            (import "${path}/config.nix")
-          ] ++ (if inputs.nixpkgs-unstable.lib.pathExists profileCfg then
-            [ profileCfg ]
-          else
-            [ ]);
-      };
+      hostname = with inputs.nixpkgs-unstable.lib; last (splitString "/" path);
+      profileCfg = ../../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
     in
-    cfg.config.c;
+    (inputs.nixpkgs-unstable.lib.evalModules {
+      modules = [
+        ({ config, ... }: {
+          config = {
+            _module.args = {
+              pkgs = mkPkgs (getCfgAttr path "sys" "stable")
+                (getCfgAttr path "sys" "system")
+                (getCfgAttr path "sys" "genericLinux");
+            };
+            c.sys.hostname = hostname;
+          };
+        })
+        ../../profiles/default/options.nix
+        (import "${path}/config.nix")
+      ] ++ (if inputs.nixpkgs-unstable.lib.pathExists profileCfg then
+        [ profileCfg ]
+      else
+        [ ]);
+    }).config.c;
 
-  getHomeMgrFlake = stable:
-    inputs."home-manager-${if stable then "" else "un"}stable";
+  mkModules = cfg: path: attrs: type:
+    with builtins; [
+      ({ nixpkgs.overlays = mkOverlays cfg.sys.genericLinux cfg.sys.stable; })
+      ../../profiles/default/${type}.nix
+      ../../profiles/${cfg.sys.profile}/${type}.nix
+      (import "${path}/${type}.nix")
+      (inputs.nixpkgs-unstable.lib.filterAttrs (n: v: !elem n [ "system" ])
+        attrs)
+    ];
 
   mkLib = cfg:
     let
@@ -55,8 +61,6 @@ in rec {
         } // homeMgr.lib);
     in
     lib;
-
-  # nixpkgs.lib.extend (final: prev: (import ./lib final) // home-manager.lib);
 
   mkArgs = cfg:
     let

@@ -2,6 +2,10 @@
 with lib; {
   options.c = {
     sys = {
+      hostname = mkOption {
+        type = types.str;
+        default = "nixie";
+      }; # will be set to the dirname of the host configs
       profile = mkOption {
         type = types.str;
         default = "pers";

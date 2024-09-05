@@ -2,23 +2,13 @@
 with builtins;
 let
   util = import ./util.nix { inherit inputs; };
+  pkgUtil = import ./util.nix { inherit inputs; };
   script = import ./sys_script.nix { inherit inputs; };
 in
 rec {
-  inherit (util)
-    mkCfg mkArgs mkPkgs mkOverlays mkGlobals getHomeMgrFlake getPkgsFlake;
+  inherit (util) mkCfg mkArgs mkGlobals mkModules;
+  inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
   inherit (script) writeCfgToScript generateInstallerList;
-
-  mkModules = cfg: path: attrs: type: [
-    ({
-      # clearly i do NOT understand how nix works
-      nixpkgs.overlays = mkOverlays cfg.sys.genericLinux cfg.sys.stable;
-    })
-    ../../profiles/default/${type}.nix
-    ../../profiles/${cfg.sys.profile}/${type}.nix
-    (import "${path}/${type}.nix")
-    (inputs.nixpkgs-unstable.lib.filterAttrs (n: v: !elem n [ "system" ]) attrs)
-  ];
 
   mkHost = path: attrs:
     let cfg = mkCfg path;
@@ -30,8 +20,7 @@ rec {
     };
 
   mapHosts = dir: attrs:
-    mapHostConfigs dir "configuration"
-      (path: extraAttrs: mkHost path (attrs // extraAttrs));
+    mapHostConfigs dir "configuration" (path: mkHost path attrs);
 
   mkHome = path: attrs:
     let
@@ -45,20 +34,18 @@ rec {
       modules = mkModules cfg path attrs "home";
     };
 
-  mapHomes = dir: attrs:
-    mapHostConfigs dir "home"
-      (path: extraAttrs: mkHome path (attrs // extraAttrs));
+  mapHomes = dir: attrs: mapHostConfigs dir "home" (path: mkHome path attrs);
 
   mkDroid = path: attrs:
-    inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    let cfg = mkCfg path;
+    in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       modules = [ ./profiles/nix-on-droid/configuration.nix ];
       extraSpecialArgs = mkArgs cfg;
     };
 
   mapDroids = dir: attrs:
-    mapHostConfigs dir "configuration"
-      (path: extraAttrs: mkDroid path (attrs // extraAttrs));
+    mapHostConfigs dir "configuration" (path: mkDroid path attrs);
 
   mkGeneric = path: attrs:
     let cfg = mkCfg path;
@@ -69,17 +56,16 @@ rec {
     };
 
   mapGeneric = dir: attrs:
-    mapHostConfigs dir "configuration"
-      (path: extraAttrs: mkGeneric path (attrs // extraAttrs));
+    mapHostConfigs dir "configuration" (path: mkGeneric path attrs);
 
   mapHostConfigs = dir: type: fn:
     with inputs.nixpkgs-unstable.lib;
     filterAttrs (n: v: v != null && !(hasPrefix "_" n)) (mapAttrs'
       (n: v:
         let path = "${toString dir}/${n}";
-        in if v == "directory" && pathExists "${path}/${type}.nix" then
-          nameValuePair n
-            (fn path (if type == "home" then { } else { networking.hostName = n; }))
+        in if v == "directory" && pathExists "${path}/${type}.nix"
+          && pathExists "${path}/config.nix" then
+          nameValuePair n (fn path)
         else
           nameValuePair "" null)
       (readDir dir));
