@@ -9,7 +9,6 @@ in {
       teamviewer
       # nable?
       # rdm -> https://devolutions.net/remote-desktop-manager/home/download/
-      eclipses.eclipse-jee
       subversionClient
       msgviewer # outlook
       # teams-for-linux -> doesn't work
@@ -25,5 +24,12 @@ in {
       bottles # if i really HAVE to emulate windows
       slides
     ];
+    programs.eclipse = {
+      enable = true;
+      package = pkgs.eclipses.eclipse-jee;
+      enableLombok = true;
+      jvmArgs = [ "-Xmx512m" "-ea" "-Djava.awt.headless=true" ];
+      plugins = with pkgs.eclipses; [ plugins.vrapper plugins.freemarker ];
+    };
   };
 }

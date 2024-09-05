@@ -7,7 +7,7 @@ in {
 
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [ "vscode" "ciscoPacketTracer8" ];
+      builtins.elem (lib.getName pkg) [ "ciscoPacketTracer8" ];
     home.packages = with pkgs;
       [ jq ] ++ (if !usr.minimal then [
         qmk
@@ -21,7 +21,6 @@ in {
         qemu
         virt-manager
         ncurses
-        vscode
         # TODO: put this in a nix-shell
         # nvm
         # npm

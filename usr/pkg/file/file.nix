@@ -11,13 +11,8 @@ in {
         # tree (replaced by eza)
         eza
         gdu
-      ] ++ (if !usr.minimal then [
-        yazi
-        gzip
-        unzip
-        trash-cli
-      ] else
-        [ ]) ++ (if usr.extraBloat then [
+      ] ++ (if !usr.minimal then [ yazi gzip unzip ] else [ ])
+      ++ (if usr.extraBloat then [
         xfce.thunar
         udiskie
         udisks

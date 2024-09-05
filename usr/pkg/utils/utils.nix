@@ -24,6 +24,7 @@ in {
       brightnessctl
       bind
     ] else []) ++ (if usr.extraBloat then [
+      bat
       freecad
       vulnix
       thefuck
