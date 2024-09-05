@@ -1,27 +1,10 @@
 { inputs, pkgs, lib, ... }:
 with lib; rec {
-  mkLib = cfg:
-    let
-      lib = (if cfg.sys.stable then
-        inputs.nixpkgs-stable.lib
-      else
-        inputs.nixpkgs.lib).extend (self: super: {
-        my = import ./lib {
-          inherit pkgs inputs;
-          lib = self;
-        };
-      });
-    in
-    lib;
-
-  mkHomeMgr = cfg:
-    let
-      home-manager = (if cfg.sys.stable then
-        inputs.home-manager-stable
-      else
-        inputs.home-manager-unstable);
-    in
-    home-manager;
+  mkOverlays = genericLinux:
+    [
+      # inputs.rust-overlay.overlays.default
+      inputs.nur.overlay
+    ] ++ (if genericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
   mkPkgsStable = system:
     let
@@ -34,12 +17,6 @@ with lib; rec {
       };
     in
     pkgs-stable;
-
-  mkOverlays = genericLinux:
-    [
-      # inputs.rust-overlay.overlays.default
-      inputs.nur.overlay
-    ] ++ (if genericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
   mkPkgsUnstable = system: genericLinux:
     let

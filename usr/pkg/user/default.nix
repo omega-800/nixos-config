@@ -5,7 +5,7 @@
     ./alacritty.nix
     ./kitty.nix
     ./vim.nix
-    ./folders.nix
+    ./dirs.nix
     ./nixvim
     # inputs.nixvim.homeManagerModules.nixvim
   ];

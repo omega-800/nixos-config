@@ -7,6 +7,7 @@ in {
     swappiness = mkOption {
       type = types.number;
       default = 60;
+      description = "swappiness";
     };
   };
   imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [];

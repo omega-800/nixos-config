@@ -11,7 +11,7 @@ let
     (./. + "../../../themes" + ("/" + usr.theme) + "/backgroundsha256.txt");
 in
 {
-  imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];
+  #imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];
   config =
     if !usr.style then
       { }

@@ -11,13 +11,16 @@
     XDG_DESKTOP_DIR = "${HOME}/desk";
     XDG_DOCUMENTS_DIR = "${HOME}/doc";
     XDG_DOWNLOAD_DIR = "${HOME}/dl";
-    XDG_MUSIC_DIR = "${XDG_DOCUMENTS_DIR}/music";
-    XDG_PICTURES_DIR = "${XDG_DOCUMENTS_DIR}/img";
-    XDG_PUBLICSHARE_DIR = "${XDG_DOCUMENTS_DIR}/share";
-    XDG_TEMPLATES_DIR = "${XDG_DOCUMENTS_DIR}/templ";
-    XDG_VIDEOS_DIR = "${XDG_DOCUMENTS_DIR}/vid";
+    XDG_MUSIC_DIR = "${MEDIA_DIR}/music";
+    XDG_PICTURES_DIR = "${MEDIA_DIR}/img";
+    XDG_VIDEOS_DIR = "${MEDIA_DIR}/vid";
+    XDG_PUBLICSHARE_DIR = "${MISC_DIR}/share";
+    XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
 
+    MEDIA_DIR = "${XDG_DOCUMENTS_DIR}/media";
+    MISC_DIR = "${XDG_DOCUMENTS_DIR}/misc";
     WORKSPACE_DIR = "${HOME}/ws";
+    SCRIPTS_DIR = "${HOME}/ws/scripts";
     SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
 
     HISTFILE = "${XDG_STATE_HOME}/shell/history";

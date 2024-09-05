@@ -1,6 +1,15 @@
 {
   description = "Nixos config flake";
 
+  nixConfig = {
+    #keep-outputs = false;       # Nice for developers
+#keep-derivations = false;   # Idem
+extra-experimental-features = [ "nix-command" "flakes" ];
+auto-optimise-store = true;
+bash-prompt = ">";
+use-xdg-base-directories = true;
+  };
+
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (lib.my) mapHosts mapHomes mapGeneric mapModules;

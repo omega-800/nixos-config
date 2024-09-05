@@ -1,9 +1,6 @@
-{ lib, usr, ... }:
-with lib;
-{
-  imports = [
-    ../../usr/wm
-  ];
+{ globals, lib, usr, ... }:
+with lib; {
+  imports = [ ../../usr/wm ];
 
   # pkgs
   u = {
@@ -13,7 +10,19 @@ with lib;
     file.enable = mkDefault true;
     net.enable = mkDefault true;
     office.enable = mkDefault true;
-    user.enable = mkDefault true;
+    user = {
+      enable = mkDefault true;
+      dirs = with globals.envVars; {
+        enable = mkDefault true;
+        extraDirs = mkDefault [
+          "${WORKSPACE_DIR}/work/mgnl"
+          "${WORKSPACE_DIR}/work/webview"
+          "${WORKSPACE_DIR}/pers"
+          "${XDG_DOCUMENTS_DIR}/work/shops"
+          "${XDG_DOCUMENTS_DIR}/pers"
+        ];
+      };
+    };
     utils.enable = mkDefault true;
 
     # no fun only work
