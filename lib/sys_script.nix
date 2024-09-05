@@ -3,7 +3,7 @@
       ''
       #!/usr/bin/env bash
       ${
-        "no"#lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
+        "echo no"#lib.concatStrings (lib.mapAttrsToList (n: v: ''${n}="${v}"'') cfg.environment.sessionVariables)
       }
       '';
 

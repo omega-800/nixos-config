@@ -1,38 +1,38 @@
-{ inputs, pkgs, lib, ... }:
-with lib;
+{ inputs, ... }:
 with builtins;
 let
-  util = import ./util.nix { inherit inputs pkgs lib; };
-  script = import ./sys_script.nix { inherit inputs pkgs lib; };
+  util = import ./util.nix { inherit inputs; };
+  pkgsUtil = import ./pkgs.nix { inherit inputs; };
+  script = import ./sys_script.nix { inherit inputs; };
 in
 rec {
-  inherit (util)
-    mkCfg mkArgs mkPkgs mkPkgsStable mkOverlays mkGlobals mkHomeMgr;
+  inherit (util) mkCfg mkArgs mkGlobals;
+  inherit (pkgsUtil) mkPkgs mkHomeMgr mkOverlays;
   inherit (script) writeCfgToScript generateInstallerList;
 
-  mkModules = cfg: path: attrs: type:
-      [
-        ({
-          # clearly i do NOT understand how nix works
-          nixpkgs.overlays = [ inputs.nur.overlay ];
-        })
-        ../profiles/default/${type}.nix
-        ../profiles/${cfg.sys.profile}/${type}.nix
-        (import "${path}/${type}.nix")
-        (filterAttrs (n: v: !elem n [ "system" ]) attrs)
-      ];
+  mkModules = hackyLib: profile: path: attrs: type: [
+    # ({
+    #   # clearly i do NOT understand how nix works
+    #   #nixpkgs.overlays = [ inputs.nur.overlay ];
+    #   nixpkgs.overlays = mkOverlays cfg.sys.genericLinux;
+    # })
+    ../profiles/default/${type}.nix
+    ../profiles/${profile}/${type}.nix
+    (import "${path}/${type}.nix")
+    (inputs.nixpkgs-unstable.lib.filterAttrs (n: v: !elem n [ "system" ]) attrs)
+  ];
 
   mkHost = path: attrs:
     let
-      pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       cfg = mkCfg path;
+      pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
     in
-    nixosSystem {
+    inputs.nixpkgs-unstable.lib.nixosSystem {
       inherit (cfg.sys) system;
-      #pkgs = pkgsFinal;
       specialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "configuration";
-      };
+      modules =
+        mkModules pkgsFinal.lib cfg.sys.profile path attrs "configuration";
+    };
 
   mapHosts = dir: attrs:
     mapHostConfigs dir "configuration" (path: mkHost path attrs);
@@ -49,7 +49,7 @@ rec {
     home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFinal;
       extraSpecialArgs = args;
-      modules = mkModules cfg path attrs "home";
+      modules = mkModules pkgsFinal.lib cfg.sys.profile path attrs "home";
     };
 
   mapHomes = dir: attrs: mapHostConfigs dir "home" (path: mkHome path attrs);
@@ -59,23 +59,27 @@ rec {
     in systemConfigs {
       inherit (cfg.sys) system;
       specialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "configuration";
+      modules =
+        mkModules pkgsFinal.lib cfg.sys.profile path attrs "configuration";
     };
 
   mapGeneric = dir: attrs:
     mapHostConfigs dir "configuration" (path: mkGeneric path attrs);
 
   mapHostConfigs = dir: type: fn:
+    with inputs.nixpkgs.lib;
     filterAttrs (n: v: v != null && !(hasPrefix "_" n)) (mapAttrs'
       (n: v:
         let path = "${toString dir}/${n}";
-        in if v == "directory" && pathExists "${path}/${type}.nix" then
+        in if v == "directory" && pathExists "${path}/${type}.nix"
+          && pathExists "${path}/config.nix" then
           nameValuePair n (fn path)
         else
           nameValuePair "" null)
       (readDir dir));
 
   mapModules = dir: fn:
+    with inputs.nixpkgs-stable.lib;
     filterAttrs (n: v: v != null && !(hasPrefix "_" n)) (mapAttrs'
       (n: v:
         let path = "${toString dir}/${n}";

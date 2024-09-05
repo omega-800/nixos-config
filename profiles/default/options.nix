@@ -154,7 +154,7 @@ with lib; {
       }; # Default editor
       shell = mkOption {
         type = types.package;
-        default = pkgs.bash;
+        default = pkgs.zsh;
       };
       termColors = mkOption {
         default = {
