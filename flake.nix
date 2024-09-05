@@ -13,28 +13,12 @@
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (import ./lib/builders { inherit inputs; })
-        mapHosts mapHomes mapGeneric mapModules;
-
-      # inherit (lib.my) mapHosts mapHomes mapGeneric mapModules;
-      # #lib = (if stablePkgs then inputs.nixpkgs-stable.lib else inputs.nixpkgs.lib).extend
-      # pkgs = nixpkgs;
-      # lib = nixpkgs.lib.extend (self: super: {
-      #   my = import ./lib {
-      #     inherit inputs pkgs;
-      #     lib = self;
-      #   };
-      # });
-      #
-      # # hacky hack hack for badly written bash scripts
-      # bashScriptToNix = n: p:
-      #   (pkgs.writeShellScript n (builtins.replaceStrings [ "#!/bin/bash" ]
-      #     [ "#!${pkgs.bash}/bin/bash" ]
-      #     (builtins.readFile p)));
-
+        mapHosts mapHomes mapGeneric mapModules mapDroids;
     in
     {
       homeConfigurations = mapHomes ./hosts { };
       nixosConfigurations = mapHosts ./hosts { };
+      nixOnDroidConfigurations = mapDroids ./hosts { };
       systemConfigs = mapGeneric ./hosts { };
       packages = mapModules ./packages import;
     };
@@ -50,10 +34,10 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    # system-manager = {
-    #   url = "github:numtide/system-manager";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -114,5 +98,11 @@
     };
 
     zen-browser.url = "github:MarceColl/zen-browser-flake";
+
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager-unstable";
+    };
   };
 }

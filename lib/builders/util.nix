@@ -1,61 +1,58 @@
 { inputs, ... }:
-with inputs.nixpkgs-unstable.lib;
 let pkgUtil = import ./pkgs.nix { inherit inputs; };
 in rec {
-  inherit (pkgUtil) mkPkgsStable mkPkgs mkOverlays;
+  inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake;
 
   # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
   getCfgAttr = path: type: name:
     let
-      cfg = evalModules {
+      cfg = inputs.nixpkgs-unstable.lib.evalModules {
         modules =
-          [ ../profiles/default/options.nix (import "${path}/config.nix") ];
+          [ ../../profiles/default/options.nix (import "${path}/config.nix") ];
       };
     in
     cfg.config.c.${type}.${name};
 
   mkCfg = path:
     let
-      #hackyPkgs = hackyHackHackToEvaluateProfileBeforeEvaluatingTheWholeConfigBecauseItDependsOnThePackageVersionDependingOnTheProfile path;
       hackyPkgs =
         mkPkgs (getCfgAttr path "sys" "stable") (getCfgAttr path "sys" "system")
           (getCfgAttr path "sys" "genericLinux");
-      cfg = evalModules {
+      cfg = inputs.nixpkgs-unstable.lib.evalModules {
         modules =
           let
             profileCfg =
-              ../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
+              ../../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
           in
           [
             ({ config, ... }: { config._module.args = { pkgs = hackyPkgs; }; })
-            ../profiles/default/options.nix
+            ../../profiles/default/options.nix
             (import "${path}/config.nix")
-          ] ++ (if pathExists profileCfg then [ profileCfg ] else [ ]);
+          ] ++ (if inputs.nixpkgs-unstable.lib.pathExists profileCfg then
+            [ profileCfg ]
+          else
+            [ ]);
       };
     in
     cfg.config.c;
 
-  mkHomeMgr = cfg:
-    (if cfg.sys.stable then
-      inputs.home-manager-stable
-    else
-      inputs.home-manager-unstable);
+  getHomeMgrFlake = stable:
+    inputs."home-manager-${if stable then "" else "un"}stable";
 
   mkLib = cfg:
     let
-      home-manager = mkHomeMgr cfg;
-      lib = (if cfg.sys.stable then
-        inputs.nixpkgs-stable
-      else
-        inputs.nixpkgs).lib.extend (final: prev:
+      homeMgr = getHomeMgrFlake cfg.sys.stable;
+      pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
+      lib = pkgsFinal.lib.extend (final: prev:
         {
-          my = import ./. {
+          my = import ../my {
             inherit inputs;
+            pkgs = pkgsFinal;
             lib = final;
           };
           # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
           # templateFile = import ./templating.nix { inherit pkgs; };
-        } // home-manager.lib);
+        } // homeMgr.lib);
     in
     lib;
 
@@ -63,20 +60,19 @@ in rec {
 
   mkArgs = cfg:
     let
-      finalPkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
-      args = {
-        inherit inputs;
-        #inherit (cfg.sys) system; 
-        inherit (cfg) usr sys;
-        nixpkgs = finalPkgs;
-        pkgs = finalPkgs;
-        lib = mkLib cfg;
-        globals = (import ../profiles/default/globals.nix {
-          inherit (cfg) usr sys;
-          inherit pkgs lib;
-        });
-        # pkgs-stable = (mkPkgsStable cfg.sys.system);
-      };
+      pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
+      myLib = mkLib cfg;
     in
-    args;
+    {
+      inherit inputs;
+      inherit (cfg) usr sys;
+      # nixpkgs = finalPkgs;
+      # pkgs = finalPkgs;
+      lib = myLib;
+      globals = (import ../../profiles/default/globals.nix {
+        inherit (cfg) usr sys;
+        lib = myLib;
+        pkgs = pkgsFinal;
+      });
+    };
 }
