@@ -2,8 +2,10 @@
 with lib; rec {
   mkLib = cfg:
     let
-      lib = (if cfg.sys.stable then inputs.nixpkgs-stable.lib
-        else inputs.nixpkgs.lib).extend (self: super: {
+      lib = (if cfg.sys.stable then
+        inputs.nixpkgs-stable.lib
+      else
+        inputs.nixpkgs.lib).extend (self: super: {
         my = import ./lib {
           inherit pkgs inputs;
           lib = self;
@@ -34,8 +36,10 @@ with lib; rec {
     pkgs-stable;
 
   mkOverlays = genericLinux:
-    [ inputs.rust-overlay.overlays.default inputs.nur.overlay ]
-    ++ (if genericLinux then [ inputs.nixgl.overlay ] else [ ]);
+    [
+      # inputs.rust-overlay.overlays.default
+      inputs.nur.overlay
+    ] ++ (if genericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
   mkPkgsUnstable = system: genericLinux:
     let

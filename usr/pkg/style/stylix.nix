@@ -28,32 +28,35 @@ in
         })
         ({
           fonts.fontconfig.enable = true;
-          home.packages = with pkgs; [
-            (nerdfonts.override {
-              fonts = [
-                "CascadiaCode"
-                "CodeNewRoman"
-                "FantasqueSansMono"
-                "Iosevka"
-                "ShareTechMono"
-                "Hermit"
-                "JetBrainsMono"
-                "FiraCode"
-                "FiraMono"
-                "Hack"
-                "Hasklig"
-                "Ubuntu"
-                "UbuntuMono"
-              ];
-            })
-            noto-fonts
-            noto-fonts-cjk
-            noto-fonts-emoji
-            noto-fonts-monochrome-emoji
-          ];
+          home.packages = with pkgs;
+            [
+              (nerdfonts.override {
+                fonts = [ "JetBrainsMono" ] ++ (if usr.extraBloat then [
+                  "FiraCode"
+                  "FiraMono"
+                  "Hack"
+                  "Hasklig"
+                  "Ubuntu"
+                  "UbuntuMono"
+                  "CascadiaCode"
+                  "CodeNewRoman"
+                  "FantasqueSansMono"
+                  "Iosevka"
+                  "ShareTechMono"
+                  "Hermit"
+                ] else
+                  [ ]);
+              })
+            ] ++ (if usr.extraBloat then [
+              noto-fonts
+              noto-fonts-cjk
+              noto-fonts-emoji
+              noto-fonts-monochrome-emoji
+            ] else
+              [ ]);
           home.file = with config.lib.stylix.colors; {
-            ".currenttheme".text = usr.theme;
-            ".currentcolors.conf".text = ''
+            ".config/.currenttheme".text = usr.theme;
+            ".config/.currentcolors.conf".text = ''
               base00 = #${base00}
               base01 = #${base01}
               base02 = #${base02}
@@ -76,7 +79,7 @@ in
             opacity.terminal = 0.85;
             autoEnable = true;
             base16Scheme = themeYamlPath;
-            cursor = {
+            cursor = lib.mkIf (!usr.minimal) {
               package = pkgs.bibata-cursors;
               name = "Bibata-Modern-Ice";
               size = 32;
@@ -103,7 +106,7 @@ in
                 name = usr.font;
                 package = usr.fontPkg;
               };
-              emoji = {
+              emoji = lib.mkIf (!usr.minimal) {
                 name = "Noto Color Emoji";
                 package = pkgs.noto-fonts-emoji-blob-bin;
               };

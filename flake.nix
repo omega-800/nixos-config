@@ -38,10 +38,10 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    system-manager = {
-      url = "github:numtide/system-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # system-manager = {
+    #   url = "github:numtide/system-manager";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,12 +56,12 @@
       url = "github:DreamMaoMao/hycov/115cba558d439cc25d62ce38b7c62cde83f50ef5";
       inputs.hyprland.follows = "hyprland";
     };
-    nix-straight = {
-      url = "github:librephoenix/nix-straight.el/pgtk-patch";
-      flake = false;
-    };
+    # nix-straight = {
+    #   url = "github:librephoenix/nix-straight.el/pgtk-patch";
+    #   flake = false;
+    # };
     stylix.url = "github:danth/stylix";
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    # rust-overlay.url = "github:oxalica/rust-overlay";
     nixgl.url = "github:nix-community/nixGL";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -91,12 +91,12 @@
       url = "github:nix-community/nixvim/nixos-24.05";
     };
 
-    disko.url = "github:nix-community/disko";
+    # disko.url = "github:nix-community/disko";
 
     nur.url = "github:nix-community/NUR";
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
-    kaizen.url = "github:thericecold/kaizen";
+    # kaizen.url = "github:thericecold/kaizen";
 
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";

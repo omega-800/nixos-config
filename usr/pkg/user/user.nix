@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }:
+{ usr, lib, config, pkgs, globals, ... }:
 with lib;
 let cfg = config.u.user;
 in {
@@ -7,8 +7,12 @@ in {
   config = mkIf cfg.enable {
     services.gnome-keyring = {
       enable = true;
-      components = ["ssh" "secrets"];
+      components = [ "ssh" "secrets" ];
     };
+    # programs.gpg = {
+    #   enable = true;
+    #   homedir = /home/${usr.username}/.local/share/gnupg; # globals.envVars.GNUPGHOME;
+    # };
     home.packages = with pkgs;
       [
         #starship
@@ -24,5 +28,12 @@ in {
         #cura
       ] else
         [ ]);
+    programs.password-store = {
+      settings = {
+        inherit (globals.envVars) PASSWORD_STORE_DIR EDITOR;
+        PASSWORD_STORE_CLIP_TIME = "60";
+        PASSWORD_STORE_GENERATED_LENGTH = "32";
+      };
+    };
   };
 }

@@ -8,7 +8,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ git-secrets ];
+    home.packages = with pkgs;
+      [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
     programs.git = {
       enable = true;
       package = pkgs.gitFull;
