@@ -5,6 +5,9 @@
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
+      pubkeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
+      ];
     };
     usr = {
       wm = "dwm";

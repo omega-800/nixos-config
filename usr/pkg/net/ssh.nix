@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, sys, ... }:
 with lib;
 let cfg = config.u.net.ssh;
 in {
@@ -10,28 +10,29 @@ in {
     programs.ssh = {
       enable = true;
       addKeysToAgent = "yes";
+      forwardAgent = false;
       hashKnownHosts = true;
-      matchBlocks = {
+      matchBlocks = with sys; {
         Apollo = {
           host = "Apollo";
           hostname = "apollo.inteco.ch";
           port = 6699;
           user = "inteco";
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         Pluto = {
           host = "Pluto";
           hostname = "ns1.inteco.ch";
           port = 6699;
           user = "root";
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         Zeus = {
           host = "Zeus";
           hostname = "zeus.inteco.ch";
           port = 6699;
           user = "root";
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         Morpheus = {
           host = "Morpheus";
@@ -39,14 +40,14 @@ in {
           port = 6699;
           user = "inteco";
           extraOptions = { Ciphers = "aes256-cbc"; };
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         SB = {
           host = "SB";
           hostname = "scherer-buehler.ch";
           port = 6699;
           user = "inteco";
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         Ares = {
           host = "Ares";
@@ -54,14 +55,14 @@ in {
           port = 6699;
           user = "inteco";
           extraOptions = { Ciphers = "aes256-cbc"; };
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
         Dionysos = {
           host = "Dionysos";
           hostname = "172.16.200.121";
           port = 22;
           user = "inteco";
-          identityFile = "~/.ssh/id_ed25519";
+          inherit identityFile;
         };
       };
     };

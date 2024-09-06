@@ -1,21 +1,19 @@
 { inputs, ... }:
-let pkgUtil = import ./pkgs.nix { inherit inputs; };
+let
+  pkgUtil = import ./pkgs.nix { inherit inputs; };
+  myLib = import ../my/default.nix {
+    pkgs = inputs.nixpkgs-unstable;
+    inherit (inputs.nixpkgs-unstable) lib;
+  };
 in rec {
   inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
-
-  # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
-  getCfgAttr = path: type: name:
-    (inputs.nixpkgs-unstable.lib.evalModules {
-      modules =
-        [ ../../profiles/default/options.nix (import "${path}/config.nix") ];
-    }).config.c.${type}.${name};
+  inherit (myLib.cfg) getCfgAttr;
 
   mkCfg = path:
     let
       hostname = with inputs.nixpkgs-unstable.lib; last (splitString "/" path);
       profileCfg = ../../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
-    in
-    (inputs.nixpkgs-unstable.lib.evalModules {
+    in (inputs.nixpkgs-unstable.lib.evalModules {
       modules = [
         ({ config, ... }: {
           config = {
@@ -59,15 +57,13 @@ in rec {
           # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
           # templateFile = import ./templating.nix { inherit pkgs; };
         } // homeMgr.lib);
-    in
-    lib;
+    in lib;
 
   mkArgs = cfg:
     let
       pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       myLib = mkLib cfg;
-    in
-    {
+    in {
       inherit inputs;
       inherit (cfg) usr sys;
       # nixpkgs = finalPkgs;

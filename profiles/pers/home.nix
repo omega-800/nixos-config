@@ -1,4 +1,5 @@
-{ lib, usr, globals, ... }: {
+{ lib, usr, globals, ... }:
+with lib.my.def; {
   imports = [
     # basically like work profile but with fun enabled
     ../work/home.nix
@@ -6,11 +7,11 @@
 
   # pkgs
   u = {
-    work.enable = lib.my.mkHigherDefault false;
-    media.enable = lib.my.mkHigherDefault true;
-    social.enable = lib.my.mkHigherDefault true;
+    work.enable = mkHigherDefault false;
+    media.enable = mkHigherDefault true;
+    social.enable = mkHigherDefault true;
     user.dirs = with globals.envVars; {
-      extraDirs = lib.my.mkHigherDefault [
+      extraDirs = mkHigherDefault [
         "${WORKSPACE_DIR}/homelab"
         "${WORKSPACE_DIR}/code"
         "${XDG_DOCUMENTS_DIR}/trading"

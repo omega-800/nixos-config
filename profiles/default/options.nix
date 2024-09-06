@@ -2,6 +2,16 @@
 with lib; {
   options.c = {
     sys = {
+      pubkeys = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = "public ssh key(s)";
+      };
+      identityFile = mkOption {
+        type = types.str;
+        default = "~/.ssh/id_ed25519";
+        description = "private ssh file";
+      };
       fs = mkOption {
         type = types.enum [ "zfs" "btrfs" "default" ];
         default = "default";

@@ -30,7 +30,7 @@
     SHELLDIR = "${XDG_STATE_HOME}/shell";
     HISTFILE = "${SHELLDIR}/history";
     PASSWORD_STORE_DIR = "${XDG_DATA_HOME}/pass";
-    GNUPGHOME = "${XDG_DATA_HOME}/gnupg";
+    GNUPGHOME = lib.mkForce "${XDG_DATA_HOME}/gnupg";
     GOPATH = "${XDG_DATA_HOME}/go";
     GOBIN = "${XDG_BIN_HOME}/go";
     IPYTHONDIR = "${XDG_CONFIG_HOME}/ipython";
@@ -59,46 +59,66 @@
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
   };
-  styling = let
-    themePath = ./. + "../../../../themes/${usr.theme}";
-    themeYamlPath = themePath + "/${usr.theme}.yaml";
-    themePolarity =
-      lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
-    themeImage = if builtins.pathExists (themePath + "/${usr.theme}.png") then
-      themePath + "/${usr.theme}.png"
-    else
-      pkgs.fetchurl {
-        url = builtins.readFile (themePath + "/backgroundurl.txt");
-        sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
-      };
-    myLightDMTheme =
-      if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
-  in rec {
-    base16Scheme = themeYamlPath;
-    cursor = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
-      size = 32;
-    };
-    polarity = themePolarity;
-    image = themeImage;
-    fonts = {
-      monospace = {
-        name = usr.font;
-        package = usr.fontPkg;
-      };
-      serif = {
-        name = usr.font;
-        package = usr.fontPkg;
-      };
-      sansSerif = {
-        name = usr.font;
-        package = usr.fontPkg;
-      };
-      emoji = {
-        name = "Noto Color Emoji";
-        package = pkgs.noto-fonts-emoji-blob-bin;
-      };
-    };
+  sshConfig = {
+    kexAlgorithms = [
+      "curve25519-sha256"
+      "curve25519-sha256@libssh.org"
+      "diffie-hellman-group16-sha512"
+      "diffie-hellman-group18-sha512"
+      "diffie-hellman-group-exchange-sha256"
+      "sntrup761x25519-sha512@openssh.com"
+    ];
+    macs = [
+      "hmac-sha2-512-etm@openssh.com"
+      "hmac-sha2-256-etm@openssh.com"
+      "umac-128-etm@openssh.com"
+    ];
+    ciphers = [ "aes256-ctr" "aes192-ctr" "aes128-ctr" ];
+    hostKeyAlgorithms = [ "ssh-ed25519" "rsa-sha2-512" "rsa-sha2-256" ];
   };
+  styling =
+    let
+      themePath = ./. + "../../../../themes/${usr.theme}";
+      themeYamlPath = themePath + "/${usr.theme}.yaml";
+      themePolarity =
+        lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
+      themeImage =
+        if builtins.pathExists (themePath + "/${usr.theme}.png") then
+          themePath + "/${usr.theme}.png"
+        else
+          pkgs.fetchurl {
+            url = builtins.readFile (themePath + "/backgroundurl.txt");
+            sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
+          };
+      myLightDMTheme =
+        if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
+    in
+    rec {
+      base16Scheme = themeYamlPath;
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Ice";
+        size = 32;
+      };
+      polarity = themePolarity;
+      image = themeImage;
+      fonts = {
+        monospace = {
+          name = usr.font;
+          package = usr.fontPkg;
+        };
+        serif = {
+          name = usr.font;
+          package = usr.fontPkg;
+        };
+        sansSerif = {
+          name = usr.font;
+          package = usr.fontPkg;
+        };
+        emoji = {
+          name = "Noto Color Emoji";
+          package = pkgs.noto-fonts-emoji-blob-bin;
+        };
+      };
+    };
 }

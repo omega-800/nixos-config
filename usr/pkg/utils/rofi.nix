@@ -1,4 +1,4 @@
-{ config, lib, usr, pkgs, ... }:
+{ config, lib, usr, pkgs, globals, ... }:
 with lib;
 let cfg = config.u.utils.rofi;
 in {
@@ -32,7 +32,9 @@ in {
       location = "center";
       pass = {
         enable = true;
-        stores = [ "~/.password-store" ];
+        stores = [ globals.envVars.PASSWORD_STORE_DIR ];
+        package = config.programs.password-store.package;
+        #pkgs.pass.withExtensions (exts: with exts; [ pass-checkup pass-otp ]);
       };
       plugins = with pkgs;
         [ rofi-calc ] ++ (if usr.extraBloat then
@@ -53,10 +55,10 @@ in {
            }
 
            configuration {
-                     	modi:                       "drun";
+                          	modi:                       "drun";
            show-icons:                 true;
            display-drun:               "";
-                     	drun-display-format:        "{name}";
+                          	drun-display-format:        "{name}";
            }
 
            window {
