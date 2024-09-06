@@ -25,7 +25,8 @@
     WORKSPACE_DIR = "${HOME}/ws";
     SCRIPTS_DIR = "${HOME}/ws/scripts";
     SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
-    HISTFILE = "${XDG_STATE_HOME}/shell/history";
+    SHELLDIR = "${XDG_STATE_HOME}/shell";
+    HISTFILE = "${SHELLDIR}/history";
     PASSWORD_STORE_DIR = "${XDG_DATA_HOME}/pass";
     GNUPGHOME = "${XDG_DATA_HOME}/gnupg";
     GOPATH = "${XDG_DATA_HOME}/go";
@@ -35,10 +36,21 @@
     JUPYTER_CONFIG_DIR = "${XDG_CONFIG_HOME}/jupyter";
     XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
+    ZCOMPDUMP = ''${XDG_CACHE_HOME}/zsh/zcompdump-"$ZSH_VERSION"'';
     XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
     XRESOURCES = "${XDG_CONFIG_HOME}/X11/xresources";
     TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
     QT_QPA_PLATFORMTHEME = "qt5ct";
+
+    #GVIMINIT = ''let $MYGVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/gvimrc" : "$XDG_CONFIG_HOME/nvim/init.gvim" | so $MYGVIMRC'';
+    #VIMINIT = ''let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" :  "$XDG_CONFIG_HOME/nvim/init.vim" | so $MYVIMRC'';
+
+    NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
+    NPM_PREFIX = "${XDG_DATA_HOME}/npm";
+    NPM_CACHE = "${XDG_CACHE_HOME}/npm";
+    NPM_INIT_MODULE = "${XDG_CONFIG_HOME}/npm/config/npm-init.js";
+    NPM_TMP = "${XDG_RUNTIME_DIR}/npm";
+
     # uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
     # fixed this with `. /etc/set-environment`
     # and prepending $PATH to the value, duh

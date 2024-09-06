@@ -116,12 +116,10 @@
           ];
         };
       };
-      lsp-lines = {
-        enable = true;
-        currentLine = true;
-      };
+      lsp-lines = { enable = true; };
       lsp-format.enable = true;
       trouble.enable = true;
     };
+    diagnostics.virtual_lines.only_current_line = true;
   };
 }
