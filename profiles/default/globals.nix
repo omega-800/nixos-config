@@ -1,6 +1,7 @@
 { usr, pkgs, lib, ... }: {
   envVars = rec {
     HOME = usr.homeDir;
+    BROWSER = usr.browser;
     XDG_CACHE_HOME = "${HOME}/.cache";
     XDG_CONFIG_HOME = "${HOME}/.config";
     XDG_DATA_HOME = "${HOME}/.local/share";
@@ -23,6 +24,7 @@
     XCURSOR_PATH = lib.mkForce
       "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
     WORKSPACE_DIR = "${HOME}/ws";
+    NIXOS_CONFIG = "${WORKSPACE_DIR}/nixos-config";
     SCRIPTS_DIR = "${HOME}/ws/scripts";
     SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
     SHELLDIR = "${XDG_STATE_HOME}/shell";
@@ -57,49 +59,46 @@
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
   };
-  styling =
-    let
-      themePath = ./. + "../../../../themes/${usr.theme}";
-      themeYamlPath = themePath + "/${usr.theme}.yaml";
-      themePolarity =
-        lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
-      themeImage =
-        if builtins.pathExists (themePath + "/${usr.theme}.png") then
-          themePath + "/${usr.theme}.png"
-        else
-          pkgs.fetchurl {
-            url = builtins.readFile (themePath + "/backgroundurl.txt");
-            sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
-          };
-      myLightDMTheme =
-        if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
-    in
-    rec {
-      base16Scheme = themeYamlPath;
-      cursor = {
-        package = pkgs.bibata-cursors;
-        name = "Bibata-Modern-Ice";
-        size = 32;
+  styling = let
+    themePath = ./. + "../../../../themes/${usr.theme}";
+    themeYamlPath = themePath + "/${usr.theme}.yaml";
+    themePolarity =
+      lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
+    themeImage = if builtins.pathExists (themePath + "/${usr.theme}.png") then
+      themePath + "/${usr.theme}.png"
+    else
+      pkgs.fetchurl {
+        url = builtins.readFile (themePath + "/backgroundurl.txt");
+        sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
       };
-      polarity = themePolarity;
-      image = themeImage;
-      fonts = {
-        monospace = {
-          name = usr.font;
-          package = usr.fontPkg;
-        };
-        serif = {
-          name = usr.font;
-          package = usr.fontPkg;
-        };
-        sansSerif = {
-          name = usr.font;
-          package = usr.fontPkg;
-        };
-        emoji = {
-          name = "Noto Color Emoji";
-          package = pkgs.noto-fonts-emoji-blob-bin;
-        };
+    myLightDMTheme =
+      if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
+  in rec {
+    base16Scheme = themeYamlPath;
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 32;
+    };
+    polarity = themePolarity;
+    image = themeImage;
+    fonts = {
+      monospace = {
+        name = usr.font;
+        package = usr.fontPkg;
+      };
+      serif = {
+        name = usr.font;
+        package = usr.fontPkg;
+      };
+      sansSerif = {
+        name = usr.font;
+        package = usr.fontPkg;
+      };
+      emoji = {
+        name = "Noto Color Emoji";
+        package = pkgs.noto-fonts-emoji-blob-bin;
       };
     };
+  };
 }

@@ -6,6 +6,7 @@
 
   # pkgs
   u = {
+    work.enable = lib.my.mkHigherDefault false;
     media.enable = lib.my.mkHigherDefault true;
     social.enable = lib.my.mkHigherDefault true;
     user.dirs = with globals.envVars; {

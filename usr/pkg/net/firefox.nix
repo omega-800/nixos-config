@@ -39,25 +39,25 @@ in {
         extensions = with inputs.firefox-addons.packages.${sys.system};
           [ ublock-origin darkreader vimium ]
           ++ (with pkgs.nur.repos.rycee.firefox-addons;
-          [ cookie-autodelete i-dont-care-about-cookies privacy-badger ]
-          ++ (if usr.extraBloat then
-            (with pkgs.nur.repos.rycee.firefox-addons;
-            [
-              link-cleaner
-              decentraleyes
-              anchors-reveal
-              reddit-enhancement-suite
-              # tree-style-tab
-            ] ++ (with inputs.firefox-addons.packages.${sys.system}; [
-              multi-account-containers
-              youtube-shorts-block
-              passff
-              sponsorblock
-              #firenvim
-              #bitwarden
-            ]))
-          else
-            [ ]));
+            [ cookie-autodelete i-dont-care-about-cookies privacy-badger ]
+            ++ (if usr.extraBloat then
+              (with pkgs.nur.repos.rycee.firefox-addons;
+                [
+                  link-cleaner
+                  decentraleyes
+                  anchors-reveal
+                  reddit-enhancement-suite
+                  # tree-style-tab
+                ] ++ (with inputs.firefox-addons.packages.${sys.system}; [
+                  multi-account-containers
+                  youtube-shorts-block
+                  passff
+                  sponsorblock
+                  #firenvim
+                  #bitwarden
+                ]))
+            else
+              [ ]));
 
         search = {
           force = true;
@@ -86,6 +86,13 @@ in {
               icon =
                 "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@n" ];
+            };
+            "NixOS install guide" = {
+              urls = [{
+                template =
+                  "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
+              }];
+              definedAliases = [ "@ni" ];
             };
             "NixOS Wiki" = {
               urls = [{

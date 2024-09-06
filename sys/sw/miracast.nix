@@ -1,20 +1,27 @@
-{ pkgs, ... }: 
-{
-  environment.systemPackages = with pkgs; [
-    gnome-network-displays
-  ];
+{ lib, pkgs, ... }:
+with lib;
+let cfg = config.m.miracast;
+in {
+  options.m.miracast = { enable = mkEnableOption "enables miracast"; };
+  config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [ gnome-network-displays ];
 
-  xdg.portal.enable = true;
+    xdg.portal = {
+      enable = true;
 
-  xdg.portal.xdgOpenUsePortal = true;
-  xdg.portal.extraPortals = [
-    #pkgs.xdg-desktop-portal-gtk
-    pkgs.xdg-desktop-portal-gnome
-    pkgs.xdg-desktop-portal-wlr
-  ];
+      xdgOpenUsePortal = true;
+      extraPortals = [
+        #pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-gnome
+        pkgs.xdg-desktop-portal-wlr
+      ];
+    };
 
-  networking.firewall.trustedInterfaces = [ "p2p-wl+" ];
+    networking.firewall = {
+      trustedInterfaces = [ "p2p-wl+" ];
 
-  networking.firewall.allowedTCPPorts = [ 7236 7250 ];
-  networking.firewall.allowedUDPPorts = [ 7236 5353 ];
+      allowedTCPPorts = [ 7236 7250 ];
+      allowedUDPPorts = [ 7236 5353 ];
+    };
+  };
 }

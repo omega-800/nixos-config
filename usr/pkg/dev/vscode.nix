@@ -9,7 +9,7 @@ in {
 
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [ "ciscoPacketTracer8" ];
+      builtins.elem (lib.getName pkg) [ "vscode" ];
     home.packages = with pkgs; [ ];
     programs.vscode = {
       enable = true;

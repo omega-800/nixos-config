@@ -9,14 +9,11 @@ let
     export PINENTRY_USER_DATA=USE_TTY=1
     export GPG_TTY=$(tty)
   '';
-in
-{
+in {
   imports = [
     ./aliases.nix
     ./env.nix
-    (import ./${usr.shell.pname}.nix { inherit shellInitExtra; })
-    #./zsh.nix
-    #./bash.nix
+    (import ./shells/${usr.shell.pname}.nix { inherit shellInitExtra; })
     ./posix.nix
   ];
 }

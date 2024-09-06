@@ -15,6 +15,14 @@ with lib; {
       nixvim.enable = mkDefault true;
       kitty.enable = false;
       alacritty.enable = false;
+      dirs = with globals.envVars; {
+        enable = mkDefault true;
+        extraDirs = mkDefault [
+          "${WORKSPACE_DIR}/services"
+          "${XDG_DOCUMENTS_DIR}/services"
+          "${XDG_DOCUMENTS_DIR}/logs"
+        ];
+      };
     };
     utils = {
       enable = mkDefault true;
