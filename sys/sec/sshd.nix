@@ -10,6 +10,7 @@ in {
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBG4vyC8dYQEEv7JUeWmHqeKNBrB/GmV4sXED4dkhT2u omega@archie"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
       ];
+      description = "authorized ssh keys to be added";
     };
   };
   # sops.secrets.sshd_port = {};

@@ -3,11 +3,6 @@ with lib;
 let cfg = config.m.boot;
 in {
   options.m.boot = {
-    extraEntries = mkOption {
-      type = types.str;
-      default = "";
-      description = "extra entries to add to grub";
-    };
     grubDevice = mkOption {
       type = types.str;
       default = "/dev/sda";
@@ -51,7 +46,6 @@ in {
         configurationLimit = if sys.profile == "serv" then 5 else 15;
         device = cfg.grubDevice; # does nothing if running uefi rather than bios
         useOSProber = true;
-        inherit (cfg) extraEntries;
       };
     };
   };
