@@ -8,6 +8,7 @@ with lib; {
       bluetooth = mkDefault true;
     };
     automount.enable = mkDefault true;
+    ssh.enable = mkDefault true;
     kernel.zen = mkDefault true;
     openGL.enable = mkDefault true;
     printing.enable = mkDefault true;
@@ -16,6 +17,7 @@ with lib; {
     flatpak.enable = mkDefault true;
     mysql.enable = mkDefault true;
     devtools.enable = mkDefault true;
+    dirs.enable = mkDefault true;
     fancyfonts.enable = mkDefault true;
     vpn = {
       forti.enable = mkDefault true;

@@ -53,6 +53,8 @@
     NPM_INIT_MODULE = "${XDG_CONFIG_HOME}/npm/config/npm-init.js";
     NPM_TMP = "${XDG_RUNTIME_DIR}/npm";
 
+    SSH_ASKPASS = "";
+    GIT_ASKPASS = "";
     # uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
     # fixed this with `. /etc/set-environment`
     # and prepending $PATH to the value, duh

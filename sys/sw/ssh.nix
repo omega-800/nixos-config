@@ -10,11 +10,11 @@ in {
         askPassword = "";
         forwardX11 = false;
         setXAuthLocation = false;
-        startAgent = true;
+        startAgent = false;
       }
       (mkIf sys.hardened (with globals.sshConfig; {
-        inherit ciphers hostKeysAlgorithms kexAlgorithms macs;
-        pubkeyAcceptedKeyTypes = hostKeysAlgorithms;
+        inherit ciphers hostKeyAlgorithms kexAlgorithms macs;
+        pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
       }))
     ];
   };

@@ -8,8 +8,11 @@ let
     export SSH_AUTH_SOCK
     export PINENTRY_USER_DATA=USE_TTY=1
     export GPG_TTY=$(tty)
+    unset SSH_ASKPASS
+    unset GIT_ASKPASS
   '';
-in {
+in
+{
   imports = [
     ./aliases.nix
     ./env.nix

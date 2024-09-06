@@ -11,5 +11,6 @@
     ./flatpak.nix
     ./mysql.nix
     ./dev.nix
+    ./ssh.nix
   ];
 }
