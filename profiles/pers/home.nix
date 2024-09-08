@@ -17,6 +17,7 @@ with lib.my.def; {
         "${XDG_DOCUMENTS_DIR}/trading"
         "${XDG_DOCUMENTS_DIR}/pers"
         "${XDG_DOCUMENTS_DIR}/homelab"
+        "${XDG_DOCUMENTS_DIR}/diary"
       ];
     };
   };

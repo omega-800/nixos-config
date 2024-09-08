@@ -1,4 +1,4 @@
-{ sys, usr, lib, config, pkgs, home, ... }:
+{ sys, usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.social;
 in {

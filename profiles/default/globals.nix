@@ -25,6 +25,7 @@
       "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
     WORKSPACE_DIR = "${HOME}/ws";
     NIXOS_CONFIG = "${WORKSPACE_DIR}/nixos-config";
+
     SCRIPTS_DIR = "${HOME}/ws/scripts";
     SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
     SHELLDIR = "${XDG_STATE_HOME}/shell";
