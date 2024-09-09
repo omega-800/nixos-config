@@ -19,6 +19,7 @@ with lib; {
           "${WORKSPACE_DIR}/work/webview"
           "${WORKSPACE_DIR}/pers"
           "${XDG_DOCUMENTS_DIR}/work/shops"
+          "${XDG_DOCUMENTS_DIR}/work/travel"
           "${XDG_DOCUMENTS_DIR}/pers"
         ];
       };

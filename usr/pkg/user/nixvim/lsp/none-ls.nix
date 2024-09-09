@@ -1,4 +1,8 @@
-{ lib, sys, ... }: {
+{ lib, sys, usr, ... }:
+with lib;
+with builtins;
+let langs = config.u.user.nixvim.langSupport;
+in {
   programs.nixvim = {
     keymaps = [
       # Format file
@@ -25,16 +29,45 @@
                   -- "typescriptreact", -- now done by biome
                   -- "json", -- now done by biome
                   -- "jsonc", -- now done by biome
-                  "vue",
-                  "css",
-                  "scss",
-                  "less",
-                  "html",
-                  "yaml",
-                  "markdown",
-                  "markdown.mdx",
-                  "graphql",
-                  "handlebars",
+                  ${
+                    if (elem "js" langs) then ''
+                      "vue",
+                    '' else
+                      ""
+                  }
+                  ${
+                    if (elem "css" langs) then ''
+                      "css",
+                      "scss",
+                      "less",
+                    '' else
+                      ""
+                  }
+                  ${
+                    if (elem "yaml" langs) then ''
+                      "yaml",
+                    '' else
+                      ""
+                  }
+                  ${
+                    if (elem "md" langs) then ''
+                      "markdown",
+                      "markdown.mdx",
+                    '' else
+                      ""
+                  }
+                  ${
+                    if (elem "gql" langs) then ''
+                      "graphql",
+                    '' else
+                      ""
+                  }
+                  ${
+                    if (elem "html" langs) then ''
+                      "html",
+                    '' else
+                      ""
+                  }
                 },
               }
             '';
@@ -43,30 +76,41 @@
       ({
         enable = true;
         sources = {
-          diagnostics = {
-            statix.enable = true;
-            gitlint.enable = true;
-            golangci_lint.enable = true;
-            zsh.enable = true;
-          };
-          formatting = {
-            fantomas.enable = true;
-            nixfmt.enable = true;
-            nixpkgs_fmt.enable = true;
-            pg_format.enable = true;
-            sqlfluff.enable = true;
-            stylelint.enable = true;
-            yamlfix.enable = true;
-            gofmt.enable = true;
-            goimports.enable = true;
-            biome.enable = true;
-            markdownlint.enable = true;
-            mdformat.enable = true;
-            shellharden.enable = true;
-            shfmt.enable = true;
-            clang_format.enable = true;
-            htmlbeautifier.enable = true;
-          };
+          diagnostics = mkMerge [
+            {
+              gitlint.enable = true;
+              zsh.enable = usr.shell.pname == "zsh";
+            }
+            (mkIf (elem "go" langs) { golangci_lint.enable = true; })
+            (mkIf (elem "erlang" langs) { statix.enable = true; })
+          ];
+          formatting = mkMerge [
+            (mkIf (elem "nix" langs) {
+              nixfmt.enable = true;
+              nixpkgs_fmt.enable = true;
+            })
+            (mkIf (elem "sql" langs) {
+              pg_format.enable = true;
+              sqlfluff.enable = true;
+            })
+            (mkIf (elem "go" langs) {
+              gofmt.enable = true;
+              goimports.enable = true;
+            })
+            (mkIf (elem "js" langs) { biome.enable = true; })
+            (mkIf (elem "md" langs) {
+              markdownlint.enable = true;
+              mdformat.enable = true;
+            })
+            (mkIf (elem "sh" langs) {
+              shellharden.enable = true;
+              shfmt.enable = true;
+            })
+            (mkIf (elem "c" langs) { clang_format.enable = true; })
+            (mkIf (elem "yaml" langs) { yamlfix.enable = true; })
+            (mkIf (elem "html" langs) { htmlbeautifier.enable = true; })
+            (mkIf (elem "css" langs) { stylelint.enable = true; })
+          ];
         };
       })
     ];

@@ -2,17 +2,52 @@
 with lib;
 let
   cfg = config.u.user.nixvim;
+  # what exactly was i planning with this??
   mapCfgImports = modules:
-    map (m: (import m { enabled = cfg.enabled; })) modules;
+    map (m: (import m { inherit (cfg) enabled; })) modules;
 in
 {
-  options.u.user.nixvim.enable = mkOption {
-    type = types.bool;
-    default = config.u.user.enable && !usr.minimal;
+  options.u.user.nixvim = {
+    enable = mkOption {
+      type = types.bool;
+      default = config.u.user.enable && !usr.minimal;
+    };
+    langSupport = mkOption {
+      type = types.listOf types.enum [
+        # includes ts, vue, json and node
+        "js"
+        # includes bash
+        "sh"
+        # includes cpp
+        "c"
+        # includes scss and tailwind
+        "css"
+        # includes ansible and docker compose
+        "yaml"
+        # includes htmx
+        "html"
+        # includes jupyter
+        "python"
+        # includes elixir
+        "erlang"
+        # includes psql
+        "sql"
+        "go"
+        "java"
+        "md"
+        "nix"
+        "gql"
+        "docker"
+        "lua"
+      ];
+      default = [ "sh" "md" "nix" ];
+    };
   };
 
   imports = [
-    inputs.${if sys.stable then "nixvim-stable" else "nixvim"}.homeManagerModules.nixvim
+    inputs.${
+    if sys.stable then "nixvim-stable" else "nixvim"
+    }.homeManagerModules.nixvim
     ./lsp
     ./git
     ./style

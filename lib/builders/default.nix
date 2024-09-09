@@ -4,11 +4,12 @@ let
   util = import ./util.nix { inherit inputs; };
   pkgUtil = import ./util.nix { inherit inputs; };
   script = import ./sys_script.nix { inherit inputs; };
-in
-rec {
+  dirsUtil = import ../my/dirs.nix { lib = inputs.nixpkgs-unstable.lib; };
+in rec {
   inherit (util) mkCfg mkArgs mkGlobals mkModules;
   inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
   inherit (script) writeCfgToScript generateInstallerList;
+  inherit (dirsUtil) mapFilterDir;
 
   mkHost = path: attrs:
     let cfg = mkCfg path;
@@ -27,8 +28,7 @@ rec {
       cfg = mkCfg path;
       # ok so calling mkArgs does not work because it causes infinite recursion of usr attr set?? bc mkConfig's usr is being passed to mkArgs as well as writeCfgToScript???? but usr isn't even used in writeCfgToScript????????? i am brain hurty
       #extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
-    in
-    (getHomeMgrFlake cfg.sys.stable).lib.homeManagerConfiguration {
+    in (getHomeMgrFlake cfg.sys.stable).lib.homeManagerConfiguration {
       pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       extraSpecialArgs = mkArgs cfg;
       modules = mkModules cfg path attrs "home";
@@ -60,27 +60,22 @@ rec {
 
   mapHostConfigs = dir: type: fn:
     with inputs.nixpkgs-unstable.lib;
-    filterAttrs (n: v: v != null && !(hasPrefix "_" n)) (mapAttrs'
-      (n: v:
-        let path = "${toString dir}/${n}";
-        in if v == "directory" && pathExists "${path}/${type}.nix"
-          && pathExists "${path}/config.nix" then
-          nameValuePair n (fn path)
-        else
-          nameValuePair "" null)
-      (readDir dir));
+    mapFilterDir dir fn (n: v:
+      v == "directory" && !(hasPrefix "_" n)
+      && pathExists "${toString dir}/${n}/${type}.nix");
+
+  mapModulesByArch = dir: architectures:
+    (builtins.listToAttrs (map (arch: {
+      name = arch;
+      value =
+        mapModules dir (path: import path { pkgs = mkPkgs false arch false; });
+    }) architectures));
 
   mapModules = dir: fn:
     with inputs.nixpkgs-unstable.lib;
-    filterAttrs (n: v: v != null && !(hasPrefix "_" n)) (mapAttrs'
-      (n: v:
-        let path = "${toString dir}/${n}";
-        in if v == "directory" && pathExists "${path}/default.nix" then
-          nameValuePair n (fn path)
-        else if v == "regular" && n != "default.nix" && n != "flake.nix"
-          && hasSuffix ".nix" n then
-          nameValuePair (removeSuffix ".nix" n) (fn path)
-        else
-          nameValuePair "" null)
-      (readDir dir));
+    mapFilterDir dir fn (n: v:
+      !(hasPrefix "_" n)
+      && ((v == "directory" && pathExists "${toString dir}/${n}/default.nix")
+        || (v == "regular" && n != "default.nix" && n != "flake.nix"
+          && (hasSuffix ".nix" n))));
 }

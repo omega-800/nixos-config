@@ -1,4 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, config, lib, ... }:
+with lib;
+with builtins;
+let langs = config.u.user.nixvim.langSupport;
+in {
   imports = [ ./treesitter.nix ./none-ls.nix ./typescript.nix ];
   programs.nixvim = {
     keymaps = [
@@ -28,35 +32,41 @@
     plugins = {
       lsp = {
         enable = true;
-        servers = {
-          marksman.enable = true;
-          typos-lsp.enable = true;
-          nixd.enable = true;
-          bashls.enable = true;
-
-          #eslint.enable = true;
-          #tsserver.enable = true;
-          volar.enable = true;
-          #vuels.enable = true;
-          jsonls.enable = true;
-          cssls.enable = true;
-          #tailwindcss.enable = true;
-          html.enable = true;
-          #htmx.enable = true;
-          graphql.enable = true;
-          dockerls.enable = true;
-          docker-compose-language-service.enable = true;
-          ansiblels.enable = true;
-          yamlls.enable = true;
-          sqls.enable = true;
-
-          lua-ls.enable = true;
-          pylsp.enable = true;
-          clangd.enable = true;
-          cmake.enable = true;
-          golangci-lint-ls.enable = true;
-          #java-language-server.enable = true;
-        };
+        servers = mkMerge [
+          { typos-lsp.enable = true; }
+          (mkIf (elem "js" langs) {
+            volar.enable = true;
+            jsonls.enable = true;
+          })
+          (mkIf (elem "md" langs) { marksman.enable = true; })
+          (mkIf (elem "nix" langs) { nixd.enable = true; })
+          (mkIf (elem "sh" langs) { bashls.enable = true; })
+          (mkIf (elem "sh" langs) { bashls.enable = true; })
+          (mkIf (elem "html" langs) {
+            html.enable = true;
+            htmx.enable = true;
+          })
+          (mkIf (elem "css" langs) {
+            cssls.enable = true;
+            tailwindcss.enable = true;
+          })
+          (mkIf (elem "c" langs) {
+            clangd.enable = true;
+            cmake.enable = true;
+          })
+          (mkIf (elem "gql" langs) { graphql.enable = true; })
+          (mkIf (elem "docker" langs) { dockerls.enable = true; })
+          (mkIf (elem "yaml" langs) {
+            yamlls.enable = true;
+            docker-compose-language-service.enable = true;
+            ansiblels.enable = true;
+          })
+          (mkIf (elem "sql" langs) { sqls.enable = true; })
+          (mkIf (elem "lua" langs) { lua-ls.enable = true; })
+          (mkIf (elem "python" langs) { pylsp.enable = true; })
+          (mkIf (elem "go" langs) { golangci-lint-ls.enable = true; })
+          (mkIf (elem "java" langs) { java-language-server.enable = true; })
+        ];
         keymaps = {
           diagnostic = {
             "<leader>ln" = "goto_next";

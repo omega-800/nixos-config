@@ -6,21 +6,23 @@
     #keep-derivations = false;   # Idem
     extra-experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-    bash-prompt = ">";
+    bash-prompt = "> ";
     use-xdg-base-directories = true;
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (import ./lib/builders { inherit inputs; })
-        mapHosts mapHomes mapGeneric mapModules mapDroids;
-    in
-    {
+        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch;
+      # add more if needed
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+    in {
       homeConfigurations = mapHomes ./hosts { };
       nixosConfigurations = mapHosts ./hosts { };
       nixOnDroidConfigurations = mapDroids ./hosts { };
       systemConfigs = mapGeneric ./hosts { };
-      packages = mapModules ./packages import;
+      devShells = mapModulesByArch ./sh supportedSystems;
+      packages = mapModulesByArch ./pkg supportedSystems;
     };
 
   inputs = {
@@ -38,6 +40,13 @@
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager-unstable";
+    };
+
+    nixgl.url = "github:nix-community/nixGL";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -57,8 +66,7 @@
     #   flake = false;
     # };
     stylix.url = "github:danth/stylix";
-    # rust-overlay.url = "github:oxalica/rust-overlay";
-    nixgl.url = "github:nix-community/nixGL";
+    rust-overlay.url = "github:oxalica/rust-overlay";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -98,11 +106,5 @@
     };
 
     zen-browser.url = "github:MarceColl/zen-browser-flake";
-
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager-unstable";
-    };
   };
 }

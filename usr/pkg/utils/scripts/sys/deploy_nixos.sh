@@ -21,3 +21,5 @@ fi
 
 
 
+nixpath=$(nix build .#nixosConfigurations.$hostname.config.system.build.toplevel --print-out-paths)
+nix copy $nixpath --to ssh://root@$hostname.home.lan
