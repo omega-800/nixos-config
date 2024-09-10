@@ -29,6 +29,7 @@ in {
       ] else
         [ ]);
     programs.password-store = {
+      package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
       settings = {
         inherit (globals.envVars) PASSWORD_STORE_DIR EDITOR;
         PASSWORD_STORE_CLIP_TIME = "60";

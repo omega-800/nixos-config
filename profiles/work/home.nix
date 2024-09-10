@@ -15,6 +15,7 @@ with lib;
     office.enable = mkDefault true;
     user.enable = mkDefault true;
     utils.enable = mkDefault true;
+    dirs.extraDirs = ["${globals.envVars.WORKSPACE_DIR}/work/travel"];
 
     # no fun only work
     media.enable = mkDefault true;
