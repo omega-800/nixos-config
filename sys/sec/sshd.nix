@@ -1,46 +1,78 @@
-{ config, lib, sys, usr, ... }:
-with lib; {
+{ config, lib, sys, usr, globals, ... }:
+with lib;
+let cfg = config.m.sshd;
+in {
+  options.m.sshd = {
+    enable = mkEnableOption "enables ssh server";
+    authorizedKeys = mkOption {
+      type = types.listOf types.str;
+      default = flatten (my.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
+      description = "authorized ssh keys to be added";
+    };
+  };
   # sops.secrets.sshd_port = {};
   # Enable incoming ssh
-  services.openssh = mkMerge [
-    ({
-      enable = true;
-      openFirewall = true;
-    })
-    (mkIf sys.hardened {
-      allowSFTP = false;
-      settings.KbdInteractiveAuthentication = false;
-      extraConfig = ''
-        LogLevel VERBOSE
-        MaxSessions 2
-        Port 51423 #TODO: fix this without readFile $''${config.sops.secrets.sshd_port.path}
-        TCPKeepAlive no
-        PasswordAuthentication no
-        PermitRootLogin no
-        PermitEmptyPasswords no
-        PermitUserEnvironment no
-        UseDNS no
-        StrictModes yes
-        IgnoreRhosts yes
-        RhostsAuthentication no
-        RhostsRSAAuthentication no
-        ClientAliveInterval 300
-        ClientAliveCountMax 0
-        MaxAuthTries 3
-        AllowTcpForwarding no
-        X11Forwarding no
-        AllowAgentForwarding no
-        AllowStreamLocalForwarding no
-        AuthenticationMethods publickey
-        HostbasedAuthentication no
-        KexAlgorithms diffie-hellman-group-exchange-sha256
-        MACs hmac-sha2-512,hmac-sha2-256
-        Ciphers aes256-ctr,aes192-ctr,aes128-ctr
-        HostKeyAlgorithms ssh-ed25519,rsa-sha2-512,rsa-sha2-256
-      '';
-    })
-  ];
-  # TODO: take these from sops
-  users.users.${usr.username}.openssh.authorizedKeys.keys =
-    sys.authorizedSshKeys;
+  config = mkIf cfg.enable {
+    services.openssh = mkMerge [
+      ({
+        enable = true;
+        openFirewall = true;
+        banner = ''
+          Thank you for your login credentials
+          :)
+        '';
+        # Only allow system-level authorized_keys to avoid injections.
+        # We currently don't enable this when git-based software that relies on this is enabled.
+        # It would be nicer to make it more granular using `Match`.
+        # However those match blocks cannot be put after other `extraConfig` lines
+        # with the current sshd config module, which is however something the sshd
+        # config parser mandates.
+        authorizedKeysFiles = lib.mkIf (!config.services.gitea.enable
+          && !config.services.gitlab.enable && !config.services.gitolite.enable
+          && !config.services.gerrit.enable && !config.services.forgejo.enable)
+          (lib.mkForce [ "/etc/ssh/authorized_keys.d/%u" ]);
+        settings = { PrintMotd = true; };
+      })
+      (mkIf sys.hardened {
+        allowSFTP = false;
+        ports = [ 51423 ];
+        settings = with globals.sshConfig; {
+          KexAlgorithms = kexAlgorithms;
+          MACs = macs;
+          Ciphers = ciphers;
+          HostKeyAlgorithms = hostKeyAlgorithms;
+          # unbind gnupg sockets if they exists
+          StreamLocalBindUnlink = true;
+          LogLevel = "VERBOSE";
+          TCPKeepAlive = false;
+          MaxSessions = 2;
+          GatewayPorts = "no";
+          KbdInteractiveAuthentication = false;
+          AllowUsers = [ usr.username ];
+          PasswordAuthentication = false;
+          PermitRootLogin = "no";
+          PermitEmptyPasswords = false;
+          PermitUserEnvironment = false;
+          UseDNS = false;
+          UsePAM = true;
+          StrictModes = true;
+          IgnoreRhosts = true;
+          RhostsAuthentication = false;
+          RhostsRSAAuthentication = false;
+          ClientAliveInterval = 300;
+          ClientAliveCountMax = 0;
+          MaxAuthTries = 3;
+          AllowTcpForwarding = false;
+          X11Forwarding = false;
+          AllowAgentForwarding = false;
+          AllowStreamLocalForwarding = false;
+          AuthenticationMethods = "publickey";
+          HostbasedAuthentication = false;
+        };
+      })
+    ];
+    # TODO: take these from sops
+    users.users.${usr.username}.openssh.authorizedKeys.keys =
+      cfg.authorizedKeys;
+  };
 }

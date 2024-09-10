@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, sys, ... }:
 let
     lock_cmd = "pidof hyprlock || hyprlock";
     suspend_cmd = "pidof steam || systemctl suspend || loginctl suspend"; # fuck nvidia
@@ -168,7 +168,7 @@ in {
         clock = {
           "interval" = 1;
           "format" = "{:%a %Y-%m-%d %I:%M:%S %p}";
-          "timezone" = "America/Chicago";
+          "timezone" =sys.timezone;
           "tooltip-format" = ''
             <big>{:%Y %B}</big>
             <tt><small>{calendar}</small></tt>'';

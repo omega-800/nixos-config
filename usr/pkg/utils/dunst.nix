@@ -38,11 +38,7 @@ in {
           #    #   %n  progress value if set without any extra characters
           #    #   %%  Literal %
           #    # Markup is allowed
-          format = ''
-            %a
-            <b>%s</b>
-            %b
-            %p'';
+          format = "<b>%s</b> %b %p";
           alignment = "left";
           vertical_alignment = "center";
           show_age_threshold = 60;

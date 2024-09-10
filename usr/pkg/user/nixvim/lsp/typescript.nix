@@ -1,5 +1,5 @@
-{
-  programs.nixvim = {
+{ lib, config, ... }: {
+  programs.nixvim = lib.mkIf (lib.elem "js" config.u.user.nixvim.langSupport) {
     keymaps = [
       {
         mode = "n";
@@ -46,6 +46,5 @@
         };
       };
     };
-
   };
 }

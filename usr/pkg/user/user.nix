@@ -5,18 +5,9 @@ in {
   options.u.user = { enable = mkEnableOption "enables userspace packages"; };
 
   config = mkIf cfg.enable {
-    services.gnome-keyring = {
-      enable = true;
-      components = [ "ssh" "secrets" ];
-    };
-    # programs.gpg = {
-    #   enable = true;
-    #   homedir = /home/${usr.username}/.local/share/gnupg; # globals.envVars.GNUPGHOME;
-    # };
     home.packages = with pkgs;
       [
         #starship
-        pass
       ] ++ (if !usr.minimal then [ tree-sitter feh ] else [ ])
       ++ (if usr.extraBloat then [
         fortune
@@ -29,12 +20,18 @@ in {
       ] else
         [ ]);
     programs.password-store = {
-      package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+      enable = true;
       settings = {
         inherit (globals.envVars) PASSWORD_STORE_DIR EDITOR;
         PASSWORD_STORE_CLIP_TIME = "60";
         PASSWORD_STORE_GENERATED_LENGTH = "32";
       };
+      package =
+        pkgs.pass.withExtensions (exts: with exts; [ pass-checkup pass-otp ]);
+    };
+    services.pass-secret-service = {
+      enable = true;
+      storePath = globals.envVars.PASSWORD_STORE_DIR;
     };
   };
 }

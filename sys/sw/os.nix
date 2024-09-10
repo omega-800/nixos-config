@@ -1,16 +1,15 @@
-{ config, pkgs, usr, sys, ... }:
+{ config, pkgs, usr, sys, lib, globals, ... }:
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
-{
+in {
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
-  services.gnome.gnome-keyring.enable = true;
+  services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-      "nixos-config=$HOME/dotfiles/system/configuration.nix"
+      #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
     package = pkgs.nixFlakes;
@@ -19,17 +18,35 @@ in
       auto-optimise-store = true; # Optimize syslinks
       trusted-users = [ "root" "@wheel" ];
       allowed-users = [ "@wheel" ];
-      experimental-features = "nix-command flakes";
+      experimental-features = [ "nix-command" "flakes" ] ++ lib.optional
+        (lib.versionOlder (lib.versions.majorMinor config.nix.package.version)
+          "2.22") "repl-flake";
+      # Avoid copying unnecessary stuff over SSH
+      builders-use-substitutes = true;
+      # Fallback quickly if substituters are not available.
+      connect-timeout = 5;
+      # The default at 10 is rarely enough.
+      log-lines = 25;
+      # Avoid disk full issues
+      max-free = lib.mkDefault (3000 * 1024 * 1024);
+      min-free = lib.mkDefault (512 * 1024 * 1024);
     };
     gc = {
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-    optimise.automatic = true;
-  };
+    daemonCPUSchedPolicy = lib.mkDefault "batch";
+    daemonIOSchedClass = lib.mkDefault "idle";
+    daemonIOSchedPriority = lib.mkDefault 7;
 
-  nixpkgs.config.allowUnfree = true;
+    # Disable nix channels. Use flakes instead.
+    channel.enable = sys.genericLinux;
+    optimise.automatic = true;
+    # De-duplicate store paths using hardlinks except in containers
+    # where the store is host-managed.
+    # optimise.automatic = (!sys.isContainer);
+  };
 
   sops.secrets.user_init_pass = { neededForUsers = true; };
   #broken :(
@@ -47,7 +64,16 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [ vim wget curl git ];
+  systemd.services = {
+    # Make builds to be more likely killed than important services.
+    # 100 is the default for user slices and 500 is systemd-coredumpd@
+    # We rather want a build to be killed than our precious user sessions as builds can be easily restarted.
+    nix-daemon.serviceConfig.OOMScoreAdjust = 250;
+    # default is something like vt220... however we want to get alt least some colors...
+    "serial-getty@".environment.TERM = "xterm-256color";
+  };
+
+  environment.systemPackages = with pkgs; [ vim curl git ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

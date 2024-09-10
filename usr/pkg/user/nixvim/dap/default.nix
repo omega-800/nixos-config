@@ -1,4 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
+with lib;
+with builtins;
 let
   nvim-dap-vscode-js = pkgs.vimUtils.buildVimPlugin {
     name = "vim-dap-vscode-js";
@@ -9,8 +11,8 @@ let
       sha256 = "sha256-lZABpKpztX3NpuN4Y4+E8bvJZVV5ka7h8x9vL4r9Pjk=";
     };
   };
-in
-{
+  langs = config.u.user.langSupport;
+in {
   programs.nixvim = {
     keymaps = [
       {
@@ -138,17 +140,19 @@ in
     ];
     plugins.dap = {
       enable = true;
-      extensions = {
-        dap-ui.enable = true;
-        dap-virtual-text.enable = true;
-        dap-go.enable = true;
-        dap-python.enable = true;
-      };
-      adapters = {
+      extensions = mkMerge [
+        {
+          dap-ui.enable = true;
+          dap-virtual-text.enable = true;
+        }
+        (mkIf (elem "go" langs) { dap-go.enable = true; })
+        (mkIf (elem "python" langs) { dap-python.enable = true; })
+      ];
+      adapters = mkIf (elem "js" langs) {
         executables = { "pwa-node" = "node"; };
         servers = { "pwa-node" = { }; };
       };
-      configurations = {
+      configurations = mkIf (elem "js" langs) {
         "typescript" = [{
           type = "pwa-node";
           request = "launch";
@@ -165,29 +169,14 @@ in
         }];
       };
     };
-    extraPlugins = [ pkgs.vimPlugins.nvim-gdb nvim-dap-vscode-js ];
+    extraPlugins = (if (elem "js" langs) then [ nvim-dap-vscode-js ] else [ ])
+      ++ (if (elem "c" langs) then [ pkgs.vimPlugins.nvim-gdb ] else [ ]);
     extraConfigLua =
       # lua
       ''
-          local dap, dapui = require("dap"), require("dapui")
+        local dap, dapui = require("dap"), require("dapui")
+        ${if (elem "js" langs) then ''
           local dap_vscode_js = require("dap-vscode-js")
-          -- DEBUG LISTENERS
-          dap.listeners.before.attach.dapui_config = function()
-          	dapui.open()
-          end
-          dap.listeners.before.launch.dapui_config = function()
-          	dapui.open()
-          end
-          dap.listeners.before.event_terminated.dapui_config = function()
-          	dapui.close()
-          end
-          dap.listeners.before.event_exited.dapui_config = function()
-          	dapui.close()
-          end
-
-          local dap = require('dap')
-          dap.set_log_level('DEBUG')
-
           -- DEBUG VS CODE
           dap_vscode_js.setup({
             adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
@@ -224,33 +213,54 @@ in
               cwd = "''${workspaceFolder}",
             }
           }
+        '' else
+          ""}
+        ${if (elem "c" langs) then ''
+            -- DEBUG C
+            dap.adapters.lldb = {
+                type = 'executable',
+                command = '${pkgs.lldb_17}/bin/lldb-vscode', -- adjust as needed, must be absolute path
+                name = 'lldb'
+            }
 
-          -- DEBUG C
-          dap.adapters.lldb = {
-              type = 'executable',
-              command = '${pkgs.lldb_17}/bin/lldb-vscode', -- adjust as needed, must be absolute path
-              name = 'lldb'
-          }
+            local dap = require("dap")
+            dap.adapters.gdb = {
+                type = "executable",
+                command = "gdb",
+                args = { "-i", "dap" }
+            }
 
-          local dap = require("dap")
-          dap.adapters.gdb = {
-              type = "executable",
-              command = "gdb",
-              args = { "-i", "dap" }
-          }
+            local dap = require("dap")
+            dap.configurations.c = {
+          	{
+          		name = "Launch",
+          		type = "gdb",
+          		request = "launch",
+          		program = function()
+          			return vim.fn.input('Path of the executable: ', vim.fn.getcwd() .. '/', 'file')
+          		end,
+          		cwd = "''${workspaceFolder}",
+          	},
+            }
+        '' else
+          ""}
 
-          local dap = require("dap")
-          dap.configurations.c = {
-        	{
-        		name = "Launch",
-        		type = "gdb",
-        		request = "launch",
-        		program = function()
-        			return vim.fn.input('Path of the executable: ', vim.fn.getcwd() .. '/', 'file')
-        		end,
-        		cwd = "''${workspaceFolder}",
-        	},
-          }
+        -- DEBUG LISTENERS
+        dap.listeners.before.attach.dapui_config = function()
+        	dapui.open()
+        end
+        dap.listeners.before.launch.dapui_config = function()
+        	dapui.open()
+        end
+        dap.listeners.before.event_terminated.dapui_config = function()
+        	dapui.close()
+        end
+        dap.listeners.before.event_exited.dapui_config = function()
+        	dapui.close()
+        end
+
+        local dap = require('dap')
+        dap.set_log_level('DEBUG')
       '';
   };
 }

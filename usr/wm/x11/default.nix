@@ -13,6 +13,8 @@ let
     ibus-daemon -rxRd
     picom &
     systemctl --user import-environment DISPLAY
+    dunst &
+    # exec --no-startup-id dunst
     # source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
   '';
 in

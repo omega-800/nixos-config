@@ -1,6 +1,7 @@
-{ ... }: {
+{
   imports = [
     ./audio.nix
+    ./dirs.nix
     ./automount.nix
     ./boot.nix
     ./kernel.nix

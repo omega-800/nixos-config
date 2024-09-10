@@ -2,14 +2,34 @@
 with lib; {
   options.c = {
     sys = {
+      pubkeys = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = "public ssh key(s)";
+      };
+      identityFile = mkOption {
+        type = types.str;
+        default = "~/.ssh/id_ed25519";
+        description = "private ssh file";
+      };
+      fs = mkOption {
+        type = types.enum [ "zfs" "btrfs" "default" ];
+        default = "default";
+      };
       hostname = mkOption {
         type = types.str;
         default = "nixie";
-      }; # hostname
-      profile = mkOption {
-        type = types.str;
-        default = "pers";
-      }; # select a profile defined from my profiles directory
+      }; # will be set to the dirname of the host configs
+      profile = with builtins;
+        let
+          profiles = mapAttrsToList (n: v: n)
+            (filterAttrs (n: v: v == "directory" && !(hasPrefix "default" n))
+              (readDir ../.));
+        in
+        mkOption {
+          type = types.enum profiles;
+          default = "pers";
+        }; # select a profile defined from my profiles directory
       stable = mkOption {
         type = types.bool;
         default = config.c.sys.profile == "serv";
@@ -22,30 +42,6 @@ with lib; {
         type = types.bool;
         default = false;
       };
-      # host
-      authorizedSshKeys = mkOption {
-        type = types.listOf types.str;
-        default = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBG4vyC8dYQEEv7JUeWmHqeKNBrB/GmV4sXED4dkhT2u omega@archie"
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
-        ];
-      };
-      extraGrubEntries = mkOption {
-        type = types.str;
-        default = "";
-      };
-      bootMode = mkOption {
-        type = types.str;
-        default = "uefi";
-      }; # uefi or bios or ext
-      bootMountPath = mkOption {
-        type = types.str;
-        default = "/boot";
-      }; # mount path for efi boot partition: only used for uefi boot mode
-      grubDevice = mkOption {
-        type = types.str;
-        default = "/dev/sda";
-      }; # device identifier for grub: only used for legacy (bios) boot mode
       timezone = mkOption {
         type = types.str;
         default = "Europe/Zurich";
@@ -83,6 +79,11 @@ with lib; {
       style = mkOption {
         type = types.bool;
         default = !config.c.usr.minimal;
+      };
+      browser = mkOption {
+        type = types.str;
+        # Print the URL instead on servers
+        default = if config.c.usr.minimal then "echo" else "firefox";
       };
       username = mkOption {
         type = types.str;
@@ -132,28 +133,24 @@ with lib; {
           else
             "x11";
       };
-      browser = mkOption {
-        type = types.str;
-        default = "qutebrowser";
-      };
       term = mkOption {
-        type = types.str;
+        type = types.enum [ "alacritty" "kitty" "st" ];
         default = "alacritty";
       }; # Default terminal command
       font = mkOption {
         type = types.str;
         default = "JetBrainsMono Nerd Font Mono";
-      }; # select font
+      };
       fontPkg = mkOption {
         type = types.package;
         default = pkgs.jetbrains-mono;
       }; # Console font package
       editor = mkOption {
-        type = types.str;
+        type = types.enum [ "vim" "nvim" ]; # only chad editors allowed
         default = "nvim";
-      }; # Default editor
+      };
       shell = mkOption {
-        type = types.package;
+        type = types.enum (with pkgs; [ bash zsh dash ]);
         default = pkgs.bash;
       };
       termColors = mkOption {

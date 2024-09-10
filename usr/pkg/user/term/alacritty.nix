@@ -1,7 +1,7 @@
 { lib, config, pkgs, usr, ... }:
 with lib;
 let
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+  nixGL = import ../../../nixGL/nixGL.nix { inherit pkgs config; };
   cfg = config.u.user.alacritty;
 in
 {

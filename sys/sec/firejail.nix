@@ -2,6 +2,8 @@
   config = lib.mkIf (sys.hardened && !usr.minimal) {
     security.chromiumSuidSandbox.enable = true;
     environment.systemPackages = with pkgs; [ firejail ];
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [ "vscode" "discord" "postman" ];
     programs.firejail = {
       enable = true;
       wrappedBinaries = {
