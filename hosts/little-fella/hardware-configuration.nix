@@ -20,6 +20,10 @@
 
   boot.initrd.luks.devices."cryptroot".device =
     "/dev/disk/by-uuid/4fad4954-f3c2-4d79-ad4c-8e58b2d5017a";
+  boot.initrd.luks.devices."cryptdisk1".device =
+    "/dev/disk/by-uuid/34db2f61-0161-4cc0-b9ee-c4efd1a54f38";
+  boot.initrd.luks.devices."cryptdisk2".device =
+    "/dev/disk/by-uuid/ccd3bb16-c2e5-4042-999c-fd79d6327fe8";
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/ed35ecdd-bed1-426d-b826-ed4cfafb9176";
@@ -40,8 +44,8 @@
   };
 
   networking.hostId = "5657ea3c";
-  fileSystems."/store" = {
-    device = "store";
+  fileSystems."/store/backups" = {
+    device = "store/backups";
     fsType = "zfs";
   };
 

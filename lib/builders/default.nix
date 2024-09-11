@@ -5,7 +5,8 @@ let
   pkgUtil = import ./util.nix { inherit inputs; };
   script = import ./sys_script.nix { inherit inputs; };
   dirsUtil = import ../my/dirs.nix { lib = inputs.nixpkgs-unstable.lib; };
-in rec {
+in
+rec {
   inherit (util) mkCfg mkArgs mkGlobals mkModules;
   inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
   inherit (script) writeCfgToScript generateInstallerList;
@@ -28,7 +29,8 @@ in rec {
       cfg = mkCfg path;
       # ok so calling mkArgs does not work because it causes infinite recursion of usr attr set?? bc mkConfig's usr is being passed to mkArgs as well as writeCfgToScript???? but usr isn't even used in writeCfgToScript????????? i am brain hurty
       #extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
-    in (getHomeMgrFlake cfg.sys.stable).lib.homeManagerConfiguration {
+    in
+    (getHomeMgrFlake cfg.sys.stable).lib.homeManagerConfiguration {
       pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       extraSpecialArgs = mkArgs cfg;
       modules = mkModules cfg path attrs "home";
@@ -64,18 +66,23 @@ in rec {
       v == "directory" && !(hasPrefix "_" n)
       && pathExists "${toString dir}/${n}/${type}.nix");
 
-  mapModulesByArch = dir: architectures:
-    (builtins.listToAttrs (map (arch: {
-      name = arch;
-      value =
-        mapModules dir (path: import path { pkgs = mkPkgs false arch false; });
-    }) architectures));
+  mapModulesByArch = dir: architectures: args:
+    (builtins.listToAttrs (map
+      (arch: {
+        name = arch;
+        value = mapModules dir (path:
+          import path ({
+            pkgs = mkPkgs false arch false;
+            lib = inputs.nixpkgs-unstable.lib;
+          } // args));
+      })
+      architectures));
 
   mapModules = dir: fn:
     with inputs.nixpkgs-unstable.lib;
     mapFilterDir dir fn (n: v:
       !(hasPrefix "_" n)
       && ((v == "directory" && pathExists "${toString dir}/${n}/default.nix")
-        || (v == "regular" && n != "default.nix" && n != "flake.nix"
-          && (hasSuffix ".nix" n))));
+      || (v == "regular" && n != "default.nix" && n != "flake.nix"
+      && (hasSuffix ".nix" n))));
 }

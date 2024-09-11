@@ -13,7 +13,7 @@ in
       default = config.u.user.enable && !usr.minimal;
     };
     langSupport = mkOption {
-      type = types.listOf types.enum [
+      type = types.listOf (types.enum [
         # includes ts, vue, json and node
         "js"
         # includes bash
@@ -39,15 +39,13 @@ in
         "gql"
         "docker"
         "lua"
-      ];
+        "rust"
+      ]);
       default = [ "sh" "md" "nix" ];
     };
   };
 
   imports = [
-    inputs.${
-    if sys.stable then "nixvim-stable" else "nixvim"
-    }.homeManagerModules.nixvim
     ./lsp
     ./git
     ./style
@@ -57,6 +55,10 @@ in
     ./autocmd
     ./dap
     ./py
+    ./rust
+    inputs.${
+    if sys.stable then "nixvim-stable" else "nixvim"
+    }.homeManagerModules.nixvim
   ];
 
   config = mkIf cfg.enable {

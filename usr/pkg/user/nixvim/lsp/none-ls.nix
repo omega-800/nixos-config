@@ -1,4 +1,4 @@
-{ lib, sys, usr, ... }:
+{ lib, sys, usr, config, ... }:
 with lib;
 with builtins;
 let langs = config.u.user.nixvim.langSupport;
@@ -79,12 +79,27 @@ in {
           diagnostics = mkMerge [
             {
               gitlint.enable = true;
+              todo_comments.enable = true;
+              dotenv_linter.enable = true;
               zsh.enable = usr.shell.pname == "zsh";
             }
+            (mkIf (elem "sql" langs) { sqlfluff.enable = true; })
             (mkIf (elem "go" langs) { golangci_lint.enable = true; })
-            (mkIf (elem "erlang" langs) { statix.enable = true; })
+            (mkIf (elem "rust" langs) { ltrs.enable = true; })
+            (mkIf (elem "nix" langs) { statix.enable = true; })
+            (mkIf (elem "python" langs) { pylint.enable = true; })
+            (mkIf (elem "css" langs) { checkstyle.enable = true; })
+            (mkIf (elem "c" langs) {
+              cppcheck.enable = true;
+              checkmake.enable = true;
+            })
+            (mkIf (elem "yaml" langs) {
+              ansiblelint.enable = true;
+              yamllint.enable = true;
+            })
           ];
           formatting = mkMerge [
+            { codespell.enable = true; }
             (mkIf (elem "nix" langs) {
               nixfmt.enable = true;
               nixpkgs_fmt.enable = true;
@@ -106,10 +121,17 @@ in {
               shellharden.enable = true;
               shfmt.enable = true;
             })
-            (mkIf (elem "c" langs) { clang_format.enable = true; })
+            (mkIf (elem "c" langs) {
+              clang_format.enable = true;
+              cmake_format.enable = true;
+            })
             (mkIf (elem "yaml" langs) { yamlfix.enable = true; })
+            (mkIf (elem "java" langs) { google_java_format.enable = true; })
             (mkIf (elem "html" langs) { htmlbeautifier.enable = true; })
-            (mkIf (elem "css" langs) { stylelint.enable = true; })
+            (mkIf (elem "css" langs) {
+              stylelint.enable = true;
+              rustywind.enable = true;
+            })
           ];
         };
       })

@@ -41,7 +41,7 @@ in {
     daemonIOSchedPriority = lib.mkDefault 7;
 
     # Disable nix channels. Use flakes instead.
-    channel.enable = sys.genericLinux;
+    channel.enable = sys.profile != "serv";
     optimise.automatic = true;
     # De-duplicate store paths using hardlinks except in containers
     # where the store is host-managed.

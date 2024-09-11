@@ -1,6 +1,6 @@
 { usr, config, lib, ... }: {
   programs.nixvim =
-    lib.mkIf (lib.elem "python" config.u.user.nixvim.langSupport) {
+    lib.mkIf (builtins.elem "python" config.u.user.nixvim.langSupport) {
       plugins = lib.mkMerge [
         ({
           molten = {

@@ -11,7 +11,7 @@ let
       sha256 = "sha256-lZABpKpztX3NpuN4Y4+E8bvJZVV5ka7h8x9vL4r9Pjk=";
     };
   };
-  langs = config.u.user.langSupport;
+  langs = config.u.user.nixvim.langSupport;
 in {
   programs.nixvim = {
     keymaps = [

@@ -12,9 +12,10 @@ in {
         setXAuthLocation = false;
         startAgent = false;
       }
-      (mkIf sys.hardened (with globals.sshConfig; {
-        inherit ciphers hostKeyAlgorithms kexAlgorithms macs;
-        pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
+      (mkIf sys.hardened (with globals.sshConfig;
+      {
+        #inherit ciphers hostKeyAlgorithms kexAlgorithms macs;
+        #pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
       }))
     ];
   };

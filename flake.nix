@@ -21,8 +21,9 @@
       nixosConfigurations = mapHosts ./hosts { };
       nixOnDroidConfigurations = mapDroids ./hosts { };
       systemConfigs = mapGeneric ./hosts { };
-      devShells = mapModulesByArch ./sh supportedSystems;
-      packages = mapModulesByArch ./pkg supportedSystems;
+      devShells =
+        mapModulesByArch ./sh supportedSystems { nixvim = inputs.nixvim; };
+      packages = mapModulesByArch ./pkg supportedSystems { };
     };
 
   inputs = {
