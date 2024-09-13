@@ -14,6 +14,7 @@
     ./social
     ./user
     ./utils
+    ./custom
   ];
 config.home.packages = config.u.extraPkgs;
 }

@@ -4,6 +4,10 @@
 
 - kitty cursor block
 - git paths are fucked?
+- nvim
+  - none-ls go plugin writes garbage .null-ls\* files
+  - md plugin is too aggressive
+  - put whole nixvim config in separate flake
 
 ## nixos
 
@@ -13,12 +17,33 @@
 
 - stylix opacity
 - wayland setup
-- global vars
-    - stylix generalization (hm & os)
-    - env vars generalization
+- stylix generalization (hm & os)
+- devshells
+- nixify scripts
+- ~touch grass~
+- restructure configs so that sys and usr match
+  - usr
+    - generic
+  - sys
+    - os
+  - both
+    - gui
+      - wm
+      - apps
+    - tui
+      - sh
+    - dev
+    - fs
+    - sec
+    - audio
+    - io
+    - net
+    - style
+    - virt
+    - def
 
 ### profiles
 
 - devcontainer??
 - serv
-    - [selinux](https://nixos.wiki/wiki/Workgroup:SELinux) questionmark?
+  - [selinux](https://nixos.wiki/wiki/Workgroup:SELinux) questionmark?

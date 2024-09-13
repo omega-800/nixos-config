@@ -4,6 +4,8 @@
     ./hardware-configuration.nix
   ];
 
+  #TODO: encryption ssh
+  #https://nixos.wiki/wiki/ZFS
   m.boot = { mode = "uefi"; };
   system.stateVersion = "24.05";
 }

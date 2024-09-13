@@ -80,7 +80,7 @@ in {
             {
               gitlint.enable = true;
               todo_comments.enable = true;
-              dotenv_linter.enable = true;
+              #dotenv_linter.enable = true;
               zsh.enable = usr.shell.pname == "zsh";
             }
             (mkIf (elem "sql" langs) { sqlfluff.enable = true; })
@@ -109,8 +109,8 @@ in {
               sqlfluff.enable = true;
             })
             (mkIf (elem "go" langs) {
-              gofmt.enable = true;
-              goimports.enable = true;
+              #gofmt.enable = true;
+              #goimports.enable = true;
             })
             (mkIf (elem "js" langs) { biome.enable = true; })
             (mkIf (elem "md" langs) {

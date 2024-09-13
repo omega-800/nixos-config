@@ -22,6 +22,7 @@ Me too, here are some resources to make the learning experience more fun and the
 - [install guide](https://nixos.org/manual/nixos/stable/#sec-installation)
 - [unofficial (yet very informative) nixOS + flakes book](https://nixos-and-flakes.thiscute.world/)
 - config options: `man configuration.nix`
+- [servers](https://sidhion.com/blog/posts/nixos_server_issues/)
 
 ### home-manager
 
@@ -44,13 +45,14 @@ Default configs which get applied to all of the hosts.
 ##### options.nix
 
 Here live all of the options (which ideally should be set inside of hosts/${hostname}/config.nix) as well as their defaults.
+
 ```
 # assuming your pwd is the root of this repo
 nix repl
 # now you'll be teleported to the nix repl shell
 # :lf means load flake (the one in the current directory)
 :lf .
-# show options for the home-manager module of host 
+# show options for the home-manager module of host
 homeConfigurations.${hostname}.options
 # :q for quitting the repl
 :q
@@ -89,6 +91,6 @@ If this file is present, then a nixosSystem flake output is created, which can b
 
 This file can be present if running nixOS (and not the standalone home-manager).
 
-## omega's cool help functions 
+## omega's cool help functions
 
 `SUPER+SHIFT+H`: list sxhkd shortcuts, select to copy

@@ -39,25 +39,25 @@ in {
         extensions = with inputs.firefox-addons.packages.${sys.system};
           [ ublock-origin darkreader vimium ]
           ++ (with pkgs.nur.repos.rycee.firefox-addons;
-            [ cookie-autodelete i-dont-care-about-cookies privacy-badger ]
-            ++ (if usr.extraBloat then
-              (with pkgs.nur.repos.rycee.firefox-addons;
-                [
-                  link-cleaner
-                  decentraleyes
-                  anchors-reveal
-                  reddit-enhancement-suite
-                  # tree-style-tab
-                ] ++ (with inputs.firefox-addons.packages.${sys.system}; [
-                  multi-account-containers
-                  youtube-shorts-block
-                  passff
-                  sponsorblock
-                  #firenvim
-                  #bitwarden
-                ]))
-            else
-              [ ]));
+          [ cookie-autodelete i-dont-care-about-cookies privacy-badger ]
+          ++ (if usr.extraBloat then
+            (with pkgs.nur.repos.rycee.firefox-addons;
+            [
+              link-cleaner
+              decentraleyes
+              anchors-reveal
+              reddit-enhancement-suite
+              # tree-style-tab
+            ] ++ (with inputs.firefox-addons.packages.${sys.system}; [
+              multi-account-containers
+              youtube-shorts-block
+              passff
+              sponsorblock
+              #firenvim
+              #bitwarden
+            ]))
+          else
+            [ ]));
 
         search = {
           force = true;
@@ -102,6 +102,13 @@ in {
               iconUpdateURL = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
+            };
+            "Noogle" = {
+              urls =
+                [{ template = "https://noogle.dev/q?term={searchTerms}"; }];
+              iconUpdateURL = "https://wiki.nixos.org/favicon.png";
+              updateInterval = 24 * 60 * 60 * 1000; # every day
+              definedAliases = [ "@ng" ];
             };
             "Youtube" = {
               urls = [{

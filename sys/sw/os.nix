@@ -16,7 +16,7 @@ in {
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
       auto-optimise-store = true; # Optimize syslinks
-      trusted-users = [ "root" "@wheel" ];
+      trusted-users = [ "root" "@wheel" usr.username ];
       allowed-users = [ "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ] ++ lib.optional
         (lib.versionOlder (lib.versions.majorMinor config.nix.package.version)

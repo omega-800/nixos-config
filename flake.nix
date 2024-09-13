@@ -16,14 +16,15 @@
         mapHosts mapHomes mapGeneric mapDroids mapModulesByArch;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in {
+    in
+    {
       homeConfigurations = mapHomes ./hosts { };
       nixosConfigurations = mapHosts ./hosts { };
       nixOnDroidConfigurations = mapDroids ./hosts { };
       systemConfigs = mapGeneric ./hosts { };
       devShells =
         mapModulesByArch ./sh supportedSystems { nixvim = inputs.nixvim; };
-      packages = mapModulesByArch ./pkg supportedSystems { };
+      packages = mapModulesByArch ./pkgs supportedSystems { };
     };
 
   inputs = {
