@@ -1,6 +1,9 @@
 { lib, ... }:
-let inherit (lib) mkDefault;
-in {
+let
+  inherit (lib) mkDefault;
+  nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
+in
+{
   imports = [ ];
   m = {
     hw = {
@@ -10,9 +13,9 @@ in {
       };
       audio.enable = mkDefault false;
       io = {
-        enable = mkDefault true;
+        enable = mkDefault false;
         touchpad.enable = mkDefault false;
-        swapCaps.enable = mkDefault true;
+        swapCaps.enable = mkDefault false;
       };
       openGL.enable = mkDefault false;
       power = {

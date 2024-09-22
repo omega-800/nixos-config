@@ -13,6 +13,10 @@
       theme = "gruvbox-dark-hard";
       style = false;
       minimal = true;
+      termColors = {
+        c1 = "31";
+        c2 = "96";
+      };
     };
   };
 }
