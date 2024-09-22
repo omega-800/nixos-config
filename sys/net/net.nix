@@ -1,4 +1,4 @@
-{ config, lib, sys, ... }:
+{ config, usr, lib, sys, ... }:
 with lib;
 let cfg = config.m.net.wifi;
 in {
@@ -12,7 +12,7 @@ in {
       networking.networkmanager.enable = true;
       users.users.${usr.username}.extraGroups = [ "networkmanager" ];
     })
-    (mkIf (!sys.minimal) {
+    (mkIf (!usr.minimal) {
       #services.opensnitch.enable = true;
       programs.mtr.enable = true;
     })

@@ -1,4 +1,4 @@
-{ lib, sys, usr, pkgs, ... }:
+{ config, lib, sys, usr, pkgs, ... }:
 with lib;
 let cfg = config.m.sec.firejail;
 in {

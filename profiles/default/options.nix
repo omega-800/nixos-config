@@ -13,12 +13,12 @@ with lib; {
         description = "private ssh file";
       };
       fs = mkOption {
-        type =
+        type = with builtins;
           let
             fsTypes = mapAttrsToList
-              (n: v: if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
-              (filterAttrs (n: v: v == "regular")
-                (readDir ../../sys/fs/type));
+              (n: v:
+                if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
+              (filterAttrs (n: v: v == "regular") (readDir ../../sys/fs/type));
           in
           types.enum fsTypes;
         default = "nofs";
@@ -30,7 +30,7 @@ with lib; {
       profile = with builtins;
         let
           profiles = mapAttrsToList (n: v: n)
-            (filterAttrs (n: v: v == "directory" && !(hasPrefix "default" n))
+            (filterAttrs (n: v: v == "directory" && !(hasPrefix "default" n) && !(hasPrefix "partials" n))
               (readDir ../.));
         in
         mkOption {

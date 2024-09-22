@@ -4,7 +4,7 @@
     ../work/configuration.nix
   ];
   m = {
-    vpn = {
+    net.vpn = {
       forti.enable = true;
       wg.enable = true;
       openvpn.enable = true;

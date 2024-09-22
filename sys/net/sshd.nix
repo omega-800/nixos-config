@@ -38,9 +38,9 @@ in {
         ports = [ 51423 ];
         settings = with globals.sshConfig; {
           KexAlgorithms = kexAlgorithms;
-          MACs = macs;
+          Macs = macs;
           Ciphers = ciphers;
-          HostKeyAlgorithms = hostKeyAlgorithms;
+          HostKeyAlgorithms = builtins.concatStringsSep "," hostKeyAlgorithms;
           # unbind gnupg sockets if they exists
           StreamLocalBindUnlink = true;
           LogLevel = "VERBOSE";
@@ -53,7 +53,7 @@ in {
           PermitRootLogin = "no";
           PermitEmptyPasswords = false;
           PermitUserEnvironment = false;
-          UseDNS = false;
+          UseDns = false;
           UsePAM = true;
           StrictModes = true;
           IgnoreRhosts = true;

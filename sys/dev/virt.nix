@@ -1,4 +1,4 @@
-{ lib, config, pkgs, usr, ... }:
+{ lib, config, pkgs, usr, sys, ... }:
 with lib;
 let cfg = config.m.dev.virt;
 in {

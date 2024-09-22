@@ -1,4 +1,4 @@
-{ lib, config, pkgs, sys, ... }:
+{ lib, config, pkgs, sys, usr, ... }:
 with lib;
 let cfg = config.m.sw.fonts;
 in {
@@ -10,27 +10,38 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    fonts.packages = with pkgs;
-      (if usr.minimal then
-        [ ]
-      else
-        [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ])
-      ++ (if usr.extraBloat then [
-        powerline
-        inconsolata
-        inconsolata-nerdfont
-        iosevka
-        font-awesome
-        ubuntu_font_family
-        terminus_font
-      ] else
-        [ ]);
-    console = {
-      font = sys.font;
-      packages = [ sys.fontPkg ];
-      keyMap = sys.kbLayout;
-    };
-    fonts.fontDir.enable = true;
-  };
+  config = mkMerge [
+    (mkIf cfg.enable {
+      fonts = {
+        fontDir.enable = true;
+        fontconfig.enable = true;
+        packages = with pkgs;
+          (if usr.minimal then
+            [ ]
+          else
+            [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ])
+          ++ (if usr.extraBloat then [
+            powerline
+            inconsolata
+            inconsolata-nerdfont
+            iosevka
+            font-awesome
+            ubuntu_font_family
+            terminus_font
+          ] else
+            [ ]);
+      };
+      console = {
+        font = sys.font;
+        packages = [ sys.fontPkg ];
+        keyMap = sys.kbLayout;
+      };
+    })
+    (mkIf (!cfg.enable) {
+      fonts = {
+        fontDir.enable = false;
+        fontconfig.enable = false;
+      };
+    })
+  ];
 }
