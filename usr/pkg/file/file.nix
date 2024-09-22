@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, home, ... }:
+{ usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.file;
 in {
@@ -11,7 +11,7 @@ in {
         # tree (replaced by eza)
         eza
         gdu
-      ] ++ (if !usr.minimal then [ yazi gzip unzip ] else [ ])
+      ] ++ (if !usr.minimal then [ gzip unzip ] else [ ])
       ++ (if usr.extraBloat then [
         xfce.thunar
         udiskie

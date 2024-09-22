@@ -2,8 +2,7 @@
 let
   inherit (lib) mkDefault;
   nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
-in
-{
+in {
   imports = [ ];
   m = {
     hw = {
@@ -54,7 +53,7 @@ in
       dirs = {
         enable = mkDefault true;
         extraDirs = mkDefault [{
-          path = "/services";
+          path = "/srv";
           mode = "0744";
           user = "root";
         }];

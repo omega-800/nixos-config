@@ -22,12 +22,12 @@ while true; do
   batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
   bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
   backlight=$(("$(cat /sys/class/backlight/*/actual_brightness)" * 100 / "$(cat /sys/class/backlight/*/max_brightness)"))
-  volume=("$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i ", $2/2 }')" "$(pactl get-sink-mute @DEFAULT_SINK@ | sed 's/Mute: //')")
+  volume=("$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i", $2/2 }')" "$(pactl get-sink-mute @DEFAULT_SINK@ | sed 's/Mute: //')")
   muted="A"
   vls="$nrm"
   [ "${volume[1]}" == "off" ] || [ "${volume[1]}" == "yes" ] && muted="M" && vls="$critical"
 
   xsetroot -name "$(echo -ne "$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")| [S] $backlight% |$vls [${muted}] ${volume[0]}% $nrm|$bts [B] $batterySymbol$battery% $nrm| $time | $date " | xargs)"
   ((battery < 30)) && [ "$batteryStats" = "Discharging" ] && dunstify -u critical "LOW BATTERY"
-  sleep 1m
+  sleep 10
 done
