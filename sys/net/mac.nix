@@ -1,9 +1,11 @@
-{ lib, config, pkgs, usr, ... }: 
+{ lib, config, pkgs, sys, ... }:
 with lib;
-let cfg = config.m.macchanger;
+let cfg = config.m.net.macchanger;
 in {
-  options.m.macchanger = {
-    enable = mkEnableOption "enables macchanger";
+  options.m.net.macchanger.enable = mkOption {
+    description = "enables macchanger";
+    type = types.bool;
+    default = sys.paranoid && config.m.net.enable;
   };
 
   config = mkIf cfg.enable {

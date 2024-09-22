@@ -1,9 +1,13 @@
 { lib, config, pkgs, ... }: 
 with lib;
-let cfg = config.m.printing;
+let cfg = config.m.sw.printing;
 in {
-  options.m.printing = {
-    enable = mkEnableOption "enables printing";
+  options.m.sw.printing = {
+    enable = mkOption {
+      description = "enables printing";
+      type = types.bool;
+      default = config.m.sw.enable;
+    };
   };
  
   config = lib.mkIf cfg.enable {

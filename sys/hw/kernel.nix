@@ -1,8 +1,8 @@
 { sys, lib, config, pkgs, modulesPath, ... }:
 with lib;
-let cfg = config.m.kernel;
+let cfg = config.m.hw.kernel;
 in {
-  options.m.kernel = {
+  options.m.hw.kernel = {
     zen = mkEnableOption "enables zen kernel";
     swappiness = mkOption {
       type = types.number;

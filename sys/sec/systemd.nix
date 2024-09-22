@@ -6,7 +6,12 @@ with lib; {
   boot.initrd.systemd.suppressedUnits =
     lib.mkIf (sys.profile == "serv") [ "emergency.service" "emergency.target" ];
 
-  services.journald.forwardToSyslog = true;
+  services.journald = {
+    forwardToSyslog = true;
+    extraConfig = "SystemMaxUse=50M\nSystemMaxFiles=5";
+    rateLimitBurst = 500;
+    rateLimitInterval = "30s";
+  };
   # https://pastebin.com/fi6VBm2z
   systemd = mkMerge [
     ({ coredump.enable = false; })

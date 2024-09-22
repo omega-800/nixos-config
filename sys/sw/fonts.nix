@@ -1,24 +1,36 @@
-{ lib, config, pkgs, usr, ... }: 
+{ lib, config, pkgs, sys, ... }:
 with lib;
-let cfg = config.m.fancyfonts;
+let cfg = config.m.sw.fonts;
 in {
-  options.m.fancyfonts = {
-    enable = mkEnableOption "enables fancyfonts";
+  options.m.sw.fonts = {
+    enable = mkOption {
+      description = "enables fancyfonts";
+      type = types.bool;
+      default = config.m.sw.enable;
+    };
   };
 
   config = mkIf cfg.enable {
-  # Fonts are nice to have
-  fonts.packages = with pkgs; [
-    # Fonts
-    (nerdfonts.override { fonts = [ "Inconsolata" "JetBrainsMono" ]; })
-    powerline
-    inconsolata
-    inconsolata-nerdfont
-    iosevka
-    font-awesome
-    ubuntu_font_family
-    terminus_font
-  ];
-};
-
+    fonts.packages = with pkgs;
+      (if usr.minimal then
+        [ ]
+      else
+        [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ])
+      ++ (if usr.extraBloat then [
+        powerline
+        inconsolata
+        inconsolata-nerdfont
+        iosevka
+        font-awesome
+        ubuntu_font_family
+        terminus_font
+      ] else
+        [ ]);
+    console = {
+      font = sys.font;
+      packages = [ sys.fontPkg ];
+      keyMap = sys.kbLayout;
+    };
+    fonts.fontDir.enable = true;
+  };
 }

@@ -1,12 +1,13 @@
-{ lib, config, ... }: 
+{ lib, config, ... }:
 with lib;
-let cfg = config.m.power;
+let cfg = config.m.hw.power;
 in {
-  options.m.power = {
+  options.m.hw.power = {
     enable = mkEnableOption "enables tlp";
     performance = mkEnableOption "enables performance on battery";
+    powersave = mkEnableOption "enables powersave on ac";
   };
- 
+
   config = mkIf cfg.enable {
     services.tlp = {
       enable = true;
@@ -20,9 +21,9 @@ in {
           START_CHARGE_THRESH_BAT0 = 65;
           STOP_CHARGE_THRESH_BAT0 = 80;
           PLATFORM_PROFILE_ON_BAT = "balanced";
-          WIFI_PWR_ON_BAT="off";
-          PCIE_ASPM_ON_BAT="default";
-          WOL_DISABLE="Y";
+          WIFI_PWR_ON_BAT = "off";
+          PCIE_ASPM_ON_BAT = "default";
+          WOL_DISABLE = "Y";
         } else {
           CPU_MAX_PERF_ON_BAT = 40;
           CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
@@ -32,21 +33,28 @@ in {
           START_CHARGE_THRESH_BAT0 = 40;
           STOP_CHARGE_THRESH_BAT0 = 90;
           PLATFORM_PROFILE_ON_BAT = "low-power";
-          WIFI_PWR_ON_BAT="on";
-          WOL_DISABLE="N";
-          PCIE_ASPM_ON_BAT="powersave";
+          WIFI_PWR_ON_BAT = "on";
+          WOL_DISABLE = "N";
+          PCIE_ASPM_ON_BAT = "powersave";
         })
-        ({
-          CPU_MIN_PERF_ON_BAT = 0;
-          RUNTIME_PM_ON_BAT="auto";
+        (if cfg.powersave then {
+          CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+          CPU_ENERGY_PERF_POLICY_ON_AC = "save";
+          CPU_MAX_PERF_ON_AC = 40;
+          CPU_BOOST_ON_AC = 0;
+          PLATFORM_PROFILE_ON_AC = "powersave";
+        } else {
           CPU_SCALING_GOVERNOR_ON_AC = "performance";
           CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-          CPU_MIN_PERF_ON_AC = 0;
           CPU_MAX_PERF_ON_AC = 100;
           CPU_BOOST_ON_AC = 1;
-          CPU_HWP_DYN_BOOST_ON_BAT = 1;
           PLATFORM_PROFILE_ON_AC = "performance";
         })
+        {
+          CPU_MIN_PERF_ON_BAT = 0;
+          CPU_MIN_PERF_ON_AC = 0;
+          RUNTIME_PM_ON_BAT = "auto";
+        }
       ]);
     };
   };

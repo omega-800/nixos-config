@@ -54,14 +54,8 @@ in {
   users.users.${usr.username} = {
     isNormalUser = true;
     hashedPasswordFile = (config.sops.secrets.user_init_pass.path);
-    extraGroups = [ "wheel" "video" "audio" ] ++ ifExist [
-      "kvm"
-      "docker"
-      "podman"
-      "adbusers"
-      "libvirtd"
-      "networkmanager"
-    ];
+    extraGroups = [ "wheel" "video" "audio" ]
+      ++ ifExist [ "podman" "adbusers" ];
   };
 
   systemd.services = {

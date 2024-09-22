@@ -1,8 +1,12 @@
 { config, lib, sys, globals, ... }:
 with lib;
-let cfg = config.m.ssh;
+let cfg = config.m.net.ssh;
 in {
-  options.m.ssh = { enable = mkEnableOption "enables ssh client"; };
+  options.m.net.ssh.enable = mkOption {
+    description = "enables ssh client";
+    type = types.bool;
+    default = config.m.net.enable;
+  };
   config = mkIf cfg.enable {
     programs.ssh = mkMerge [
       {
@@ -13,10 +17,10 @@ in {
         startAgent = false;
       }
       (mkIf sys.hardened (with globals.sshConfig;
-      {
-        #inherit ciphers hostKeyAlgorithms kexAlgorithms macs;
-        #pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
-      }))
+        {
+          #inherit ciphers hostKeyAlgorithms kexAlgorithms macs;
+          #pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
+        }))
     ];
   };
 }

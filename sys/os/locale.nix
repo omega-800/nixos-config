@@ -13,10 +13,4 @@
       LC_TIME = sys.locale;
     };
   };
-  console = {
-    font = sys.font;
-    packages = [ sys.fontPkg ];
-    keyMap = sys.kbLayout;
-  };
-  fonts.fontDir.enable = true;
 }

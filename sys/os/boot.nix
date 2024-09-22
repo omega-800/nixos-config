@@ -1,8 +1,9 @@
 { sys, config, lib, ... }:
 with lib;
-let cfg = config.m.boot;
+let cfg = config.m.os.boot;
+  configurationLimit =  if sys.profile == "serv" then 5 else if cfg.mode == "ext" then  2 else 15;
 in {
-  options.m.boot = {
+  options.m.os.boot = {
     grubDevice = mkOption {
       type = types.str;
       default = "/dev/sda";
@@ -31,8 +32,8 @@ in {
 
       # Use systemd-boot if uefi
       systemd-boot = {
+        inherit configurationLimit;
         enable = cfg.mode == "uefi";
-        configurationLimit = if sys.profile == "serv" then 5 else 15;
       };
       efi = {
         canTouchEfiVariables = cfg.mode == "uefi";
@@ -42,8 +43,8 @@ in {
       # grub.efiInstallAsRemovable = true;
       # grub.efiSupport = true;
       grub = {
+        inherit configurationLimit;
         enable = cfg.mode == "bios";
-        configurationLimit = if sys.profile == "serv" then 5 else 15;
         device = cfg.grubDevice; # does nothing if running uefi rather than bios
         useOSProber = true;
       };

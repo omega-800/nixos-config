@@ -1,8 +1,8 @@
 { inputs, lib, config, pkgs, usr, ... }:
 with lib;
-let cfg = config.m.devtools;
+let cfg = config.m.dev.tools;
 in {
-  options.m.devtools = {
+  options.m.dev.tools = {
     enable = mkEnableOption "enables devtools";
     disable = mkEnableOption "disables devtools completely";
   };

@@ -1,9 +1,13 @@
-{ lib, config, pkgs, usr, ... }: 
+{ lib, config, pkgs, usr, ... }:
 with lib;
-let cfg = config.m.docker;
+let cfg = config.m.dev.docker;
 in {
-  options.m.docker = {
-    enable = mkEnableOption "enables docker";
+  options.m.dev.docker = {
+    enable = mkOption {
+      description = "enables docker";
+      type = types.bool;
+      default = config.m.dev.enable;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -16,7 +20,7 @@ in {
     environment.systemPackages = with pkgs; [
       docker
       docker-compose
-# lazydocker
+      # lazydocker
     ];
   };
 }

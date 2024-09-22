@@ -1,8 +1,8 @@
 { lib, config, pkgs, ... }:
 with lib;
-let cfg = config.m.audio;
+let cfg = config.m.hw.audio;
 in {
-  options.m.audio = {
+  options.m.hw.audio = {
     enable = mkEnableOption "enables audio";
     pipewire = mkEnableOption "enables pipewire, pulseaudio otherwise";
     bluetooth = mkEnableOption "enables bluetooth";

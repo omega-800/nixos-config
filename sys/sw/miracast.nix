@@ -1,8 +1,13 @@
 { lib, pkgs, ... }:
 with lib;
-let cfg = config.m.miracast;
+let cfg = config.m.sw.miracast;
 in {
-  options.m.miracast = { enable = mkEnableOption "enables miracast"; };
+  options.m.sw.miracast.enable = mkOption {
+    description = "enables miracast";
+    type = types.bool;
+    default = config.m.sw.enable;
+  };
+
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ gnome-network-displays ];
 

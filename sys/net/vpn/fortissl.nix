@@ -1,8 +1,8 @@
 { lib, config, pkgs, usr, ... }: 
 with lib;
-let cfg = config.m.vpn.forti;
+let cfg = config.m.net.vpn.forti;
 in {
-  options.m.vpn.forti = {
+  options.m.net.vpn.forti = {
     enable = mkEnableOption "enables openfortivpn";
   };
 

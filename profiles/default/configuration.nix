@@ -2,11 +2,12 @@
 with lib; {
   imports = [ ../../sys ];
   m = {
-    power = {
+    hw.power = {
       enable = mkDefault true;
       performance = mkDefault true;
+      powersave = mkDefault false;
     };
-    dirs = {
+    fs.dirs = {
       enable = mkDefault true;
       extraDirs = mkDefault [{ path = "/mnt/tmp"; }];
     };

@@ -1,9 +1,13 @@
-{ lib, config, pkgs, ... }: 
+{ lib, config, pkgs, ... }:
 with lib;
-let cfg = config.m.flatpak;
+let cfg = config.m.sw.flatpak;
 in {
-  options.m.flatpak = {
-    enable = mkEnableOption "enables flatpak";
+  options.m.sw.flatpak = {
+    enable = mkOption {
+      description = "enables flatpak";
+      type = types.bool;
+      default = config.m.sw.enable;
+    };
   };
 
   config = mkIf cfg.enable {

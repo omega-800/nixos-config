@@ -1,16 +1,10 @@
-{ ... }: {
+{lib, ...}: {
   imports = [
-    ./docker.nix
-    ./os.nix
     ./stylix.nix
-    ./shell.nix
-    ./virtualization.nix
-    ./env.nix
     ./fonts.nix
-    ./swhkd.nix
     ./flatpak.nix
-    ./mysql.nix
-    ./dev.nix
-    ./ssh.nix
+    ./printing.nix
+    ./miracast.nix
   ];
+  options.m.sw.enable = lib.mkEnableOption "enables misc software";
 }

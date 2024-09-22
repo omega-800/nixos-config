@@ -1,8 +1,8 @@
 { config, lib, sys, usr, globals, ... }:
 with lib;
-let cfg = config.m.sshd;
+let cfg = config.m.net.sshd;
 in {
-  options.m.sshd = {
+  options.m.net.sshd = {
     enable = mkEnableOption "enables ssh server";
     authorizedKeys = mkOption {
       type = types.listOf types.str;

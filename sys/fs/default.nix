@@ -1,8 +1,5 @@
-{ config, lib, ... }:
-with lib;
-let cfg = config.m.dirs;
-in {
-  options.m.dirs = {
-    enable = mkEnableOption "enables creation of directories";
-  };
+{ lib, sys, ... }:
+with lib; {
+  options.m.fs.enable = mkEnableOption "enables filesystem features";
+  imports = [ ./automount.nix ./dirs.nix ./type/${sys.fs ? "nofs"}.nix ];
 }

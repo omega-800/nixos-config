@@ -13,8 +13,15 @@ with lib; {
         description = "private ssh file";
       };
       fs = mkOption {
-        type = types.enum [ "zfs" "btrfs" "default" ];
-        default = "default";
+        type =
+          let
+            fsTypes = mapAttrsToList
+              (n: v: if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
+              (filterAttrs (n: v: v == "regular")
+                (readDir ../../sys/fs/type));
+          in
+          types.enum fsTypes;
+        default = "nofs";
       };
       hostname = mkOption {
         type = types.str;
@@ -116,7 +123,7 @@ with lib; {
       theme = mkOption {
         type = types.str;
         default = "catppuccin-mocha";
-      }; # selcted theme from my themes directory (./themes/)
+      }; # selected theme from my themes directory (./themes/)
       wm = mkOption {
         type = types.str;
         default = if config.c.usr.minimal then "" else "dwm";

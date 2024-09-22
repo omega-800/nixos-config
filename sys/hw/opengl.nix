@@ -1,8 +1,8 @@
 { lib, config, pkgs, sys, ... }:
 with lib;
-let cfg = config.m.openGL;
+let cfg = config.m.hw.openGL;
 in {
-  options.m.openGL = { enable = mkEnableOption "enables openGL"; };
+  options.m.hw.openGL = { enable = mkEnableOption "enables openGL"; };
 
   config = mkIf cfg.enable {
     hardware."${if sys.stable then "opengl" else "graphics"}" = {

@@ -1,8 +1,8 @@
 { config, lib, ... }:
 with lib;
-let cfg = config.m.dirs;
+let cfg = config.m.fs.dirs;
 in {
-  options.m.dirs = {
+  options.m.fs.dirs = {
     enable = mkEnableOption "enables creation of directories";
     extraDirs = with types;
       mkOption {

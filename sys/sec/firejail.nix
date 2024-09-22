@@ -1,5 +1,16 @@
-{ lib, sys, usr, pkgs, ... }: {
-  config = lib.mkIf (sys.hardened && !usr.minimal) {
+{ lib, sys, usr, pkgs, ... }:
+with lib;
+let cfg = config.m.sec.firejail;
+in {
+  options.m.sec.firejail = {
+    enable = mkOption {
+      description = "enables firejail";
+      type = types.bool;
+      default = config.m.sec.enable && sys.hardened && !usr.minimal;
+    };
+  };
+
+  config = mkIf cfg.enable {
     security.chromiumSuidSandbox.enable = true;
     environment.systemPackages = with pkgs; [ firejail ];
     nixpkgs.config.allowUnfreePredicate = pkg:
