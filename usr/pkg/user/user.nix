@@ -8,6 +8,7 @@ in {
     home.packages = with pkgs;
       [
         #starship
+        sops
       ] ++ (if !usr.minimal then [ tree-sitter feh ] else [ ])
       ++ (if usr.extraBloat then [
         fortune

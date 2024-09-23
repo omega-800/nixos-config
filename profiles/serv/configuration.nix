@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  inherit (lib) mkDefault;
+  inherit (lib) mkDefault mkOverride;
   nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
 in {
   imports = [ ];
@@ -18,9 +18,9 @@ in {
       };
       openGL.enable = mkDefault false;
       power = {
-        enable = mkDefault true;
-        performance = mkDefault false;
-        powersave = mkDefault true;
+        enable = mkOverride 900 true;
+        performance = mkOverride 900 false;
+        powersave = mkOverride 900 true;
       };
     };
     sec = {

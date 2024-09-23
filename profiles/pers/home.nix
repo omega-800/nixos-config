@@ -15,10 +15,8 @@ with lib.my.def; {
         "${WORKSPACE_DIR}/homelab"
         "${WORKSPACE_DIR}/code"
         "${XDG_DOCUMENTS_DIR}/trading"
-        "${XDG_DOCUMENTS_DIR}/pers"
-        "${XDG_DOCUMENTS_DIR}/homelab"
-        "${XDG_DOCUMENTS_DIR}/diary"
-        "${XDG_DOCUMENTS_DIR}/projects"
+        "${XDG_DOCUMENTS_DIR}/pers/diary"
+        "${XDG_DOCUMENTS_DIR}/projects/homelab"
       ];
     };
   };

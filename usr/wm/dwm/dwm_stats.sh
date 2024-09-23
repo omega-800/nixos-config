@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
+nrm="\x01"
+warning="\x03"
+critical="\x04"
+
 while true; do
-  nrm="\x01"
-  warning="\x03"
-  critical="\x04"
-  cpu="$(bc <<<"scale = 0; ($(awk '{print $1}' /proc/loadavg) * 100) / $(nproc)")"
+  cpu="$(grep 'cpu ' /proc/stat | awk '{print ($2+$4)*100/($2+$4+$5)}')"
   cps="$( ([ "$cpu" -gt "80" ] && echo "$critical") || ([ "$cpu" -gt "60" ] && echo "$warning") || echo "$nrm")"
   memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"
   memoryStats=$(free -h | awk 'NR==2 {printf "%s / %s",$3,$2}')
