@@ -78,14 +78,14 @@ in {
         sources = {
           diagnostics = mkMerge [
             {
-              gitlint.enable = true;
+              #gitlint.enable = true;
               todo_comments.enable = true;
               #dotenv_linter.enable = true;
-              zsh.enable = usr.shell.pname == "zsh";
+              #zsh.enable = usr.shell.pname == "zsh";
             }
             (mkIf (elem "sql" langs) { sqlfluff.enable = true; })
             (mkIf (elem "go" langs) { golangci_lint.enable = true; })
-            (mkIf (elem "rust" langs) { ltrs.enable = true; })
+            #(mkIf (elem "rust" langs) { ltrs.enable = true; })
             (mkIf (elem "nix" langs) { statix.enable = true; })
             (mkIf (elem "python" langs) { pylint.enable = true; })
             (mkIf (elem "css" langs) { checkstyle.enable = true; })
@@ -114,8 +114,8 @@ in {
             })
             (mkIf (elem "js" langs) { biome.enable = true; })
             (mkIf (elem "md" langs) {
-              markdownlint.enable = true;
-              mdformat.enable = true;
+              #markdownlint.enable = true;
+              #mdformat.enable = true;
             })
             (mkIf (elem "sh" langs) {
               shellharden.enable = true;

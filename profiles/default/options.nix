@@ -29,9 +29,11 @@ with lib; {
       }; # will be set to the dirname of the host configs
       profile = with builtins;
         let
-          profiles = mapAttrsToList (n: v: n)
-            (filterAttrs (n: v: v == "directory" && !(hasPrefix "default" n) && !(hasPrefix "partials" n))
-              (readDir ../.));
+          profiles = mapAttrsToList (n: v: n) (filterAttrs
+            (n: v:
+              v == "directory" && !(hasPrefix "default" n)
+              && !(hasPrefix "partials" n))
+            (readDir ../.));
         in
         mkOption {
           type = types.enum profiles;
@@ -78,7 +80,14 @@ with lib; {
         default = false;
       };
       services = mkOption {
-        type = types.listOf types.str;
+        type = with builtins;
+          let
+            serviceTypes = mapAttrsToList
+              (n: v:
+                if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
+              (filterAttrs (n: v: v == "regular") (readDir ../../sys/srv));
+          in
+          types.listOf serviceTypes;
         default = [ ];
       };
     };

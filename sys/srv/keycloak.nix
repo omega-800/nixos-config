@@ -20,14 +20,14 @@ let
       }];
     }];
   };
-in
-{
+in {
   sops.secrets = { "keycloak/db" = { }; };
   environment.noXlibs = false;
   services.keycloak = {
     enable = true;
     realmFiles = [ (pkgs.writeText "OIDCDemo.json" (builtins.toJSON realm)) ];
     database = {
+      createLocally = true;
       #TODO: caCert = "";
       #TODO: useSSL = true;
       passwordFile = config.sops.secrets."keycloak/db".path;
