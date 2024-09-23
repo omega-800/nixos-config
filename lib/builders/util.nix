@@ -5,7 +5,8 @@ let
     pkgs = inputs.nixpkgs-unstable;
     inherit (inputs.nixpkgs-unstable) lib;
   };
-in rec {
+in
+rec {
   inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
   inherit (myLib.cfg) getCfgAttr;
 
@@ -13,7 +14,8 @@ in rec {
     let
       hostname = with inputs.nixpkgs-unstable.lib; last (splitString "/" path);
       profileCfg = ../../profiles/${getCfgAttr path "sys" "profile"}/config.nix;
-    in (inputs.nixpkgs-unstable.lib.evalModules {
+    in
+    (inputs.nixpkgs-unstable.lib.evalModules {
       modules = [
         ({ config, ... }: {
           config = {
@@ -34,14 +36,16 @@ in rec {
     }).config.c;
 
   mkModules = cfg: path: attrs: type:
-    with builtins; [
+    with builtins;
+    [
       ({ nixpkgs.overlays = mkOverlays cfg.sys.genericLinux cfg.sys.stable; })
       ../../profiles/default/${type}.nix
       ../../profiles/${cfg.sys.profile}/${type}.nix
       (import "${path}/${type}.nix")
-      (inputs.nixpkgs-unstable.lib.filterAttrs (n: v: !elem n [ "system" ])
+      (inputs.nixpkgs-unstable.lib.filterAttrs
+        (n: v: !elem n [ "system" "hostName" ])
         attrs)
-    ];
+    ] ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
 
   mkLib = cfg:
     let
@@ -57,13 +61,15 @@ in rec {
           # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
           # templateFile = import ./templating.nix { inherit pkgs; };
         } // homeMgr.lib);
-    in lib;
+    in
+    lib;
 
   mkArgs = cfg:
     let
       pkgsFinal = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       myLib = mkLib cfg;
-    in {
+    in
+    {
       inherit inputs;
       inherit (cfg) usr sys;
       # nixpkgs = finalPkgs;
