@@ -52,11 +52,18 @@ in {
       automount.enable = mkDefault false;
       dirs = {
         enable = mkDefault true;
-        extraDirs = mkDefault [{
-          path = "/srv";
-          mode = "0744";
-          user = "root";
-        }];
+        extraDirs = mkDefault [
+          {
+            path = "/srv";
+            mode = "0744";
+            user = "root";
+          }
+          {
+            path = "/store";
+            mode = "0744";
+            user = "root";
+          }
+        ];
       };
     };
     sw.enable = mkDefault false;

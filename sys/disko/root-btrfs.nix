@@ -1,0 +1,82 @@
+# USAGE in your configuration.nix.
+# Update devices to match your hardware.
+# {
+#   imports = [ ./disko-config.nix ];
+#   disko.devices.disk.root.device = "/dev/sda";
+# }
+
+{
+  disko.devices.disk.root = {
+    type = "disk";
+    content = {
+      type = "gpt";
+      partitions = {
+        ESP = {
+          label = "boot";
+          name = "ESP";
+          priority = 1;
+          start = "0";
+          size = "1G";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [ "defaults" ];
+          };
+        };
+        swap = {
+          start = "-8GiB";
+          end = "-0";
+          type = "8200";
+          content = {
+            type = "swap";
+            randomEncryption = "true";
+          };
+        };
+        root = {
+          size = "100%";
+          label = "luks";
+          content = {
+            # LUKS passphrase will be prompted interactively only
+            type = "luks";
+            name = "cryptroot";
+            extraOpenArgs =
+              [ "--perf-no_read_workqueue" "--perf-no_write_workqueue" ];
+            settings = { allowDiscards = true; };
+            content = {
+              type = "btrfs";
+              extraArgs = [ "-L" "nixos" "-f" ];
+              subvolumes = {
+                "/root" = {
+                  mountpoint = "/";
+                  mountOptions = [ "subvol=root" "compress=zstd" ];
+                };
+                "/home" = {
+                  mountpoint = "/home";
+                  mountOptions = [ "subvol=home" "compress=zstd" ];
+                };
+                "/nix" = {
+                  mountpoint = "/nix";
+                  mountOptions = [ "subvol=nix" "compress=zstd" "noatime" ];
+                };
+                "/persist" = {
+                  mountpoint = "/persist";
+                  mountOptions = [ "subvol=persist" "compress=zstd" ];
+                };
+                "/log" = {
+                  mountpoint = "/var/log";
+                  mountOptions = [ "subvol=log" "compress=zstd" ];
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+  fileSystems = {
+    "/persist".neededForBoot = true;
+    "/var/log".neededForBoot = true;
+  };
+}
