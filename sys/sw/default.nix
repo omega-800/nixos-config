@@ -5,6 +5,7 @@
     ./flatpak.nix
     ./printing.nix
     ./miracast.nix
+    ./android.nix
   ];
   options.m.sw.enable = lib.mkEnableOption "enables misc software";
 }

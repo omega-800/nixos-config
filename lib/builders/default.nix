@@ -39,15 +39,18 @@ rec {
   mapHomes = dir: attrs: mapHostConfigs dir "home" (path: mkHome path attrs);
 
   mkDroid = path: attrs:
-    let cfg = mkCfg path;
-    in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
-      modules = [ ./profiles/nix-on-droid/configuration.nix ];
+    let
+      cfg = mkCfg path;
       extraSpecialArgs = mkArgs cfg;
+    in
+    inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
+      modules =
+        [ ../../droid { home-manager = { inherit extraSpecialArgs; }; } ];
+      inherit extraSpecialArgs;
     };
 
-  mapDroids = dir: attrs:
-    mapHostConfigs dir "configuration" (path: mkDroid path attrs);
+  mapDroids = dir: attrs: mapHostConfigs dir "droid" (path: mkDroid path attrs);
 
   mkGeneric = path: attrs:
     let cfg = mkCfg path;

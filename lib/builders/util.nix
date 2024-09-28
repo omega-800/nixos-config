@@ -40,7 +40,7 @@ rec {
     ../../profiles/default/${type}.nix
     ../../profiles/${cfg.sys.profile}/${type}.nix
     (import "${path}/${type}.nix")
-inputs.disko.nixosModules.disko
+    inputs.disko.nixosModules.disko
     (inputs.nixpkgs-unstable.lib.filterAttrs
       (n: v: !builtins.elem n [ "system" "hostName" ])
       attrs)

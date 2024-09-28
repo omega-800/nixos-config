@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: 
+{ lib, config, pkgs, ... }:
 with lib;
 let cfg = config.m.sw.printing;
 in {
@@ -6,10 +6,11 @@ in {
     enable = mkOption {
       description = "enables printing";
       type = types.bool;
-      default = config.m.sw.enable;
+      #CVE-2024-47176, CVE-2024-47076, CVE-2024-47175, CVE-2024-47177, etc.
+      default = false;
     };
   };
- 
+
   config = lib.mkIf cfg.enable {
     services = {
       printing.enable = true;

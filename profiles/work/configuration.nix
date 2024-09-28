@@ -57,6 +57,7 @@ with lib; {
       flatpak.enable = mkDefault true;
       fonts.enable = mkDefault true;
       miracast.enable = mkDefault true;
+      android.enable = mkDefault true;
     };
   };
 }

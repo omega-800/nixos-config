@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   ip4 = rec {
     ip = a: b: c: d: prefixLength: {
       inherit a b c d prefixLength;
