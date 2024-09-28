@@ -14,7 +14,7 @@ in {
       enable = true;
       # Allow PMTU / DHCP
       #allowPing = true;
-      allowPing = sys.paranoid;
+      allowPing = sys.hardened;
 
       # Keep dmesg/journalctl -k output readable by NOT logging
       # each refused connection on the open internet.

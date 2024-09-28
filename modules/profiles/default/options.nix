@@ -13,11 +13,8 @@ with lib; {
         description = "private ssh file";
       };
       fs = mkOption {
-        type = with builtins;
-          let
-            fsTypes = mapAttrsToList (n: v:
-              if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
-              (filterAttrs (n: v: v == "regular") (readDir ../../sys/fs/type));
+        type =
+          let fsTypes = lib.my.dirs.listNixModules ../../sys/fs/type;
           in types.enum fsTypes;
         default = "nofs";
       };
@@ -27,10 +24,10 @@ with lib; {
       }; # will be set to the dirname of the host configs
       profile = with builtins;
         let
-          profiles = mapAttrsToList (n: v: n) (filterAttrs (n: v:
-            v == "directory" && !(hasPrefix "default" n)
-            && !(hasPrefix "partials" n)) (readDir ../.));
-        in mkOption {
+          profiles = lib.my.dirs.listFilterDirs
+            (n: v: !(builtins.elem n [ "default" "partials" ])) ../.;
+        in
+        mkOption {
           type = types.enum profiles;
           default = "pers";
         }; # select a profile defined from my profiles directory
@@ -79,11 +76,8 @@ with lib; {
         default = false;
       };
       services = mkOption {
-        type = with builtins;
-          let
-            serviceTypes = mapAttrsToList (n: v:
-              if (hasSuffix ".nix" n) then (removeSuffix ".nix" n) else n)
-              (filterAttrs (n: v: v == "regular") (readDir ../../sys/srv));
+        type =
+          let serviceTypes = lib.my.dirs.listNixModules ../../sys/srv;
           in types.listOf serviceTypes;
         default = [ ];
       };
@@ -141,13 +135,14 @@ with lib; {
       # window manager type (hyprland or x11) translator
       wmType = mkOption {
         type = types.str;
-        default = if config.c.usr.minimal then
-          ""
-        else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
-          == "sway") then
-          "wayland"
-        else
-          "x11";
+        default =
+          if config.c.usr.minimal then
+            ""
+          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
+            == "sway") then
+            "wayland"
+          else
+            "x11";
       };
       term = mkOption {
         type = types.enum [ "alacritty" "kitty" "st" ];

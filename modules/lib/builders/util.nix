@@ -27,7 +27,16 @@ rec {
             c.sys.hostname = hostname;
           };
         })
-        ../../profiles/default/options.nix
+        (import ../../profiles/default/options.nix {
+          #FIXME: such a mess
+          lib = inputs.nixpkgs-unstable.lib.extend (final: prev: {
+            my = import ../my {
+              inherit inputs;
+              inherit (inputs.nixpkgs-unstable) lib;
+              pkgs = inputs.nixpkgs-unstable;
+            };
+          });
+        })
         (import "${path}/config.nix")
       ] ++ (if inputs.nixpkgs-unstable.lib.pathExists profileCfg then
         [ profileCfg ]

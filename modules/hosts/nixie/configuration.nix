@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }: {
+{ inputs, config, lib, pkgs, ... }: {
+  modules = [
+    # ...
+    # add your model from this list: https://github.com/NixOS/nixos-hardware/blob/master/flake.nix
+    inputs.nixos-hardware.nixosModules.hp-elitebook-830g6
+  ];
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
