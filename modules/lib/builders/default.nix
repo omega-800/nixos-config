@@ -74,9 +74,10 @@ rec {
       (arch: {
         name = arch;
         value = mapModules dir (path:
-          import path ({
+          import path (rec {
+            system = arch;
             pkgs = mkPkgs false arch false;
-            lib = inputs.nixpkgs-unstable.lib;
+            inherit (pkgs) lib;
           } // args));
       })
       architectures));

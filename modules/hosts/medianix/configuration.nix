@@ -1,16 +1,20 @@
-{ config,lib, pkgs, ... }: {
-
-imports = [
-( import ../../sys/disko/serv-zfs.nix {inherit lib; keylocation = "file://${pkgs.writeText "secret.key" "passphrasemin8chars"}"; nDisks = 2; stripe = true;} ) 
-../../sys/disko/root-btrfs.nix
-];
+{ config, lib, pkgs, ... }: {
+  sops.secrets = { "hosts/default/disk" = { }; };
+  imports = [
+    (import ../../sys/disko/serv-zfs.nix {
+      inherit lib;
+      keylocation = "file://${config.sops.secrets."hosts/default/disk".path}";
+      nDisks = 2;
+      stripe = true;
+    })
+    ../../sys/disko/root-btrfs.nix
+  ];
   m.os.boot = { mode = "bios"; };
-disko.devices.disk = {
-
-root.device = "/dev/sda";
-data1.device = "/dev/sdb";
-data2.device = "/dev/sdc";
-};
+  disko.devices.disk = {
+    root.device = "/dev/sda";
+    data1.device = "/dev/sdb";
+    data2.device = "/dev/sdc";
+  };
   networking.hostId = "5657ea3d";
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
@@ -20,6 +24,7 @@ data2.device = "/dev/sdc";
     terminal_input serial
     terminal_output serial
   '';
-boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages =
+    lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
   system.stateVersion = "24.05";
 }
