@@ -1,7 +1,7 @@
 { lib, ... }:
 with builtins;
 with lib; {
-  mapFilterDir = dir: mapFn: filterFn:
+  mapFilterDir = mapFn: filterFn: dir:
     mapAttrs'
       (n: v:
         nameValuePair
@@ -9,16 +9,16 @@ with lib; {
           (mapFn "${toString dir}/${n}"))
       (filterAttrs filterFn (readDir dir));
 
-  listFilterNixModules = dir: filterFn:
+  listFilterNixModuleNames = filterFn: dir:
     mapAttrsToList (n: v: removeSuffix ".nix") (filterAttrs
       (n: v: v == "regular" && (hasSuffix ".nix" n) && (filterFn n v))
       (readDir dir));
 
-  listNixModules = dir: listFilterNixModules dir (n: v: true);
+  listNixModuleNames = dir: listFilterNixModules (n: v: true) dir;
 
-  listFilterDirs = dir: filterFn:
+  listFilterDirs = filterFn: dir:
     mapAttrsToList (n: v: n)
       (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
 
-  listDirs = dir: listFilterDirs dir (n: v: true);
+  listDirs = dir: listFilterDirs (n: v: true) dir;
 }

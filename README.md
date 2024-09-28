@@ -23,6 +23,7 @@ Me too, here are some resources to make the learning experience more fun and the
 - [unofficial (yet very informative) nixOS + flakes book](https://nixos-and-flakes.thiscute.world/)
 - config options: `man configuration.nix`
 - [servers](https://sidhion.com/blog/posts/nixos_server_issues/)
+- [give them some love](https://aldoborrero.com/posts/2023/01/15/setting-up-my-machines-nix-style/)
 
 ### home-manager
 

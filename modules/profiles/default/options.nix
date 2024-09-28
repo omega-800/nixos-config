@@ -1,4 +1,9 @@
 { config, lib, pkgs, ... }:
+let
+  # kind of a hacky workaround but if it works then it works
+  inherit (import ../../lib/my/dirs.nix { inherit lib; })
+    listNixModuleNames listFilterDirs;
+in
 with lib; {
   options.c = {
     sys = {
@@ -14,7 +19,7 @@ with lib; {
       };
       fs = mkOption {
         type =
-          let fsTypes = lib.my.dirs.listNixModules ../../sys/fs/type;
+          let fsTypes = listNixModuleNames ../../sys/fs/type;
           in types.enum fsTypes;
         default = "nofs";
       };
@@ -24,8 +29,9 @@ with lib; {
       }; # will be set to the dirname of the host configs
       profile = with builtins;
         let
-          profiles = lib.my.dirs.listFilterDirs
-            (n: v: !(builtins.elem n [ "default" "partials" ])) ../.;
+          profiles =
+            listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
+              ../.;
         in
         mkOption {
           type = types.enum profiles;
@@ -77,7 +83,7 @@ with lib; {
       };
       services = mkOption {
         type =
-          let serviceTypes = lib.my.dirs.listNixModules ../../sys/srv;
+          let serviceTypes = listNixModuleNames ../../sys/srv;
           in types.listOf serviceTypes;
         default = [ ];
       };

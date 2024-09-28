@@ -16,8 +16,7 @@
         mapHosts mapHomes mapGeneric mapDroids mapModulesByArch;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in
-    {
+    in {
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
       nixOnDroidConfigurations = mapDroids ./modules/hosts { };
@@ -111,6 +110,12 @@
 
     # kaizen.url = "github:thericecold/kaizen";
 
+    #TODO: implement
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
