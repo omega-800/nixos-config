@@ -1,20 +1,21 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, inputs, ... }: {
   sops.secrets = { "hosts/default/disk" = { }; };
-  imports = [
-    (import ../../sys/disko/serv-zfs.nix {
-      inherit lib;
-      keylocation = "file://${config.sops.secrets."hosts/default/disk".path}";
-      nDisks = 2;
-      stripe = true;
-    })
-    ../../sys/disko/root-btrfs.nix
-  ];
-  m.os.boot = { mode = "bios"; };
-  disko.devices.disk = {
-    root.device = "/dev/sda";
-    data1.device = "/dev/sdb";
-    data2.device = "/dev/sdc";
+  m = {
+    fs.disko = {
+      enable = true;
+      config = {
+        root.device = "/dev/sda";
+        pools.store = {
+          stripe = true;
+          devices = [ "/dev/sdb" "/dev/sdc" ];
+          keylocation =
+            "file://${config.sops.secrets."hosts/default/disk".path}";
+        };
+      };
+    };
+    os.boot.mode = "bios";
   };
+
   networking.hostId = "5657ea3d";
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];

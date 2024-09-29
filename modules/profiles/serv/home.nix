@@ -13,8 +13,6 @@ with lib; {
       enable = mkDefault true;
       vim.enable = mkDefault true;
       nixvim.enable = mkDefault true;
-      kitty.enable = false;
-      alacritty.enable = false;
       dirs = with globals.envVars; {
         enable = mkDefault true;
         extraDirs = mkDefault [

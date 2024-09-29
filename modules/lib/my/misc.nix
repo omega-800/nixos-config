@@ -4,4 +4,8 @@
     (pkgs.writeShellScript n
       (builtins.replaceStrings [ "#!/bin/bash" ] [ "#!${pkgs.bash}/bin/bash" ]
         (builtins.readFile p)));
+
+  poolsContainFs = fsType: diskoCfg:
+    diskoCfg.pools != null && (builtins.elem fsType
+      (lib.mapAttrsToList (n: v: v.type) (lib.attrsToList diskoCfg.pools)));
 }

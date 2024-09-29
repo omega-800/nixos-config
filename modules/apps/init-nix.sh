@@ -56,7 +56,7 @@ echo "cloning secrets..."
 get_or_clone_secrets() {
   dir="$1"
   [ "$1" = "" ] && dir="$2"
-  if [ -d "$dir" ]; then
+  if [ ! -d "$dir" ]; then
     echo "cloning secret..."
     mkdir -p "$dir"
     git clone "$3" "$dir"

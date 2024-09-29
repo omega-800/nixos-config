@@ -1,45 +1,7 @@
-# https://github.com/nix-community/disko-templates/blob/main/single-ext4-luks-and-double-zfs-mirror/disko-config.nix
-
-# USAGE in your configuration.nix.
-# Update devices to match your hardware.
-# {
-#   imports = [ ./disko-config.nix ];
-#   disko.devices.disk.dataN.device = "/dev/sdb";
-# }
-
- {
-  disko.devices = let stripe = false; nDisks = 2; keylocation = "file:///tmp/secret.key"
-; name = "store"; lib = (import <nixpkgs> { }).lib ; in{
-    disk = {data1= {
-      type = "disk";
-device = "/dev/sdb";
-      content = {
-        type = "gpt";
-        partitions.zfs = {
-          size = "100%";
-          content = {
-            type = "zfs";
-            pool = "${name}";
-          };
-        };
-      };
-    };data2= {
-      type = "disk";
-device = "/dev/sdc";
-      content = {
-        type = "gpt";
-        partitions.zfs = {
-          size = "100%";
-          content = {
-            type = "zfs";
-            pool = "${name}";
-          };
-        };
-      };
-    };} //
-{root = {
+{ config, lib, ... }: {
+  disko.devices.disk.root = lib.mkIf (config.m.fs.disko.root.type == "btrfs") {
+    inherit (config.m.fs.disko.root) device;
     type = "disk";
-device = "/dev/sda";
     content = {
       type = "gpt";
       partitions = {
@@ -106,43 +68,9 @@ device = "/dev/sda";
         };
       };
     };
-  };}
-;
-    zpool."${name}" = {
-      type = "zpool";
-      mode = if stripe then
-        ""
-      else if nDisks >= 10 then
-        "raidz3"
-      else if nDisks >= 6 then
-        "raidz2"
-      else if nDisks >= 3 then
-        "raidz1"
-      else if nDisks >= 2 then
-        "mirror"
-      else
-        "";
-      options.cachefile = "none";
-      rootFsOptions = {
-        compression = "zstd";
-        "com.sun:auto-snapshot" = "true";
-      };
-      postCreateHook =
-        "zfs list -t snapshot -H -o name | grep -E '^${name}@blank$' || zfs snapshot ${name}@blank";
-
-      datasets."cryptstore" = {
-        type = "zfs_fs";
-        mountpoint = "/${name}";
-        options = {
-          inherit keylocation;
-          encryption = "aes-256-gcm";
-          keyformat = "passphrase";
-        };
-        # use this to read the key during boot
-        postCreateHook = ''
-          zfs set keylocation="prompt" "${name}/cryptstore";
-        '';
-      };
-    };
+  };
+  fileSystems = {
+    "/persist".neededForBoot = true;
+    "/var/log".neededForBoot = true;
   };
 }

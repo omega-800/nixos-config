@@ -1,5 +1,7 @@
 # TODO
 
+https://github.com/mobile-nixos/mobile-nixos
+
 ## home-manager
 
 - kitty cursor block

@@ -50,7 +50,7 @@ in {
           KbdInteractiveAuthentication = false;
           AllowUsers = [ usr.username ];
           PasswordAuthentication = false;
-          PermitRootLogin = "no";
+          PermitRootLogin = lib.mkForce "no";
           PermitEmptyPasswords = false;
           PermitUserEnvironment = false;
           UseDns = false;

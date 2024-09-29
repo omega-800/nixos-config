@@ -35,19 +35,15 @@ rec {
         [ ]);
     }).config.c;
 
-  mkModules = cfg: path: attrs: type:
-    [
-      { nixpkgs.overlays = mkOverlays cfg.sys.genericLinux cfg.sys.stable; }
-      ../../profiles/default/${type}.nix
-      ../../profiles/${cfg.sys.profile}/${type}.nix
-      (import "${path}/${type}.nix")
-      (inputs.nixpkgs-unstable.lib.filterAttrs
-        (n: v: !builtins.elem n [ "system" "hostName" ])
-        attrs)
-    ] ++ (if type == "configuration" then
-      [ inputs.disko.nixosModules.disko ]
-    else
-      [ ]); # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+  mkModules = cfg: path: attrs: type: [
+    { nixpkgs.overlays = mkOverlays cfg.sys.genericLinux cfg.sys.stable; }
+    ../../profiles/default/${type}.nix
+    ../../profiles/${cfg.sys.profile}/${type}.nix
+    (import "${path}/${type}.nix")
+    (inputs.nixpkgs-unstable.lib.filterAttrs
+      (n: v: !builtins.elem n [ "system" "hostName" ])
+      attrs)
+  ];
 
   mkLib = cfg:
     let

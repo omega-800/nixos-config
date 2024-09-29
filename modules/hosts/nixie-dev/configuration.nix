@@ -4,7 +4,7 @@
     ./hardware-configuration.nix
   ];
 
-  m.boot = { mode = "bios"; };
+  m.os.boot.mode = "bios";
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
 

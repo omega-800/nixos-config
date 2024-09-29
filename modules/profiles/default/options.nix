@@ -17,12 +17,6 @@ with lib; {
         default = "~/.ssh/id_ed25519";
         description = "private ssh file";
       };
-      fs = mkOption {
-        type =
-          let fsTypes = listNixModuleNames ../../sys/fs/type;
-          in types.enum fsTypes;
-        default = "nofs";
-      };
       hostname = mkOption {
         type = types.str;
         default = "nixie";
@@ -41,6 +35,11 @@ with lib; {
         type = types.bool;
         default = config.c.sys.profile == "serv";
       };
+      main = mkOption {
+        type = types.bool;
+        #TODO: implement
+        default = config.c.sys.profile == "pers";
+      }; # main machine / "orchestrator"
       system = mkOption {
         type = types.str;
         default = "x86_64-linux";

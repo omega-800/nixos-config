@@ -13,10 +13,11 @@
   outputs = { self, nixpkgs, ... }@inputs:
     let
       inherit (import ./modules/lib/builders { inherit inputs; })
-        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch;
+        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in {
+    in
+    {
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
       nixOnDroidConfigurations = mapDroids ./modules/hosts { };
@@ -25,7 +26,7 @@
         nixvim = inputs.nixvim;
       };
       packages = mapModulesByArch ./modules/pkgs supportedSystems { };
-      apps = mapModulesByArch ./modules/apps supportedSystems { };
+      apps = mapAppsByArch supportedSystems { };
       # checks
       # formatter
       # hydraJobs
@@ -112,10 +113,17 @@
 
     #TODO: implement
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixos-generators = {
+    #   url = "github:nix-community/nixos-generators";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # maybe maybe some day
+    # flake-parts = {
+    #   url = github:hercules-ci/flake-parts;
+    #   inputs.nixpkgs-lib.follows = "nixpkgs";
+    # };
+    # flake-root.url = github:srid/flake-root;
+    # mission-control.url = github:Platonic-Systems/mission-control;
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
