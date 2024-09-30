@@ -4,9 +4,9 @@ let
   poolsAreZfs = lib.my.misc.poolsContainFs "zfs" config.m.fs.disko;
 in
 {
-  config = lib.mkIf (rootIsZfs || poolsAreZfs) {
+  config = lib.mkIf (config.m.fs.disko.enable && (rootIsZfs || poolsAreZfs)) {
     boot.zfs = {
-      enabled = true;
+      #enabled = true;
       forceImportAll = true;
       forceImportRoot = rootIsZfs;
     };

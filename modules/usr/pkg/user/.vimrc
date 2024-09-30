@@ -28,6 +28,7 @@ set shiftwidth=2
 set expandtab
 set clipboard=unnamedplus
 set termguicolors
+set colorscheme=default
 set smartindent
 set scrolloff=8
 set incsearch

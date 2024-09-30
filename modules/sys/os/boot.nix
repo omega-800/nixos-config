@@ -1,7 +1,9 @@
 { sys, config, lib, ... }:
 with lib;
-let cfg = config.m.os.boot;
-  configurationLimit =  if sys.profile == "serv" then 5 else if cfg.mode == "ext" then  2 else 15;
+let
+  cfg = config.m.os.boot;
+  configurationLimit =
+    if sys.profile == "serv" then 5 else if cfg.mode == "ext" then 2 else 15;
 in {
   options.m.os.boot = {
     grubDevice = mkOption {
@@ -45,6 +47,8 @@ in {
       grub = {
         inherit configurationLimit;
         enable = cfg.mode == "bios";
+        zfsSupport = let d = config.m.fs.disko;
+        in d.enable && lib.my.misk.poolsContainFs "zfs" d;
         device = cfg.grubDevice; # does nothing if running uefi rather than bios
         useOSProber = true;
       };

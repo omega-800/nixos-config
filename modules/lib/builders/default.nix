@@ -18,16 +18,21 @@ rec {
       inherit (cfg.sys) system;
       #pkgs = pkgsFinal;
       specialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "configuration" ++ [
-        ({ imports, pkgs, modulesPath, ... }: {
-          imports =
-            [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
-        })
-      ]; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+      modules = mkModules cfg path attrs "configuration"
+        /* # hahhaaaaaaaaa
+               ++ [
+             ({ imports, pkgs, modulesPath, ... }: {
+               imports =
+                 [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+             })
+           ]
+        */
+      ; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 
+  #TODO: add iso configs
   mapHosts = dir: attrs:
-    mapHostConfigs dir "configuration" (path: mkHost path attrs);
+    mapHostConfigs dir "configuration" (path: mkHost path attrs) ;
 
   mkHome = path: attrs:
     let

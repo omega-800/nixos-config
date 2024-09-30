@@ -4,4 +4,6 @@
       (lib.filterAttrs filterFn attrset);
 
   mapAttrNames = mapFn: attrset: filterMapAttrNames attrset (n: v: true) mapFn;
+
+  mapListToAttrs = fun: items: lib.mkMerge (builtins.concatMap fun items);
 }

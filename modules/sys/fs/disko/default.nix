@@ -1,11 +1,12 @@
 { inputs, lib, pkgs, config, ... }:
 let
   # disko
-  disko = pkgs.writeShellScriptBin "disko" "${config.system.build.disko}";
+  disko = pkgs.writeShellScriptBin "disko" "${config.system.build.diskoScript}";
   disko-mount =
     pkgs.writeShellScriptBin "disko-mount" "${config.system.build.mountScript}";
   disko-format = pkgs.writeShellScriptBin "disko-format"
     "${config.system.build.formatScript}";
+  cfg = config.m.fs.disko;
 in
 {
   imports =
@@ -15,7 +16,6 @@ in
       inherit (lib) mkOption types;
       fsTypes = lib.my.dirs.listNixModuleNames ../types;
       poolOpts = types.submodule {
-        description = "pool fs type";
         options = {
           type = mkOption {
             type = types.enum fsTypes;
@@ -32,7 +32,7 @@ in
             default = [ "/change/me" ];
             description = "list of devices to use for the pool";
           };
-          keylocation = {
+          keylocation = mkOption {
             type = types.nonEmptyStr;
             default = "file://${config.sops.secrets."hosts/default/disk".path}";
             description = "path to encryption key";
@@ -41,8 +41,8 @@ in
       };
     in
     {
-      enable = lib.mkOption {
-        type = lib.types.bool;
+      enable = mkOption {
+        type = types.bool;
         default = false;
         description = "enables disko";
       };
@@ -65,11 +65,13 @@ in
       };
     };
   config = {
+    sops.secrets."hosts/default/disk" = { };
     # we don't want to generate filesystem entries on this image only if it should be flashed as an iso
     # disko.enableConfig =  false;
-    disko.enableConfig = lib.mkDefault true;
+    disko.enableConfig = lib.mkDefault cfg.enable;
 
     # add disko commands to format and mount disks
-    environment.systemPackages = [ disko disko-mount disko-format ];
+    environment.systemPackages =
+      if cfg.enable then [ disko disko-mount disko-format ] else [ ];
   };
 }

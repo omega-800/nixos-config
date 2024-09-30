@@ -30,12 +30,13 @@
       lib.flatten (lib.my.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
   };
 
-  home-manager = {
-    backupFileExtension = ".bak-hm";
-    useGlobalPackages = true;
-    useUserPackages = false;
-    config = ../usr;
-  };
+  /* home-manager = {
+       backupFileExtension = ".bak-hm";
+       useGlobalPackages = true;
+       useUserPackages = false;
+       config = ../usr;
+     };
+  */
 
   time.timeZone = sys.timezone;
   terminal = {
