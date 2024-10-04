@@ -25,6 +25,7 @@ with lib; {
       enable = mkDefault true;
       clamav.enable = mkDefault false;
       firejail.enable = mkDefault true;
+      gpg.enable = mkDefault true;
     };
     hw = {
       audio = {
