@@ -15,6 +15,7 @@ in {
     package = pkgs.nixFlakes;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
+      extra-platforms = config.boot.binfmt.emulatedSystems;
       sandbox = sys.paranoid;
       auto-optimise-store = true; # Optimize syslinks
       trusted-users = [ "root" "@wheel" usr.username ];
