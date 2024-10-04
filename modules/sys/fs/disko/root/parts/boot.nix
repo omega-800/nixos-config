@@ -25,7 +25,7 @@ let
     };
   };
 in {
-  config = lib.mkId config.m.fs.disko.enable {
+  config = lib.mkIf config.m.fs.disko.enable {
     disko.devices.disk.root.content.partitions = bootPartition;
   };
 }

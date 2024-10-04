@@ -1,6 +1,6 @@
 { sys, lib, ... }: {
   config = lib.mkIf sys.paranoid {
-    kernel.sysctl = {
+    boot.kernel.sysctl = {
       # Network
       "net.core.default_qdisc" = "fq";
       "net.core.bpf_jit_enable" = false;
