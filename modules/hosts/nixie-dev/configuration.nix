@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -7,6 +7,7 @@
   m.os.boot.mode = "bios";
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   boot.loader.grub.extraConfig = ''
     serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
