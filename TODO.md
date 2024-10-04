@@ -1,7 +1,5 @@
 # TODO
 
-https://github.com/mobile-nixos/mobile-nixos
-
 ## home-manager
 
 - nvim
@@ -15,6 +13,13 @@ https://github.com/mobile-nixos/mobile-nixos
 
 ## general
 
+- added lots of half-baked modules, gotta sort em out and implement them precisely
+- fs / disko
+- testing
+  - disko
+  - iso
+  - deploy-rs
+  - profiles
 - wayland setup
 - stylix generalization (hm & os)
 - devshells
@@ -27,11 +32,18 @@ https://github.com/mobile-nixos/mobile-nixos
   - serv
   - work
   - pers
+- include \*, handle "imports" / modules through \*.enable = true;
+- refactor lib/my
 
 ### profiles
 
 - devcontainer??
 - serv
   - [selinux](https://nixos.wiki/wiki/Workgroup:SELinux) questionmark?
+
+## misc
+
 - interesting project
   - [spectrum os](https://spectrum-os.org/doc/installation/getting-spectrum.html)
+- another one
+  - [mobile nixos](https://github.com/mobile-nixos/mobile-nixos)
