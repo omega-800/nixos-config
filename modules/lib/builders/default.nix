@@ -2,7 +2,8 @@
 with builtins;
 let
   util = import ./util.nix { inherit inputs; };
-  pkgUtil = import ./util.nix { inherit inputs; };
+  pkgUtil = import ./pkgs.nix { inherit inputs; };
+  deployUtil = import ./deploy.nix { inherit inputs; };
   script = import ./sys_script.nix { inherit inputs; };
   dirsUtil = import ../my/dirs.nix { lib = inputs.nixpkgs-unstable.lib; };
 in
@@ -11,6 +12,7 @@ rec {
   inherit (pkgUtil) mkPkgs mkOverlays getPkgsFlake getHomeMgrFlake;
   inherit (script) writeCfgToScript generateInstallerList;
   inherit (dirsUtil) mapFilterDir;
+  inherit (deployUtil) mapDeployments mapNodes mapProfiles;
 
   # looks like redundant shitty code? because it is. too tired to rewrite it. if somebody starts paying me for this i might  
 

@@ -11,11 +11,10 @@
     ./audit.nix
     ./isolate.nix
     ./kerberos.nix
-    ./fs.nix
     ./pam.nix
     ./tty.nix
     ./fail2ban.nix
-    ./proc.nix
+    ./fs.nix
   ];
   options.m.sec.enable = lib.mkEnableOption "enables security features";
 }

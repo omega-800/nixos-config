@@ -18,7 +18,7 @@ in {
                 type = "swap";
                 randomEncryption = true;
               };
-            };
+           };
             root = {
               size = "100%";
               label = "luks";

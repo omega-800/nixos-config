@@ -32,11 +32,11 @@
     use-xdg-base-directories = true;
   };
 
-  outputs = { self, ... }@inputs:
+  outputs = { self, deploy-rs, ... }@inputs:
     let
       inherit (import ./modules/lib/builders { inherit inputs; })
         mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch
-        importModulesByArch mapPkgsByArch;
+        mapPkgsByArch mapDeployments;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
     in
@@ -46,20 +46,24 @@
       nixOnDroidConfigurations = mapDroids ./modules/hosts { };
       systemConfigs = mapGeneric ./modules/hosts { };
       devShells = mapModulesByArch ./modules/sh supportedSystems {
-        nixvim = inputs.nixvim;
+        inherit (inputs) nixvim;
       };
       packages = mapPkgsByArch supportedSystems { };
       apps = mapAppsByArch supportedSystems { };
-      # checks
+      deploy = mapDeployments ./modules/hosts { };
+      checks = builtins.mapAttrs
+        (system: deployLib: deployLib.deployChecks self.deploy)
+        deploy-rs.lib;
       # formatter
       # hydraJobs
     };
 
   inputs = {
-    simplex = {
-      url = "github:simplex-chat/simplex-chat";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # döes nöt nörk :(
+    # simplex = {
+    #   url = "github:simplex-chat/simplex-chat";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -86,6 +90,10 @@
     };
 
     nixgl.url = "github:nix-community/nixGL";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

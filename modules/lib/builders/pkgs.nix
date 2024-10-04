@@ -1,10 +1,20 @@
 { inputs, ... }: rec {
-  mkOverlays = isGenericLinux: isStable:
-    if isStable then
+  mkOverlays = isStable: system: isGenericLinux:
+    [
+      inputs.deploy-rs.overlay
+      (self: super: {
+        deploy-rs = {
+          inherit (import (getPkgsFlake isStable) { inherit system; })
+            deploy-rs;
+          lib = super.deploy-rs.lib;
+        };
+      })
+    ] ++ (if isStable then
       [ ]
-    else
-      [ inputs.rust-overlay.overlays.default inputs.nur.overlay ]
-      ++ (if isGenericLinux then [ inputs.nixgl.overlay ] else [ ]);
+    else [
+      inputs.rust-overlay.overlays.default
+      inputs.nur.overlay
+    ]) ++ (if isGenericLinux then [ inputs.nixgl.overlay ] else [ ]);
 
   getHomeMgrFlake = isStable:
     inputs."home-manager-${if isStable then "" else "un"}stable";
@@ -19,6 +29,6 @@
         allowUnfree = true;
         allowUnfreePredicate = (_: true);
       };
-      overlays = mkOverlays isGenericLinux isStable;
+      overlays = mkOverlays isStable system isGenericLinux;
     });
 }
