@@ -1,9 +1,13 @@
 { config, lib, pkgs, ... }:
-with lib; {
+let
+  inherit (lib) mkOption;
+  inherit (lib.types) str nullOr listOf submodule enum addCheck int;
+in
+{
   options.c = {
-    networks = {
-      type = with types;
-        listOf submodule {
+    net = {
+      networks = {
+        type = listOf submodule {
           options =
             let
               ipType = str;
@@ -34,14 +38,13 @@ with lib; {
               };
               dnsIps = mkOption {
                 type = listOf dnsType;
-                default = [ "10.0.0.45" ];
+                    default = [ "10.0.0.45" "8.8.8.8"];
               };
             };
         };
-    };
-    interfaces = {
-      type = with types;
-        listOf submodule {
+      };
+      interfaces = {
+        type = listOf submodule {
           options =
             let
               ipType = str;
@@ -76,6 +79,7 @@ with lib; {
               };
             };
         };
+      };
     };
   };
 }

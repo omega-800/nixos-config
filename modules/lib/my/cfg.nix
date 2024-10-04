@@ -14,15 +14,28 @@ in rec {
   getHostsByCfgVal = type: name: val:
     map (c: c.sys.hostname) (filterCfgsByVal type name val);
 
-  filterCfgsByVal = type: name: val:
-    builtins.filter (c: c.${type}.${name} == val) allCfgs;
+  filterCfgsByVal = type: name: val: filterCfgs (c: c.${type}.${name} == val);
 
   filterCfgs = filterFn: builtins.filter filterFn allCfgs;
 
   getCfgAttrOfAllHosts = type: name:
-    map (hostname: (getCfgAttr "${hostsPath}/${hostname}" type name)) allCfgs;
+    map (hostname: (getCfgAttr "${hostsPath}/${hostname}" type name)) allHosts;
 
-  allCfgs = lib.mapAttrsToList (n: v: n) (lib.filterAttrs (n: v:
-    v == "directory" && builtins.pathExists "${hostsPath}/${n}/config.nix")
+  allCfgs = lib.mapAttrsToList
+    (n: v:
+      (lib.evalModules {
+        modules = [
+          ../../profiles/default/options.nix
+          (import "${hostsPath}/${n}/config.nix")
+        ];
+      }).config.c)
+    (lib.filterAttrs
+      (n: v:
+        v == "directory" && builtins.pathExists "${hostsPath}/${n}/config.nix")
+      (builtins.readDir hostsPath));
+
+  allHosts = lib.mapAttrsToList (n: v: n) (lib.filterAttrs
+    (n: v:
+      v == "directory" && builtins.pathExists "${hostsPath}/${n}/config.nix")
     (builtins.readDir hostsPath));
 }

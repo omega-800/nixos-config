@@ -83,7 +83,7 @@ with lib; {
       services = mkOption {
         type =
           let serviceTypes = listNixModuleNames ../../sys/srv;
-          in types.listOf serviceTypes;
+          in types.listOf (types.enum serviceTypes);
         default = [ ];
       };
       monitorMeDaddy = mkOption {
