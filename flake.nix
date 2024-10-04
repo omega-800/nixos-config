@@ -39,8 +39,8 @@
         mapPkgsByArch mapDeployments;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in
-    {
+    in {
+      #TODO: move paths somewhere else?
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
       nixOnDroidConfigurations = mapDroids ./modules/hosts { };
@@ -52,8 +52,7 @@
       apps = mapAppsByArch supportedSystems { };
       deploy = mapDeployments ./modules/hosts { };
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deploy-rs.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       # formatter
       # hydraJobs
     };

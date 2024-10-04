@@ -15,7 +15,7 @@ with lib; {
       identityFile = mkOption {
         type = types.str;
         default = "~/.ssh/id_ed25519";
-        description = "private ssh file";
+        description = "private ssh key file";
       };
       hostname = mkOption {
         type = types.str;
