@@ -32,9 +32,9 @@ in
       # "/usr".options = [ "nodev" "errors=remount-ro" ];
       # "/var".options = [ "nodev" "noexec" "nosuid" ];
       # "/var/log".options = [ "noexec" ];
+      # "/boot".options = [ "nodev" "noexec" ];
+      # "/home".options = [ "nodev" "nosuid" ];
       "/".options = [ "noexec" ];
-      "/boot".options = [ "nodev" "noexec" ];
-      "/home".options = [ "nodev" "nosuid" ];
     };
     systemd.services.systemd-logind.serviceConfig.SupplementaryGroups =
       [ "proc" ];
