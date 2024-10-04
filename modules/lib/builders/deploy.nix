@@ -6,6 +6,24 @@ let
   inherit (inputs.nixpkgs-unstable) lib;
 in
 rec {
+  # mapDeployments = _: attrs: 
+  #   {
+  #     nodes = lib.mapAttrs (_: config: {
+  #       profiles.${CONFIGS.nixosConfigurations} = {
+  #         user = "root";
+  #         path = inputs.deploy-rs.lib.${config}
+  #       }
+  #
+  #       }) inputs.self.nixosConfigurations;
+  #     profilesOrder = [
+  #       CONFIGS.nixosConfigurations
+  #       CONFIGS.systemConfigs
+  #       CONFIGS.nixOnDroidConfigurations
+  #       CONFIGS.homeConfigurations
+  #     ];
+  #   } // (mkDeployCfg orchestratorCfg orchestratorConfig
+  #     CONFIGS.nixosConfigurations);
+
   mapDeployments = dir: attrs:
     let
       # mhm yes very good quality code
@@ -51,7 +69,8 @@ rec {
 
   mkDeployCfg = cfg: config: type: {
     sshUser = cfg.usr.username;
-    user = if type == "home" then cfg.usr.username else "root";
+    user =
+      if type == CONFIGS.homeConfigurations then cfg.usr.username else "root";
     sudo = "${ # if config.m.sec.priv.sudo.enable then "sudo" else
         "doas"
       } -u";
@@ -63,8 +82,9 @@ rec {
     fastConnection = false;
     autoRollback = true;
     magicRollback = true;
-    tempPath =
-      "${if type == "home" then cfg.usr.homeDir else "/root"}/.deploy-rs";
+    tempPath = "${
+        if type == CONFIGS.homeConfigurations then cfg.usr.homeDir else "/root"
+      }/.deploy-rs";
     remoteBuild = false; # builtins.elem "beast" cfg.sys.profiles;
     activationTimeout = 600;
     confirmTimeout = 60;

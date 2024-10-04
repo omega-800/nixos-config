@@ -5,6 +5,7 @@
   ];
 
   m.os.boot.mode = "bios";
+  m.dev.virt.enable = false;
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

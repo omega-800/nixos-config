@@ -3,11 +3,14 @@ with builtins;
 with lib;
 with globals.envVars;
 let
-  cdAliases = listToAttrs (map (v: {
-    name = "${concatStrings (replicate (v + 2) ".")}";
-    value = "cd ${concatStrings (replicate (v + 1) "../")}";
-  }) (genList (x: x) 20));
-in {
+  cdAliases = listToAttrs (map
+    (v: {
+      name = "${concatStrings (replicate (v + 2) ".")}";
+      value = "cd ${concatStrings (replicate (v + 1) "../")}";
+    })
+    (genList (x: x) 20));
+in
+{
 
   home.shellAliases = (mkMerge [
     {
@@ -20,6 +23,7 @@ in {
         "home-manager switch --flake ${NIXOS_CONFIG}#${sys.hostname} --show-trace";
       nrs =
         "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${sys.hostname} --show-trace --use-remote-sudo";
+      nps = "nix repl --expr 'import <nixpkgs>{}'";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
       vf = "vim $(fzf)";
