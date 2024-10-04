@@ -1,5 +1,16 @@
-{ pkgs, sys, lib, ... }: {
-  config = lib.mkIf sys.hardened {
+{ pkgs, config, sys, lib, ... }:
+let
+  cfg = config.m.sec.fail2ban;
+  inherit (lib) mkOption types mkIf mkMerge;
+in {
+  options.m.sec.fail2ban = {
+    enable = mkOption {
+      description = "enables fail2ban";
+      type = types.bool;
+      default = config.m.sec.enable && sys.paranoid;
+    };
+  };
+  config = mkIf cfg.enable {
     services.fail2ban = {
       enable = true;
       bantime = "1h";

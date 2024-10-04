@@ -1,5 +1,17 @@
-{ sys, lib, ... }: {
-  config = lib.mkIf sys.hardened {
+{ config, sys, lib, ... }:
+let
+  cfg = config.m.sec.fs;
+  inherit (lib) mkOption types mkIf mkMerge;
+in
+{
+  options.m.sec.fs = {
+    enable = mkOption {
+      description = "hardens filesystem";
+      type = types.bool;
+      default = config.m.sec.enable && sys.hardened;
+    };
+  };
+  config = mkIf cfg.enable {
     fileSystems = {
       #FIXME: separate partitions
       # "/etc/nixos".options = [ "noexec" ];

@@ -34,6 +34,7 @@
   - pers
 - include \*, handle "imports" / modules through \*.enable = true;
 - refactor lib/my
+- remove all with;'s
 
 ### profiles
 

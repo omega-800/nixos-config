@@ -1,5 +1,16 @@
-{ sys, lib, ... }: {
-  config = lib.mkIf sys.hardened {
+{ config, sys, lib, ... }:
+let
+  cfg = config.m.sec.tty;
+  inherit (lib) mkOption types mkIf mkMerge;
+in {
+  options.m.sec.tty = {
+    enable = mkOption {
+      description = "hardens tty";
+      type = types.bool;
+      default = config.m.sec.enable && sys.hardened;
+    };
+  };
+  config = mkIf cfg.enable {
     environment.extraInit = # sh
       ''
         TMOUT="$(( 60*10 ))";
