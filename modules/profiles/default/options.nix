@@ -135,14 +135,14 @@ with lib; {
       }; # selected theme from my themes directory (./themes/)
       wm = mkOption {
         type = types.str;
-        default = if config.c.usr.minimal then "" else "dwm";
+        default = if config.c.usr.minimal then "none" else "dwm";
       }; # Selected window manager or desktop environment: must select one in both ./user/wm/ and ./system/wm/
       # window manager type (hyprland or x11) translator
       wmType = mkOption {
         type = types.str;
         default =
           if config.c.usr.minimal then
-            ""
+            "none"
           else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
             == "sway") then
             "wayland"
