@@ -9,10 +9,10 @@ in rec {
     }).config.c.${type}.${name};
 
   #TODO: flake.checks.isOnlyOrchestrator && flake.checks.hasOrchestrator
-  getOrchestrator = builtins.elemAt (getHostsByCfgVal "sys" "main" true) 0;
+  getOrchestrator =
+    builtins.elemAt (filterHosts (c: builtins.elem "master" c.sys.flavors)) 0;
 
-  getHostsByCfgVal = type: name: val:
-    map (c: c.sys.hostname) (filterCfgsByVal type name val);
+  filterHosts = fn: map (c: c.sys.hostname) (filterCfgs fn);
 
   filterCfgsByVal = type: name: val: filterCfgs (c: c.${type}.${name} == val);
 

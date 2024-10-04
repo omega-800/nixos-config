@@ -6,6 +6,7 @@
       genericLinux = false;
       paranoid = lib.mkForce false;
       main = true;
+      flavors = [ "master" "child" "developer" "builder" ];
     };
     usr = {
       shell = pkgs.zsh;
