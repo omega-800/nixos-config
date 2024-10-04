@@ -7,7 +7,7 @@ in
   config = lib.mkIf (config.m.fs.disko.enable && (rootIsZfs || poolsAreZfs)) {
     boot.zfs = {
       #enabled = true;
-      forceImportAll = true;
+      forceImportAll = rootIsZfs;
       forceImportRoot = rootIsZfs;
     };
     services = {

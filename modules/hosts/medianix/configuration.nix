@@ -3,14 +3,11 @@
   m = {
     fs.disko = {
       enable = true;
-      config = {
-        root.device = "/dev/sda";
-        pools.store = {
-          stripe = true;
-          devices = [ "/dev/sdb" "/dev/sdc" ];
-          keylocation =
-            "file://${config.sops.secrets."hosts/default/disk".path}";
-        };
+      root.device = "/dev/sda";
+      pools.store = {
+        stripe = true;
+        devices = [ "/dev/sdb" "/dev/sdc" ];
+        keylocation = "file://${config.sops.secrets."hosts/default/disk".path}";
       };
     };
     os.boot.mode = "bios";

@@ -7,5 +7,5 @@
 
   poolsContainFs = fsType: diskoCfg:
     diskoCfg.pools != null && (builtins.elem fsType
-      (lib.mapAttrsToList (n: v: v.type) (lib.attrsToList diskoCfg.pools)));
+      (lib.mapAttrsToList (n: v: v.type) diskoCfg.pools));
 }

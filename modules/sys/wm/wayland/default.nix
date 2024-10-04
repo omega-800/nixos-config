@@ -11,8 +11,8 @@ in {
         && usr.wmType == "wayland";
     };
   };
+  imports = [ ./swhkd.nix ];
   config = mkIf cfg.enable {
-    imports = [ ./swhkd.nix ];
     environment.systemPackages = with pkgs; [
       # why do i need this again?
       wayland

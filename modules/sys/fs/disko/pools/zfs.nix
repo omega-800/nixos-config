@@ -5,16 +5,16 @@ in {
   config = lib.mkIf (cfg.enable && lib.my.misc.poolsContainFs "zfs" cfg) {
     disko.devices =
       let
-        inherit (config.m.fs.disko) pools;
+        inherit (cfg) pools;
         zfsPools =
           (builtins.filter (p: p.value.type == "zfs") (lib.attrsToList pools));
       in
       {
-        disk = builtins.listToAttrs (lib.flatMap
+        disk = builtins.listToAttrs (lib.flatten (map
           (p:
-            builtins.imap
+            lib.imap
               (i: device: {
-                name = "${p.name}${i}";
+                name = "${p.name}${toString i}";
                 value = {
                   inherit device;
                   type = "disk";
@@ -31,8 +31,8 @@ in {
                 };
               })
               p.value.devices)
-          zfsPools);
-        zpool = map
+          zfsPools));
+        zpool = lib.mkMerge (map
           (p: {
             "${p.name}" = {
               type = "zpool";
@@ -72,7 +72,7 @@ in {
               };
             };
           })
-          zfsPools;
+          zfsPools);
       };
   };
 }

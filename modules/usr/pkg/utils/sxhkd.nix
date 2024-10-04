@@ -73,7 +73,7 @@ in {
         # clip password
         "super + r ; y" = "passmenu";
         "super + r ; r" = runScript;
-        "super + r ; q" = ''pkill -f "$(rofi -dmenu -p 'Run command')"'';
+        "super + r ; q" = ''pkill -f "$(rofi -dmenu -p 'Kill ')"'';
         "super + r ; k" = kaomojiScript;
         "super + r ; {t,p,o,s}" =
           "rofi-{theme-selector,pass,obsidian,screenshot";

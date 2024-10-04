@@ -34,7 +34,7 @@ in
       # "/var/log".options = [ "noexec" ];
       # "/boot".options = [ "nodev" "noexec" ];
       # "/home".options = [ "nodev" "nosuid" ];
-      "/".options = [ "noexec" ];
+      # "/".options = [ "noexec" ];
     };
     systemd.services.systemd-logind.serviceConfig.SupplementaryGroups =
       [ "proc" ];

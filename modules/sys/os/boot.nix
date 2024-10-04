@@ -47,7 +47,7 @@ in {
         inherit configurationLimit;
         enable = cfg.mode == "bios";
         zfsSupport = let d = config.m.fs.disko;
-        in d.enable && lib.my.misk.poolsContainFs "zfs" d;
+        in d.enable && lib.my.misc.poolsContainFs "zfs" d;
         device = cfg.grubDevice; # does nothing if running uefi rather than bios
         useOSProber = true;
       };
