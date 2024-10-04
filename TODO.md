@@ -21,9 +21,17 @@ https://github.com/mobile-nixos/mobile-nixos
 - nixify scripts
 - ~touch grass~
 - **modularize profiles**
+  - gui
+  - sec
+  - def
+  - serv
+  - work
+  - pers
 
 ### profiles
 
 - devcontainer??
 - serv
   - [selinux](https://nixos.wiki/wiki/Workgroup:SELinux) questionmark?
+- interesting project
+  - [spectrum os](https://spectrum-os.org/doc/installation/getting-spectrum.html)

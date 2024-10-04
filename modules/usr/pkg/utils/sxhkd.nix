@@ -4,6 +4,8 @@ with globals.envVars;
 let
   volumeScript = "${pkgs.writeScript "volume_control"
     (builtins.readFile ./scripts/volume.sh)}";
+  runScript =
+    "${pkgs.writeScript "rofi_cmd" (builtins.readFile ./scripts/rofi-run.sh)}";
   kaomojiScript = "${pkgs.writeShellScript "kaomoji" ''
     db="${./scripts/kaomoji.txt}"
     selection=$(rofi -m -4 -i -dmenu $@ < "$db")
@@ -61,8 +63,8 @@ in {
 
         # r for running stuffs
         # compile / flash qmk keyboard
-        "super + r ; q ; {c,l,r}" =
-          "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,-bl avrdude-split-right}";
+        #"super + r ; q ; {c,l,r}" =
+        #  "qmk {compile,flash,flash} -kb handwired/dactyl_manuform/4x6_omega -km custom {,-bl avrdude-split-left,-bl avrdude-split-right}";
 
         # generate password
         "super + r ; g ; p" = ''
@@ -70,7 +72,8 @@ in {
 
         # clip password
         "super + r ; y" = "passmenu";
-        "super + r ; r" = ''bash -c "$(rofi -dmenu -p 'Run command')"'';
+        "super + r ; r" = runScript;
+        "super + r ; q" = ''pkill -f "$(rofi -dmenu -p 'Run command')"'';
         "super + r ; k" = kaomojiScript;
         "super + r ; {t,p,o,s}" =
           "rofi-{theme-selector,pass,obsidian,screenshot";

@@ -8,7 +8,7 @@ in {
   options.m.os.boot = {
     grubDevice = mkOption {
       type = types.str;
-      default = "/dev/sda";
+      default = config.m.fs.disko.root.device;
       description =
         "device identifier for grub: only used for legacy (bios) boot mode";
     };
@@ -25,10 +25,9 @@ in {
     };
   };
   config.boot = {
-    # Ensure a clean & sparkling /tmp on fresh boots.
-    tmp.cleanOnBoot = sys.profile == "serv";
     # Bootloader
     loader = {
+      #TODO: figure out how syslinux works
       # Enables the generation of /boot/extlinux/extlinux.conf
       generic-extlinux-compatible.enable = cfg.mode == "ext";
 

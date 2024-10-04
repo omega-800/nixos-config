@@ -12,27 +12,36 @@ rec {
   inherit (script) writeCfgToScript generateInstallerList;
   inherit (dirsUtil) mapFilterDir;
 
+  # looks like redundant shitty code? because it is. too tired to rewrite it. if somebody starts paying me for this i might  
+
   mkHost = path: attrs:
     let cfg = mkCfg path;
     in (getPkgsFlake cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
-      #pkgs = pkgsFinal;
       specialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "configuration"
-        /* # hahhaaaaaaaaa
-               ++ [
-             ({ imports, pkgs, modulesPath, ... }: {
-               imports =
-                 [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
-             })
-           ]
-        */
-      ; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+      modules = mkModules cfg path attrs
+        "configuration"; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 
-  #TODO: add iso configs
+  mkIso = path: attrs:
+    let cfg = mkCfg path;
+    in (getPkgsFlake cfg.sys.stable).lib.nixosSystem {
+      inherit (cfg.sys) system;
+      specialArgs = mkArgs cfg;
+      modules = (mkModules cfg path attrs "configuration") ++ [
+        ({ config, modulesPath, ... }: {
+          imports =
+            [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+          config = { disko.enableConfig = false; };
+        })
+      ]; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+    };
+
   mapHosts = dir: attrs:
-    mapHostConfigs dir "configuration" (path: mkHost path attrs) ;
+    let inherit (inputs.nixpkgs-unstable.lib) mapAttrs' nameValuePair;
+    in (mapHostConfigs dir "configuration" (path: mkHost path attrs))
+      // (mapAttrs' (n: v: nameValuePair "${n}-iso" v)
+      (mapHostConfigs dir "configuration" (path: mkIso path attrs)));
 
   mkHome = path: attrs:
     let
@@ -84,37 +93,39 @@ rec {
   mapAppsByArch = architectures: args:
     with inputs.nixpkgs-unstable.lib;
     let dir = ../../apps;
-    in (builtins.listToAttrs (map
-      (arch: {
-        name = arch;
-        value = mapFilterDir
-          (path:
-            if (hasSuffix ".sh" path) then {
-              type = "app";
-              program =
-                let
-                  name = removeSuffix ".sh" (last (splitString "/" path));
-                  script = (mkPkgs false arch false).writeShellScriptBin name
-                    (builtins.readFile path);
-                in
-                "${script}/bin/${name}";
-            } else
-              (importModule path arch args))
-          (n: v:
-            !(hasPrefix "_" n) && ((v == "directory"
-            && pathExists "${toString dir}/${n}/default.nix")
-            || (v == "regular" && (hasSuffix ".sh" n || hasSuffix ".nix" n))))
-          dir;
-      })
-      architectures));
+    in inputs.nixpkgs-unstable.lib.genAttrs architectures (arch:
+      mapFilterDir
+        (path:
+          if (hasSuffix ".sh" path) then {
+            type = "app";
+            program =
+              let
+                name = removeSuffix ".sh" (last (splitString "/" path));
+                script = (mkPkgs false arch false).writeShellScriptBin name
+                  (builtins.readFile path);
+              in
+              "${script}/bin/${name}";
+          } else
+            (importModule path arch args))
+        (n: v:
+          !(hasPrefix "_" n) && ((v == "directory"
+          && pathExists "${toString dir}/${n}/default.nix")
+          || (v == "regular" && (hasSuffix ".sh" n || hasSuffix ".nix" n))))
+        dir);
+
+  mapPkgsByArch = architectures: args:
+    let dir = ../../pkgs;
+    in inputs.nixpkgs-unstable.lib.genAttrs architectures (arch:
+      mapModules
+        (path:
+          (mkPkgs false arch false).callPackage path {
+            # system = arch;
+          })
+        dir);
 
   mapModulesByArch = dir: architectures: args:
-    (builtins.listToAttrs (map
-      (arch: {
-        name = arch;
-        value = mapModules (path: importModule path arch args) dir;
-      })
-      architectures));
+    inputs.nixpkgs-unstable.lib.genAttrs architectures
+      (arch: mapModules (path: importModule path arch args) dir);
 
   importModule = path: arch: args:
     (import path (rec {

@@ -5,7 +5,7 @@ warning="\x03"
 critical="\x04"
 
 while true; do
-  cpu="$(grep 'cpu ' /proc/stat | awk '{printf "%i", ($2+$4)*100/($2+$4+$5)}')"
+  cpu="$(grep 'cpu ' /proc/stat | awk '{printf "%i", 100-($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}')"
   cps="$( ([ "$cpu" -gt "80" ] && echo "$critical") || ([ "$cpu" -gt "60" ] && echo "$warning") || echo "$nrm")"
   memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"
   memoryStats=$(free -h | awk 'NR==2 {printf "%s / %s",$3,$2}')

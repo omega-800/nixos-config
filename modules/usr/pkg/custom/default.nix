@@ -4,6 +4,4 @@ with lib; {
     enable = mkEnableOption "enables custom pkgs";
   } // lib.my.dirs.mapFilterDir (n: { enable = mkEnableOption "enables ${n}"; })
     (n: v: true) ./.;
-
-  imports = [ ./remote-build.nix ];
 }

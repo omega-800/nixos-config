@@ -52,7 +52,7 @@ with lib; {
           };
         in
         mkIf sys.paranoid {
-          systemd-logind.serviceConfig = { SupplementaryGroups = [ "proc" ]; };
+            #TODO: services.<name>.confinement.enable = true;
           systemd-rfkill.serviceConfig = {
             ProtectSystem = "strict";
             ProtectHome = true;

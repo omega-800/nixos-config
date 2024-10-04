@@ -32,10 +32,11 @@
     use-xdg-base-directories = true;
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, ... }@inputs:
     let
       inherit (import ./modules/lib/builders { inherit inputs; })
-        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch;
+        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch
+        importModulesByArch mapPkgsByArch;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
     in
@@ -47,7 +48,7 @@
       devShells = mapModulesByArch ./modules/sh supportedSystems {
         nixvim = inputs.nixvim;
       };
-      packages = mapModulesByArch ./modules/pkgs supportedSystems { };
+      packages = mapPkgsByArch supportedSystems { };
       apps = mapAppsByArch supportedSystems { };
       # checks
       # formatter
@@ -55,15 +56,20 @@
     };
 
   inputs = {
+    simplex = {
+      url = "github:simplex-chat/simplex-chat";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager-unstable = {
       url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager-stable = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -71,18 +77,18 @@
     };
     system-manager = {
       url = "github:numtide/system-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.home-manager.follows = "home-manager-unstable";
     };
 
     nixgl.url = "github:nix-community/nixGL";
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hyprland.url =
       "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
@@ -102,7 +108,7 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     omega-dwm = {
       url = "github:omega-800/dwm";
@@ -148,7 +154,7 @@
     # mission-control.url = github:Platonic-Systems/mission-control;
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     zen-browser.url = "github:MarceColl/zen-browser-flake";

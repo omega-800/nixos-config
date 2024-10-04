@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-pkgs.stdenv.mkDerivation {
+{ stdenv }:
+stdenv.mkDerivation {
   name = "wellhellothere";
   src = ./.;
   installPhase = ''

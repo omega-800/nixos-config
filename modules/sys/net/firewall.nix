@@ -9,12 +9,13 @@ in {
   };
   # sops.secrets.sshd_port = {};
   # Enable incoming ssh
+  #TODO: harden
   config = mkIf cfg.enable {
     networking.firewall = {
       enable = true;
       # Allow PMTU / DHCP
       #allowPing = true;
-      allowPing = sys.paranoid;
+      allowPing = !sys.paranoid;
 
       # Keep dmesg/journalctl -k output readable by NOT logging
       # each refused connection on the open internet.

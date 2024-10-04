@@ -7,6 +7,7 @@ in {
   environment.defaultPackages = [ ];
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
+    useSandbox = sys.paranoid;
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"

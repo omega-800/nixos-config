@@ -1,7 +1,6 @@
 { lib, globals, ... }:
 with lib;
 let
-
   defaultInit = ''
     sxhkd &
     xrandr

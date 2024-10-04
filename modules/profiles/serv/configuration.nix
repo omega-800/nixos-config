@@ -1,9 +1,14 @@
-{ lib, ... }:
+{ modulesPath, lib, ... }:
 let
   inherit (lib) mkDefault mkOverride;
   nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
 in {
-  imports = [ ];
+  imports = [
+    (modulesPath + "/profiles/minimal.nix")
+    #TODO: test
+    # (modulesPath + "/profiles/perlless.nix") 
+    # https://sidhion.com/blog/posts/nixos_server_issues/
+  ];
   m = {
     hw = {
       kernel = {
