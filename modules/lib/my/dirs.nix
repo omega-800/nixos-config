@@ -1,6 +1,8 @@
 { lib, ... }:
 with builtins;
 with lib; rec {
+  mapDir = mapFn: dir: mapFilterDir mapFn (n: v: true) dir;
+
   mapFilterDir = mapFn: filterFn: dir:
     mapAttrs'
       (n: v:

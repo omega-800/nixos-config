@@ -14,6 +14,14 @@ rec {
   inherit (dirsUtil) mapFilterDir;
   inherit (deployUtil) mapDeployments mapNodes mapProfiles;
 
+  CONFIGS = {
+    homeConfigurations = "home";
+    nixosConfigurations = "configuration";
+    nixOnDroidConfigurations = "droid";
+    #TODO: change
+    systemConfigs = "configuration";
+  };
+
   # looks like redundant shitty code? because it is. too tired to rewrite it. if somebody starts paying me for this i might  
 
   mkHost = path: attrs:
@@ -22,7 +30,7 @@ rec {
       inherit (cfg.sys) system;
       specialArgs = mkArgs cfg;
       modules = mkModules cfg path attrs
-        "configuration"; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+        CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 
   mkIso = path: attrs:
@@ -30,20 +38,25 @@ rec {
     in (getPkgsFlake cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
       specialArgs = mkArgs cfg;
-      modules = (mkModules cfg path attrs "configuration") ++ [
+      modules = (mkModules cfg path attrs CONFIGS.nixosConfigurations) ++ [
         ({ config, modulesPath, ... }: {
           imports =
             [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
-          config = { disko.enableConfig = false; };
+          config = {
+            disko.enableConfig = false;
+            services.btrfs.autoScrub.enable = false;
+          };
         })
       ]; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 
   mapHosts = dir: attrs:
     let inherit (inputs.nixpkgs-unstable.lib) mapAttrs' nameValuePair;
-    in (mapHostConfigs dir "configuration" (path: mkHost path attrs))
-      // (mapAttrs' (n: v: nameValuePair "${n}-iso" v)
-      (mapHostConfigs dir "configuration" (path: mkIso path attrs)));
+    in (mapHostConfigs dir CONFIGS.nixosConfigurations
+      (path: mkHost path attrs))
+    // (mapAttrs' (n: v: nameValuePair "${n}-iso" v)
+      (mapHostConfigs dir CONFIGS.nixosConfigurations
+        (path: mkIso path attrs)));
 
   mkHome = path: attrs:
     let
@@ -54,10 +67,11 @@ rec {
     (getHomeMgrFlake cfg.sys.stable).lib.homeManagerConfiguration {
       pkgs = mkPkgs cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
       extraSpecialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "home";
+      modules = mkModules cfg path attrs CONFIGS.homeConfigurations;
     };
 
-  mapHomes = dir: attrs: mapHostConfigs dir "home" (path: mkHome path attrs);
+  mapHomes = dir: attrs:
+    mapHostConfigs dir CONFIGS.homeConfigurations (path: mkHome path attrs);
 
   mkDroid = path: attrs:
     let
@@ -71,26 +85,30 @@ rec {
       inherit extraSpecialArgs;
     };
 
-  mapDroids = dir: attrs: mapHostConfigs dir "droid" (path: mkDroid path attrs);
+  mapDroids = dir: attrs:
+    mapHostConfigs dir CONFIGS.nixOnDroidConfigurations
+      (path: mkDroid path attrs);
 
   mkGeneric = path: attrs:
     let cfg = mkCfg path;
     in inputs.system-manager.lib.makeSystemConfig {
       #inherit (cfg.sys) system;
       #specialArgs = mkArgs cfg;
-      modules = mkModules cfg path attrs "configuration";
+      modules = mkModules cfg path attrs CONFIGS.systemConfigs;
     };
 
   mapGeneric = dir: attrs:
-    mapHostConfigs dir "configuration" (path: mkGeneric path attrs);
+    mapHostConfigs dir CONFIGS.systemConfigs (path: mkGeneric path attrs);
+
+  #TODO: rename
+  hasHostConfig = dir: type:
+    with inputs.nixpkgs-unstable.lib;
+    (n: v:
+      v == "directory" && !(hasPrefix "_" n)
+      && pathExists "${toString dir}/${n}/${type}.nix");
 
   mapHostConfigs = dir: type: fn:
-    with inputs.nixpkgs-unstable.lib;
-    mapFilterDir fn
-      (n: v:
-        v == "directory" && !(hasPrefix "_" n)
-        && pathExists "${toString dir}/${n}/${type}.nix")
-      dir;
+    mapFilterDir fn (hasHostConfig dir type) dir;
 
   mapAppsByArch = architectures: args:
     with inputs.nixpkgs-unstable.lib;

@@ -8,7 +8,7 @@ in {
       services = {
         btrfs = {
           autoScrub = {
-            enable = true;
+            enable = lib.mkDefault true;
             interval = "quarterly";
             #TODO: filesystem
           };

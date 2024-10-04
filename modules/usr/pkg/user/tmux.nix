@@ -92,10 +92,10 @@ in {
           set-option -g status-right "\
           #[fg="#${base02}", bg="#${base01}"]\
           #[fg="#${base08}", bg="#${base02}"] #h\
-          #[fg="#${base09}", bg="#${base02}"]  [E]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'e.*:.*state UP' -A 2 | awk '/inet /{printf $2}')\
-          #[fg="#${base0A}", bg="#${base02}"]  [W]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'wlp.*state UP' -A 2 | awk '/inet /{printf $2}')\
+          #[fg="#${base09}", bg="#${base02}"]  [E]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'e.*:.*state UP' -A 3 | awk '/inet /{printf $2}')\
+          #[fg="#${base0A}", bg="#${base02}"]  [W]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'wlp.*state UP' -A 3 | awk '/inet /{printf $2}')\
           #[fg="#${base0B}", bg="#${base02}"]  [I]#(curl ifconfig.me)\
-          #[fg="#${base0C}", bg="#${base02}"]  [V]#(ip a | grep -E 'wg0|ppp0|tun0' -A 2 | awk '/inet /{printf $2}' | grep '\.' || echo ''')\
+          #[fg="#${base0C}", bg="#${base02}"]  [V]#(ip a | grep -E 'wg0|ppp0|tun0' -A 3 | awk '/inet /{printf $2}' | grep '\.' || echo ''')\
           #[fg="#${base01}", bg="#${base02}"] \
           #[fg="#${base02}", bg="#${base01}"] \
           #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\

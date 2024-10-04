@@ -1,8 +1,9 @@
 { inputs, ... }:
 let
   inherit (import ./default.nix { inherit inputs; })
-    mapHostConfigs mkCfg mkPkgs;
+    mapHostConfigs mkCfg mkPkgs mkHost CONFIGS hasHostConfig;
   cfgUtil = import ../../my/cfg { inherit (inputs.nixpkgs-unstable) lib; };
+  inherit (inputs.nixpkgs-unstable) lib;
 in
 rec {
   mapDeployments = dir: attrs:
@@ -14,9 +15,18 @@ rec {
         (mkHost ./.${dir}/${orchestrator} { }).modules.config;
     in
     {
-      nodes = mapHostConfigs dir "configuration" (path: mkNode path attrs);
-      profilesOrder = [ "configuration" "droid" "home" ];
-    } // (mkDeployCfg orchestratorCfg orchestratorConfig "configuration");
+      nodes = lib.mapAttrs'
+        (n: v: lib.nameValuePair n (mkNode "${toString dir}/${n}" attrs))
+        (lib.filterAttrs (n: v: v == "directory" && !(lib.hasPrefix "_" n))
+          (builtins.readDir dir));
+      profilesOrder = [
+        CONFIGS.nixosConfigurations
+        CONFIGS.systemConfigs
+        CONFIGS.nixOnDroidConfigurations
+        CONFIGS.homeConfigurations
+      ];
+    } // (mkDeployCfg orchestratorCfg orchestratorConfig
+      CONFIGS.nixosConfigurations);
 
   mkNode = path: attrs:
     let
@@ -27,25 +37,14 @@ rec {
     {
       #TODO: domain
       inherit (cfg.sys) hostname;
-      #TODO: rewrite this as soon as brain decides to work again
-      profiles = {
-        configuration = {
-          path = defPkgs.deploy-rs.lib.activate.nixos
-            inputs.self.nixosConfigurations.${cfg.sys.hostname};
-        } // mapDeployCfg cfg { } "configuration";
-        home = {
-          path = defPkgs.deploy-rs.lib.activate.nixos
-            inputs.self.homeConfigurations.${cfg.sys.hostname};
-        } // mapDeployCfg cfg { } "home";
-        droid = {
-          path = defPkgs.deploy-rs.lib.activate.nixos
-            inputs.self.nixOnDroidConfigurations.${cfg.sys.hostname};
-        } // mapDeployCfg cfg { } "droid";
-        system = {
-          path = defPkgs.deploy-rs.lib.activate.nixos
-            inputs.self.systemConfigs.${cfg.sys.hostname};
-        } // mapDeployCfg cfg { } "system";
-      };
+      profiles = lib.mapAttrs'
+        (n: t:
+          lib.nameValuePair t ({
+            path = defPkgs.deploy-rs.lib.activate.nixos
+              inputs.self.${n}.${cfg.sys.hostname};
+          } // (mkDeployCfg cfg { } t)))
+        (lib.filterAttrs (n: t: builtins.pathExists "${path}/${t}.nix")
+          CONFIGS);
     };
 
   mapProfiles = attrs: attrs;
