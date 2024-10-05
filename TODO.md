@@ -49,3 +49,4 @@
   - [spectrum os](https://spectrum-os.org/doc/installation/getting-spectrum.html)
 - another one
   - [mobile nixos](https://github.com/mobile-nixos/mobile-nixos)
+- [testing](https://nix.dev/tutorials/nixos/integration-testing-using-virtual-machines.html)
