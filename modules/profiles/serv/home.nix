@@ -1,4 +1,4 @@
-{ lib, usr, ... }:
+{ globals, lib, usr, ... }:
 with lib; {
   imports = [ ];
   u = {
