@@ -14,18 +14,25 @@ in
       if cfg.enable then (with pkgs; [ deploy-rs.deploy-rs ]) else [ ];
 
     nix = {
+      # https://nixos.wiki/wiki/Distributed_build
       buildMachines = map
         (hostName:
           let
             configs = inputs.self.nixosConfigurations.${
             builtins.unsafeDiscardStringContext hostName
             }.config;
-            cfg = lib.my.cfg.filterCfgs (c: hostName == c.sys.hostname);
+            cfg = builtins.elemAt
+              (lib.my.cfg.filterCfgs (c: hostName == c.sys.hostname)) 0;
             ip =
-              let ifaces = configs.networking.interfaces;
-              in with builtins;
-              (elemAt ifaces.${elemAt (attrNames ifaces) 0}.ipv4.addresses
-                0).address;
+              let
+                ifaces = configs.networking.interfaces;
+                inherit (builtins) elemAt attrNames length;
+              in
+              if (length (attrNames ifaces) > 0) then
+                (elemAt ifaces.${elemAt (attrNames ifaces) 0}.ipv4.addresses
+                  0).address
+              else
+                null;
           in
           {
             hostName = if ip == null then configs.networking.fqdn else ip;

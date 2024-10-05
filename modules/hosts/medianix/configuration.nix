@@ -14,7 +14,7 @@
   };
 
   networking = {
-    hostId = "000000a";
+    hostId = "0000000a";
     defaultGateway = {
       address = "10.0.0.1";
       interface = "eth0";

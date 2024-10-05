@@ -2,7 +2,8 @@
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in {
+in
+{
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
@@ -50,14 +51,23 @@ in {
     # optimise.automatic = (!sys.isContainer);
   };
 
-  sops.secrets.user_init_pass = { neededForUsers = true; };
-  #broken :(
-  #users.mutableUsers = false;
-  users.users.${usr.username} = {
-    isNormalUser = true;
-    hashedPasswordFile = (config.sops.secrets.user_init_pass.path);
-    extraGroups = [ "wheel" "video" "audio" ]
-      ++ ifExist [ "podman" "adbusers" ];
+  #TODO: split sops secrets per-user
+  sops.secrets = {
+    "users/root".neededForUsers = true;
+    "users/${usr.username}".neededForUsers = true;
+  };
+  users = {
+    mutableUsers = false;
+    users = {
+      root.hashedPasswordFile =
+        config.sops.secrets."users/${usr.username}".path;
+      ${usr.username} = {
+        isNormalUser = true;
+        hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
+        extraGroups = [ "wheel" "video" "audio" ]
+          ++ ifExist [ "podman" "adbusers" ];
+      };
+    };
   };
 
   systemd.services = {

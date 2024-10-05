@@ -28,7 +28,7 @@
   in mkOption {
     type = types.nullOr (types.attrsOf poolOpts);
     default = null;
-    description = "extra pools";
+    description = "extra pools (will always persist)";
   };
   imports = [ ./zfs.nix ];
 }

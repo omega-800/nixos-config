@@ -1,1 +1,1 @@
-{ imports = [ ./boot.nix ./tmpfs.nix ]; }
+{ imports = [ ./boot.nix ./tmp.nix ]; }

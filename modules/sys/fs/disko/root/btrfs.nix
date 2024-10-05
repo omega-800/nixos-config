@@ -18,7 +18,7 @@ in {
                 type = "swap";
                 randomEncryption = true;
               };
-           };
+            };
             root = {
               size = "100%";
               label = "luks";
@@ -28,7 +28,7 @@ in {
                 name = "cryptroot";
                 extraOpenArgs =
                   [ "--perf-no_read_workqueue" "--perf-no_write_workqueue" ];
-                settings = { allowDiscards = true; };
+                settings.allowDiscards = true;
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-L" "nixos" "-f" ];
