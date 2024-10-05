@@ -5,7 +5,9 @@ in {
   options.m.dev.virt.enable = mkOption {
     description = "enables virtualization";
     type = types.bool;
-    default = config.m.dev.enable;
+    default = config.m.dev.enable
+      && (builtins.any (f: builtins.elem f [ "parent" "developer" ])
+      sys.flavors);
   };
 
   config = mkIf cfg.enable {

@@ -1,4 +1,4 @@
-{lib, ...}: {
+{ lib, sys, pkgs, ... }: {
   imports = [
     ./stylix.nix
     ./fonts.nix

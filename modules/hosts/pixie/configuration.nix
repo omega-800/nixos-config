@@ -24,6 +24,31 @@
     };
   };
 
+  networking = {
+    hostId = "ffffff00";
+    defaultGateway = {
+      address = "10.100.0.1";
+      interface = "eth0";
+    };
+    interfaces = {
+      eth0 = {
+        name = "eth0";
+        useDHCP = false;
+        wakeOnLan = {
+          enable = true;
+          policy = [ "magic" ];
+        };
+        ipv4 = {
+          addresses = [{
+            address = "10.100.0.10";
+            # address = "10.0.5.121";
+            prefixLength = 24;
+          }];
+        };
+      };
+    };
+  };
+
   hardware.enableRedistributableFirmware = true;
 
   system.stateVersion = "22.05";

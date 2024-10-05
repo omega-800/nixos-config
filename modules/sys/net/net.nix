@@ -23,6 +23,9 @@ in {
         extraHosts = ''
           127.0.0.1 local.sendy.inteco.ch
         '';
+        #TODO: make configurable
+        domain = lib.mkDefault "home.lan";
+        enableIPv6 = lib.mkDefault false;
         # Use networkd instead of the pile of shell scripts
         useNetworkd = true;
         useDHCP = false;

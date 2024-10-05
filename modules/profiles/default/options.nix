@@ -31,15 +31,25 @@ with lib; {
           type = types.enum profiles;
           default = "pers";
         }; # select a profile defined from my profiles directory
+      #TODO: implement
+      flavors = mkOption {
+        type = types.listOf (types.enum [
+          "builder"
+          "developer"
+          "master"
+          "slave"
+          "worker"
+          "storer"
+          "hoster"
+          "parent"
+          "child"
+        ]);
+        default = [ ];
+      };
       stable = mkOption {
         type = types.bool;
         default = config.c.sys.profile == "serv";
       };
-      main = mkOption {
-        type = types.bool;
-        #TODO: implement
-        default = config.c.sys.profile == "pers";
-      }; # main machine / "orchestrator"
       system = mkOption {
         type = types.str;
         default = "x86_64-linux";
@@ -83,7 +93,7 @@ with lib; {
       services = mkOption {
         type =
           let serviceTypes = listNixModuleNames ../../sys/srv;
-          in types.listOf serviceTypes;
+          in types.listOf (types.enum serviceTypes);
         default = [ ];
       };
       monitorMeDaddy = mkOption {

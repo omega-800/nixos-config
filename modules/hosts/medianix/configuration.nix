@@ -13,15 +13,31 @@
     os.boot.mode = "bios";
   };
 
-  networking.hostId = "5657ea3d";
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-  boot.kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
+  networking = {
+    hostId = "000000a";
+    defaultGateway = {
+      address = "10.0.0.1";
+      interface = "eth0";
+    };
+    interfaces = {
+      eth0 = {
+        name = "eth0";
+        useDHCP = false;
+        wakeOnLan = {
+          enable = true;
+          policy = [ "magic" ];
+        };
+        ipv4 = {
+          addresses = [{
+            address = "10.0.0.121";
+            # address = "10.0.5.121";
+            prefixLength = 24;
+          }];
+        };
+      };
+    };
+  };
 
-  boot.loader.grub.extraConfig = ''
-    serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
-    terminal_input serial
-    terminal_output serial
-  '';
   boot.kernelPackages =
     lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
   system.stateVersion = "24.05";

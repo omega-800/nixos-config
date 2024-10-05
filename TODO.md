@@ -10,6 +10,7 @@
 ## nixos
 
 - nix sops
+- [vault](https://github.com/serokell/vault-secrets)
 
 ## general
 

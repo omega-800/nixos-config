@@ -14,7 +14,11 @@ in {
   # imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [ ];
   imports = [ ./sysctl.nix ];
   config = (mkMerge [
-    ({ boot.kernel.sysctl."vm.swappiness" = cfg.swappiness; })
+    ({
+      boot = {
+        kernel.sysctl."vm.swappiness" = cfg.swappiness;
+      };
+    })
     (mkIf sys.hardened {
       boot = {
         blacklistedKernelModules = [
