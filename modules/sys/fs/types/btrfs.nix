@@ -5,6 +5,10 @@ let
 in {
   config =
     lib.mkIf (config.m.fs.disko.enable && (rootIsBtrfs || poolsAreBtrfs)) {
+      boot = {
+        supportedFilesystems.btrfs = true;
+        initrd.supportedFilesystems.btrfs = true;
+      };
       services = {
         btrfs = {
           autoScrub = {
