@@ -9,8 +9,8 @@ in
     type = types.bool;
     default = config.m.dev.enable && (builtins.elem "master" sys.flavors);
   };
-
-  config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ deploy-rs.deploy-rs ];
+  config = {
+    environment.systemPackages =
+      if cfg.enable then (with pkgs; [ deploy-rs.deploy-rs ]) else [ ];
   };
 }

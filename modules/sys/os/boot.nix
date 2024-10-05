@@ -25,6 +25,7 @@ in
         "mount path for efi boot partition: only used for uefi boot mode";
     };
   };
+
   config.boot = mkMerge [
     (mkIf (builtins.elem "child" sys.flavors) {
       kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
