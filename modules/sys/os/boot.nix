@@ -27,12 +27,7 @@ in
   };
   config.boot = mkMerge [
     (mkIf (builtins.elem "child" sys.flavors) {
-      kernelParams =
-        [
-          "quiet"
-          "console=tty0"
-          "console=ttyS0,115200"
-        ];
+      kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
       loader.grub.extraConfig = ''
         serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
         terminal_input serial
@@ -64,11 +59,11 @@ in
           zfsSupport =
             let d = config.m.fs.disko;
             in d.enable && lib.my.misc.poolsContainFs "zfs" d;
-          device = cfg.grubDevice; # does nothing if running uefi rather than bios
+          device =
+            cfg.grubDevice; # does nothing if running uefi rather than bios
           useOSProber = true;
         };
       };
     }
   ];
-};
 }

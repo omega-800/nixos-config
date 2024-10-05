@@ -14,7 +14,11 @@
   };
 
   networking = {
-    hostId = "5657ea3d";
+    hostId = "000000a";
+    defaultGateway = {
+      address = "10.0.0.1";
+      interface = "eth0";
+    };
     interfaces = {
       eth0 = {
         name = "eth0";
