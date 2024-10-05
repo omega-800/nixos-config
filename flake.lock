@@ -1207,11 +1207,11 @@
     "omega-dwm": {
       "flake": false,
       "locked": {
-        "lastModified": 1722029103,
-        "narHash": "sha256-qppANRGSseS1SNxucqLbwOcWGf24GhKRIkGvSC6/pls=",
+        "lastModified": 1728149520,
+        "narHash": "sha256-b2PKyqaWZjcQlbMJwUgijGseybrVYw3QM39KRi/VtRo=",
         "owner": "omega-800",
         "repo": "dwm",
-        "rev": "5a036dea3b6fa55ebcb610894f251be0f409a59c",
+        "rev": "694de9be2d2de4279a33efb2f75287da8c49b2e6",
         "type": "github"
       },
       "original": {

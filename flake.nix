@@ -39,8 +39,7 @@
         mapPkgsByArch mapDeployments;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in
-    {
+    in {
       #TODO: move paths somewhere else?
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
@@ -53,8 +52,7 @@
       apps = mapAppsByArch supportedSystems { };
       deploy = mapDeployments ./modules/hosts { };
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deploy-rs.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       # formatter
       # hydraJobs
     };
@@ -65,6 +63,7 @@
     #   url = "github:simplex-chat/simplex-chat";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
+    #TODO: nixpkgs.follows = correct-version
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -90,6 +89,10 @@
       inputs.home-manager.follows = "home-manager-unstable";
     };
 
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     nixgl.url = "github:nix-community/nixGL";
     deploy-rs = {
       url = "github:serokell/deploy-rs";
