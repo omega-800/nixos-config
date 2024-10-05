@@ -10,12 +10,11 @@ in {
           (builtins.filter (p: p.value.type == "zfs") (lib.attrsToList pools));
       in
       {
-        disk = builtins.listToAttrs (lib.flatten (map
+        disk = lib.my.attrs.flatMapToAttrs
           (p:
             lib.imap
               (i: device: {
-                name = "${p.name}${toString i}";
-                value = {
+                "${p.name}${toString i}" = {
                   inherit device;
                   type = "disk";
                   content = {
@@ -31,7 +30,7 @@ in {
                 };
               })
               p.value.devices)
-          zfsPools));
+          zfsPools;
         zpool = lib.mkMerge (map
           (p: {
             "${p.name}" = {

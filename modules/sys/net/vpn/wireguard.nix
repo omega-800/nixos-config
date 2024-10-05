@@ -70,11 +70,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs = my.attrs.mapListToAttrs
+    programs = my.attrs.flatMapToAttrs
       (i:
         map
           (sh: {
-            "${sh}".shellAliases = (lib.my.attrs.mapListToAttrs
+            "${sh}".shellAliases = (lib.my.attrs.flatMapToAttrs
               (action: [{
                 "wg-${i.name}-${action}" =
                   "sudo systemctl ${action} wg-quick-${i.name}.service";
@@ -90,7 +90,7 @@ in
         cfg.ifaces;
 
     # prevent autostarting
-    systemd.services = my.attrs.mapListToAttrs
+    systemd.services = my.attrs.flatMapToAttrs
       (i: [
         { "wireguard-${i.name}".wantedBy = mkForce [ ]; }
         { "wg-quick-${i.name}".wantedBy = mkForce [ ]; }

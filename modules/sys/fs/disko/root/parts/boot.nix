@@ -1,4 +1,6 @@
-{ config, lib, sys, ... }: {
+{ config, lib, sys, ... }:
+let mountOptions = [ "defaults" "nodev" "noexec" "umask=0077" "ro" ];
+in {
   config = lib.mkIf config.m.fs.disko.enable {
     disko.devices.disk.root.content = {
       type = "gpt";
@@ -10,6 +12,7 @@
             start = "0";
             size = "1M";
             type = "EF02";
+            content = { inherit mountOptions; };
           };
         } else {
           ESP = {
@@ -23,7 +26,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = config.m.os.boot.efiPath;
-              mountOptions = [ "umask=0077" ];
+              inherit mountOptions;
             };
           };
         };

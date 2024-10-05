@@ -1,1 +1,1 @@
-{ imports = [ ./boot.nix ./tmp.nix ]; }
+{ imports = [ ./boot.nix ./tmp.nix ./impermanence.nix ./swap.nix ]; }
