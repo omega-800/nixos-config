@@ -31,4 +31,5 @@
     description = "extra pools (will always persist)";
   };
   imports = [ ./zfs.nix ];
+  config.sops.secrets."hosts/default/disk" = { };
 }

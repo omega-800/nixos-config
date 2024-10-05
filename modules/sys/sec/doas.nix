@@ -23,9 +23,13 @@ in {
       };
     };
 
-    environment.systemPackages = if (cfg.enable && !cfg.sudo.enable) then
-      [ (pkgs.writeScriptBin "sudo" ''exec doas "$@"'') ]
-    else
+    environment.systemPackages = if (cfg.enable && !cfg.sudo.enable) then [
+      (pkgs.writeScriptBin "sudo" ''exec ${lib.getExe pkgs.doas} "$@"'')
+      (pkgs.writeScriptBin "sudoedit"
+        ''exec ${lib.getExe pkgs.doas} ${lib.getExe' pkgs.nano "rnano"} "$@"'')
+      (pkgs.writeScriptBin "doasedit"
+        ''exec ${lib.getExe pkgs.doas} ${lib.getExe' pkgs.nano "rnano"} "$@"'')
+    ] else
       [ ];
   };
 }

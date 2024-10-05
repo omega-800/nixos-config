@@ -43,24 +43,24 @@ in {
     };
   };
   config = mkIf cfg.enable {
-    disko.devices = {
-      # https://github.com/nix-community/impermanence?tab=readme-ov-file#tmpfs
-      # All data stored in tmpfs only resides in system memory, not on disk. This automatically takes care of cleaning up between boots, but also comes with some pretty significant drawbacks:
-      # Downloading big files or trying programs that generate large amounts of data can easily result in either an out-of-memory or disk-full scenario.
-      # If the system crashes or loses power before you’ve had a chance to move files you want to keep to persistent storage, they’re gone forever.
-      nodev."/" = {
-        fsType = "tmpfs";
-        mountOptions = [
-          "defaults"
-          "nodev"
-          "nosuid"
-          "noexec"
-          "relatime"
-          "size=2G"
-          "mode=755"
-        ];
-      };
-    };
+    # disko.devices = {
+    # https://github.com/nix-community/impermanence?tab=readme-ov-file#tmpfs
+    # All data stored in tmpfs only resides in system memory, not on disk. This automatically takes care of cleaning up between boots, but also comes with some pretty significant drawbacks:
+    # Downloading big files or trying programs that generate large amounts of data can easily result in either an out-of-memory or disk-full scenario.
+    # If the system crashes or loses power before you’ve had a chance to move files you want to keep to persistent storage, they’re gone forever.
+    #   nodev."/" = {
+    #     fsType = "tmpfs";
+    #     mountOptions = [
+    #       "defaults"
+    #       "nodev"
+    #       "nosuid"
+    #       "noexec"
+    #       "relatime"
+    #       "size=2G"
+    #       "mode=755"
+    #     ];
+    #   };
+    # };
     fileSystems = { "/var/log".neededForBoot = true; };
     environment.persistence."/nix/persist" = {
       enable = true;

@@ -28,48 +28,40 @@ in {
       };
       zpool.zroot = {
         type = "zpool";
-        mode = "";
         options.cachefile = "none";
-        rootFsOptions = {
-          compression = "zstd";
-          "com.sun:auto-snapshot" = "true";
-        };
+        # mode = "";
+        # rootFsOptions = {
+        #   compression = "zstd";
+        #   "com.sun:auto-snapshot" = "true";
+        # };
         # mountpoint = "/";
         postCreateHook =
           "zfs list -t snapshot -H -o name | grep -E '^zroot@blank$' || zfs snapshot zroot@blank";
-        datasets = lib.mkMerge [
-          (lib.mkIf (!cfg.root.impermanence.enable) {
-            root = {
-              type = "zfs_fs";
-              mountpoint = "/";
-            };
-          })
-          {
-            nix = {
-              type = "zfs_fs";
-              mountpoint = "/nix";
-            };
-            usr = {
-              type = "zfs_fs";
-              mountpoint = "/usr";
-            };
-            home = {
-              type = "zfs_fs";
-              mountpoint = "/home";
-              options."com.sun:auto-snapshot" = "true";
-            };
-            log = {
-              type = "zfs_fs";
-              mountpoint = "/var/log";
-              options."com.sun:auto-snapshot" = "true";
-            };
-            persist = {
-              type = "zfs_fs";
-              mountpoint = "/nix/persist";
-              options."com.sun:auto-snapshot" = "true";
-            };
-          }
-        ];
+        datasets = {
+          root = {
+            type = "zfs_fs";
+            mountpoint = "/";
+          };
+          nix = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+          };
+          home = {
+            type = "zfs_fs";
+            mountpoint = "/home";
+            options."com.sun:auto-snapshot" = "true";
+          };
+          log = {
+            type = "zfs_fs";
+            mountpoint = "/var/log";
+            options."com.sun:auto-snapshot" = "true";
+          };
+          persist = {
+            type = "zfs_fs";
+            mountpoint = "/nix/persist";
+            options."com.sun:auto-snapshot" = "true";
+          };
+        };
       };
     };
   };

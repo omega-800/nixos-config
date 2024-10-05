@@ -11,12 +11,12 @@ in {
     };
   };
   config = mkIf cfg.enable {
-    #TODO: implement? write my own? 
     security.apparmor = lib.mkIf sys.hardened {
       enable = true;
-      includes = { };
-      policies = { };
       killUnconfinedConfinables = true;
+      #TODO: implement? write my own? 
+      # includes = { };
+      # policies = { };
     };
   };
 }

@@ -1,5 +1,8 @@
 # TODO
 
+https://github.com/ibizaman/selfhostblocks
+https://github.com/cynicsketch/nix-mineral
+
 ## home-manager
 
 - nvim

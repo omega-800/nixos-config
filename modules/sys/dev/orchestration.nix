@@ -47,7 +47,7 @@ in
         (lib.my.cfg.filterHosts (c:
           (builtins.elem "builder" c.sys.flavors) && sys.hostname
           != c.sys.hostname));
-      extraOptions = "builders-user-substitutes = true";
+      extraOptions = "builders-use-substitutes = true";
       distributedBuilds = true;
     };
   };

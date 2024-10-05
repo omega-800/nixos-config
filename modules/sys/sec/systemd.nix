@@ -15,8 +15,11 @@ in
     # Given that our systems are headless, emergency mode is useless.
     # We prefer the system to attempt to continue booting so
     # that we can hopefully still access it remotely.
-    boot.initrd.systemd.suppressedUnits =
-      mkIf (sys.profile == "serv") [ "emergency.service" "emergency.target" ];
+    boot.initrd.systemd.suppressedUnits = mkIf
+      (sys.profile == "serv" && (builtins.elem "decapitated" sys.flavors)) [
+      "emergency.service"
+      "emergency.target"
+    ];
 
     services.journald = {
       forwardToSyslog = true;
@@ -28,7 +31,12 @@ in
     };
     # https://pastebin.com/fi6VBm2z
     systemd = mkMerge [
-      ({ coredump.enable = false; })
+      {
+        coredump = {
+          enable = false;
+          extraConfig = "Storage=none";
+        };
+      }
       (mkIf (sys.profile == "serv") {
         # Given that our systems are headless, emergency mode is useless.
         # We prefer the system to attempt to continue booting so
@@ -55,7 +63,28 @@ in
           AllowHibernation=no
         '';
       })
-      ({
+      (mkIf sys.hardened {
+        # Enable IPv6 privacy extensions for systemd-networkd.
+        network.config.networkConfig.IPv6PrivacyExtensions = "kernel";
+        tmpfiles.settings = {
+          # Restrict permissions of /home/$USER so that only the owner of the
+          # directory can access it (the user). systemd-tmpfiles also has the benefit
+          # of recursively setting permissions too, with the "Z" option as seen below.
+          "restricthome"."/home/*".Z.mode = "0700";
+
+          # Make all files in /etc/nixos owned by root, and only readable by root.
+          # /etc/nixos is not owned by root by default, and configuration files can
+          # on occasion end up also not owned by root. This can be hazardous as files
+          # that are included in the rebuild may be editable by unprivileged users,
+          # so this mitigates that.
+          "restrictetcnixos"."/etc/nixos/*".Z = {
+            mode = "0000";
+            user = "root";
+            group = "root";
+          };
+        };
+      })
+      (mkIf sys.paranoid {
         services =
           let
             SystemCallFilter = [
@@ -113,7 +142,7 @@ in
             };
             def = kernel // virtDef;
           in
-          mkIf sys.paranoid {
+          {
             #TODO: services.<name>.confinement.enable = true;
             systemd-rfkill.serviceConfig = {
               SystemCallArchitectures = "native";

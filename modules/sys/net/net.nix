@@ -9,7 +9,16 @@ in {
   };
   config = (mkMerge [
     (mkIf cfg.enable {
-      networking.networkmanager.enable = true;
+      networking.networkmanager = {
+        enable = true;
+        ethernet.macAddress = "random";
+        wifi = {
+          macAddress = "random";
+          scanRandMacAddress = true;
+        };
+        # Enable IPv6 privacy extensions in NetworkManager.
+        connectionConfig."ipv6.ip6-privacy" = l.mkDefault 2;
+      };
       users.users.${usr.username}.extraGroups = [ "networkmanager" ];
     })
     (mkIf (!usr.minimal) {
@@ -42,6 +51,10 @@ in {
         useDHCP = false;
         nameservers = [ "10.0.0.51" "1.1.1.1" "8.8.8.8" ];
       };
+
+      # DNS connections will fail if not using a DNS server supporting DNSSEC.
+      services.resolved = mkIf sys.hardened { dnssec = "true"; };
+
       # The notion of "online" is a broken concept
       # https://github.com/systemd/systemd/blob/e1b45a756f71deac8c1aa9a008bd0dab47f64777/NEWS#L13
       systemd = {

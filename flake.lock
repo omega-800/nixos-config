@@ -1320,11 +1320,11 @@
     "omega-dwm": {
       "flake": false,
       "locked": {
-        "lastModified": 1728149520,
-        "narHash": "sha256-b2PKyqaWZjcQlbMJwUgijGseybrVYw3QM39KRi/VtRo=",
+        "lastModified": 1728158217,
+        "narHash": "sha256-UfLuP4Nba8frNsf80Wyi2MnIiGQP6n21zZ16GsnhjYY=",
         "owner": "omega-800",
         "repo": "dwm",
-        "rev": "694de9be2d2de4279a33efb2f75287da8c49b2e6",
+        "rev": "cbc49d3e3a899aa679dbe32847694757fe63f6b0",
         "type": "github"
       },
       "original": {

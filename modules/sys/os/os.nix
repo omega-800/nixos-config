@@ -2,8 +2,7 @@
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
-{
+in {
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
@@ -59,8 +58,11 @@ in
   users = {
     mutableUsers = false;
     users = {
-      root.hashedPasswordFile =
-        config.sops.secrets."users/${usr.username}".path;
+      root = {
+        hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
+        # to lock root account
+        # hashedPasswordFile = "!";
+      };
       ${usr.username} = {
         isNormalUser = true;
         hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;

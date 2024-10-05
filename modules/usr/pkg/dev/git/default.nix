@@ -47,19 +47,33 @@ in {
         ps = "push";
         alias = "config --get-regexp ^alias";
       };
-      extraConfig = {
-        init.defaultBranch = "main";
-        credential = {
-          #credentialStore = "secretservice";
-          helper = "libsecret";
-          #helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
-          # helper = "${
-          #     pkgs.git.override { withLibsecret = true; }
-          #   }/bin/git-credential-libsecret";
-        };
-        push.autoSetupRemote = true;
-        safe.directory = "*";
-      };
+      extraConfig = mkMerge [
+        # https://github.com/Kicksecure/security-misc/blob/master/etc/gitconfig
+        (mkIf sys.hardened {
+          core.symlinks = false;
+          transfer.fsckobjects = true;
+          fetch.fsckobjects = true;
+          receive.fsckobjects = true;
+        })
+        (mkIf sys.paranoid {
+          commit.gpgsign = true;
+          merge.verifySignatures = true;
+        })
+        {
+
+          init.defaultBranch = "main";
+          credential = {
+            #credentialStore = "secretservice";
+            helper = "libsecret";
+            #helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
+            # helper = "${
+            #     pkgs.git.override { withLibsecret = true; }
+            #   }/bin/git-credential-libsecret";
+          };
+          push.autoSetupRemote = true;
+          safe.directory = "*";
+        }
+      ];
       diff-so-fancy = {
         enable = true;
         changeHunkIndicators = true;

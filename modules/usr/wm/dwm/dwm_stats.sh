@@ -32,6 +32,6 @@ while true; do
 	xsetroot -name "$(echo -ne "$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")| [S] $backlight% |$vls [${muted}] ${volume[0]}% $nrm|$bts [B] $batterySymbol$battery% $nrm| $time | $date " | xargs)"
 
 	counter=$((counter + 1))
-	[[ "$counter" -gt 6 ]] && counter=0 && ((battery < 30)) && [ "$batteryStats" = "Discharging" ] && dunstify -u critical "LOW BATTERY"
+	[[ "$counter" -gt 30 ]] && counter=0 && ((battery < 30)) && [ "$batteryStats" = "Discharging" ] && dunstify -u critical "LOW BATTERY"
 	sleep 10
 done

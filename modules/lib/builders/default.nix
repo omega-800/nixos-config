@@ -33,18 +33,37 @@ rec {
         CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 
+  #TODO: implement correctly
   mkIso = path: attrs:
     let cfg = mkCfg path;
     in (getPkgsFlake cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
       specialArgs = mkArgs cfg;
-      modules = (mkModules cfg path attrs CONFIGS.nixosConfigurations) ++ [
+      modules = [
+        (import "${path}/configuration.nix")
+        ../../sys/fs/disko/default.nix
         ({ config, modulesPath, ... }: {
-          imports =
-            [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+          imports = [
+            (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
+            inputs.disko.nixosModules.disko
+          ];
           config = {
+            nixpkgs.overlays =
+              mkOverlays cfg.sys.stable cfg.sys.system cfg.sys.genericLinux;
             disko.enableConfig = false;
             services.btrfs.autoScrub.enable = false;
+            sops.secrets."hosts/default/disk" = { };
+            environment.systemPackages =
+              let
+                # disko
+                disko = pkgs.writeShellScriptBin "disko"
+                  "${config.system.build.diskoScript}";
+                disko-mount = pkgs.writeShellScriptBin "disko-mount"
+                  "${config.system.build.mountScript}";
+                disko-format = pkgs.writeShellScriptBin "disko-format"
+                  "${config.system.build.formatScript}";
+              in
+              [ disko disko-mount disko-format pkgs.neovim ];
           };
         })
       ]; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
@@ -107,8 +126,7 @@ rec {
       v == "directory" && !(hasPrefix "_" n)
       && pathExists "${toString dir}/${n}/${type}.nix");
 
-  mapHostConfigs = dir: type: fn:
-    mapFilterDir fn (hasHostConfig dir type) dir;
+  mapHostConfigs = dir: type: fn: mapFilterDir fn (hasHostConfig dir type) dir;
 
   mapAppsByArch = architectures: args:
     with inputs.nixpkgs-unstable.lib;
