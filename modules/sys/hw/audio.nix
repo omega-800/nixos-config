@@ -44,6 +44,11 @@ in {
         wantedBy = [ "default.target" ];
         serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
       };
+
+      environment.persistence =
+        lib.mkIf config.m.fs.disko.root.impermanence.enable {
+          "/nix/persist".directories = [ "/var/lib/bluetooth" ];
+        };
     })
   ]);
 }

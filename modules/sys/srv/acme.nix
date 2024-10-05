@@ -1,5 +1,6 @@
-{ usr, config, ... }: {
+{ lib, usr, config, ... }: {
   sops.secrets = { "duckdns/token" = { }; };
+
   security.acme = {
     acceptTerms = true;
     defaults = {
@@ -22,4 +23,9 @@
       };
     };
   };
+
+  environment.persistence =
+    lib.mkIf config.m.fs.disko.root.impermanence.enable {
+      "/nix/persist".directories = [ "/var/lib/acme" ];
+    };
 }

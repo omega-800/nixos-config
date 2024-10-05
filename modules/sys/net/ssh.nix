@@ -22,5 +22,15 @@ in {
           #pubkeyAcceptedKeyTypes = hostKeyAlgorithms;
         }))
     ];
+    environment.persistence =
+      lib.mkIf config.m.fs.disko.root.impermanence.enable {
+        "/nix/persist".directories = [
+          "/etc/ssh/authorized_keys.d"
+          "/etc/ssh/ssh_host_rsa_key"
+          "/etc/ssh/ssh_host_rsa_key.pub"
+          "/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key.pub"
+        ];
+      };
   };
 }

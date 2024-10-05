@@ -11,8 +11,19 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages =
-      mkIf (usr.extraBloat) (with pkgs; [ distrobox ]);
+    environment = {
+      systemPackages = mkIf (usr.extraBloat) (with pkgs; [ distrobox ]);
+
+      persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+        "/nix/persist".directories = [
+          "/etc/NetworkManager/system-connections"
+          "/var/lib/NetworkManager/seen-bssids"
+          "/var/lib/NetworkManager/timestamps"
+          "/var/lib/NetworkManager/secret_key"
+        ];
+      };
+    };
+
     programs.virt-manager.enable = true;
     users.users.${usr.username}.extraGroups = [ "libvirt" "libvirtd" "kvm" ];
     virtualisation.libvirtd = {

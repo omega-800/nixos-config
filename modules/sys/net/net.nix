@@ -17,6 +17,17 @@ in {
       programs.mtr.enable = true;
     })
     {
+      environment.persistence =
+        lib.mkIf config.m.fs.disko.root.impermanence.enable {
+          "/nix/persist" = {
+            directories = [ "/etc/NetworkManager/system-connections" ];
+            files = [
+              "/var/lib/NetworkManager/seen-bssids"
+              "/var/lib/NetworkManager/timestamps"
+              "/var/lib/NetworkManager/secret_key"
+            ];
+          };
+        };
       networking = {
         wireless.enable = false;
         hostName = sys.hostname;

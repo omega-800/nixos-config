@@ -1,14 +1,25 @@
-{ config, inputs, usr, ... }: {
+{ lib, config, inputs, usr, ... }:
+let
+  keysDir = ".config/sops";
+  keysLocation = "${usr.homeDir}/${keysDir}/age/keys.txt";
+in
+{
   imports = [ inputs.sops-nix.nixosModules.sops ];
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile =
-      let location = "${usr.homeDir}/.config/sops/age/keys.txt";
-      in if config.m.fs.disko.root.impermanence.enable then
-        "/nix/persist${location}"
+      if config.m.fs.disko.root.impermanence.enable then
+        "/nix/persist${keysLocation}"
       else
-        location;
+        keysLocation;
   };
+  environment.persistence =
+    lib.mkIf config.m.fs.disko.root.impermanence.enable {
+      "/nix/persist".users."${usr.username}".directories = [{
+        directory = keysDir;
+        mode = "0700";
+      }];
+    };
 }

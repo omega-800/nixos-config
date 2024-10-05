@@ -17,10 +17,19 @@ in {
       autoPrune.enable = true;
     };
     users.users.${usr.username}.extraGroups = [ "docker" ];
-    environment.systemPackages = with pkgs; [
-      docker
-      docker-compose
-      # lazydocker
-    ];
+    environment = {
+      persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+        "/nix/persist".directories = [
+          # putting lxd here to not forget that it exists
+          "/var/lib/lxd"
+          "/var/lib/docker"
+        ];
+      };
+      systemPackages = with pkgs; [
+        docker
+        docker-compose
+        # lazydocker
+      ];
+    };
   };
 }
