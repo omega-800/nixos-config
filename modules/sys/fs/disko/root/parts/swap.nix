@@ -1,5 +1,6 @@
 { config, lib, sys, ... }: {
   disko.devices.disk.root.content = lib.mkIf config.m.fs.disko.enable {
+    type = "gpt";
     partitions.swap = {
       start = "-8GiB";
       end = "-0";

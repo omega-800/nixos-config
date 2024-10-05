@@ -47,7 +47,6 @@ in {
         # we can unmount /mnt and continue on the boot process.
         umount /mnt
       '';
-      systemd.tmpfiles.settings."mk-persistent-dirs" = { };
     };
     disko.devices.disk.root = {
       inherit (cfg.root) device;

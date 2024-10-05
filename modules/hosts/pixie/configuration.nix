@@ -4,6 +4,13 @@
     ./hardware-configuration.nix
   ];
   m = {
+    fs.disko = {
+      enable = true;
+      root = {
+        device = "/dev/mmcblk0";
+        impermanence.enable = true;
+      };
+    };
     hw.power.enable = false;
     os.boot.mode = "ext";
     sec = {
@@ -23,7 +30,6 @@
       vpn.wg.enable = false;
     };
   };
-
   networking = {
     hostId = "ffffff00";
     defaultGateway = {

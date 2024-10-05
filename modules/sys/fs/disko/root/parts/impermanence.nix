@@ -14,14 +14,14 @@ let
         in {
           "${dir}" =
             if where == "etc" then {
+              source = "/persist${dir}";
+            } else {
               d = {
                 group = "root";
                 mode = "0755";
                 user = "root";
               };
               L.argument = "/persist${dir}";
-            } else {
-              source = "/persist${dir}";
             };
         })
       items);
