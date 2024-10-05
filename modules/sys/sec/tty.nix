@@ -2,7 +2,8 @@
 let
   cfg = config.m.sec.tty;
   inherit (lib) mkOption types mkIf mkMerge;
-in {
+in
+{
   options.m.sec.tty = {
     enable = mkOption {
       description = "hardens tty";
@@ -15,7 +16,8 @@ in {
       ''
         TMOUT="$(( 60*10 ))";
         [ -z "$DISPLAY" ] && export TMOUT;
-        case $( /run-current-system/sw/bin/tty ) in
+
+        case $( /usr/bin/env tty ) in
         	/dev/tty[0-9]*) export TMOUT;;
         esac
       '';
