@@ -56,15 +56,18 @@ in {
     "users/${usr.username}".neededForUsers = true;
   };
   users = {
-    mutableUsers = false;
+    #FIXME: fml broke my pc again
+    # mutableUsers = false;
     users = {
+#FIXME: i fucked uuuup
       root = {
-        hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
+        # hashedPasswordFile = config.sops.secrets."users/root".path;
         # to lock root account
         # hashedPasswordFile = "!";
       };
       ${usr.username} = {
         isNormalUser = true;
+#FIXME: why doesn't this work??
         hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
         extraGroups = [ "wheel" "video" "audio" ]
           ++ ifExist [ "podman" "adbusers" ];

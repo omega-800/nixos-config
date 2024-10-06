@@ -11,7 +11,8 @@ in
       default = config.m.sec.enable && sys.hardened;
     };
   };
-  config = mkIf cfg.enable {
+  # TODO: modularize
+  config = mkIf (cfg.enable && sys.paranoid) {
     fileSystems = {
       #FIXME: separate partitions
       # https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/installation_guide/s2-diskpartrecommend-x86#idm140491990747664
@@ -22,7 +23,7 @@ in
       # /tmp              2
       # /swap             2
       "/home" = {
-        device = "/home";
+        device = lib.mkDefault "/home";
         options = [
           "bind"
           "nodev"
@@ -36,7 +37,7 @@ in
         ] ++ (if sys.paranoid then [ "noexec" ] else [ "exec" ]);
       };
       "/root" = {
-        device = "/root";
+        device = lib.mkDefault "/root";
         options = [ "bind" "nodev" "nosuid" "nouser" "noexec" ];
       };
       "/tmp" = {
@@ -56,7 +57,7 @@ in
         ] ++ (if sys.paranoid then [ "noexec" ] else [ "exec" ]);
       };
       "/var" = {
-        device = "/var";
+        device = lib.mkDefault "/var";
         options = [
           "defaults"
           "bind"
@@ -69,52 +70,80 @@ in
         ] ++ (if sys.paranoid then [ "noexec" ] else [ "exec" ]);
       };
       "/var/lib" = {
-        device = "/var/lib";
+        device = lib.mkDefault "/var/lib";
         options = [ "defaults" "bind" "nodev" "nosuid" "nouser" ]
           ++ (if sys.paranoid then [ "noexec" ] else [ "exec" ]);
       };
       "/boot" = {
-        device = "/boot";
+        device = lib.mkDefault "/boot";
         options = [ "defaults" "nodev" "nosuid" "noexec" "umask=0077" ]
           ++ (if sys.paranoid then [ "ro" ] else [ ]);
       };
       "/srv" = {
-        device = "/srv";
+        device = lib.mkDefault "/srv";
         options = [ "bind" "nodev" "noexec" "nosuid" "nouser" ];
       };
       "/etc" = {
-        device = "/etc";
+        device = lib.mkDefault "/etc";
         options = [ "defaults" "bind" "nodev" "nosuid" "nouser" ];
       };
       "/etc/nixos" = {
-        device = "/etc/nixos";
+        device = lib.mkDefault "/etc/nixos";
         options = [ "defaults" "bind" "nodev" "nosuid" "noexec" "nouser" ];
       };
 
-      "/".options = [ "defaults" "noexec" "mode=755" ];
-      "/usr".options = [ "defaults" "nodev" "errors=remount-ro" ];
-      "/usr/share".options = [ "defaults" "nodev" "ro" "nosuid" ];
-      "/swap".options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "sw" ];
-      "/nix".options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
-      "/nix/store".options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
-      "/var/log".options =
-        [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
-      "/var/log/audit".options =
-        [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
-      "/var/tmp".options = [
-        "defaults"
-        "nodev"
-        "noexec"
-        "nosuid"
-        "nouser"
-        "usrquota"
-        "grpqouta"
-        "rw"
-      ];
-      "/mnt/fd0".options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-      "/mnt/floppy".options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-      "/mnt/cdrom".options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-      "/mnt/tmp".options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+      "/" = {
+device = lib.mkDefault "/";
+options = [ "defaults" "noexec" "mode=755" ];
+};
+      "/usr" = {
+device = lib.mkDefault "/usr";
+options = [ "defaults" "nodev" "errors=remount-ro" ];
+};
+      "/usr/share" = {
+device = lib.mkDefault "/usr/share";
+options = [ "defaults" "nodev" "ro" "nosuid" ];
+};
+      "/swap" = {
+device = lib.mkDefault "/swap";
+options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "sw" ];
+};
+      "/nix" = {
+device = lib.mkDefault "/nix";
+options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
+};
+      "/nix/store" = {
+device = lib.mkDefault "/nix/store";
+options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
+};
+      "/var/log" = {
+device = lib.mkDefault "/var/log";
+options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
+};
+      "/var/log/audit" = {
+device = lib.mkDefault "/var/log/audit";
+options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
+};
+      "/var/tmp" = {
+device = lib.mkDefault "/var/tmp";
+options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "usrquota" "grpqouta" "rw" ];
+};
+      "/mnt/fd0" = {
+device = lib.mkDefault "/mnt/fd0";
+options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+};
+      "/mnt/floppy" = {
+device = lib.mkDefault "/mnt/floppy";
+options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+};
+      "/mnt/cdrom" = {
+device = lib.mkDefault "/mnt/cdrom";
+options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+};
+      "/mnt/tmp" = {
+device = lib.mkDefault "/mnt/tmp";
+options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+};
     };
     boot.specialFileSystems = {
       "/dev/shm" = {

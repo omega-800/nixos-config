@@ -31,7 +31,8 @@ let
     "sysv"
     "ufs"
   ];
-in {
+in
+{
   options.m.hw.kernel = {
     zen = mkEnableOption "enables zen kernel";
     swappiness = mkOption {
@@ -42,7 +43,6 @@ in {
   };
   # copied into this config
   # imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [ ];
-  imports = [ ./sysctl.nix ];
   config = (mkMerge [
     ({ boot = { kernel.sysctl."vm.swappiness" = cfg.swappiness; }; })
     (mkIf sys.hardened {
@@ -100,6 +100,7 @@ in {
           "usbkbd"
           "usbmouse"
         ];
+        #TODO: check https://github.com/Kicksecure/security-misc/tree/master/etc/default/grub.d
         kernelParams = [
           "ipv6.disable=1"
           "l1tf=full,force"

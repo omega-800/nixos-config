@@ -5,7 +5,7 @@
       "/nix/persist".files =
         [ "/etc/modprobe.d/nm-module-blacklist.conf" ];
     };
-    env."modprobe.d/nm-module-blacklist.conf".text = ''
+    etc."modprobe.d/nm-module-blacklist.conf".text = ''
       ## Copyright (C) 2012 - 2024 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
       ## See the file COPYING for copying conditions.
 
@@ -314,3 +314,4 @@
       install vivid /usr/bin/disabled-miscellaneous-by-security-misc
     '';
   };
+}

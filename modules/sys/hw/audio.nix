@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ sys, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.m.hw.audio;
 in {
@@ -31,10 +31,10 @@ in {
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
         enable = true;
-        powerOnBoot = !lib.paranoid;
+        powerOnBoot = !sys.paranoid;
         # enables showing battery charge of devices
         settings = lib.mkMerge [
-          { General.Experimental = !lib.paranoid; }
+          { General.Experimental = !sys.paranoid; }
           (lib.mkIf sys.hardened {
             General = {
               PairableTimeout = 30;

@@ -1,4 +1,16 @@
 {
   imports =
-    [ ./audio.nix ./kernel.nix ./opengl.nix ./power.nix ./io.nix ./swhkd.nix ];
+    [
+./audio.nix
+./cpu.nix
+./intel.nix
+./io.nix
+./kernel.nix
+./modules.nix
+./opengl.nix
+./power.nix
+./swhkd.nix
+./sysctl.nix
+];
+
 }

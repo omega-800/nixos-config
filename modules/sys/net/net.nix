@@ -17,7 +17,7 @@ in {
           scanRandMacAddress = true;
         };
         # Enable IPv6 privacy extensions in NetworkManager.
-        connectionConfig."ipv6.ip6-privacy" = l.mkDefault 2;
+        connectionConfig."ipv6.ip6-privacy" = lib.mkDefault 2;
       };
       users.users.${usr.username}.extraGroups = [ "networkmanager" ];
     })

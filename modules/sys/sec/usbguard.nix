@@ -7,7 +7,7 @@ in {
     enable = mkOption {
       description = "enables usbguard";
       type = types.bool;
-      default = config.m.sec.enable && sys.hardened (!sys.minimal);
+      default = config.m.sec.enable && sys.hardened && (!usr.minimal);
     };
   };
   config = mkIf cfg.enable {

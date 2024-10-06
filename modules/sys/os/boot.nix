@@ -26,18 +26,20 @@ in
     };
   };
 
-  config.boot = mkMerge [
+  config = mkMerge [
     (mkIf (builtins.elem "child" sys.flavors) {
-      kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
-      loader.grub.extraConfig = ''
-        serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
-        terminal_input serial
-        terminal_output serial
-      '';
+      boot = {
+        kernelParams = [ "quiet" "console=tty0" "console=ttyS0,115200" ];
+        loader.grub.extraConfig = ''
+          serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1
+          terminal_input serial
+          terminal_output serial
+        '';
+      };
     })
     {
       # Bootloader
-      loader = {
+      boot.loader = {
         #TODO: figure out how syslinux works
         # Enables the generation of /boot/extlinux/extlinux.conf
         generic-extlinux-compatible.enable = cfg.mode == "ext";
@@ -63,6 +65,10 @@ in
           device =
             cfg.grubDevice; # does nothing if running uefi rather than bios
           useOSProber = true;
+          users = mkIf sys.hardened {
+            root.hashedPasswordFile =
+              config.users.users.root.hashedPasswordFile;
+          };
         };
       };
     }
