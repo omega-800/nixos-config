@@ -4,6 +4,9 @@
       profile = "work";
       system = "x86_64-linux";
       genericLinux = true;
+      pubkeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF28oxG+EVTVwLKw3f+9+qnrY08wbJjnLqyBsOqKNt3O omega@archie-925"
+      ];
     };
     usr = {
       term = "kitty";

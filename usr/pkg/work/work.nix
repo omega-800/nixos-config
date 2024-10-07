@@ -6,7 +6,8 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      teamviewer
+      # teamviewer gui doesn't work
+      # teamviewer
       # nable?
       # rdm -> https://devolutions.net/remote-desktop-manager/home/download/
       subversionClient

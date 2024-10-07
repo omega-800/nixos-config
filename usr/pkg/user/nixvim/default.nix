@@ -13,7 +13,7 @@ in
       default = config.u.user.enable && !usr.minimal;
     };
     langSupport = mkOption {
-      type = types.listOf types.enum [
+      type = types.listOf (types.enum [
         # includes ts, vue, json and node
         "js"
         # includes bash
@@ -39,7 +39,7 @@ in
         "gql"
         "docker"
         "lua"
-      ];
+      ]);
       default = [ "sh" "md" "nix" ];
     };
   };

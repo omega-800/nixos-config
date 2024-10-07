@@ -23,9 +23,25 @@ with lib; {
           "${XDG_DOCUMENTS_DIR}/pers"
         ];
       };
+      nixvim = {
+        enable = true;
+        langSupport = [
+          "js"
+          "sh"
+          "css"
+          "yaml"
+          "html"
+          "python"
+          "sql"
+          "java"
+          "md"
+          "nix"
+          "gql"
+          "docker"
+        ];
+      };
     };
     utils.enable = mkDefault true;
-    dirs.extraDirs = ["${globals.envVars.WORKSPACE_DIR}/work/travel"];
 
     # no fun only work
     media.enable = mkDefault true;

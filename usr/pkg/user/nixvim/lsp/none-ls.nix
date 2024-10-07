@@ -1,4 +1,4 @@
-{ lib, sys, usr, ... }:
+{ lib, sys, usr, config, ... }:
 with lib;
 with builtins;
 let langs = config.u.user.nixvim.langSupport;

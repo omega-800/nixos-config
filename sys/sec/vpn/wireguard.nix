@@ -3,6 +3,19 @@ with lib;
 let
   cfg = config.m.vpn.wg;
   ifaces = [
+    /* {
+         name = "pfsense-ext";
+         port = 50100;
+         ips = [ "172.16.16.${ipcfg}/24" ];
+         host = "omega-800.duckdns.org";
+         peer = {
+           publicKey = "${pubkeycfg}";
+           allowedIPs =
+             [ "172.16.16.0/24" "10.0.0.0/24" "10.0.1.0/24" "0.0.0.0/0" ];
+           # persistentKeepalive = 25;
+         };
+       }
+    */
     {
       name = "pfsense";
       port = 51820;

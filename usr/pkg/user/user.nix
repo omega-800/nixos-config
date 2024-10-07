@@ -8,6 +8,8 @@ in {
     home.packages = with pkgs;
       [
         #starship
+        # zbarimg -q --raw qrcode.png | pass otp insert totp-secret
+        zbar
       ] ++ (if !usr.minimal then [ tree-sitter feh ] else [ ])
       ++ (if usr.extraBloat then [
         fortune

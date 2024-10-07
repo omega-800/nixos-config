@@ -88,6 +88,7 @@ in {
       dir = "dir --color=auto";
       vdir = "vdir --color=auto";
       dbr = "docker run --rm -it $(docker build -q .)";
+      svn = "svn --username gs2 --password $(pass work/svn)";
       # nyehhehheh
       nano = "vim";
     }
