@@ -6,7 +6,8 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      teamviewer
+      # teamviewer gui doesn't work
+      # teamviewer
       # nable?
       # rdm -> https://devolutions.net/remote-desktop-manager/home/download/
       subversionClient
@@ -19,7 +20,7 @@ in {
       inkscape
       google-chrome
       keepass
-      freerdp # remote-desktop
+      remmina # freerdp # remote-desktop
       # veeam -> https://www.veeam.com/de/linux-backup-free.html
       bottles # if i really HAVE to emulate windows
       slides
