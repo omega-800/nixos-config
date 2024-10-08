@@ -2,8 +2,7 @@
 let
   cfg = config.m.sec.fs;
   inherit (lib) mkOption types mkIf mkMerge;
-in
-{
+in {
   options.m.sec.fs = {
     enable = mkOption {
       description = "hardens filesystem";
@@ -93,57 +92,66 @@ in
       };
 
       "/" = {
-device = lib.mkDefault "/";
-options = [ "defaults" "noexec" "mode=755" ];
-};
+        device = lib.mkDefault "/";
+        options = [ "defaults" "noexec" "mode=755" ];
+      };
       "/usr" = {
-device = lib.mkDefault "/usr";
-options = [ "defaults" "nodev" "errors=remount-ro" ];
-};
+        device = lib.mkDefault "/usr";
+        options = [ "defaults" "nodev" "errors=remount-ro" ];
+      };
       "/usr/share" = {
-device = lib.mkDefault "/usr/share";
-options = [ "defaults" "nodev" "ro" "nosuid" ];
-};
+        device = lib.mkDefault "/usr/share";
+        options = [ "defaults" "nodev" "ro" "nosuid" ];
+      };
       "/swap" = {
-device = lib.mkDefault "/swap";
-options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "sw" ];
-};
+        device = lib.mkDefault "/swap";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "sw" ];
+      };
       "/nix" = {
-device = lib.mkDefault "/nix";
-options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
-};
+        device = lib.mkDefault "/nix";
+        options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
+      };
       "/nix/store" = {
-device = lib.mkDefault "/nix/store";
-options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
-};
+        device = lib.mkDefault "/nix/store";
+        options = [ "defaults" "nodev" "nosuid" "nouser" "noatime" ];
+      };
       "/var/log" = {
-device = lib.mkDefault "/var/log";
-options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
-};
+        device = lib.mkDefault "/var/log";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
+      };
       "/var/log/audit" = {
-device = lib.mkDefault "/var/log/audit";
-options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
-};
+        device = lib.mkDefault "/var/log/audit";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "rw" ];
+      };
       "/var/tmp" = {
-device = lib.mkDefault "/var/tmp";
-options = [ "defaults" "nodev" "noexec" "nosuid" "nouser" "usrquota" "grpqouta" "rw" ];
-};
+        device = lib.mkDefault "/var/tmp";
+        options = [
+          "defaults"
+          "nodev"
+          "noexec"
+          "nosuid"
+          "nouser"
+          "usrquota"
+          "grpqouta"
+          "rw"
+        ];
+      };
       "/mnt/fd0" = {
-device = lib.mkDefault "/mnt/fd0";
-options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-};
+        device = lib.mkDefault "/mnt/fd0";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+      };
       "/mnt/floppy" = {
-device = lib.mkDefault "/mnt/floppy";
-options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-};
+        device = lib.mkDefault "/mnt/floppy";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+      };
       "/mnt/cdrom" = {
-device = lib.mkDefault "/mnt/cdrom";
-options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-};
+        device = lib.mkDefault "/mnt/cdrom";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+      };
       "/mnt/tmp" = {
-device = lib.mkDefault "/mnt/tmp";
-options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
-};
+        device = lib.mkDefault "/mnt/tmp";
+        options = [ "defaults" "nodev" "noexec" "nosuid" "ro" ];
+      };
     };
     boot.specialFileSystems = {
       "/dev/shm" = {

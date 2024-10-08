@@ -7,7 +7,7 @@
     inputs.nixos-hardware.nixosModules.hp-elitebook-830g6
   ];
 #FIXME: breaks my insecurities
-m.sec.enable = lib.mkForce false;
+  #m.sec.enable = lib.mkForce false;
   nixpkgs.config = {
     allowUnfreePredicate = _: true;
     allowUnfree = true;

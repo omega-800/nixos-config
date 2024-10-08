@@ -4,6 +4,7 @@ let
   poolsAreZfs = lib.my.misc.poolsContainFs "zfs" config.m.fs.disko;
 in
 {
+  #TODO: mkEnableOption
   config = lib.mkIf (config.m.fs.disko.enable && (rootIsZfs || poolsAreZfs)) {
     boot = {
       supportedFilesystems.zfs = true;

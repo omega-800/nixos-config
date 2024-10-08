@@ -1,18 +1,15 @@
 { lib, config, pkgs, usr, sys, ... }:
-with lib;
-let cfg = config.m.dev.mysql;
+let
+  cfg = config.m.dev.mysql;
+  inherit (lib) mkEnableOption types mkIf;
 in {
-  options.m.dev.mysql.enable = mkOption {
-    description = "enables mysql";
-    type = types.bool;
-    default = config.m.dev.enable;
-  };
+  options.m.dev.mysql.enable = mkEnableOption "enables mysql";
 
   config = mkIf cfg.enable {
     services.mysql = {
       enable = true;
       package = pkgs.mariadb;
-      initialScript = mkIf (!sys.hardened)
+      initialScript = mkIf (sys.paranoia == 0)
         (pkgs.writeShellScript "mysql-setup" ''
           CREATE USER '${usr.username}'@'localhost';
           GRANT ALL PRIVILEGES ON *.* TO '${usr.username}'@'localhost';

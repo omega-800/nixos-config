@@ -1,10 +1,12 @@
-{ inputs, lib, config, pkgs, usr, ... }:
-with lib;
-let cfg = config.m.dev.tools;
+{ inputs, lib, config, pkgs, ... }:
+let
+  cfg = config.m.dev.tools;
+  inherit (lib) mkOption mkEnableOption mkMerge mkIf type;
 in {
   options.m.dev.tools = {
     enable = mkEnableOption "enables devtools";
     disable = mkEnableOption "disables devtools completely";
+    zen-browser.enable = mkEnableOption "enables zen-browser";
   };
 
   config = mkMerge [
@@ -23,10 +25,10 @@ in {
           includeAllModules = true;
         };
       };
-      environment.systemPackages = if usr.extraBloat then
-        [ inputs.zen-browser.packages."${pkgs.system}".default ]
-      else
-        [ ];
+    })
+    (mkIf cfg.zen-browser.enable {
+      environment.systemPackages =
+        [ inputs.zen-browser.packages."${pkgs.system}".default ];
     })
     (mkIf cfg.disable {
       documentation = {

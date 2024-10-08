@@ -832,6 +832,26 @@
         "type": "github"
       }
     },
+    "lonsdaleite": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1728325896,
+        "narHash": "sha256-/ouv9ynQR8/p36LAWUpgSJgHrQceaWE94hZU0qBVUcA=",
+        "owner": "omega-800",
+        "repo": "lonsdaleite",
+        "rev": "28ffa79d487979a4427aee3b501740928921c515",
+        "type": "github"
+      },
+      "original": {
+        "owner": "omega-800",
+        "repo": "lonsdaleite",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -1398,6 +1418,7 @@
         "home-manager-stable": "home-manager-stable",
         "home-manager-unstable": "home-manager-unstable",
         "impermanence": "impermanence",
+        "lonsdaleite": "lonsdaleite",
         "nix-on-droid": "nix-on-droid",
         "nixgl": "nixgl",
         "nixos-hardware": "nixos-hardware",

@@ -1,13 +1,12 @@
-{ sys, lib, config, pkgs, modulesPath, ... }:
-with lib;
+{ sys, lib, config, pkgs, ... }:
 let
   cfg = config.m.hw.kernel;
+  inherit (lib) mkEnableOption mkOption types mkIf mkMerge mkDefault;
   blacklistedKernelModules = [
     # Obscure network protocols
     "ax25"
     "netrom"
     "rose"
-
     # Old or rare or insufficiently audited filesystems
     "adfs"
     "affs"
@@ -24,30 +23,32 @@ let
     "jfs"
     "minix"
     "nilfs2"
-    "ntfs"
     "omfs"
     "qnx4"
     "qnx6"
     "sysv"
     "ufs"
-  ];
-in
-{
+  ] ++ (if sys.paranoia == 0 then [ ] else [ "ntfs" ]);
+in {
+  # copied into this config
+  # imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [ ];
   options.m.hw.kernel = {
-    zen = mkEnableOption "enables zen kernel";
+    zen = mkEnableOption
+      "enables zen kernel. harden.enable overrides this option to false";
+    hardened = { enable = mkEnableOption "hardens kernel"; };
     swappiness = mkOption {
       type = types.number;
-      default = if sys.paranoid then 1 else 60;
+      default = 61 - (sys.paranoia * 20);
       description = "swappiness";
     };
   };
-  # copied into this config
-  # imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [ ];
   config = (mkMerge [
-    ({ boot = { kernel.sysctl."vm.swappiness" = cfg.swappiness; }; })
-    (mkIf sys.hardened {
+    { boot.kernel.sysctl."vm.swappiness" = cfg.swappiness; }
+    (mkIf (cfg.hardened.enable) {
+      boot = { inherit blacklistedKernelModules; };
+    })
+    (mkIf cfg.hardened.enable {
       boot = {
-        inherit blacklistedKernelModules;
         kernelParams = [
           #"lockdown=off"
           "lockdown=integrity"
@@ -69,7 +70,7 @@ in
         ];
       };
     })
-    (mkIf sys.paranoid {
+    (mkIf cfg.hardened.enable {
       security = {
         lockKernelModules = true;
         protectKernelImage = true;
@@ -170,7 +171,7 @@ in
         loader.systemd-boot.editor = false;
       };
     })
-    (mkIf (cfg.zen && (!sys.paranoid)) {
+    (mkIf (cfg.zen && (!sys.harden)) {
       boot = {
         kernelPackages = mkDefault pkgs.linuxPackages_zen;
         consoleLogLevel = 0;

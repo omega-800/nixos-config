@@ -1,18 +1,14 @@
 { sys, lib, config, pkgs, ... }:
 let
   cfg = config.m.hw.intel;
-  inherit (lib) mkOption types mkIf;
+  inherit (lib) mkEnableOption mkIf;
 in {
-  options.m.hw.intel = {
-    disable = mkOption {
-      type = types.bool;
-      default = sys.hardened && (sys.system != "x86_64-linux");
-      description = "disables intel kernel modules";
-    };
-  };
+  options.m.hw.intel.disable = mkEnableOption "disables intel kernel modules";
+  #default = sys.hardened && (sys.system != "x86_64-linux");
+
   config = mkIf cfg.disable {
     environment = {
-      persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+      persistence = mkIf config.m.fs.disko.root.impermanence.enable {
         "/nix/persist".files =
           [ "/etc/modprobe.d/nm-disable-intelme-kmodules.conf" ];
       };

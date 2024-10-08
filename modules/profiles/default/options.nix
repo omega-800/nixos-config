@@ -3,8 +3,7 @@ let
   # kind of a hacky workaround but if it works then it works
   inherit (import ../../lib/my/dirs.nix { inherit lib; })
     listNixModuleNames listFilterDirs;
-in
-with lib; {
+in with lib; {
   options.c = {
     sys = {
       pubkeys = mkOption {
@@ -25,9 +24,8 @@ with lib; {
         let
           profiles =
             listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
-              ../.;
-        in
-        mkOption {
+            ../.;
+        in mkOption {
           type = types.enum profiles;
           default = "pers";
         }; # select a profile defined from my profiles directory
@@ -90,10 +88,13 @@ with lib; {
         type = types.bool;
         default = false;
       };
+      paranoia = mkOption {
+        type = types.enum [ 0 1 2 3 ];
+        default = 0;
+      };
       services = mkOption {
-        type =
-          let serviceTypes = listNixModuleNames ../../sys/srv;
-          in types.listOf (types.enum serviceTypes);
+        type = let serviceTypes = listNixModuleNames ../../sys/srv;
+        in types.listOf (types.enum serviceTypes);
         default = [ ];
       };
       monitorMeDaddy = mkOption {
@@ -150,14 +151,13 @@ with lib; {
       # window manager type (hyprland or x11) translator
       wmType = mkOption {
         type = types.str;
-        default =
-          if config.c.usr.minimal then
-            "none"
-          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
-            == "sway") then
-            "wayland"
-          else
-            "x11";
+        default = if config.c.usr.minimal then
+          "none"
+        else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
+          == "sway") then
+          "wayland"
+        else
+          "x11";
       };
       term = mkOption {
         type = types.enum [ "alacritty" "kitty" "st" ];

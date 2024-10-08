@@ -1,19 +1,17 @@
 { lib, config, ... }:
-with lib;
-let cfg = config.m.hw.io;
+let
+  cfg = config.m.hw.io;
+  inherit (lib) mkIf mkEnableOption;
 in {
   options.m.hw.io = {
     enable = mkEnableOption "enables input";
     touchpad.enable = mkEnableOption "enables touchpad";
-    swapCaps.enable = mkOption {
-      description = "swaps capslock with backspace";
-      type = types.bool;
-      default = true;
-    };
+    swapCaps.disable = mkEnableOption
+      "doesn't swap capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = {
     services = mkIf cfg.enable {
-      keyd = mkIf cfg.swapCaps.enable {
+      keyd = mkIf (!cfg.swapCaps.disable) {
         enable = true;
         keyboards.default = {
           ids = [ "*" ];
@@ -24,7 +22,8 @@ in {
         };
       };
       libinput = {
-        enable = true;
+        # only enable if config.services.xserver.enable
+        # enable = true;
         touchpad = mkIf cfg.touchpad.enable {
           tapping = true;
           middleEmulation = true;

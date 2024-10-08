@@ -39,7 +39,8 @@
         mapPkgsByArch mapDeployments;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in {
+    in
+    {
       #TODO: move paths somewhere else?
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
@@ -52,7 +53,8 @@
       apps = mapAppsByArch supportedSystems { };
       deploy = mapDeployments ./modules/hosts { };
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy)
+        deploy-rs.lib;
       # formatter
       # hydraJobs
     };
@@ -129,6 +131,10 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    lonsdaleite = {
+      url = "github:omega-800/lonsdaleite";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     omega-dwm = {

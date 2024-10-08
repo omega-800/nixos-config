@@ -1,6 +1,7 @@
 { sys, lib, config, pkgs, ... }:
-with lib;
-let cfg = config.m.hw.audio;
+let
+  cfg = config.m.hw.audio;
+  inherit (lib) mkEnableOption mkIf mkMerge;
 in {
   options.m.hw.audio = {
     enable = mkEnableOption "enables audio";
@@ -9,7 +10,7 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    ({
+    {
       # Enable sound.
       # sound.enable = true;
       hardware.pulseaudio.enable = !cfg.pipewire;
@@ -18,7 +19,7 @@ in {
 
       # rtkit is optional but recommended
       security.rtkit.enable = cfg.pipewire;
-      services.pipewire = (if cfg.pipewire then {
+      services.pipewire = if cfg.pipewire then {
         enable = true;
         alsa.enable = true;
         alsa.support32Bit = true;
@@ -26,8 +27,8 @@ in {
         jack.enable = true;
       } else {
         enable = false;
-      });
-    })
+      };
+    }
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
         enable = true;

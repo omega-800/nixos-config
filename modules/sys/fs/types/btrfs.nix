@@ -3,6 +3,7 @@ let
   rootIsBtrfs = config.m.fs.disko.root.type == "btrfs";
   poolsAreBtrfs = lib.my.misc.poolsContainFs "btrfs" config.m.fs.disko;
 in {
+  #TODO: mkEnableOption
   config =
     lib.mkIf (config.m.fs.disko.enable && (rootIsBtrfs || poolsAreBtrfs)) {
       boot = {

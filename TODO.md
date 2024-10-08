@@ -40,6 +40,45 @@ https://github.com/cynicsketch/nix-mineral
 - refactor lib/my
 - remove all with;'s
 
+- paranoia
+  - network
+    - ipv{4,6}
+    - ssh{,d}
+    - kerberos
+    - fail2ban
+    - time
+    - dns
+    - firewall
+    - mac
+  - sw
+    - gpg
+    - apparmor
+    - sops
+    - doas
+    - firejail
+    - antivirus
+    - systemd
+    - wrappers
+    - isolate
+    - pam
+    - virt
+  - fs
+    - permissions
+    - usbguard
+    - impermanence
+  - os
+    - memory
+    - randomness
+    - tty
+    - audit
+    - pam
+  - hw
+    - audio
+    - printing
+    - bluetooth
+    - modules
+    - sysctl
+
 ### profiles
 
 - devcontainer??

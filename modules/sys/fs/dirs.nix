@@ -1,37 +1,38 @@
 { config, lib, ... }:
-with lib;
-let cfg = config.m.fs.dirs;
+let
+  cfg = config.m.fs.dirs;
+  inherit (lib) mkEnableOption mkOption mkIf mkMerge;
+  inherit (lib.types) listOf submodule str nullOr;
 in {
   options.m.fs.dirs = {
     enable = mkEnableOption "enables creation of directories";
-    extraDirs = with types;
-      mkOption {
-        type = listOf (submodule {
-          options = {
-            path = mkOption {
-              type = str;
-              description = "path";
-            };
-            group = mkOption {
-              type = nullOr str;
-              default = "root";
-              description = "group";
-            };
-            mode = mkOption {
-              type = nullOr str;
-              default = "0640";
-              description = "mode";
-            };
-            user = mkOption {
-              type = nullOr str;
-              default = "root";
-              description = "user";
-            };
+    extraDirs = mkOption {
+      type = listOf (submodule {
+        options = {
+          path = mkOption {
+            type = str;
+            description = "path";
           };
-        });
-        default = [ ];
-        description = "extra dirs to be created";
-      };
+          group = mkOption {
+            type = nullOr str;
+            default = "root";
+            description = "group";
+          };
+          mode = mkOption {
+            type = nullOr str;
+            default = "0640";
+            description = "mode";
+          };
+          user = mkOption {
+            type = nullOr str;
+            default = "root";
+            description = "user";
+          };
+        };
+      });
+      default = [ ];
+      description = "extra dirs to be created";
+    };
   };
 
   config = mkIf cfg.enable {
