@@ -3,7 +3,8 @@ let
   # kind of a hacky workaround but if it works then it works
   inherit (import ../../lib/my/dirs.nix { inherit lib; })
     listNixModuleNames listFilterDirs;
-in with lib; {
+  inherit (lib) mkOption types;
+in {
   options.c = {
     sys = {
       pubkeys = mkOption {
@@ -20,15 +21,14 @@ in with lib; {
         type = types.str;
         default = "nixie";
       }; # will be set to the dirname of the host configs
-      profile = with builtins;
-        let
-          profiles =
-            listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
-            ../.;
-        in mkOption {
-          type = types.enum profiles;
-          default = "pers";
-        }; # select a profile defined from my profiles directory
+      profile = let
+        profiles =
+          listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
+          ../.;
+      in mkOption {
+        type = types.enum profiles;
+        default = "pers";
+      }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
         type = types.listOf (types.enum [

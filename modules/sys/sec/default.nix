@@ -1,27 +1,10 @@
 { lib, inputs, ... }: {
   # testing 
   imports = [
-    inputs.lonsdaleite.nixosModules.lonsdaleite
-    ./antivirus.nix
-    ./apparmor.nix
-    ./audit.nix
-    ./doas.nix
-    ./fail2ban.nix
-    ./firejail.nix
-    ./fs.nix
-    ./gpg.nix
-    ./isolate.nix
-    ./kerberos.nix
-    ./memory.nix
-    ./pam.nix
-    ./random.nix
+    # TODO: add as soon as it's finished
+    # inputs.lonsdaleite.nixosModules.lonsdaleite 
     ./sops.nix
-    ./systemd.nix
-    ./tty.nix
-    ./usbguard.nix
-    ./wrappers.nix
   ];
 
-  options.m.sec.enable = lib.mkEnableOption "enables security features";
-  config.lonsdaleite.enable = true;
+  #  config.lonsdaleite.enable = false;
 }

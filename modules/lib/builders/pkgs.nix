@@ -1,7 +1,6 @@
 { inputs, ... }: rec {
   mkOverlays = isStable: system: isGenericLinux:
     [
-      inputs.lonsdaleite.overlays.lonsdaleite
       inputs.deploy-rs.overlay
       (self: super: {
         deploy-rs = {

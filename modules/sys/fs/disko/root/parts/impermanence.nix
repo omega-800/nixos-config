@@ -61,7 +61,10 @@ in {
     #     ];
     #   };
     # };
-    fileSystems = { "/var/log".neededForBoot = true; };
+    fileSystems = {
+      "/var/log".neededForBoot = true;
+      "/nix/persist".neededForBoot = true;
+    };
     environment.persistence."/nix/persist" = {
       enable = true;
       hideMounts = true;

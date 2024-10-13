@@ -3,11 +3,7 @@ with lib; {
   imports = [ ../../sys/wm ];
   m = {
     net = {
-      enable = true;
-      ssh.enable = mkDefault true;
-      sshd.enable = mkDefault true;
       wifi.enable = mkDefault true;
-      firewall.enable = mkDefault true;
       vpn = {
         forti.enable = mkDefault true;
         wg.enable = mkDefault true;
@@ -17,15 +13,8 @@ with lib; {
       };
     };
     fs = {
-      enable = true;
       dirs.enable = true;
       automount.enable = mkDefault true;
-    };
-    sec = {
-      enable = mkDefault true;
-      clamav.enable = mkDefault false;
-      firejail.enable = mkDefault true;
-      gpg.enable = mkDefault true;
     };
     hw = {
       audio = {
@@ -36,7 +25,6 @@ with lib; {
       io = {
         enable = mkDefault true;
         touchpad.enable = mkDefault true;
-        swapCaps.enable = mkDefault true;
       };
       openGL.enable = mkDefault true;
       kernel.zen = mkDefault true;
@@ -47,7 +35,6 @@ with lib; {
       };
     };
     dev = {
-      enable = mkDefault true;
       docker.enable = mkDefault true;
       virt.enable = mkDefault true;
       tools.enable = mkDefault true;

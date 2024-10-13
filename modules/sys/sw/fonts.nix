@@ -1,14 +1,9 @@
 { lib, config, pkgs, sys, usr, ... }:
-with lib;
-let cfg = config.m.sw.fonts;
+let
+  cfg = config.m.sw.fonts;
+  inherit (lib) mkEnableOption mkIf mkMerge;
 in {
-  options.m.sw.fonts = {
-    enable = mkOption {
-      description = "enables fancyfonts";
-      type = types.bool;
-      default = config.m.sw.enable;
-    };
-  };
+  options.m.sw.fonts.enable = mkEnableOption "enables fancyfonts";
 
   config = mkMerge [
     (mkIf cfg.enable {

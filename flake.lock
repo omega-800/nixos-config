@@ -832,18 +832,34 @@
         "type": "github"
       }
     },
+    "impermanence_2": {
+      "locked": {
+        "lastModified": 1727649413,
+        "narHash": "sha256-FA53of86DjFdeQzRDVtvgWF9o52rWK70VHGx0Y8fElQ=",
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "rev": "d0b38e550039a72aff896ee65b0918e975e6d48e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
     "lonsdaleite": {
       "inputs": {
+        "impermanence": "impermanence_2",
         "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1728325896,
-        "narHash": "sha256-/ouv9ynQR8/p36LAWUpgSJgHrQceaWE94hZU0qBVUcA=",
+        "lastModified": 1728812722,
+        "narHash": "sha256-NB0WBBldAe21NHWJkDfmO2UNuRrsUNElhF+2qN2JyGU=",
         "owner": "omega-800",
         "repo": "lonsdaleite",
-        "rev": "28ffa79d487979a4427aee3b501740928921c515",
+        "rev": "80a27e4926d91a7314932ba258efbf5e386c5ed8",
         "type": "github"
       },
       "original": {

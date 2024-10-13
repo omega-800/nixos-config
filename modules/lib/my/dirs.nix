@@ -20,9 +20,7 @@ with lib; rec {
   listNixModuleNames = dir: listFilterNixModuleNames (n: v: true) dir;
 
   listFilterDirs = filterFn: dir:
-    mapAttrsToList (n: v:
-      let split = splitString "." n;
-      in concatStringsSep "." (take ((length split) - 1) split))
+    mapAttrsToList (n: v: n)
     (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
 
   listDirs = dir: listFilterDirs (n: v: true) dir;

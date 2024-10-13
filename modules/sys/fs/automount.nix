@@ -3,7 +3,7 @@ let
   cfg = config.m.fs.automount;
   inherit (lib) mkEnableOption mkIf;
 in {
-  options.m.fs.automount = mkEnableOption "enables automount";
+  options.m.fs.automount.enable = mkEnableOption "enables automount";
 
   config = mkIf cfg.enable {
     # services.devmon.enable = true;
