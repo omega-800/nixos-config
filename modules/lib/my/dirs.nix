@@ -4,30 +4,26 @@ with lib; rec {
   mapDir = mapFn: dir: mapFilterDir mapFn (n: v: true) dir;
 
   mapFilterDir = mapFn: filterFn: dir:
-    mapAttrs'
-      (n: v:
-        nameValuePair
-          (if (hasSuffix ".sh" n) then
-            (removeSuffix ".sh" n)
-          else if (hasSuffix ".nix" n) then
-            (removeSuffix ".nix" n)
-          else
-            n)
-          (mapFn "${toString dir}/${n}"))
-      (filterAttrs filterFn (readDir dir));
+    mapAttrs' (n: v:
+      nameValuePair (if (hasSuffix ".sh" n) then
+        (removeSuffix ".sh" n)
+      else if (hasSuffix ".nix" n) then
+        (removeSuffix ".nix" n)
+      else
+        n) (mapFn "${toString dir}/${n}")) (filterAttrs filterFn (readDir dir));
 
   listFilterNixModuleNames = filterFn: dir:
-    mapAttrsToList (n: v: removeSuffix ".nix" n) (filterAttrs
-      (n: v:
-        v == "regular" && (hasSuffix ".nix" n) && n != "default.nix"
-        && (filterFn n v))
-      (readDir dir));
+    mapAttrsToList (n: v: removeSuffix ".nix" n) (filterAttrs (n: v:
+      v == "regular" && (hasSuffix ".nix" n) && n != "default.nix"
+      && (filterFn n v)) (readDir dir));
 
   listNixModuleNames = dir: listFilterNixModuleNames (n: v: true) dir;
 
   listFilterDirs = filterFn: dir:
-    mapAttrsToList (n: v: n)
-      (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
+    mapAttrsToList (n: v:
+      let split = splitString "." n;
+      in concatStringsSep "." (take ((length split) - 1) split))
+    (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
 
   listDirs = dir: listFilterDirs (n: v: true) dir;
 }

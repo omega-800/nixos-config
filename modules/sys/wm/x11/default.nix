@@ -4,6 +4,8 @@ let
   inherit (lib) mkOption types mkIf mkMerge;
   slock = (pkgs.callPackage ./slock.nix { inherit (inputs) omega-slock; });
 in {
+  # TODO: udev rule for hdmi
+  # https://wiki.archlinux.org/title/Udev
   options.m.wm.x11 = {
     enable = mkOption {
       description = "enables x11";
