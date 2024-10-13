@@ -54,7 +54,7 @@
         "2.ch.pool.ntp.org"
         "3.ch.pool.ntp.org"
       ];
-      services.timesyncd.enable = true;
+      services.timesyncd.enable = lib.mkForce true;
     })
     { time.timeZone = sys.timezone; }
   ];

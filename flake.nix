@@ -39,8 +39,7 @@
         mapPkgsByArch mapDeployments;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in
-    {
+    in {
       #TODO: move paths somewhere else?
       homeConfigurations = mapHomes ./modules/hosts { };
       nixosConfigurations = mapHosts ./modules/hosts { };
@@ -53,8 +52,7 @@
       apps = mapAppsByArch supportedSystems { };
       deploy = mapDeployments ./modules/hosts { };
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deploy-rs.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       # formatter
       # hydraJobs
     };
@@ -70,10 +68,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
-    impermanence = {
-      url = "github:nix-community/impermanence";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    impermanence.url = "github:nix-community/impermanence";
 
     disko = {
       url = "github:nix-community/disko";

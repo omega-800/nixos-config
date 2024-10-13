@@ -5,7 +5,7 @@ in {
   options.m.net.wifi.enable = mkOption {
     description = "enables wifi";
     type = types.bool;
-    default = sys.profile != "serv" && config.m.net.enable;
+    default = sys.profile != "serv";
   };
   config = mkMerge [
     (mkIf cfg.enable {
@@ -17,6 +17,7 @@ in {
       programs.mtr.enable = true;
     })
     {
+      programs.ssh.askPassword = lib.mkForce "";
       networking = {
         hostName = sys.hostname;
         extraHosts = ''

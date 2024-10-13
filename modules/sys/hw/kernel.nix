@@ -171,7 +171,7 @@ in {
         loader.systemd-boot.editor = false;
       };
     })
-    (mkIf (cfg.zen && (!sys.harden)) {
+    (mkIf (cfg.zen && (!sys.hardened)) {
       boot = {
         kernelPackages = mkDefault pkgs.linuxPackages_zen;
         consoleLogLevel = 0;
