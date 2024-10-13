@@ -2,7 +2,7 @@
 
 rmtmprun() { sudo rm ./run.sh; }
 nix build .#nixosConfigurations.nixie.config.system.build.vm || exit
-cp ./result/bin/run-nixos-vm ./run.sh
+cp ./result/bin/run-nixie-vm ./run.sh
 trap rmtmprun EXIT
 sudo chmod 500 run.sh
 # yeah so the bin that nixos generates fails (err pipewire missing symbol), i guess because i've installed qemu through home-manager. enjoy the hackiness

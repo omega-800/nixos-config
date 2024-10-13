@@ -1,3 +1,5 @@
 core 
 *.swp
 a.out
+result
+*.qcow2
