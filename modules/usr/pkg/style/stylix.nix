@@ -124,7 +124,7 @@ in
               kde.enable = true;
               yazi.enable = true;
               kitty.enable = true;
-              gtk.enable = true;
+              #gtk.enable = true;
               rofi.enable = (usr.wmType == "x11");
               feh.enable = (usr.wmType == "x11");
               sxiv.enable = false;

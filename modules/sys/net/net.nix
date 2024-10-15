@@ -19,6 +19,7 @@ in {
     {
       users.users.${usr.username}.openssh.authorizedKeys.keys =
         flatten (my.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
+	services.openssh.enable = true;
       programs.ssh.askPassword = lib.mkForce "";
       networking = {
         hostName = sys.hostname;
