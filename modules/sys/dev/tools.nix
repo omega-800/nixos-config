@@ -2,7 +2,8 @@
 let
   cfg = config.m.dev.tools;
   inherit (lib) mkOption mkEnableOption mkMerge mkIf type;
-in {
+in
+{
   options.m.dev.tools = {
     enable = mkEnableOption "enables devtools";
     disable = mkEnableOption "disables devtools completely";
@@ -10,7 +11,7 @@ in {
   };
 
   config = mkMerge [
-    (mkIf cfg.enable {
+    (mkIf (cfg.enable && (!cfg.disable)) {
       programs.nix-ld.enable = true;
       documentation = {
         enable = true;
@@ -30,7 +31,7 @@ in {
       environment.systemPackages =
         [ inputs.zen-browser.packages."${pkgs.system}".default ];
     })
-    (mkIf cfg.disable {
+    (mkIf (cfg.disable && (!cfg.enable)) {
       documentation = {
         enable = false;
         #ion.info.enable = false;
