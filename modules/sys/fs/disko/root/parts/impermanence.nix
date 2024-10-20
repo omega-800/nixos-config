@@ -70,7 +70,7 @@ in {
       hideMounts = true;
       directories = [
         "/etc/nixos"
-        "/var/log"
+        # "/var/log"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         # {

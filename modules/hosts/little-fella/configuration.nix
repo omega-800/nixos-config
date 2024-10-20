@@ -6,6 +6,7 @@
 
   #TODO: encryption ssh
   #https://nixos.wiki/wiki/ZFS
-  m.os.boot.mode = "uefi";
+  # FIXME: ???
+  # m.os.boot.mode = "uefi";
   system.stateVersion = "24.05";
 }
