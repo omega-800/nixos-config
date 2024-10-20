@@ -5,7 +5,8 @@
   #   };
   # };
   boot.tmp = {
-    cleanOnBoot = true;
-    useTmpfs = true;
+    #TODO: make /run/secrets permanent
+    # cleanOnBoot = true;
+    # useTmpfs = true;
   };
 }
