@@ -109,7 +109,7 @@ in {
               sqlfluff.enable = true;
             })
             (mkIf (elem "go" langs) {
-              #gofmt.enable = true;
+              gofmt.enable = true;
               #goimports.enable = true;
             })
             (mkIf (elem "js" langs) { biome.enable = true; })

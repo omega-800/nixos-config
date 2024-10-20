@@ -65,7 +65,7 @@ in {
             (mkIf (elem "sql" langs) { sqls.enable = true; })
             (mkIf (elem "lua" langs) { lua-ls.enable = true; })
             (mkIf (elem "python" langs) { pylsp.enable = true; })
-            (mkIf (elem "go" langs) { golangci-lint-ls.enable = true; })
+            (mkIf (elem "go" langs) { gopls.enable = true; })
             (mkIf (elem "java" langs) { java-language-server.enable = true; })
           ];
           keymaps = {

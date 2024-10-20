@@ -1,4 +1,4 @@
-{ usr, lib, config, pkgs, ... }:
+{sys, usr, lib, config, pkgs, ... }:
 with lib;
 let cfg = config.u.dev.git;
 in {
