@@ -1,6 +1,9 @@
-{ lib, config, pkgs, usr, ... }:
-with lib;
+{ lib, config, ... }:
 let
+  inherit (lib)
+    mkEnableOption types mkOption mkIf mapAttrs' attrsToList nameValuePair
+    mkForce mkMerge;
+  inherit (lib.omega.attrs) flatMapToAttrs;
   cfg = config.m.net.vpn.wg;
   defIfaces = {
     home = {
@@ -24,78 +27,68 @@ let
       };
     };
   };
-in
-{
+in {
   options.m.net.vpn.wg = {
     enable = mkEnableOption "enables wireguard";
-    ifaces =
-      let
-        ifaceOpts = lib.types.submodule {
-          options = {
-            port = mkOption {
-              type = types.number;
-              default = 51820;
-              description = "wg port";
-            };
-            ips = mkOption {
-              type = types.listOf types.nonEmptyStr;
-              default = [ "192.168.4.2/32" ];
-              description = "wg ips";
-            };
-            host = mkOption {
+    ifaces = let
+      ifaceOpts = types.submodule {
+        options = {
+          port = mkOption {
+            type = types.number;
+            default = 51820;
+            description = "wg port";
+          };
+          ips = mkOption {
+            type = types.listOf types.nonEmptyStr;
+            default = [ "192.168.4.2/32" ];
+            description = "wg ips";
+          };
+          host = mkOption {
+            type = types.nonEmptyStr;
+            default = "1.1.1.1";
+            description = "wg host";
+          };
+          peer = {
+            publicKey = mkOption {
               type = types.nonEmptyStr;
-              default = "1.1.1.1";
-              description = "wg host";
+              default = "changeme";
+              description = "wg publicKey";
             };
-            peer = {
-              publicKey = mkOption {
-                type = types.nonEmptyStr;
-                default = "changeme";
-                description = "wg publicKey";
-              };
-              allowedIPs = mkOption {
-                type = types.listOf types.nonEmptyStr;
-                default = [ "192.168.4.1/32" "192.168.4.2/32" "0.0.0.0/0" ];
-                description = "wg ips";
-              };
+            allowedIPs = mkOption {
+              type = types.listOf types.nonEmptyStr;
+              default = [ "192.168.4.1/32" "192.168.4.2/32" "0.0.0.0/0" ];
+              description = "wg ips";
             };
           };
         };
-      in
-      lib.mkOption {
-        type = types.nullOr (types.attrsOf ifaceOpts);
-        description = "wg ifaces";
-        default = defIfaces;
       };
+    in mkOption {
+      type = types.nullOr (types.attrsOf ifaceOpts);
+      description = "wg ifaces";
+      default = defIfaces;
+    };
   };
 
   config = mkIf cfg.enable {
-    programs = my.attrs.flatMapToAttrs
-      (i:
-        map
-          (sh: {
-            "${sh}".shellAliases = (lib.my.attrs.flatMapToAttrs
-              (action: [{
-                "wg-${i.name}-${action}" =
-                  "sudo systemctl ${action} wg-quick-${i.name}.service";
-              }]) [ "start" "stop" ]);
-          }) [ "zsh" "bash" "fish" ])
-      (lib.attrsToList cfg.ifaces);
+    programs = flatMapToAttrs (i:
+      map (sh: {
+        "${sh}".shellAliases = flatMapToAttrs (action: [{
+          "wg-${i.name}-${action}" =
+            "sudo systemctl ${action} wg-quick-${i.name}.service";
+        }]) [ "start" "stop" ];
+      }) [ "zsh" "bash" "fish" ]) (attrsToList cfg.ifaces);
 
     networking.firewall.allowedUDPPorts =
-      map (i: i.value.port) (lib.attrsToList cfg.ifaces);
+      map (i: i.value.port) (attrsToList cfg.ifaces);
 
     sops.secrets =
-      lib.mapAttrs' (n: v: lib.nameValuePair "wg/${n}/privateKey" { })
-        cfg.ifaces;
+      mapAttrs' (n: v: nameValuePair "wg/${n}/privateKey" { }) cfg.ifaces;
 
     # prevent autostarting
-    systemd.services = my.attrs.flatMapToAttrs
-      (i: [
-        { "wireguard-${i.name}".wantedBy = mkForce [ ]; }
-        { "wg-quick-${i.name}".wantedBy = mkForce [ ]; }
-      ])
-      (lib.attrsToList cfg.ifaces);
+    systemd.services = flatMapToAttrs (i: [
+      { "wireguard-${i.name}".wantedBy = mkForce [ ]; }
+      { "wg-quick-${i.name}".wantedBy = mkForce [ ]; }
+    ]) (attrsToList cfg.ifaces);
 
     # Enable WireGuard
     networking = {
@@ -107,27 +100,25 @@ in
            options = { metric = "0"; };
          }];
       */
-      wg-quick.interfaces = lib.mapAttrs'
-        (n: v:
-          lib.nameValuePair "${n}" {
-            listenPort = v.port;
-            privateKeyFile = config.sops.secrets."wg/${n}/privateKey".path;
-            address = v.ips;
-            # postUp =
-            #   "${pkgs.iproute}/bin/ip route add ${i.host} via 10.0.0.1 dev wlp108s0";
-            # postDown =
-            #   "${pkgs.iproute}/bin/ip route del ${i.host} via 10.0.0.1 dev wlp108s0";
-            peers = [
-              (mkMerge [
-                v.peer
-                {
-                  endpoint = "${v.host}:${toString v.port}";
-                  persistentKeepalive = 25;
-                }
-              ])
-            ];
-          })
-        cfg.ifaces;
+      wg-quick.interfaces = mapAttrs' (n: v:
+        nameValuePair "${n}" {
+          listenPort = v.port;
+          privateKeyFile = config.sops.secrets."wg/${n}/privateKey".path;
+          address = v.ips;
+          # postUp =
+          #   "${pkgs.iproute}/bin/ip route add ${i.host} via 10.0.0.1 dev wlp108s0";
+          # postDown =
+          #   "${pkgs.iproute}/bin/ip route del ${i.host} via 10.0.0.1 dev wlp108s0";
+          peers = [
+            (mkMerge [
+              v.peer
+              {
+                endpoint = "${v.host}:${toString v.port}";
+                persistentKeepalive = 25;
+              }
+            ])
+          ];
+        }) cfg.ifaces;
 
       /* wg-quick.interfaces =
          let

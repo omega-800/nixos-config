@@ -1,6 +1,8 @@
 { config, usr, lib, sys, ... }:
-with lib;
-let cfg = config.m.net.wifi;
+let
+  cfg = config.m.net.wifi;
+  inherit (lib) mkOption types mkMerge mkIf mkForce flatten mkDefault;
+  inherit (lib.omega.cfg) getCfgAttrOfAllHosts;
 in {
   options.m.net.wifi.enable = mkOption {
     description = "enables wifi";
@@ -18,9 +20,9 @@ in {
     })
     {
       users.users.${usr.username}.openssh.authorizedKeys.keys =
-        flatten (my.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
+        flatten (getCfgAttrOfAllHosts "sys" "pubkeys");
       services.openssh.enable = true;
-      programs.ssh.askPassword = lib.mkForce "";
+      programs.ssh.askPassword = mkForce "";
       networking = {
         hostName = sys.hostname;
         extraHosts = ''
@@ -38,7 +40,7 @@ in {
         ];
 
         #TODO: make configurable
-        domain = lib.mkDefault "home.lan";
+        domain = mkDefault "home.lan";
       };
     }
   ];

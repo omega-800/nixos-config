@@ -4,7 +4,7 @@
     poolOpts = types.submodule {
       options = {
         type = mkOption {
-          type = types.enum (lib.my.dirs.listNixModuleNames ./.);
+          type = types.enum (lib.omega.dirs.listNixModuleNames ./.);
           default = "zfs";
           description = "pool fs type";
         };

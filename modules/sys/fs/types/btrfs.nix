@@ -1,7 +1,7 @@
 { config, lib, ... }:
 let
   rootIsBtrfs = config.m.fs.disko.root.type == "btrfs";
-  poolsAreBtrfs = lib.my.misc.poolsContainFs "btrfs" config.m.fs.disko;
+  poolsAreBtrfs = lib.omega.misc.poolsContainFs "btrfs" config.m.fs.disko;
 in {
   #TODO: mkEnableOption
   config =

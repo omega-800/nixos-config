@@ -6,7 +6,7 @@
       description = "root device";
     };
     type = lib.mkOption {
-      type = lib.types.enum (lib.my.dirs.listNixModuleNames ./.);
+      type = lib.types.enum (lib.omega.dirs.listNixModuleNames ./.);
       default = "btrfs";
       description = "root fs type";
     };

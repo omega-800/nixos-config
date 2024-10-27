@@ -2,6 +2,7 @@
 let
   cfg = config.m.dev.dictate;
   inherit (lib) types mkEnableOption mkIf;
+  inherit (lib.omega.cfg) filterCfgs filterHosts;
 in {
   options.m.dev.dictate.enable = mkEnableOption "enables orchestration tools";
   config = {
@@ -15,8 +16,7 @@ in {
           configs = inputs.self.nixosConfigurations.${
               builtins.unsafeDiscardStringContext hostName
             }.config;
-          cfg = builtins.elemAt
-            (lib.my.cfg.filterCfgs (c: hostName == c.sys.hostname)) 0;
+          cfg = builtins.elemAt (filterCfgs (c: hostName == c.sys.hostname)) 0;
           ip = let
             ifaces = configs.networking.interfaces;
             inherit (builtins) elemAt attrNames length;
@@ -34,7 +34,7 @@ in {
           supportedFeatures = configs.nix.settings.system-features;
           mandatoryFeatures = [ ];
           sshUser = cfg.usr.username;
-        }) (lib.my.cfg.filterHosts (c:
+        }) (filterHosts (c:
           (builtins.elem "builder" c.sys.flavors) && sys.hostname
           != c.sys.hostname));
       extraOptions = "builders-use-substitutes = true";

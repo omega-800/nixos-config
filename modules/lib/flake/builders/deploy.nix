@@ -1,11 +1,10 @@
 { inputs, ... }:
 let
-  inherit (import ./default.nix { inherit inputs; })
-    mapHostConfigs mkCfg mkPkgs mkHost CONFIGS hasHostConfig;
-  cfgUtil = import ../my/cfg.nix { inherit (inputs.nixpkgs-unstable) lib; };
+  inherit (import ../utils { inherit inputs; })
+    getInput mapHostConfigs mkCfg mkPkgs mkHost CONFIGS hasHostConfig;
+  cfgUtil = import ../omega/cfg.nix { inherit (inputs.nixpkgs-unstable) lib; };
   inherit (inputs.nixpkgs-unstable) lib;
-in
-rec {
+in rec {
   # mapDeployments = _: attrs: 
   #   {
   #     nodes = lib.mapAttrs (_: config: {
@@ -31,12 +30,11 @@ rec {
       orchestratorCfg = mkCfg (dir + "/${orchestrator}");
       orchestratorConfig =
         (mkHost (dir + "/${orchestrator}") { }).modules.config;
-    in
-    {
+    in {
       nodes =
         lib.mapAttrs' (n: v: lib.nameValuePair n (mkNode (dir + "/${n}") attrs))
-          (lib.filterAttrs (n: v: v == "directory" && !(lib.hasPrefix "_" n))
-            (builtins.readDir dir));
+        (lib.filterAttrs (n: v: v == "directory" && !(lib.hasPrefix "_" n))
+          (builtins.readDir dir));
       profilesOrder = [
         CONFIGS.nixosConfigurations
         CONFIGS.systemConfigs
@@ -51,17 +49,15 @@ rec {
       cfg = mkCfg dir;
       inherit (cfg.sys) stable system genericLinux;
       defPkgs = mkPkgs stable system genericLinux;
-    in
-    {
+    in {
       #TODO: domain
       inherit (cfg.sys) hostname;
-      profiles = lib.mapAttrs'
-        (n: t:
-          lib.nameValuePair t ({
-            path = defPkgs.deploy-rs.lib.activate.nixos inputs.self.${n}.${
-            builtins.unsafeDiscardStringContext cfg.sys.hostname
+      profiles = lib.mapAttrs' (n: t:
+        lib.nameValuePair t ({
+          path = defPkgs.deploy-rs.lib.activate.nixos inputs.self.${n}.${
+              builtins.unsafeDiscardStringContext cfg.sys.hostname
             };
-          } // (mkDeployCfg cfg { } t)))
+        } // (mkDeployCfg cfg { } t)))
         (lib.filterAttrs (n: t: builtins.pathExists (dir + "/${t}.nix"))
           CONFIGS);
     };
