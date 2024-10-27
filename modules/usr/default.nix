@@ -1,10 +1,9 @@
-{ usr, ... }:
-{
+{ usr, ... }: {
   imports = [
     ./sh
     ./nixGL
     ./generic
-    ./wm/picom/picom.nix
+    ./wm
     ./dev
     ./style
     ./work
@@ -15,12 +14,9 @@
     ./social
     ./user
     ./utils
+    ./io
     ./custom
   ];
 
-  nix.settings.trusted-users = [
-    "root"
-    "@wheel"
-    usr.username
-  ];
+  nix.settings.trusted-users = [ "root" "@wheel" usr.username ];
 }

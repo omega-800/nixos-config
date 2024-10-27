@@ -45,7 +45,7 @@ in
             (mkIf (elem "nix" langs) {
               nixd = {
                 enable = true;
-                cmd = [ "nixfmt" ];
+                # cmd = [ "nixfmt" ];
                 # extraOptions = options;
               };
             })

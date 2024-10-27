@@ -1,9 +1,4 @@
-{ lib
-, config
-, pkgs
-, usr
-, ...
-}:
+{ lib, config, pkgs, usr, ... }:
 with lib;
 let
   cfg = config.u.user.alacritty;
@@ -14,14 +9,11 @@ in
 {
   options.u.user.alacritty.enable = mkOption {
     type = types.bool;
-    default = config.u.user.enable && !usr.minimal;
+    default = config.u.user.enable && !usr.minimal && (usr.term == "alacritty");
   };
 
-  config = mkIf (cfg.enable && usr.term == "alacritty") {
-    home.packages = with pkgs; [
-      ueberzugpp
-      ctpv
-    ];
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [ ueberzugpp ctpv ];
     programs.alacritty = {
       enable = true;
       inherit package;

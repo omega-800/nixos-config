@@ -14,10 +14,10 @@ in
 {
   options.u.user.kitty.enable = mkOption {
     type = types.bool;
-    default = config.u.user.enable && !usr.minimal;
+    default = config.u.user.enable && !usr.minimal && (usr.term == "kitty");
   };
 
-  config = mkIf (cfg.enable && usr.term == "kitty") {
+  config = mkIf cfg.enable {
     programs.kitty = {
       enable = true;
       inherit package;

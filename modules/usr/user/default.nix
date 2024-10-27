@@ -1,16 +1,10 @@
-{
-  inputs,
-  pkgs,
-  usr,
-  ...
-}:
-{
+{ inputs, pkgs, usr, ... }: {
   imports = [
     ./user.nix
     ./tmux.nix
     ./vim.nix
     ./dirs.nix
-    ./term/${usr.term}.nix
+    ./term
     ./nixvim
     # inputs.nixvim.homeManagerModules.nixvim
   ];

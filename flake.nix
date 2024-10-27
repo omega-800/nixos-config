@@ -28,7 +28,7 @@
 
     extra-experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-    bash-prompt = "> ";
+    #bash-prompt = "> ";
     use-xdg-base-directories = true;
   };
 
@@ -59,8 +59,8 @@
     impermanence.url = "github:nix-community/impermanence";
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
-      nixpkgs.follows = "nixpkgs-unstable";
-      nixpkgs-stable.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
     };
 
     # döes nöt nörk :(
@@ -68,7 +68,6 @@
     #   url = "github:simplex-chat/simplex-chat";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
-    #TODO: nixpkgs.follows = correct-version
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
