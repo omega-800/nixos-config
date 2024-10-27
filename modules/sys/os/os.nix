@@ -1,13 +1,7 @@
-{ config
-, pkgs
-, usr
-, sys
-, lib
-, inputs
-, ...
-}:
+{ config, pkgs, usr, sys, lib, inputs, ... }:
 let
-  ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+  ifExist = groups:
+    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
   #system-manager.allowAnyDistro = sys.genericLinux;
@@ -19,24 +13,17 @@ in
       #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
-    package = pkgs.nixFlakes;
+    #package = pkgs.nixFlakes;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
       extra-platforms = config.boot.binfmt.emulatedSystems;
       sandbox = sys.paranoid;
       auto-optimise-store = true; # Optimize syslinks
-      trusted-users = [
-        "root"
-        "@wheel"
-        usr.username
-      ];
+      trusted-users = [ "root" "@wheel" usr.username ];
       allowed-users = [ "@wheel" ];
-      experimental-features =
-        [
-          "nix-command"
-          "flakes"
-        ]
-        ++ lib.optional (lib.versionOlder (lib.versions.majorMinor config.nix.package.version) "2.22") "repl-flake";
+      experimental-features = [ "nix-command" "flakes" ] ++ lib.optional
+        (lib.versionOlder (lib.versions.majorMinor config.nix.package.version)
+          "2.22") "repl-flake";
       # Avoid copying unnecessary stuff over SSH
       builders-use-substitutes = true;
       # Fallback quickly if substituters are not available.
@@ -83,16 +70,8 @@ in
         isNormalUser = true;
         #FIXME: why doesn't this work??
         hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
-        extraGroups =
-          [
-            "wheel"
-            "video"
-            "audio"
-          ]
-          ++ ifExist [
-            "podman"
-            "adbusers"
-          ];
+        extraGroups = [ "wheel" "video" "audio" ]
+          ++ ifExist [ "podman" "adbusers" ];
       };
     };
   };
@@ -106,11 +85,7 @@ in
     "serial-getty@".environment.TERM = "xterm-256color";
   };
 
-  environment.systemPackages = with pkgs; [
-    vim
-    curl
-    git
-  ];
+  environment.systemPackages = with pkgs; [ vim curl git ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

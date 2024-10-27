@@ -9,7 +9,7 @@ let
   cfg = config.u.user.kitty;
   # nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
   inherit (pkgs) nixGL;
-  package = nixGL pkgs.alacritty;
+  package = nixGL pkgs.kitty;
 in
 {
   options.u.user.kitty.enable = mkOption {

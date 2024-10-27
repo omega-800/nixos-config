@@ -2,7 +2,6 @@
   imports = [
     ./utils.nix
     ./sxhkd.nix
-    ./swhkd.nix
     ./dunst.nix
     ./rofi.nix
     ./fzf.nix

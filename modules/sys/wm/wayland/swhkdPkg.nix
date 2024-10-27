@@ -1,12 +1,12 @@
-{
-  lib,
-  rustPlatform,
-  fetchurl,
-  fetchFromGitHub,
-  pkg-config,
-  scdoc,
-  libgcc,
-  systemd,
+# https://github.com/NixOS/nixpkgs/blob/e03cac402a6a65e15a58f8df3a47ec035d261572/pkgs/by-name/sw/swhkd/package.nix
+{ lib
+, rustPlatform
+, fetchurl
+, fetchFromGitHub
+, pkg-config
+, scdoc
+, libgcc
+, systemd
 }:
 rustPlatform.buildRustPackage rec {
   pname = "swhkd";
@@ -14,18 +14,14 @@ rustPlatform.buildRustPackage rec {
 
   # split-output derivation, since there's a fair amount of associated data for
   # pkexec and such.
-  outputs = [
-    "bin"
-    "man"
-    "out"
-  ];
+  outputs = [ "bin" "man" "out" ];
 
   src = fetchFromGitHub {
     owner = "waycrate";
     repo = "swhkd";
     # build from master, since the 1.2.1 makefile is unsutible for packaging
-    rev = "7999a9bcf55e72455afc8c6dbd7c856d54435352";
-    hash = "sha256-uXoeVoq6mJkLhDo3l7O0wSCRT/njSHjMXLWHLETiHoo=";
+    rev = "f8519a54900d72492a6c036b32e472c108d44dbf";
+    hash = "sha256-zyGyZOG8gAtsRkzSRH1M777fPv1wudbVsBrSTJ5CBnY=";
   };
 
   nativeBuildInputs = [
@@ -35,9 +31,7 @@ rustPlatform.buildRustPackage rec {
 
   # the makefile tries to set the ownership of a file to root.
   # this will fail, but files are owned by root anyways.
-  postPatch = ''
-    sed -ie 's/-o root//' Makefile
-  '';
+  postPatch = "sed -ie 's/-o root//' Makefile";
 
   buildPhase = ''
     runHook preBuild

@@ -10,11 +10,10 @@ in
     default = usr.wm == "dwm";
   };
   config = mkIf cfg.enable {
-    u.sh.st.enable = mkDefault true;
     xresources.properties = { "*term" = usr.term; };
-    home = {
-      file.".config/X11/xinitrc".text = ''
-        ${config.u.x11.initExtra}
+    u = {
+      user.st.enable = mkDefault true;
+      x11.initExtra = ''
         ${dwm_stats} &
         #exec dbus-launch dwm
         exec dwm

@@ -11,11 +11,19 @@ in
       default = usr.wmType == "wayland";
     };
   };
-  imports = [ ./swhkd.nix ];
+  # imports = [ ./swhkd.nix ];
   config = mkIf cfg.enable {
+    # services.swhkd = {
+    #   enable = true;
+    #   swhkdrc = ''
+    #     super + shift + s 
+    #       flameshot gui
+    #   '';
+    # };
     environment.systemPackages = with pkgs; [
       # why do i need this again?
       wayland
+      # apparently this i definitely need
       lxqt.lxqt-policykit
     ];
   };

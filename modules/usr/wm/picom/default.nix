@@ -1,7 +1,7 @@
 { config, usr, pkgs, lib, globals, ... }:
 
 let
-  cfg = config.u.wm.pixom;
+  cfg = config.u.wm.picom;
   inherit (pkgs) nixGL;
   inherit (lib) mkOption mkIf types mkDefault;
   # nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
@@ -46,7 +46,7 @@ in
         "100:name *= 'Firefox'"
       ];
       backend = "glx";
-      vsync = false;
+      vSync = false;
       fade = true;
       fadeDelta = 10;
       fadeSteps = [ 5.0e-2 5.0e-2 ];
@@ -58,7 +58,8 @@ in
         "class_g = 'Cairo-clock'"
         "_GTK_FRAME_EXTENTS@:c"
       ];
-      shadowOffsets = [ -17 -17 ];
+      # wtf
+      # shadowOffsets = [ -17 -17 ];
       shadowOpacity = 0.8;
 
       settings = {
@@ -95,12 +96,6 @@ in
         log-file = "${globals.envVars.XDG_DATA_HOME}/picom/picom.log";
         show-all-xerrors = true;
       };
-    };
-
-    home = {
-      packages = with pkgs; [ (nixGL picom) ];
-      file.".config/picom/picom.conf".source =
-        if usr.wm == "dwm" then ./picom_dwm.conf else ./picom.conf;
     };
   };
 }

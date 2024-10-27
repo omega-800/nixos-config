@@ -1,7 +1,7 @@
-{ config, pkgs, usr, ... }:
+{ config, pkgs, usr, lib, sys, ... }:
 let
   inherit (pkgs) nixGL;
-  inherit (lib) mkOption mkIf types mkDefault;
+  inherit (lib) mkOption mkIf types mkOptionDefault;
   cfg = config.u.wm.sway;
 in
 {
@@ -16,10 +16,13 @@ in
       package = nixGL pkgs.sway;
       xwayland = true;
       systemd.enable = true;
-      config = {
+      config = rec {
         modifier = "Mod4";
+        # TODO: scawm
+        keybindings = mkOptionDefault { };
         terminal = usr.term;
         startup = [{ command = usr.term; }];
+        seat = { "*" = { hide_cursor = "when-typing enable"; }; };
         input = {
           "*" = {
             xkb_layout = "ch";

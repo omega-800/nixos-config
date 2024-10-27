@@ -4,6 +4,7 @@ let
   inherit (lib) mkOption mkIf types mkDefault;
 in
 {
+  imports = [ ./swhkd.nix ];
   options.u.wm.wayland.enable = mkOption {
     type = types.bool;
     default = usr.wmType == "wayland";
@@ -43,18 +44,38 @@ in
         enable = true;
         systemdTarget = "graphical-session.target";
       };
+      swhkd = {
+        enable = true;
+        keybindings =
+          let
+            volumeScript = "${pkgs.writeScript "volume_control"
+            (builtins.readFile ../../utils/scripts/volume.sh)}";
+          in
+          {
+
+            "super + shift + s" = "${
+              if sys.genericLinux then "" else "flameshot & disown && "
+            }flameshot gui";
+            "super + ctrl + shift + s" = "flameshot screen";
+            "super + alt + shift + s" = "flameshot full";
+            "super + enter " = usr.term;
+            "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
+            "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
+            "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
+          };
+      };
     };
-    systemd.user.services.swhkd = {
-      Service.Type = "simple";
-      Unit.Description = "simple wayland hotkey daemon";
-      Install.WantedBy = [ "default.target" ];
-      Service.ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
-        #!/usr/bin/env bash
-        #${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent
-        lxqt-policykit-agent
-        pkill -f swhks
-        swhks & pkexec swhkd;
-      ''}";
-    };
+    # systemd.user.services.swhkd = {
+    #   Service.Type = "simple";
+    #   Unit.Description = "simple wayland hotkey daemon";
+    #   Install.WantedBy = [ "default.target" ];
+    #   Service.ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
+    #     #!/usr/bin/env bash
+    #     #${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent
+    #     lxqt-policykit-agent
+    #     pkill -f swhks
+    #     swhks & pkexec swhkd;
+    #   ''}";
+    # };
   };
 }
