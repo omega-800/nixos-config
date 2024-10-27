@@ -32,11 +32,11 @@
     use-xdg-base-directories = true;
   };
 
-  outputs = { ... }@inputs:
+  outputs = inputs:
     let
       inherit (import ./modules/lib/flake { inherit inputs; })
         mapHomes mapHosts mapDroids mapGenerics mapPkgsByArch mapAppsByArch
-        mapDeployments;
+        mapDeployments mapChecks mapFormatterByArch;
       # add more if needed
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
     in {
@@ -51,9 +51,8 @@
       packages = mapPkgsByArch supportedSystems;
       apps = mapAppsByArch supportedSystems;
       # deploy = mapDeployments;
-      # checks = builtins.mapAttrs
-      #   (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-      # formatter
+      # checks = mapChecks;
+      formatter = mapFormatterByArch supportedSystems;
       # hydraJobs
     };
 
