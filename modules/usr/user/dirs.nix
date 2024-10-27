@@ -1,12 +1,17 @@
-{
-  lib,
-  globals,
-  config,
-  ...
+{ lib
+, globals
+, config
+, ...
 }:
 with globals.envVars;
-with lib;
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    concatStrings
+    ;
   cfg = config.u.user.dirs;
 in
 {

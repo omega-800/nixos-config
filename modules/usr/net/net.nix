@@ -1,20 +1,17 @@
-{
-  sys,
-  usr,
-  lib,
-  config,
-  pkgs,
-  ...
+{ usr
+, lib
+, config
+, pkgs
+, ...
 }:
 with lib;
 let
   cfg = config.u.net;
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+  inherit (pkgs) nixGL;
 in
+# nixGL = import ../nixGL/nixGL.nix { inherit config pkgs; };
 {
-  options.u.net = {
-    enable = mkEnableOption "enables net packages";
-  };
+  options.u.net.enable = mkEnableOption "enables net packages";
 
   config = mkIf cfg.enable {
     home.packages =

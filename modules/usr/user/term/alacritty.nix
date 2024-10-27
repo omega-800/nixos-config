@@ -1,14 +1,15 @@
-{
-  lib,
-  config,
-  pkgs,
-  usr,
-  ...
+{ lib
+, config
+, pkgs
+, usr
+, ...
 }:
 with lib;
 let
-  nixGL = import ../../../nixGL/nixGL.nix { inherit pkgs config; };
   cfg = config.u.user.alacritty;
+  # nixGL = import ../../nixGL/nixGL.nix {inherit config pkgs;};
+  inherit (pkgs) nixGL;
+  package = nixGL pkgs.alacritty;
 in
 {
   options.u.user.alacritty.enable = mkOption {
@@ -23,7 +24,7 @@ in
     ];
     programs.alacritty = {
       enable = true;
-      package = (nixGL pkgs.alacritty);
+      inherit package;
       settings = {
         live_config_reload = true;
         selection.save_to_clipboard = true;

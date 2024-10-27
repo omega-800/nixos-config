@@ -1,11 +1,10 @@
-{
-  config,
-  pkgs,
-  usr,
-  sys,
-  lib,
-  globals,
-  ...
+{ config
+, pkgs
+, usr
+, sys
+, lib
+, inputs
+, ...
 }:
 let
   ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -16,7 +15,7 @@ in
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
     nixPath = [
-      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixpkgs=${inputs.nixpkgs}"
       #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];

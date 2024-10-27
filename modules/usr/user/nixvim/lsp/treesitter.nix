@@ -1,9 +1,8 @@
-{
-  config,
-  lib,
-  sys,
-  pkgs,
-  ...
+{ config
+, lib
+, sys
+, pkgs
+, ...
 }:
 let
   langs = config.u.user.nixvim.langSupport;
@@ -23,6 +22,7 @@ in
       }
     ];
     plugins = {
+      web-devicons.enable = true;
       treesitter = lib.mkMerge [
         ({
           enable = true;

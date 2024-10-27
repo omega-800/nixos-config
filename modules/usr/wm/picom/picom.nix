@@ -1,17 +1,18 @@
-{
-  config,
-  usr,
-  pkgs,
-  lib,
-  ...
+{ config
+, usr
+, pkgs
+, lib
+, ...
 }:
 
 with lib;
 let
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+  inherit (pkgs) nixGL;
 in
+# nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
 {
-  home.packages = with pkgs; [ (nixGL picom) ];
-  home.file.".config/picom/picom.conf".source =
-    if usr.wm == "dwm" then ./picom_dwm.conf else ./picom.conf;
+  home = {
+    packages = with pkgs; [ (nixGL picom) ];
+    file.".config/picom/picom.conf".source = if usr.wm == "dwm" then ./picom_dwm.conf else ./picom.conf;
+  };
 }

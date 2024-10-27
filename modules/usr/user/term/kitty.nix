@@ -1,14 +1,15 @@
-{
-  lib,
-  config,
-  pkgs,
-  usr,
-  ...
+{ lib
+, config
+, pkgs
+, usr
+, ...
 }:
 with lib;
 let
-  nixGL = import ../../../nixGL/nixGL.nix { inherit pkgs config; };
   cfg = config.u.user.kitty;
+  # nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
+  inherit (pkgs) nixGL;
+  package = nixGL pkgs.alacritty;
 in
 {
   options.u.user.kitty.enable = mkOption {
@@ -19,7 +20,7 @@ in
   config = mkIf (cfg.enable && usr.term == "kitty") {
     programs.kitty = {
       enable = true;
-      package = (nixGL pkgs.kitty);
+      inherit package;
       font.size = mkForce 12;
       shellIntegration = {
         mode = "no-sudo no-rc no-cursor";

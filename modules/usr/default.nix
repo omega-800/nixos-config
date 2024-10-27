@@ -1,7 +1,6 @@
 { usr, ... }:
 {
   imports = [
-    ./pkg
     ./sh
     ./nixGL
     ./generic

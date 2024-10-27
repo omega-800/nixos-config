@@ -1,12 +1,11 @@
-{
-  globals,
-  usr,
-  sys,
-  pkgs,
-  inputs,
-  config,
-  lib,
-  ...
+{ globals
+, usr
+, sys
+, pkgs
+, inputs
+, config
+, lib
+, ...
 }:
 with lib;
 let
@@ -23,7 +22,7 @@ in
     programs.firefox = {
       enable = true;
       #package = pkgs.librewolf;
-      package = pkgs.firefox-devedition-unwrapped;
+      #package = pkgs.firefox-devedition-unwrapped;
       policies = {
         DisableTelemetry = true;
         DisableFirefoxStudies = true;
@@ -134,7 +133,7 @@ in
               definedAliases = [ "@nw" ];
             };
             "Noogle" = {
-              urls = [ { template = "https://noogle.dev/q?term={searchTerms}"; } ];
+              urls = [{ template = "https://noogle.dev/q?term={searchTerms}"; }];
               iconUpdateURL = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@ng" ];
@@ -156,7 +155,7 @@ in
               definedAliases = [ "@r" ];
             };
             "Subreddit" = {
-              urls = [ { template = "https://www.reddit.com/r/{searchTerms}/"; } ];
+              urls = [{ template = "https://www.reddit.com/r/{searchTerms}/"; }];
               definedAliases = [ "@rr" ];
             };
             "Github" = {
@@ -168,7 +167,7 @@ in
               definedAliases = [ "@gh" ];
             };
             "Github Link" = {
-              urls = [ { template = "https://github.com/{searchTerms}"; } ];
+              urls = [{ template = "https://github.com/{searchTerms}"; }];
               definedAliases = [ "@ghl" ];
             };
             "Github Self" = {

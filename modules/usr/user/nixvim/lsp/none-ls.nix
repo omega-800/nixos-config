@@ -1,9 +1,8 @@
-{
-  lib,
-  sys,
-  usr,
-  config,
-  ...
+{ lib
+, sys
+, usr
+, config
+, ...
 }:
 with lib;
 with builtins;
@@ -28,7 +27,14 @@ in
         else
           {
             sources.formatting.prettierd = {
-              enable = true;
+              enable = lib.any (l: elem l langs) [
+                "js"
+                "css"
+                "yaml"
+                "md"
+                "gql"
+                "html"
+              ];
               settings = # lua
                 ''
                   {
@@ -122,10 +128,10 @@ in
             })
           ];
           formatting = mkMerge [
-            { codespell.enable = true; }
+            # { codespell.enable = true; }
             (mkIf (elem "nix" langs) {
               nixfmt.enable = true;
-              nixpkgs_fmt.enable = true;
+              # nixpkgs_fmt.enable = true;
             })
             (mkIf (elem "sql" langs) {
               pg_format.enable = true;

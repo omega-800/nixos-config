@@ -1,4 +1,8 @@
-{ lib, ... }:
+{ lib
+, config
+, pkgs
+, ...
+}:
 {
   options.u.nixGLPrefix = lib.mkOption {
     type = lib.types.str;
@@ -9,4 +13,12 @@
       This needs to be set to the right nixGL package on non-NixOS systems.
     '';
   };
+  config.nixpkgs.overlays = [
+    (final: prev: {
+      nixGL = import ./nixGL.nix {
+        inherit config;
+        pkgs = prev;
+      };
+    })
+  ];
 }

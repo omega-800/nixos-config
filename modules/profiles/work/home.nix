@@ -1,10 +1,11 @@
-{
-  globals,
-  lib,
-  usr,
-  ...
+{ globals
+, lib
+, usr
+, ...
 }:
-with lib;
+let
+  inherit (lib) mkDefault;
+in
 {
   imports = [ ../../usr/wm ];
 
@@ -16,6 +17,11 @@ with lib;
     file.enable = mkDefault true;
     net.enable = mkDefault true;
     office.enable = mkDefault true;
+    utils.enable = mkDefault true;
+
+    # no fun only work
+    media.enable = mkDefault true;
+    social.enable = mkDefault false;
     user = {
       enable = mkDefault true;
       dirs = with globals.envVars; {
@@ -47,10 +53,5 @@ with lib;
         ];
       };
     };
-    utils.enable = mkDefault true;
-
-    # no fun only work
-    media.enable = mkDefault true;
-    social.enable = mkDefault false;
   };
 }

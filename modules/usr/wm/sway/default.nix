@@ -1,12 +1,12 @@
-{
-  config,
-  pkgs,
-  usr,
-  ...
+{ config
+, pkgs
+, usr
+, ...
 }:
 let
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+  inherit (pkgs) nixGL;
 in
+# nixGL = import ../../nixGL/nixGL.nix {inherit config pkgs;};
 {
   home.packages = with pkgs; [
     pinentry-gnome3
@@ -20,7 +20,7 @@ in
     config = rec {
       modifier = "Mod4";
       terminal = usr.term;
-      startup = [ { command = usr.term; } ];
+      startup = [{ command = usr.term; }];
       input = {
         "*" = {
           xkb_layout = "ch";

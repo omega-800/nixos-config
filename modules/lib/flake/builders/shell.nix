@@ -5,16 +5,16 @@ let
 
 in
 {
-  mapShells = mkMerge [
-    (genAttrs SYSTEMS (system: {
-      default = inputs.nixpkgs-unstable.legacyPackages.${system}.mkShell {
-        inherit (inputs.self.checks.${system}.pre-commit-check) shellHook;
-        buildInputs = inputs.self.checks.${system}.pre-commit-check.enabledPackages;
-        packages = with inputs.nixpkgs-unstable.legacyPackages.${system}; [
-          nil
-          nixfmt-rfc-style
-        ];
-      };
-    }))
-  ];
+  mapShells = genAttrs SYSTEMS (system: rec {
+    omega = inputs.nixpkgs-unstable.legacyPackages.${system}.mkShell {
+      inherit (inputs.self.checks.${system}.pre-commit-check) shellHook;
+      buildInputs =
+        inputs.self.checks.${system}.pre-commit-check.enabledPackages;
+      packages = with inputs.nixpkgs-unstable.legacyPackages.${system}; [
+        nixd
+        nixfmt-rfc-style
+      ];
+    };
+    default = omega;
+  });
 }

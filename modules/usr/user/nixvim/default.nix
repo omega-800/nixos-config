@@ -1,17 +1,16 @@
-{
-  inputs,
-  config,
-  lib,
-  usr,
-  sys,
-  ...
+{ inputs
+, config
+, lib
+, usr
+, sys
+, ...
 }:
 with lib;
 let
   cfg = config.u.user.nixvim;
-  # what exactly was i planning with this??
-  mapCfgImports = modules: map (m: (import m { inherit (cfg) enabled; })) modules;
 in
+# what exactly was i planning with this??
+  # mapCfgImports = modules: map (m: (import m { inherit (cfg) enabled; })) modules;
 {
   options.u.user.nixvim = {
     enable = mkOption {
@@ -68,7 +67,7 @@ in
     ./dap
     ./py
     ./rust
-    inputs.${if sys.stable then "nixvim-stable" else "nixvim"}.homeManagerModules.nixvim
+    inputs.nixvim.homeManagerModules.nixvim
   ];
 
   config = mkIf cfg.enable {

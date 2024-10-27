@@ -1,15 +1,15 @@
-{
-  usr,
-  sys,
-  lib,
-  config,
-  pkgs,
-  ...
+{ usr
+, sys
+, lib
+, config
+, pkgs
+, ...
 }:
 with lib;
 let
   cfg = config.u.media;
-  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+  # nixGL = import ../nixGL/nixGL.nix {inherit config pkgs;};
+  inherit (pkgs) nixGL;
 in
 {
   options.u.media = {

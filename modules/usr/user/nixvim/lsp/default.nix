@@ -1,21 +1,11 @@
-{
-  sys,
-  pkgs,
-  config,
-  lib,
-  ...
-}:
-with lib;
-with builtins;
+{ sys, options, config, lib, ... }:
 let
   langs = config.u.user.nixvim.langSupport;
+  inherit (lib) mkMerge mkIf;
+  inherit (builtins) elem;
 in
 {
-  imports = [
-    ./treesitter.nix
-    ./none-ls.nix
-    ./typescript.nix
-  ];
+  imports = [ ./treesitter.nix ./none-ls.nix ./typescript.nix ];
   programs.nixvim = mkMerge [
     {
       keymaps = [
@@ -46,13 +36,19 @@ in
         lsp = {
           enable = true;
           servers = mkMerge [
-            { typos-lsp.enable = true; }
+            { typos_lsp.enable = true; }
             (mkIf (elem "js" langs) {
               volar.enable = true;
               jsonls.enable = true;
             })
             (mkIf (elem "md" langs) { marksman.enable = true; })
-            (mkIf (elem "nix" langs) { nixd.enable = true; })
+            (mkIf (elem "nix" langs) {
+              nixd = {
+                enable = true;
+                cmd = [ "nixfmt" ];
+                # extraOptions = options;
+              };
+            })
             (mkIf (elem "sh" langs) { bashls.enable = true; })
             (mkIf (elem "sh" langs) { bashls.enable = true; })
             (mkIf (elem "html" langs) {
@@ -71,14 +67,14 @@ in
             (mkIf (elem "docker" langs) { dockerls.enable = true; })
             (mkIf (elem "yaml" langs) {
               yamlls.enable = true;
-              docker-compose-language-service.enable = true;
+              docker_compose_language_service.enable = true;
               ansiblels.enable = true;
             })
             (mkIf (elem "sql" langs) { sqls.enable = true; })
             (mkIf (elem "lua" langs) { lua-ls.enable = true; })
             (mkIf (elem "python" langs) { pylsp.enable = true; })
             (mkIf (elem "go" langs) { gopls.enable = true; })
-            (mkIf (elem "java" langs) { java-language-server.enable = true; })
+            (mkIf (elem "java" langs) { java_language_server.enable = true; })
           ];
           keymaps = {
             diagnostic = {
@@ -144,15 +140,10 @@ in
         trouble.enable = true;
       };
     }
-    (
-      if sys.stable then
-        {
-          plugins.lsp-lines.currentLine = true;
-        }
-      else
-        {
-          diagnostics.virtual_lines.only_current_line = true;
-        }
-    )
+    (if sys.stable then {
+      plugins.lsp-lines.currentLine = true;
+    } else {
+      diagnostics.virtual_lines.only_current_line = true;
+    })
   ];
 }

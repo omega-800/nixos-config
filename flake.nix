@@ -26,30 +26,17 @@
     cores = 0;
     max-jobs = 2;
 
-    extra-experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    extra-experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
     bash-prompt = "> ";
     use-xdg-base-directories = true;
   };
 
-  outputs =
-    inputs:
+  outputs = inputs:
     let
       inherit (import ./modules/lib/flake { inherit inputs; })
-        mapHomes
-        mapHosts
-        mapDroids
-        mapGenerics
-        mapPkgs
-        mapApps
-        mapDeployments
-        mapChecks
-        mapFormatters
-        mapShells
-        ;
+        mapHomes mapHosts mapDroids mapGenerics mapPkgs mapApps mapDeployments
+        mapChecks mapFormatters mapShells;
     in
     {
       homeConfigurations = mapHomes;
@@ -70,6 +57,11 @@
 
   inputs = {
     impermanence.url = "github:nix-community/impermanence";
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      nixpkgs.follows = "nixpkgs-unstable";
+      nixpkgs-stable.follows = "nixpkgs-stable";
+    };
 
     # döes nöt nörk :(
     # simplex = {
@@ -210,10 +202,13 @@
     # };
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.home-manager.follows = "home-manager-unstable";
     };
     nixvim-stable = {
       url = "github:nix-community/nixvim/nixos-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.home-manager.follows = "home-manager-stable";
     };
 
     # disko.url = "github:nix-community/disko";

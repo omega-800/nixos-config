@@ -1,13 +1,12 @@
-{
-  config,
-  usr,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, usr
+, lib
+, pkgs
+, inputs
+, ...
 }:
 let
-  themePath = ./. + "../../../../themes/${usr.theme}";
+  themePath = ./. + "../../../themes/${usr.theme}";
   themeYamlPath = themePath + "/${usr.theme}.yaml";
   themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
   themeImage =
@@ -67,7 +66,7 @@ in
               if usr.extraBloat then
                 [
                   noto-fonts
-                  noto-fonts-cjk
+                  noto-fonts-cjk-sans
                   noto-fonts-emoji
                   noto-fonts-monochrome-emoji
                 ]
@@ -96,8 +95,9 @@ in
             '';
           };
           stylix = {
-            opacity.terminal = 0.85;
+            enable = true;
             autoEnable = true;
+            opacity.terminal = 0.85;
             base16Scheme = themeYamlPath;
             cursor = lib.mkIf (!usr.minimal) {
               package = pkgs.bibata-cursors;
@@ -107,8 +107,8 @@ in
             polarity = themePolarity;
             # image = themeImage;
             image = pkgs.fetchurl {
-              url = builtins.readFile (./. + "../../../../themes/${usr.theme}/backgroundurl.txt");
-              sha256 = builtins.readFile (./. + "../../../../themes/${usr.theme}/backgroundsha256.txt");
+              url = builtins.readFile ("${themePath}/backgroundurl.txt");
+              sha256 = builtins.readFile ("${themePath}/backgroundsha256.txt");
             };
 
             fonts = {

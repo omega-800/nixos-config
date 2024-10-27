@@ -26,19 +26,19 @@
     ];
     plugins.typescript-tools = {
       enable = true;
-      onAttach = # lua
-        ''
-          function(client, bufnr)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-
-          if vim.lsp.inlay_hint then
-            vim.lsp.inlay_hint(bufnr, true)
-              end
-              end
-        '';
       settings = {
-        tsserverFilePreferences = {
+        on_attach = # lua
+          ''
+            function(client, bufnr)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+
+            if vim.lsp.inlay_hint then
+              vim.lsp.inlay_hint(bufnr, true)
+                end
+                end
+          '';
+        tsserver_file_preferences = {
           # Inlay Hints
           includeInlayParameterNameHints = "all";
           includeInlayParameterNameHintsWhenArgumentMatchesName = true;

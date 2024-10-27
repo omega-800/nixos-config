@@ -24,10 +24,10 @@ in
 {
   enable = true;
 
-  theme = spicePkgs.themes.dribbblish;
+  # theme = spicePkgs.themes.dribbblish;
   # specify that we want to use our custom colorscheme
-  colorScheme = "custom";
-  inherit customColorScheme;
+  # colorScheme = "custom";
+  # inherit customColorScheme;
 
   enabledCustomApps = with spicePkgs.apps; [
     newReleases

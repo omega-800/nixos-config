@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  nixvim,
-  ...
+{ pkgs
+, lib
+, nixvim
+, ...
 }:
 let
   cfg = lib.evalModules {
@@ -32,7 +31,7 @@ pkgs.mkShell {
       {
         config.colorschemes.gruvbox.enable = true;
       }
-      // (import ../usr/pkg/user/nixvim {
+      // (import ../usr/user/nixvim {
         inherit lib pkgs;
         inherit (cfg.c) sys usr config;
       })
