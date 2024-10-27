@@ -1,5 +1,5 @@
 {
-  description = "Nixos config flake";
+  description = "omega's NixOS config flake";
 
   nixConfig = {
     #keep-outputs = false;       # Nice for developers
@@ -26,33 +26,45 @@
     cores = 0;
     max-jobs = 2;
 
-    extra-experimental-features = [ "nix-command" "flakes" ];
+    extra-experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
     bash-prompt = "> ";
     use-xdg-base-directories = true;
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     let
       inherit (import ./modules/lib/flake { inherit inputs; })
-        mapHomes mapHosts mapDroids mapGenerics mapPkgsByArch mapAppsByArch
-        mapDeployments mapChecks mapFormatterByArch;
-      # add more if needed
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in {
-      #TODO: move paths somewhere else?
+        mapHomes
+        mapHosts
+        mapDroids
+        mapGenerics
+        mapPkgs
+        mapApps
+        mapDeployments
+        mapChecks
+        mapFormatters
+        mapShells
+        ;
+    in
+    {
       homeConfigurations = mapHomes;
       nixosConfigurations = mapHosts;
       nixOnDroidConfigurations = mapDroids;
       systemConfigs = mapGenerics;
-      # devShells = mapModulesByArch ./modules/sh supportedSystems {
+      packages = mapPkgs;
+      apps = mapApps;
+      deploy = mapDeployments;
+      checks = mapChecks;
+      formatter = mapFormatters;
+      devShells = mapShells;
+      # devShells = mapModules ./modules/sh {
       #   inherit (inputs) nixvim;
       # };
-      packages = mapPkgsByArch supportedSystems;
-      apps = mapAppsByArch supportedSystems;
-      # deploy = mapDeployments;
-      # checks = mapChecks;
-      formatter = mapFormatterByArch supportedSystems;
       # hydraJobs
     };
 
@@ -200,7 +212,9 @@
       url = "github:nix-community/nixvim";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim-stable = { url = "github:nix-community/nixvim/nixos-24.05"; };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+    };
 
     # disko.url = "github:nix-community/disko";
 

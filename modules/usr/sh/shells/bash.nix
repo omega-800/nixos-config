@@ -1,14 +1,37 @@
 { shellInitExtra }:
-{ config, usr, globals, ... }: {
+{
+  config,
+  usr,
+  globals,
+  ...
+}:
+{
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = [ "ignorespace" "ignoredups" ];
+    historyControl = [
+      "ignorespace"
+      "ignoredups"
+    ];
     historyFile = globals.envVars.HISTFILE;
     historyFileSize = 100000;
-    historyIgnore = [ "ll" "ls" "exit" "cd" "clear" "c" "x" "l" ];
+    historyIgnore = [
+      "ll"
+      "ls"
+      "exit"
+      "cd"
+      "clear"
+      "c"
+      "x"
+      "l"
+    ];
     historySize = 10000;
-    shellOptions = [ "checkwinsize" "extglob" "globstar" "histappend" ];
+    shellOptions = [
+      "checkwinsize"
+      "extglob"
+      "globstar"
+      "histappend"
+    ];
     bashrcExtra = with usr.termColors; ''
       PS1='\n\[\033[7;49;${c1}m\]\u\[\033[0;40;${c1}m\]\[\033[0;40;${c1}m\] \w\[\033[0;49;30m\]\[\033[m\]\n\[\033[7;49;${c2}m\]\h\[\033[0;40;${c2}m\]\[\033[0;40;${c2}m\] \j\[\033[7;49;${c2}m\]\[\033[7;49;${c2}m\] \s\[\033[0;40;${c2}m\]\[\033[0;40;${c2}m\] \!\[\033[0;49;30m\]\[\033[0;40;${c2}m\]\$\[\033[m\] '
             

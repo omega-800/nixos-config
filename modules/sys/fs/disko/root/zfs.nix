@@ -1,6 +1,8 @@
 { config, lib, ... }:
-let cfg = config.m.fs.disko;
-in {
+let
+  cfg = config.m.fs.disko;
+in
+{
   config = lib.mkIf (cfg.enable && cfg.root.type == "zfs") {
     boot.initrd = lib.mkIf cfg.root.impermanence.enable {
       #TODO:  
@@ -35,8 +37,7 @@ in {
         #   "com.sun:auto-snapshot" = "true";
         # };
         # mountpoint = "/";
-        postCreateHook =
-          "zfs list -t snapshot -H -o name | grep -E '^zroot@blank$' || zfs snapshot zroot@blank";
+        postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot@blank$' || zfs snapshot zroot@blank";
         datasets = {
           root = {
             type = "zfs_fs";

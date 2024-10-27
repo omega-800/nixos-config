@@ -1,5 +1,6 @@
 { lib, ... }:
-with lib; {
+with lib;
+{
   imports = [ ../../sys/wm ];
   m = {
     net = {

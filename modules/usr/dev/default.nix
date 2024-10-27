@@ -1,1 +1,7 @@
-{ imports = [ ./dev.nix ./git ./vscode.nix ]; }
+{
+  imports = [
+    ./dev.nix
+    ./git
+    ./vscode.nix
+  ];
+}

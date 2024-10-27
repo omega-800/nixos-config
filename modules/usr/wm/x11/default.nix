@@ -27,7 +27,11 @@ in
       enable = true;
       threshold = 5;
       timeout = 2;
-      extraOptions = [ "ignore-scrolling" "fork" "start-hidden" ];
+      extraOptions = [
+        "ignore-scrolling"
+        "fork"
+        "start-hidden"
+      ];
     };
     u.x11.initExtra = defaultInit;
     xresources.path = globals.envVars.XRESOURCES;

@@ -1,10 +1,15 @@
-{ pkgs, config, usr, lib, ... }:
+{
+  pkgs,
+  config,
+  usr,
+  lib,
+  ...
+}:
 with lib;
 let
   cfg = config.u.file.trash;
 
-  trashScript =
-    "${pkgs.writeScript "clear_trash" (builtins.readFile ./clear-trash.sh)}";
+  trashScript = "${pkgs.writeScript "clear_trash" (builtins.readFile ./clear-trash.sh)}";
 in
 {
   options.u.file.trash.enable = mkOption {

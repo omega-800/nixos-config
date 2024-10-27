@@ -1,7 +1,19 @@
-{ inputs, lib, config, pkgs, ... }:
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.m.dev.tools;
-  inherit (lib) mkOption mkEnableOption mkMerge mkIf type;
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    mkMerge
+    mkIf
+    type
+    ;
 in
 {
   options.m.dev.tools = {
@@ -28,8 +40,7 @@ in
       };
     })
     (mkIf cfg.zen-browser.enable {
-      environment.systemPackages =
-        [ inputs.zen-browser.packages."${pkgs.system}".default ];
+      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.system}".default ];
     })
     (mkIf (cfg.disable && (!cfg.enable)) {
       documentation = {

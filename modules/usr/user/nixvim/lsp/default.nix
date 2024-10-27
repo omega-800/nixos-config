@@ -1,9 +1,21 @@
-{ sys, pkgs, config, lib, ... }:
+{
+  sys,
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 with builtins;
-let langs = config.u.user.nixvim.langSupport;
-in {
-  imports = [ ./treesitter.nix ./none-ls.nix ./typescript.nix ];
+let
+  langs = config.u.user.nixvim.langSupport;
+in
+{
+  imports = [
+    ./treesitter.nix
+    ./none-ls.nix
+    ./typescript.nix
+  ];
   programs.nixvim = mkMerge [
     {
       keymaps = [
@@ -132,10 +144,15 @@ in {
         trouble.enable = true;
       };
     }
-    (if sys.stable then {
-      plugins.lsp-lines.currentLine = true;
-    } else {
-      diagnostics.virtual_lines.only_current_line = true;
-    })
+    (
+      if sys.stable then
+        {
+          plugins.lsp-lines.currentLine = true;
+        }
+      else
+        {
+          diagnostics.virtual_lines.only_current_line = true;
+        }
+    )
   ];
 }

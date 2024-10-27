@@ -1,4 +1,11 @@
-with import <nixpkgs>; { stdenv, dpkg, glibc, gcc-unwrapped, autoPatchelfHook }:
+with import <nixpkgs>;
+{
+  stdenv,
+  dpkg,
+  glibc,
+  gcc-unwrapped,
+  autoPatchelfHook,
+}:
 let
 
   # Please keep the version x.y.0.z and do not update to x.y.76.z because the
@@ -7,7 +14,8 @@ let
 
   src = ./RemoteDesktopManager_2024.1.2.3_amd64.deb;
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "rdm-${version}";
 
   system = "x86_64-linux";
@@ -44,4 +52,3 @@ in stdenv.mkDerivation {
     platforms = [ "x86_64-linux" ];
   };
 }
-

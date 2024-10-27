@@ -1,1 +1,5 @@
-{ shellInitExtra }: { pkgs, ... }: { home.packages = with pkgs; [ dash ]; }
+{ shellInitExtra }:
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [ dash ];
+}

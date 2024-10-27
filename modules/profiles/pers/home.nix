@@ -1,6 +1,13 @@
-{ lib, usr, globals, ... }:
-let inherit (lib.omega.def) mkHigherDefault;
-in {
+{
+  lib,
+  usr,
+  globals,
+  ...
+}:
+let
+  inherit (lib.omega.def) mkHigherDefault;
+in
+{
   imports = [
     # basically like work profile but with fun enabled
     ../work/home.nix

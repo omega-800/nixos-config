@@ -1,9 +1,23 @@
-{ inputs, config, sys, lib, pkgs, usr, ... }:
+{
+  inputs,
+  config,
+  sys,
+  lib,
+  pkgs,
+  usr,
+  ...
+}:
 let
   cfg = config.m.wm.hyprland;
-  inherit (lib) mkOption types mkIf mkMerge;
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    ;
   kaizen = inputs.kaizen.packages.${pkgs.system}.default;
-in {
+in
+{
   options.m.wm.hyprland = {
     enable = mkOption {
       description = "enables hyprland";
@@ -23,12 +37,13 @@ in {
     # copypasta
     environment = {
       systemPackages = with pkgs; [ kaizen ];
-      /* loginShellInit = ''
-         # INFO: If removed, xwayland apps won't work, idk why.
-         if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-           exec Hyprland
-         fi
-           '';
+      /*
+        loginShellInit = ''
+        # INFO: If removed, xwayland apps won't work, idk why.
+        if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
+          exec Hyprland
+        fi
+          '';
       */
     };
 
@@ -39,7 +54,9 @@ in {
       hyprland = {
         enable = true;
         #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-        xwayland = { enable = true; };
+        xwayland = {
+          enable = true;
+        };
         portalPackage = pkgs.xdg-desktop-portal-hyprland;
       };
     };

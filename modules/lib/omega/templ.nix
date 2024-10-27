@@ -1,11 +1,11 @@
-{ pkgs, ... }: rec {
+{ pkgs, ... }:
+rec {
   fromYAML = path: builtins.fromJSON (builtins.readFile (yamlToJson path));
 
-  yamlToJson = path:
-    pkgs.runCommandNoCC "yaml.json" { }
-      ''${pkgs.yj}/bin/yj < "${path}" > "$out"'';
+  yamlToJson = path: pkgs.runCommandNoCC "yaml.json" { } ''${pkgs.yj}/bin/yj < "${path}" > "$out"'';
 
-  templateFile = name: template: data:
+  templateFile =
+    name: template: data:
     pkgs.stdenv.mkDerivation {
 
       name = "${name}";
@@ -18,7 +18,10 @@
 
       # Disable phases which are not needed. In particular the unpackPhase will
       # fail, if no src attribute is set
-      phases = [ "buildPhase" "installPhase" ];
+      phases = [
+        "buildPhase"
+        "installPhase"
+      ];
 
       buildPhase = ''
         ${pkgs.mustache-go}/bin/mustache $jsonDataPath ${template} > rendered_file

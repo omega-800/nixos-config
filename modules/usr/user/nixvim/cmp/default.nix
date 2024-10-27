@@ -2,24 +2,37 @@
   programs.nixvim = {
     plugins = {
       #luasnip.enable = true;
-      cmp-buffer = { enable = true; };
-      cmp-emoji = { enable = true; };
-      cmp-nvim-lsp = { enable = true; };
-      cmp-path = { enable = true; };
+      cmp-buffer = {
+        enable = true;
+      };
+      cmp-emoji = {
+        enable = true;
+      };
+      cmp-nvim-lsp = {
+        enable = true;
+      };
+      cmp-path = {
+        enable = true;
+      };
       #cmp_luasnip = { enable = true; };
-      cmp-cmdline = { enable = false; }; # autocomplete for cmdline
-      /* schemastore = {
-              enable = true;
-              yaml.enable = true;
-              json.enable = false;
-            };
+      cmp-cmdline = {
+        enable = false;
+      }; # autocomplete for cmdline
+      /*
+        schemastore = {
+             enable = true;
+             yaml.enable = true;
+             json.enable = false;
+           };
       */
 
       cmp = {
         enable = true;
         settings = {
           autoEnableSources = true;
-          experimental = { ghost_text = true; };
+          experimental = {
+            ghost_text = true;
+          };
           performance = {
             debounce = 60;
             fetchingTimeout = 200;
@@ -47,7 +60,11 @@
           ];
 
           formatting = {
-            fields = [ "abbr" "kind" "menu" ];
+            fields = [
+              "abbr"
+              "kind"
+              "menu"
+            ];
             format =
               # lua
               ''
@@ -104,26 +121,40 @@
 
           window = {
             completion = {
-              winhighlight =
-                "FloatBorder:CmpBorder,Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel";
+              winhighlight = "FloatBorder:CmpBorder,Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel";
               scrollbar = false;
               sidePadding = 0;
-              border = [ "╭" "─" "╮" "│" "╯" "─" "╰" "│" ];
+              border = [
+                "╭"
+                "─"
+                "╮"
+                "│"
+                "╯"
+                "─"
+                "╰"
+                "│"
+              ];
             };
 
             settings.documentation = {
-              border = [ "╭" "─" "╮" "│" "╯" "─" "╰" "│" ];
-              winhighlight =
-                "FloatBorder:CmpBorder,Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel";
+              border = [
+                "╭"
+                "─"
+                "╮"
+                "│"
+                "╯"
+                "─"
+                "╰"
+                "│"
+              ];
+              winhighlight = "FloatBorder:CmpBorder,Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel";
             };
           };
 
           mapping = {
-            "<C-Tab>" =
-              "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+            "<C-Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
             "<C-CR>" = "cmp.mapping.confirm({ select = true })";
-            "<S-CR>" =
-              "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
+            "<S-CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
             "<C-n>" = "cmp.mapping.select_next_item()";
             "<C-p>" = "cmp.mapping.select_prev_item()";
             "<C-j>" = "cmp.mapping.select_next_item()";
@@ -148,32 +179,33 @@
                   end
                 end
               '';
-            /* "<Down>" =
-                 # lua
-                 ''
-                   function(fallback)
-                     if cmp.visible() then
-                       cmp.select_next_item()
-                     elseif require("luasnip").expand_or_jumpable() then
-                       vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
-                     else
-                       fallback()
-                     end
-                   end
-                 '';
-               "<Up>" =
-                 # lua
-                 ''
-                   function(fallback)
-                     if cmp.visible() then
-                       cmp.select_prev_item()
-                     elseif require("luasnip").jumpable(-1) then
-                       vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
-                     else
-                       fallback()
-                     end
-                   end
-                 '';
+            /*
+              "<Down>" =
+                # lua
+                ''
+                  function(fallback)
+                    if cmp.visible() then
+                      cmp.select_next_item()
+                    elseif require("luasnip").expand_or_jumpable() then
+                      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+                    else
+                      fallback()
+                    end
+                  end
+                '';
+              "<Up>" =
+                # lua
+                ''
+                  function(fallback)
+                    if cmp.visible() then
+                      cmp.select_prev_item()
+                    elseif require("luasnip").jumpable(-1) then
+                      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+                    else
+                      fallback()
+                    end
+                  end
+                '';
             */
           };
         };

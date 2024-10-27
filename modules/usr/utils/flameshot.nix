@@ -1,7 +1,15 @@
-{ globals, lib, usr, config, ... }:
+{
+  globals,
+  lib,
+  usr,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.u.utils.flameshot;
-in {
+let
+  cfg = config.u.utils.flameshot;
+in
+{
   options.u.utils.flameshot.enable = mkOption {
     type = types.bool;
     default = config.u.utils.enable && !usr.minimal;

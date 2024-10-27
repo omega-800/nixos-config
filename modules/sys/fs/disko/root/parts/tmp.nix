@@ -1,4 +1,10 @@
-{ config, lib, sys, ... }: {
+{
+  config,
+  lib,
+  sys,
+  ...
+}:
+{
   # disko.devices = lib.mkIf config.m.fs.disko.enable {
   #   nodev."/tmp" = {
   #     fsType = "tmpfs";

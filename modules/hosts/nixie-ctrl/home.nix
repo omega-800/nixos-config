@@ -1,5 +1,6 @@
 { pkgs, lib, ... }:
-with lib; {
+with lib;
+{
   u = {
     dev.enable = mkForce false;
     posix.enable = mkForce false;

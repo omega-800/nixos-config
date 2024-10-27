@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -35,11 +36,13 @@
           policy = [ "magic" ];
         };
         ipv4 = {
-          addresses = [{
-            address = "10.100.0.10";
-            # address = "10.0.5.121";
-            prefixLength = 24;
-          }];
+          addresses = [
+            {
+              address = "10.100.0.10";
+              # address = "10.0.5.121";
+              prefixLength = 24;
+            }
+          ];
         };
       };
     };

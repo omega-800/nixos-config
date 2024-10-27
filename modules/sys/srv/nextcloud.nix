@@ -1,4 +1,10 @@
-{ usr, config, sys, ... }: {
+{
+  usr,
+  config,
+  sys,
+  ...
+}:
+{
   sops.secrets = {
     "nextcloud/rootpw" = {
       mode = "0440";

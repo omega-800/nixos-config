@@ -1,7 +1,19 @@
-{ inputs, lib, pkgs, config, ... }:
-let cfg = config.m.fs.disko;
-in {
-  imports = [ inputs.disko.nixosModules.disko ./pools ./root ];
+{
+  inputs,
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
+  cfg = config.m.fs.disko;
+in
+{
+  imports = [
+    inputs.disko.nixosModules.disko
+    ./pools
+    ./root
+  ];
   options.m.fs.disko.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;

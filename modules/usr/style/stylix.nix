@@ -1,9 +1,15 @@
-{ config, usr, lib, pkgs, inputs, ... }:
+{
+  config,
+  usr,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   themePath = ./. + "../../../../themes/${usr.theme}";
   themeYamlPath = themePath + "/${usr.theme}.yaml";
-  themePolarity =
-    lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
+  themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
   themeImage =
     if builtins.pathExists (themePath + "/${usr.theme}.png") then
       themePath + "/${usr.theme}.png"
@@ -14,46 +20,60 @@ let
       };
 in
 {
-  imports =
-    if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
+  imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
   config =
     if !usr.style then
       { }
     else
       lib.mkMerge [
-        (if usr.minimal then
-          { }
-        else {
-          u.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
-        })
+        (
+          if usr.minimal then
+            { }
+          else
+            {
+              u.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
+            }
+        )
         ({
           fonts.fontconfig.enable = true;
-          home.packages = with pkgs;
+          home.packages =
+            with pkgs;
             [
               (nerdfonts.override {
-                fonts = [ "JetBrainsMono" ] ++ (if usr.extraBloat then [
-                  "FiraCode"
-                  "FiraMono"
-                  "Hack"
-                  "Hasklig"
-                  "Ubuntu"
-                  "UbuntuMono"
-                  "CascadiaCode"
-                  "CodeNewRoman"
-                  "FantasqueSansMono"
-                  "Iosevka"
-                  "ShareTechMono"
-                  "Hermit"
-                ] else
-                  [ ]);
+                fonts =
+                  [ "JetBrainsMono" ]
+                  ++ (
+                    if usr.extraBloat then
+                      [
+                        "FiraCode"
+                        "FiraMono"
+                        "Hack"
+                        "Hasklig"
+                        "Ubuntu"
+                        "UbuntuMono"
+                        "CascadiaCode"
+                        "CodeNewRoman"
+                        "FantasqueSansMono"
+                        "Iosevka"
+                        "ShareTechMono"
+                        "Hermit"
+                      ]
+                    else
+                      [ ]
+                  );
               })
-            ] ++ (if usr.extraBloat then [
-              noto-fonts
-              noto-fonts-cjk
-              noto-fonts-emoji
-              noto-fonts-monochrome-emoji
-            ] else
-              [ ]);
+            ]
+            ++ (
+              if usr.extraBloat then
+                [
+                  noto-fonts
+                  noto-fonts-cjk
+                  noto-fonts-emoji
+                  noto-fonts-monochrome-emoji
+                ]
+              else
+                [ ]
+            );
           home.file = with config.lib.stylix.colors; {
             ".config/.currenttheme".text = usr.theme;
             ".config/.currentcolors.conf".text = ''
@@ -87,10 +107,8 @@ in
             polarity = themePolarity;
             # image = themeImage;
             image = pkgs.fetchurl {
-              url = builtins.readFile
-                (./. + "../../../../themes/${usr.theme}/backgroundurl.txt");
-              sha256 = builtins.readFile
-                (./. + "../../../../themes/${usr.theme}/backgroundsha256.txt");
+              url = builtins.readFile (./. + "../../../../themes/${usr.theme}/backgroundurl.txt");
+              sha256 = builtins.readFile (./. + "../../../../themes/${usr.theme}/backgroundsha256.txt");
             };
 
             fonts = {

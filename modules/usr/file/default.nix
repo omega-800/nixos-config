@@ -1,1 +1,8 @@
-{ imports = [ ./file.nix ./lf.nix ./trash.nix ./yazi.nix ]; }
+{
+  imports = [
+    ./file.nix
+    ./lf.nix
+    ./trash.nix
+    ./yazi.nix
+  ];
+}

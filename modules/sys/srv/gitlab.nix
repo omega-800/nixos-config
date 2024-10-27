@@ -1,4 +1,5 @@
-{ usr, config, ... }: {
+{ usr, config, ... }:
+{
   sops.secrets = {
     "gitlab/rootpw" = { };
     "gitlab/db" = { };
@@ -9,7 +10,11 @@
   services.gitlab = {
     enable = true;
     backup = {
-      skip = [ "artifacts" "lfs" "tar" ];
+      skip = [
+        "artifacts"
+        "lfs"
+        "tar"
+      ];
       startAt = "03:00";
       #TODO: uploadOptions = { };
     };

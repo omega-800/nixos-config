@@ -1,7 +1,22 @@
-{ mkDerivation, attoparsec, base, base16-bytestring, blaze-builder
-, blaze-textual, bytestring, containers, direct-sqlcipher
-, exceptions, fetchgit, HUnit, lib, Only, template-haskell, text
-, time, transformers
+{
+  mkDerivation,
+  attoparsec,
+  base,
+  base16-bytestring,
+  blaze-builder,
+  blaze-textual,
+  bytestring,
+  containers,
+  direct-sqlcipher,
+  exceptions,
+  fetchgit,
+  HUnit,
+  lib,
+  Only,
+  template-haskell,
+  text,
+  time,
+  transformers,
 }:
 mkDerivation {
   pname = "sqlcipher-simple";
@@ -13,12 +28,28 @@ mkDerivation {
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
-    attoparsec base blaze-builder blaze-textual bytestring containers
-    direct-sqlcipher exceptions Only template-haskell text time
+    attoparsec
+    base
+    blaze-builder
+    blaze-textual
+    bytestring
+    containers
+    direct-sqlcipher
+    exceptions
+    Only
+    template-haskell
+    text
+    time
     transformers
   ];
   testHaskellDepends = [
-    base base16-bytestring bytestring direct-sqlcipher HUnit text time
+    base
+    base16-bytestring
+    bytestring
+    direct-sqlcipher
+    HUnit
+    text
+    time
   ];
   homepage = "https://github.com/simplex-chat/sqlcipher-simple";
   description = "Mid-Level SQLite client library";

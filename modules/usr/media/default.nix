@@ -1,4 +1,11 @@
-{ usr, lib, config, pkgs, inputs, ... }:
+{
+  usr,
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 with lib;
 let
   cfg = config.u.media.spicetify;
@@ -18,15 +25,15 @@ in
   ];
 
   config = mkIf cfg.enable {
-    /* # i don't think this is needed?
-       # allow spotify to be installed if you don't have unfree enabled already
-       nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-       "spotify"
-       ];
+    /*
+      # i don't think this is needed?
+      # allow spotify to be installed if you don't have unfree enabled already
+      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "spotify"
+      ];
     */
     programs = {
-      spicetify =
-        import ./spicetify.nix pkgs config.lib.stylix.colors spicetify-nix;
+      spicetify = import ./spicetify.nix pkgs config.lib.stylix.colors spicetify-nix;
     };
   };
 }

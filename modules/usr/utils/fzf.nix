@@ -1,7 +1,9 @@
 { lib, config, ... }:
 with lib;
-let cfg = config.u.utils.fzf;
-in {
+let
+  cfg = config.u.utils.fzf;
+in
+{
   options.u.utils.fzf.enable = mkOption {
     type = types.bool;
     default = config.u.utils.enable;

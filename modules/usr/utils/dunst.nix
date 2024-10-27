@@ -1,7 +1,14 @@
-{ config, lib, usr, ... }:
+{
+  config,
+  lib,
+  usr,
+  ...
+}:
 with lib;
-let cfg = config.u.utils.dunst;
-in {
+let
+  cfg = config.u.utils.dunst;
+in
+{
   options.u.utils.dunst.enable = mkOption {
     type = types.bool;
     default = config.u.utils.enable && !usr.minimal;

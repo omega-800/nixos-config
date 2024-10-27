@@ -1,10 +1,16 @@
-{ inputs, config, lib, usr, sys, ... }:
+{
+  inputs,
+  config,
+  lib,
+  usr,
+  sys,
+  ...
+}:
 with lib;
 let
   cfg = config.u.user.nixvim;
   # what exactly was i planning with this??
-  mapCfgImports = modules:
-    map (m: (import m { inherit (cfg) enabled; })) modules;
+  mapCfgImports = modules: map (m: (import m { inherit (cfg) enabled; })) modules;
 in
 {
   options.u.user.nixvim = {
@@ -13,35 +19,41 @@ in
       default = config.u.user.enable && !usr.minimal;
     };
     langSupport = mkOption {
-      type = types.listOf (types.enum [
-        # includes ts, vue, json and node
-        "js"
-        # includes bash
+      type = types.listOf (
+        types.enum [
+          # includes ts, vue, json and node
+          "js"
+          # includes bash
+          "sh"
+          # includes cpp
+          "c"
+          # includes scss and tailwind
+          "css"
+          # includes ansible and docker compose
+          "yaml"
+          # includes htmx
+          "html"
+          # includes jupyter
+          "python"
+          # includes elixir
+          "erlang"
+          # includes psql
+          "sql"
+          "go"
+          "java"
+          "md"
+          "nix"
+          "gql"
+          "docker"
+          "lua"
+          "rust"
+        ]
+      );
+      default = [
         "sh"
-        # includes cpp
-        "c"
-        # includes scss and tailwind
-        "css"
-        # includes ansible and docker compose
-        "yaml"
-        # includes htmx
-        "html"
-        # includes jupyter
-        "python"
-        # includes elixir
-        "erlang"
-        # includes psql
-        "sql"
-        "go"
-        "java"
         "md"
         "nix"
-        "gql"
-        "docker"
-        "lua"
-        "rust"
-      ]);
-      default = [ "sh" "md" "nix" ];
+      ];
     };
   };
 
@@ -56,9 +68,7 @@ in
     ./dap
     ./py
     ./rust
-    inputs.${
-    if sys.stable then "nixvim-stable" else "nixvim"
-    }.homeManagerModules.nixvim
+    inputs.${if sys.stable then "nixvim-stable" else "nixvim"}.homeManagerModules.nixvim
   ];
 
   config = mkIf cfg.enable {

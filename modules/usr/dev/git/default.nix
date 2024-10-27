@@ -1,7 +1,16 @@
-{sys, usr, lib, config, pkgs, ... }:
+{
+  sys,
+  usr,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.u.dev.git;
-in {
+let
+  cfg = config.u.dev.git;
+in
+{
   options.u.dev.git.enable = mkOption {
     type = types.bool;
     default = config.u.dev.enable;
@@ -32,8 +41,7 @@ in {
       pinentryPackage = pkgs.pinentry-tty;
       grabKeyboardAndMouse = true;
     };
-    home.packages = with pkgs;
-      [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
+    home.packages = with pkgs; [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
     programs.git = {
       enable = true;
       package = pkgs.gitFull;
@@ -79,7 +87,11 @@ in {
         changeHunkIndicators = true;
         markEmptyLines = true;
       };
-      ignores = [ "*.swp" "node_modules" "*.out" ];
+      ignores = [
+        "*.swp"
+        "node_modules"
+        "*.out"
+      ];
       hooks = {
         pre-commit = ./pre-commit;
         commit-msg = ./commit-msg;

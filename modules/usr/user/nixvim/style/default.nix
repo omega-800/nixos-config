@@ -1,5 +1,9 @@
 {
-  imports = [ ./lualine.nix ./startup.nix ./bufferline.nix ];
+  imports = [
+    ./lualine.nix
+    ./startup.nix
+    ./bufferline.nix
+  ];
   programs.nixvim = {
     keymaps = [
       # Tabs
@@ -57,7 +61,10 @@
         enable = true;
         settings = {
           fast_wrap = { };
-          disable_filetype = [ "TelescopePrompt" "vim" ];
+          disable_filetype = [
+            "TelescopePrompt"
+            "vim"
+          ];
         };
       };
       nvim-colorizer = {
@@ -74,13 +81,19 @@
           css_fn = true;
           mode = "background";
           tailwind = true;
-          sass = { enable = true; }; # fff
+          sass = {
+            enable = true;
+          }; # fff
           virtualtext = "■";
         };
       };
       wilder = {
         enable = false;
-        modes = [ ":" "/" "?" ];
+        modes = [
+          ":"
+          "/"
+          "?"
+        ];
         enableCmdlineEnter = true;
         acceptCompletionAutoSelect = true;
       };

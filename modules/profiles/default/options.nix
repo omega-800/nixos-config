@@ -1,10 +1,19 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # kind of a hacky workaround but if it works then it works
   inherit (import ../../lib/omega/dirs.nix { inherit lib; })
-    listNixModuleNames listFilterDirs listDirs;
+    listNixModuleNames
+    listFilterDirs
+    listDirs
+    ;
   inherit (lib) mkOption types;
-in {
+in
+{
   options.c = {
     sys = {
       pubkeys = mkOption {
@@ -21,27 +30,35 @@ in {
         type = types.str;
         default = "nixie";
       }; # will be set to the dirname of the host configs
-      profile = let
-        profiles =
-          listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
-          ../.;
-      in mkOption {
-        type = types.enum profiles;
-        default = "pers";
-      }; # select a profile defined from my profiles directory
+      profile =
+        let
+          profiles = listFilterDirs (
+            n: v:
+            !(builtins.elem n [
+              "default"
+              "partials"
+            ])
+          ) ../.;
+        in
+        mkOption {
+          type = types.enum profiles;
+          default = "pers";
+        }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
-        type = types.listOf (types.enum [
-          "builder"
-          "developer"
-          "master"
-          "slave"
-          "worker"
-          "storer"
-          "hoster"
-          "parent"
-          "child"
-        ]);
+        type = types.listOf (
+          types.enum [
+            "builder"
+            "developer"
+            "master"
+            "slave"
+            "worker"
+            "storer"
+            "hoster"
+            "parent"
+            "child"
+          ]
+        );
         default = [ ];
       };
       stable = mkOption {
@@ -89,12 +106,20 @@ in {
         default = false;
       };
       paranoia = mkOption {
-        type = types.enum [ 0 1 2 3 ];
+        type = types.enum [
+          0
+          1
+          2
+          3
+        ];
         default = 0;
       };
       services = mkOption {
-        type = let serviceTypes = listNixModuleNames ../../sys/srv;
-        in types.listOf (types.enum serviceTypes);
+        type =
+          let
+            serviceTypes = listNixModuleNames ../../sys/srv;
+          in
+          types.listOf (types.enum serviceTypes);
         default = [ ];
       };
       monitorMeDaddy = mkOption {
@@ -141,7 +166,11 @@ in {
         default = "~/.dotfiles";
       };
       theme = mkOption {
-        type = let themes = listDirs ../../themes; in types.enum themes;
+        type =
+          let
+            themes = listDirs ../../themes;
+          in
+          types.enum themes;
         default = "catppuccin-mocha";
       };
       wm = mkOption {
@@ -150,16 +179,20 @@ in {
       };
       wmType = mkOption {
         type = types.str;
-        default = if config.c.usr.minimal then
-          "none"
-        else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
-          == "sway") then
-          "wayland"
-        else
-          "x11";
+        default =
+          if config.c.usr.minimal then
+            "none"
+          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm == "sway") then
+            "wayland"
+          else
+            "x11";
       };
       term = mkOption {
-        type = types.enum [ "alacritty" "kitty" "st" ];
+        type = types.enum [
+          "alacritty"
+          "kitty"
+          "st"
+        ];
         default = "alacritty";
       }; # Default terminal command
       font = mkOption {
@@ -171,11 +204,21 @@ in {
         default = pkgs.jetbrains-mono;
       }; # Console font package
       editor = mkOption {
-        type = types.enum [ "vim" "nvim" ]; # only chad editors allowed
+        type = types.enum [
+          "vim"
+          "nvim"
+        ]; # only chad editors allowed
         default = "nvim";
       };
       shell = mkOption {
-        type = types.enum (with pkgs; [ bash zsh dash ]);
+        type = types.enum (
+          with pkgs;
+          [
+            bash
+            zsh
+            dash
+          ]
+        );
         default = pkgs.bash;
       };
       termColors = mkOption {

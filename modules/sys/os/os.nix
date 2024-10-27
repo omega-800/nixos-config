@@ -1,8 +1,16 @@
-{ config, pkgs, usr, sys, lib, globals, ... }:
+{
+  config,
+  pkgs,
+  usr,
+  sys,
+  lib,
+  globals,
+  ...
+}:
 let
-  ifExist = groups:
-    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in {
+  ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in
+{
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
@@ -18,11 +26,18 @@ in {
       extra-platforms = config.boot.binfmt.emulatedSystems;
       sandbox = sys.paranoid;
       auto-optimise-store = true; # Optimize syslinks
-      trusted-users = [ "root" "@wheel" usr.username ];
+      trusted-users = [
+        "root"
+        "@wheel"
+        usr.username
+      ];
       allowed-users = [ "@wheel" ];
-      experimental-features = [ "nix-command" "flakes" ] ++ lib.optional
-        (lib.versionOlder (lib.versions.majorMinor config.nix.package.version)
-          "2.22") "repl-flake";
+      experimental-features =
+        [
+          "nix-command"
+          "flakes"
+        ]
+        ++ lib.optional (lib.versionOlder (lib.versions.majorMinor config.nix.package.version) "2.22") "repl-flake";
       # Avoid copying unnecessary stuff over SSH
       builders-use-substitutes = true;
       # Fallback quickly if substituters are not available.
@@ -59,7 +74,7 @@ in {
     #FIXME: fml broke my pc again
     # mutableUsers = false;
     users = {
-#FIXME: i fucked uuuup
+      #FIXME: i fucked uuuup
       root = {
         # hashedPasswordFile = config.sops.secrets."users/root".path;
         # to lock root account
@@ -67,10 +82,18 @@ in {
       };
       ${usr.username} = {
         isNormalUser = true;
-#FIXME: why doesn't this work??
+        #FIXME: why doesn't this work??
         hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
-        extraGroups = [ "wheel" "video" "audio" ]
-          ++ ifExist [ "podman" "adbusers" ];
+        extraGroups =
+          [
+            "wheel"
+            "video"
+            "audio"
+          ]
+          ++ ifExist [
+            "podman"
+            "adbusers"
+          ];
       };
     };
   };
@@ -84,7 +107,11 @@ in {
     "serial-getty@".environment.TERM = "xterm-256color";
   };
 
-  environment.systemPackages = with pkgs; [ vim curl git ];
+  environment.systemPackages = with pkgs; [
+    vim
+    curl
+    git
+  ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

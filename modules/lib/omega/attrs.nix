@@ -1,8 +1,9 @@
-{ lib, ... }: rec {
+{ lib, ... }:
+rec {
 
-  filterMapAttrNames = filterFn: mapFn: attrset:
-    lib.mapAttrs' (n: v: lib.nameValuePair (mapFn n) v)
-      (lib.filterAttrs filterFn attrset);
+  filterMapAttrNames =
+    filterFn: mapFn: attrset:
+    lib.mapAttrs' (n: v: lib.nameValuePair (mapFn n) v) (lib.filterAttrs filterFn attrset);
 
   mapAttrNames = mapFn: attrset: filterMapAttrNames attrset (n: v: true) mapFn;
 

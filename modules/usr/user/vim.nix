@@ -1,7 +1,14 @@
-{ config, lib, usr, ... }:
+{
+  config,
+  lib,
+  usr,
+  ...
+}:
 with lib;
-let cfg = config.u.user.vim;
-in {
+let
+  cfg = config.u.user.vim;
+in
+{
   options.u.user.vim.enable = mkOption {
     type = types.bool;
     default = config.u.user.enable && usr.minimal;

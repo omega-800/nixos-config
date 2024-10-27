@@ -1,4 +1,11 @@
-{ config, lib, usr, sys, inputs, ... }:
+{
+  config,
+  lib,
+  usr,
+  sys,
+  inputs,
+  ...
+}:
 # great resources
 # https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/
 # https://grahamc.com/blog/erase-your-darlings/
@@ -7,28 +14,29 @@
 let
   inherit (lib) mkIf mkOption types;
   cfg = config.m.fs.disko.root.impermanence;
-  # as you can see, code readability is my forté
-  # but i decided to do it the js-developer way and "just use a library" 
-  # instead of re-writing it in worse
-  # createAndLinkDirs = where: items:
-  #   lib.mkMerge (map
-  #     (item:
-  #       let dir = "/${where}/${item}";
-  #       in {
-  #         "${dir}" =
-  #           if where == "etc" then {
-  #             source = "/persist${dir}";
-  #           } else {
-  #             d = {
-  #               group = "root";
-  #               mode = "0755";
-  #               user = "root";
-  #             };
-  #             L.argument = "/persist${dir}";
-  #           };
-  #       })
-  #     items);
-in {
+in
+# as you can see, code readability is my forté
+# but i decided to do it the js-developer way and "just use a library" 
+# instead of re-writing it in worse
+# createAndLinkDirs = where: items:
+#   lib.mkMerge (map
+#     (item:
+#       let dir = "/${where}/${item}";
+#       in {
+#         "${dir}" =
+#           if where == "etc" then {
+#             source = "/persist${dir}";
+#           } else {
+#             d = {
+#               group = "root";
+#               mode = "0755";
+#               user = "root";
+#             };
+#             L.argument = "/persist${dir}";
+#           };
+#       })
+#     items);
+{
   imports = [ inputs.impermanence.nixosModules.impermanence ];
   options.m.fs.disko.root.impermanence = {
     enable = mkOption {
@@ -38,7 +46,11 @@ in {
     };
     persistVols = mkOption {
       type = types.listOf types.str;
-      default = [ "home/${usr.username}" "var/log" "etc/nixos" ];
+      default = [
+        "home/${usr.username}"
+        "var/log"
+        "etc/nixos"
+      ];
       description = "volumes which should persist after reboot";
     };
   };

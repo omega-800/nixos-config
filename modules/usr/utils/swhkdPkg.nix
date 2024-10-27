@@ -1,11 +1,12 @@
-{ lib
-, rustPlatform
-, fetchurl
-, fetchFromGitHub
-, pkg-config
-, scdoc
-, libgcc
-, systemd
+{
+  lib,
+  rustPlatform,
+  fetchurl,
+  fetchFromGitHub,
+  pkg-config,
+  scdoc,
+  libgcc,
+  systemd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "swhkd";
@@ -13,7 +14,11 @@ rustPlatform.buildRustPackage rec {
 
   # split-output derivation, since there's a fair amount of associated data for
   # pkexec and such.
-  outputs = [ "bin" "man" "out" ];
+  outputs = [
+    "bin"
+    "man"
+    "out"
+  ];
 
   src = fetchFromGitHub {
     owner = "waycrate";
@@ -23,7 +28,10 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-uXoeVoq6mJkLhDo3l7O0wSCRT/njSHjMXLWHLETiHoo=";
   };
 
-  nativeBuildInputs = [ scdoc pkg-config ];
+  nativeBuildInputs = [
+    scdoc
+    pkg-config
+  ];
 
   # the makefile tries to set the ownership of a file to root.
   # this will fail, but files are owned by root anyways.
@@ -52,13 +60,15 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-d/61hdyooYuqfOSTUcxVUJVhG98uexgPk7h6N1ptIgQ=";
 
-  buildInputs = [ systemd libgcc ];
+  buildInputs = [
+    systemd
+    libgcc
+  ];
 
   meta = with lib; {
     description = "A drop-in replacement for sxhkd that works with wayland";
     homepage = "https://github.com/waycrate/swhkd";
-    changelog =
-      "https://github.com/waycrate/swhkd/blob/${src.rev}/CHANGELOG.md";
+    changelog = "https://github.com/waycrate/swhkd/blob/${src.rev}/CHANGELOG.md";
     license = licenses.bsd2;
     maintainers = with maintainers; [ binarycat ];
   };

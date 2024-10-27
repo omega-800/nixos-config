@@ -1,5 +1,11 @@
 { shellInitExtra }:
-{ config, usr, globals, ... }: {
+{
+  config,
+  usr,
+  globals,
+  ...
+}:
+{
   imports = [ (import ./bash.nix { inherit shellInitExtra; }) ];
   programs = {
     #bash.initExtra = "exec zsh";
@@ -23,7 +29,9 @@
           "line" # "cursor"
           "root"
         ];
-        patterns = { "rm -rf" = "fg=white,bold,bg=red"; };
+        patterns = {
+          "rm -rf" = "fg=white,bold,bg=red";
+        };
       };
       #zprof.enable = true;
       zsh-abbr = {
@@ -64,7 +72,16 @@
       history = {
         expireDuplicatesFirst = true;
         ignoreDups = true;
-        ignorePatterns = [ "ll" "ls" "exit" "cd" "clear" "c" "x" "l" ];
+        ignorePatterns = [
+          "ll"
+          "ls"
+          "exit"
+          "cd"
+          "clear"
+          "c"
+          "x"
+          "l"
+        ];
         ignoreSpace = true;
         save = 10000;
         size = 100000;
@@ -74,20 +91,31 @@
       oh-my-zsh = {
         enable = true;
         #theme = "robbyrussell";
-        plugins = [ "git" "docker" "tmux" "vi-mode" "history" ]
-          ++ (if usr.extraBloat then [
-          # "encode64"
-          # "man"
-          # "nmap"
-          # "ssh-agent"
-          # "sudo"
-          # "systemd"
-          "npm"
-          "node"
-          "git-extras"
-          "git-auto-fetch"
-        ] else
-          [ ]);
+        plugins =
+          [
+            "git"
+            "docker"
+            "tmux"
+            "vi-mode"
+            "history"
+          ]
+          ++ (
+            if usr.extraBloat then
+              [
+                # "encode64"
+                # "man"
+                # "nmap"
+                # "ssh-agent"
+                # "sudo"
+                # "systemd"
+                "npm"
+                "node"
+                "git-extras"
+                "git-auto-fetch"
+              ]
+            else
+              [ ]
+          );
       };
     };
   };

@@ -1,7 +1,14 @@
-{ lib, config, pkgs, ... }:
-let cfg = config.m.sw.printing;
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.m.sw.printing;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   #CVE-2024-47176, CVE-2024-47076, CVE-2024-47175, CVE-2024-47177, etc.
   options.m.sw.printing.enable = mkEnableOption "enables printing";
 

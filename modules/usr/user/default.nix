@@ -1,4 +1,10 @@
-{ inputs, pkgs, usr, ... }: {
+{
+  inputs,
+  pkgs,
+  usr,
+  ...
+}:
+{
   imports = [
     ./user.nix
     ./tmux.nix

@@ -1,4 +1,5 @@
-{ lib, usr, ... }: {
+{ lib, usr, ... }:
+{
   c = {
     sys = {
       hardened = true;

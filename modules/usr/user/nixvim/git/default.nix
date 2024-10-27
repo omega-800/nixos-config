@@ -11,7 +11,9 @@
         mode = "n";
         key = "<leader>gg";
         action = "<cmd>LazyGit<CR>";
-        options = { desc = "LazyGit (root dir)"; };
+        options = {
+          desc = "LazyGit (root dir)";
+        };
       }
       {
         mode = "n";
@@ -73,12 +75,24 @@
           current_line_blame = true;
           trouble = true;
           signs = {
-            add = { text = " "; };
-            change = { text = " "; };
-            delete = { text = " "; };
-            untracked = { text = ""; };
-            topdelete = { text = "󱂥 "; };
-            changedelete = { text = "󱂧 "; };
+            add = {
+              text = " ";
+            };
+            change = {
+              text = " ";
+            };
+            delete = {
+              text = " ";
+            };
+            untracked = {
+              text = "";
+            };
+            topdelete = {
+              text = "󱂥 ";
+            };
+            changedelete = {
+              text = "󱂧 ";
+            };
           };
         };
       };

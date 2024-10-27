@@ -37,19 +37,43 @@
           title = "Menu";
           margin = 5;
           content = [
-            [ " Find File" "Telescope find_files" "<leader>ff" ]
-            [ "󰍉 Find Word" "Telescope live_grep" "<leader>fr" ]
-            [ " Recent Files" "Telescope oldfiles" "<leader>fo" ]
-            [ " Git Files" "Telescope git_files" "<leader>fg" ]
+            [
+              " Find File"
+              "Telescope find_files"
+              "<leader>ff"
+            ]
+            [
+              "󰍉 Find Word"
+              "Telescope live_grep"
+              "<leader>fr"
+            ]
+            [
+              " Recent Files"
+              "Telescope oldfiles"
+              "<leader>fo"
+            ]
+            [
+              " Git Files"
+              "Telescope git_files"
+              "<leader>fg"
+            ]
           ];
           highlight = "string";
           defaultColor = "";
           oldfilesAmount = 0;
         };
       };
-      options = { paddings = [ 1 3 ]; };
+      options = {
+        paddings = [
+          1
+          3
+        ];
+      };
 
-      parts = [ "header" "body" ];
+      parts = [
+        "header"
+        "body"
+      ];
     };
   };
 }

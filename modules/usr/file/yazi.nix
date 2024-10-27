@@ -1,7 +1,14 @@
-{ usr, lib, config, ... }:
+{
+  usr,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.u.file.yazi;
-in {
+let
+  cfg = config.u.file.yazi;
+in
+{
   options.u.file.yazi = {
     enable = mkOption {
       description = "enables yazi";
@@ -72,20 +79,26 @@ in {
           image_quality = 50;
         };
         opener = {
-          edit = [{
-            run = ''nvim "$@"'';
-            block = true;
-            for = "unix";
-          }];
-          play = [{
-            run = ''mpv "$@"'';
-            orphan = true;
-            for = "unix";
-          }];
-          open = [{
-            run = ''xdg-open "$@"'';
-            desc = "Open";
-          }];
+          edit = [
+            {
+              run = ''nvim "$@"'';
+              block = true;
+              for = "unix";
+            }
+          ];
+          play = [
+            {
+              run = ''mpv "$@"'';
+              orphan = true;
+              for = "unix";
+            }
+          ];
+          open = [
+            {
+              run = ''xdg-open "$@"'';
+              desc = "Open";
+            }
+          ];
         };
       };
     };

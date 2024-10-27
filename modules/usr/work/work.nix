@@ -1,8 +1,18 @@
-{ lib, config, pkgs, home, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  home,
+  ...
+}:
 with lib;
-let cfg = config.u.work;
-in {
-  options.u.work = { enable = mkEnableOption "enables work packages"; };
+let
+  cfg = config.u.work;
+in
+{
+  options.u.work = {
+    enable = mkEnableOption "enables work packages";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -29,8 +39,15 @@ in {
       enable = true;
       package = pkgs.eclipses.eclipse-jee;
       enableLombok = true;
-      jvmArgs = [ "-Xmx512m" "-ea" "-Djava.awt.headless=true" ];
-      plugins = with pkgs.eclipses; [ plugins.vrapper plugins.freemarker ];
+      jvmArgs = [
+        "-Xmx512m"
+        "-ea"
+        "-Djava.awt.headless=true"
+      ];
+      plugins = with pkgs.eclipses; [
+        plugins.vrapper
+        plugins.freemarker
+      ];
     };
   };
 }

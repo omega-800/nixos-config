@@ -1,5 +1,11 @@
-{ globals, lib, usr, ... }:
-with lib; {
+{
+  globals,
+  lib,
+  usr,
+  ...
+}:
+with lib;
+{
   imports = [ ../../usr/wm ];
 
   # pkgs

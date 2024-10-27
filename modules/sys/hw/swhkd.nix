@@ -1,6 +1,17 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  inherit (lib) mkIf mkOption mkEnableOption mkPackageOption optional;
+  inherit (lib)
+    mkIf
+    mkOption
+    mkEnableOption
+    mkPackageOption
+    optional
+    ;
   cfg = config.services.swhkd;
 in
 {
@@ -10,8 +21,7 @@ in
     swhkdrc = mkOption {
       type = lib.types.lines;
       default = "";
-      description =
-        "contents of the system-wide swhkdrc file. See {manpage}`swhkd(5) for more details on the config format.";
+      description = "contents of the system-wide swhkdrc file. See {manpage}`swhkd(5) for more details on the config format.";
     };
   };
 

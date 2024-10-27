@@ -1,3 +1,9 @@
 {
-  imports = [ ./automount.nix ./dirs.nix ./thunar.nix ./types ./disko ];
+  imports = [
+    ./automount.nix
+    ./dirs.nix
+    ./thunar.nix
+    ./types
+    ./disko
+  ];
 }

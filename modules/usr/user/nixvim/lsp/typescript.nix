@@ -1,4 +1,5 @@
-{ lib, config, ... }: {
+{ lib, config, ... }:
+{
   programs.nixvim = lib.mkIf (lib.elem "js" config.u.user.nixvim.langSupport) {
     keymaps = [
       {
@@ -10,13 +11,17 @@
         mode = "n";
         key = "<leader>lto";
         action = "<cmd>TSToolsOrganizeImports<cr>";
-        options = { desc = "Organize Imports"; };
+        options = {
+          desc = "Organize Imports";
+        };
       }
       {
         mode = "n";
         key = "<leader>ltr";
         action = "<cmd>TSToolsRemoveUnusedImports<cr>";
-        options = { desc = "Remove Unused Imports"; };
+        options = {
+          desc = "Remove Unused Imports";
+        };
       }
     ];
     plugins.typescript-tools = {

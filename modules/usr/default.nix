@@ -1,4 +1,5 @@
-{ usr, ... }: {
+{ usr, ... }:
+{
   imports = [
     ./pkg
     ./sh
@@ -18,5 +19,9 @@
     ./custom
   ];
 
-  nix.settings.trusted-users = [ "root" "@wheel" usr.username ];
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+    usr.username
+  ];
 }

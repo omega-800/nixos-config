@@ -1,5 +1,12 @@
-{ mkDerivation, base, basement, bytestring, cereal, fetchgit, lib
-, network
+{
+  mkDerivation,
+  base,
+  basement,
+  bytestring,
+  cereal,
+  fetchgit,
+  lib,
+  network,
 }:
 mkDerivation {
   pname = "socks";
@@ -11,7 +18,11 @@ mkDerivation {
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
-    base basement bytestring cereal network
+    base
+    basement
+    bytestring
+    cereal
+    network
   ];
   homepage = "http://github.com/vincenthz/hs-socks";
   description = "Socks proxy (ver 5)";

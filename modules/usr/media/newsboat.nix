@@ -1,7 +1,14 @@
-{ usr, lib, config, ... }: 
+{
+  usr,
+  lib,
+  config,
+  ...
+}:
 with lib;
-let cfg = config.u.media.newsboat;
-in {
+let
+  cfg = config.u.media.newsboat;
+in
+{
   options.u.media.newsboat.enable = mkOption {
     type = types.bool;
     default = config.u.media.enable && usr.extraBloat;

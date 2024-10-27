@@ -1,8 +1,16 @@
-{ lib, config, pkgs, usr, sys, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  sys,
+  ...
+}:
 let
   cfg = config.m.dev.virt;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.m.dev.virt = {
     enable = mkEnableOption "enables virtualization";
     distrobox.enable = mkEnableOption "enables distrobox";
@@ -23,10 +31,17 @@ in {
     };
 
     programs.virt-manager.enable = true;
-    users.users.${usr.username}.extraGroups = [ "libvirt" "libvirtd" "kvm" ];
+    users.users.${usr.username}.extraGroups = [
+      "libvirt"
+      "libvirtd"
+      "kvm"
+    ];
     virtualisation.libvirtd = {
       enable = true;
-      allowedBridges = [ "nm-bridge" "virbr0" ];
+      allowedBridges = [
+        "nm-bridge"
+        "virbr0"
+      ];
       qemu.runAsRoot = !sys.hardened;
     };
   };

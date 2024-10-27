@@ -1,11 +1,13 @@
-{ sys, pkgs, ... }: {
+{ sys, pkgs, ... }:
+{
   home = {
     sessionVariables = {
       MOZ_ENABLE_WAYLAND = 1;
       QT_AUTO_SCREEN_SCALE_FACTOR = 1;
       QT_ENABLE_HIGHDPI_SCALING = 1;
     };
-    packages = with pkgs;
+    packages =
+      with pkgs;
       [
         xdg-desktop-portal
         xdg-desktop-portal-gtk
@@ -18,10 +20,18 @@
         slurp
         wl-clipboard
         wf-recorder
-      ] ++ (if sys.genericLinux then
-        with pkgs; [ lxqt.lxqt-policykit xwayland xdg-desktop-portal ]
-      else
-        [ ]);
+      ]
+      ++ (
+        if sys.genericLinux then
+          with pkgs;
+          [
+            lxqt.lxqt-policykit
+            xwayland
+            xdg-desktop-portal
+          ]
+        else
+          [ ]
+      );
   };
   services = {
     cliphist = {

@@ -1,8 +1,16 @@
-{ lib, sys, usr, config, ... }:
+{
+  lib,
+  sys,
+  usr,
+  config,
+  ...
+}:
 with lib;
 with builtins;
-let langs = config.u.user.nixvim.langSupport;
-in {
+let
+  langs = config.u.user.nixvim.langSupport;
+in
+{
   programs.nixvim = {
     keymaps = [
       # Format file
@@ -14,65 +22,80 @@ in {
     ];
 
     plugins.none-ls = lib.mkMerge [
-      (if sys.stable then
-        { }
-      else {
-        sources.formatting.prettierd = {
-          enable = true;
-          settings = # lua
-            ''
-              {
-                filetypes = {
-                  -- "javascript", -- now done by biome
-                  -- "javascriptreact", -- now done by biome
-                  -- "typescript", -- now done by biome
-                  -- "typescriptreact", -- now done by biome
-                  -- "json", -- now done by biome
-                  -- "jsonc", -- now done by biome
-                  ${
-                    if (elem "js" langs) then ''
-                      "vue",
-                    '' else
-                      ""
+      (
+        if sys.stable then
+          { }
+        else
+          {
+            sources.formatting.prettierd = {
+              enable = true;
+              settings = # lua
+                ''
+                  {
+                    filetypes = {
+                      -- "javascript", -- now done by biome
+                      -- "javascriptreact", -- now done by biome
+                      -- "typescript", -- now done by biome
+                      -- "typescriptreact", -- now done by biome
+                      -- "json", -- now done by biome
+                      -- "jsonc", -- now done by biome
+                      ${
+                        if (elem "js" langs) then
+                          ''
+                            "vue",
+                          ''
+                        else
+                          ""
+                      }
+                      ${
+                        if (elem "css" langs) then
+                          ''
+                            "css",
+                            "scss",
+                            "less",
+                          ''
+                        else
+                          ""
+                      }
+                      ${
+                        if (elem "yaml" langs) then
+                          ''
+                            "yaml",
+                          ''
+                        else
+                          ""
+                      }
+                      ${
+                        if (elem "md" langs) then
+                          ''
+                            "markdown",
+                            "markdown.mdx",
+                          ''
+                        else
+                          ""
+                      }
+                      ${
+                        if (elem "gql" langs) then
+                          ''
+                            "graphql",
+                          ''
+                        else
+                          ""
+                      }
+                      ${
+                        if (elem "html" langs) then
+                          ''
+                            "html",
+                          ''
+                        else
+                          ""
+                      }
+                    },
                   }
-                  ${
-                    if (elem "css" langs) then ''
-                      "css",
-                      "scss",
-                      "less",
-                    '' else
-                      ""
-                  }
-                  ${
-                    if (elem "yaml" langs) then ''
-                      "yaml",
-                    '' else
-                      ""
-                  }
-                  ${
-                    if (elem "md" langs) then ''
-                      "markdown",
-                      "markdown.mdx",
-                    '' else
-                      ""
-                  }
-                  ${
-                    if (elem "gql" langs) then ''
-                      "graphql",
-                    '' else
-                      ""
-                  }
-                  ${
-                    if (elem "html" langs) then ''
-                      "html",
-                    '' else
-                      ""
-                  }
-                },
-              }
-            '';
-        };
-      })
+                '';
+            };
+          }
+      )
       ({
         enable = true;
         sources = {

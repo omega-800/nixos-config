@@ -1,7 +1,17 @@
-{ config, pkgs, usr, ... }:
-let nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
-in {
-  home.packages = with pkgs; [ pinentry-gnome3 polkit_gnome ];
+{
+  config,
+  pkgs,
+  usr,
+  ...
+}:
+let
+  nixGL = import ../../nixGL/nixGL.nix { inherit pkgs config; };
+in
+{
+  home.packages = with pkgs; [
+    pinentry-gnome3
+    polkit_gnome
+  ];
   wayland.windowManager.sway = {
     enable = true;
     package = (nixGL pkgs.sway);
@@ -10,7 +20,7 @@ in {
     config = rec {
       modifier = "Mod4";
       terminal = usr.term;
-      startup = [{ command = usr.term; }];
+      startup = [ { command = usr.term; } ];
       input = {
         "*" = {
           xkb_layout = "ch";
@@ -42,6 +52,8 @@ in {
   };
   programs.swaylock = {
     enable = true;
-    settings = { show-failed-attempts = true; };
+    settings = {
+      show-failed-attempts = true;
+    };
   };
 }

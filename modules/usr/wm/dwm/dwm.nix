@@ -1,7 +1,19 @@
-{ inputs, lib, config, home, pkgs, usr, ... }:
-let dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh;
-in {
-  xresources.properties = { "*term" = usr.term; };
+{
+  inputs,
+  lib,
+  config,
+  home,
+  pkgs,
+  usr,
+  ...
+}:
+let
+  dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh;
+in
+{
+  xresources.properties = {
+    "*term" = usr.term;
+  };
   home = {
     packages = with pkgs; [ inputs.omega-st ];
     file.".config/X11/xinitrc".text = ''

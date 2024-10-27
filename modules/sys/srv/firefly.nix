@@ -1,4 +1,5 @@
-{ usr, config, ... }: {
+{ usr, config, ... }:
+{
   sops.secrets = {
     "firefly/appkey" = { };
     "firefly/db" = { };

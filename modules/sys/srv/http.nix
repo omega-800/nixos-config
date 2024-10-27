@@ -1,5 +1,9 @@
-{ lib, ... }: {
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+{ lib, ... }:
+{
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
   services.static-web-server = {
     enable = true;
     root = "/srv/www";
@@ -15,8 +19,13 @@
   };
   users.groups.www-data = { };
   systemd.services.static-web-server.serviceConfig = {
-    SupplementaryGroups = lib.mkForce [ "" "www-data" ];
-    BindReadOnlyPaths =
-      lib.mkForce [ "/srv/www" "/var/lib/acme/omega-800.duckdns.org" ];
+    SupplementaryGroups = lib.mkForce [
+      ""
+      "www-data"
+    ];
+    BindReadOnlyPaths = lib.mkForce [
+      "/srv/www"
+      "/var/lib/acme/omega-800.duckdns.org"
+    ];
   };
 }

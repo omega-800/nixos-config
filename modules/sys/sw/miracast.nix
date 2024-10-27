@@ -1,8 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   cfg = config.m.sw.miracast;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.m.sw.miracast.enable = mkEnableOption "enables miracast";
 
   config = mkIf cfg.enable {
@@ -22,8 +28,14 @@ in {
     networking.firewall = {
       trustedInterfaces = [ "p2p-wl+" ];
 
-      allowedTCPPorts = [ 7236 7250 ];
-      allowedUDPPorts = [ 7236 5353 ];
+      allowedTCPPorts = [
+        7236
+        7250
+      ];
+      allowedUDPPorts = [
+        7236
+        5353
+      ];
     };
   };
 }

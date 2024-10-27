@@ -1,4 +1,10 @@
-{ usr, lib, pkgs, ... }: {
+{
+  usr,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs.nixvim.opts = {
     # completeopt = [ "menu" "menuone" "noselect" ];
     updatetime = 50; # Faster completion
@@ -21,8 +27,7 @@
     smartcase = true;
     wildmenu = true;
     wildmode = "list:longest";
-    wildignore =
-      "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx";
+    wildignore = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx";
     path = ".,,**";
 
     colorcolumn = "120";

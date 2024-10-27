@@ -4,14 +4,21 @@
       enable = true;
       globalstatus = true;
       extensions = [ "neo-tree" ];
-      disabledFiletypes = { statusline = [ "startup" "alpha" ]; };
+      disabledFiletypes = {
+        statusline = [
+          "startup"
+          "alpha"
+        ];
+      };
       #theme = "catppuccin";
       sections = {
-        lualine_a = [{ name = "mode"; }];
-        lualine_b = [{
-          name = "branch";
-          icon = "";
-        }];
+        lualine_a = [ { name = "mode"; } ];
+        lualine_b = [
+          {
+            name = "branch";
+            icon = "";
+          }
+        ];
         lualine_c = [
           {
             name = "diagnostics";
@@ -38,35 +45,39 @@
           }
           {
             name = "filename";
-            extraConfig = { path = 1; };
+            extraConfig = {
+              path = 1;
+            };
           }
         ];
-        lualine_x = [{
-          name = "diff";
-          extraConfig = {
-            symbos = {
-              added = " ";
-              modified = " ";
-              removed = " ";
-            };
-            source = {
-              __raw = ''
-                function()
-                  local gitsings = vim.b.gitsigns_status_dict
-                  if gitsigns then
-                    return {
-                      added = gitigns.added,
-                      modified = gitigns.changed,
-                      removed = gitigns.removed
-                    }
+        lualine_x = [
+          {
+            name = "diff";
+            extraConfig = {
+              symbos = {
+                added = " ";
+                modified = " ";
+                removed = " ";
+              };
+              source = {
+                __raw = ''
+                  function()
+                    local gitsings = vim.b.gitsigns_status_dict
+                    if gitsigns then
+                      return {
+                        added = gitigns.added,
+                        modified = gitigns.changed,
+                        removed = gitigns.removed
+                      }
+                    end
                   end
-                end
-              '';
+                '';
+              };
             };
-          };
-        }];
-        lualine_y = [{ name = "progress"; }];
-        lualine_z = [{ name = "location"; }];
+          }
+        ];
+        lualine_y = [ { name = "progress"; } ];
+        lualine_z = [ { name = "location"; } ];
       };
     };
   };

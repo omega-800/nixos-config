@@ -1,7 +1,15 @@
-{ lib, config, pkgs, usr, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  ...
+}:
 with lib;
-let cfg = config.u.media.mpd;
-in {
+let
+  cfg = config.u.media.mpd;
+in
+{
   options.u.media.mpd.enable = mkOption {
     type = types.bool;
     default = config.u.media.enable;
@@ -38,11 +46,17 @@ in {
         }
         {
           key = "J";
-          command = [ "select_item" "scroll_down" ];
+          command = [
+            "select_item"
+            "scroll_down"
+          ];
         }
         {
           key = "K";
-          command = [ "select_item" "scroll_up" ];
+          command = [
+            "select_item"
+            "scroll_up"
+          ];
         }
         {
           key = "h";

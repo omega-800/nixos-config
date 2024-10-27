@@ -1,11 +1,54 @@
-{ mkDerivation, base, base-compat, base-orphans, base16-bytestring, bytestring
-, containers, data-fix, deepseq, Diff, directory, dlist, exceptions, fetchgit
-, filepath, generic-deriving, generically, ghc-prim, hashable
-, indexed-traversable, integer-conversion, integer-logarithms, lib, network-uri
-, nothunks, OneTuple, primitive, QuickCheck, quickcheck-instances, scientific
-, semialign, strict, tagged, tasty, tasty-golden, tasty-hunit, tasty-quickcheck
-, template-haskell, text, text-iso8601, text-short, th-abstraction, these, time
-, time-compat, unordered-containers, uuid-types, vector, witherable }:
+{
+  mkDerivation,
+  base,
+  base-compat,
+  base-orphans,
+  base16-bytestring,
+  bytestring,
+  containers,
+  data-fix,
+  deepseq,
+  Diff,
+  directory,
+  dlist,
+  exceptions,
+  fetchgit,
+  filepath,
+  generic-deriving,
+  generically,
+  ghc-prim,
+  hashable,
+  indexed-traversable,
+  integer-conversion,
+  integer-logarithms,
+  lib,
+  network-uri,
+  nothunks,
+  OneTuple,
+  primitive,
+  QuickCheck,
+  quickcheck-instances,
+  scientific,
+  semialign,
+  strict,
+  tagged,
+  tasty,
+  tasty-golden,
+  tasty-hunit,
+  tasty-quickcheck,
+  template-haskell,
+  text,
+  text-iso8601,
+  text-short,
+  th-abstraction,
+  these,
+  time,
+  time-compat,
+  unordered-containers,
+  uuid-types,
+  vector,
+  witherable,
+}:
 mkDerivation {
   pname = "aeson";
   version = "2.2.1.0";

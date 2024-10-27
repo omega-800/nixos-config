@@ -1,9 +1,24 @@
-{ config, usr, lib, sys, ... }:
+{
+  config,
+  usr,
+  lib,
+  sys,
+  ...
+}:
 let
   cfg = config.m.net.wifi;
-  inherit (lib) mkOption types mkMerge mkIf mkForce flatten mkDefault;
+  inherit (lib)
+    mkOption
+    types
+    mkMerge
+    mkIf
+    mkForce
+    flatten
+    mkDefault
+    ;
   inherit (lib.omega.cfg) getCfgAttrOfAllHosts;
-in {
+in
+{
   options.m.net.wifi.enable = mkOption {
     description = "enables wifi";
     type = types.bool;
@@ -19,8 +34,9 @@ in {
       programs.mtr.enable = true;
     })
     {
-      users.users.${usr.username}.openssh.authorizedKeys.keys =
-        flatten (getCfgAttrOfAllHosts "sys" "pubkeys");
+      users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
+        getCfgAttrOfAllHosts "sys" "pubkeys"
+      );
       services.openssh.enable = true;
       programs.ssh.askPassword = mkForce "";
       networking = {

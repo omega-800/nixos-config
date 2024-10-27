@@ -3,25 +3,34 @@ let
   realm = {
     realm = "OIDCDemo";
     enabled = true;
-    clients = [{
-      clientId = "mydemo";
-      rootUrl = "http://localhost:8080";
-    }];
-    users = [{
-      enabled = true;
-      firstName = "Christian";
-      lastName = "Bauer";
-      username = "cbauer";
-      email = "cbauer@localhost";
-      credentials = [{
-        type = "password";
-        temporary = false;
-        value = "changeme";
-      }];
-    }];
+    clients = [
+      {
+        clientId = "mydemo";
+        rootUrl = "http://localhost:8080";
+      }
+    ];
+    users = [
+      {
+        enabled = true;
+        firstName = "Christian";
+        lastName = "Bauer";
+        username = "cbauer";
+        email = "cbauer@localhost";
+        credentials = [
+          {
+            type = "password";
+            temporary = false;
+            value = "changeme";
+          }
+        ];
+      }
+    ];
   };
-in {
-  sops.secrets = { "keycloak/db" = { }; };
+in
+{
+  sops.secrets = {
+    "keycloak/db" = { };
+  };
   environment.noXlibs = false;
   services.keycloak = {
     enable = true;
@@ -42,7 +51,9 @@ in {
       #TODO: proxy = "reencrypt";
       http-relative-path = "/cloak";
       https-key-store-file = "/path/to/file";
-      https-key-store-password = { _secret = "/run/keys/store_password"; };
+      https-key-store-password = {
+        _secret = "/run/keys/store_password";
+      };
       hostname-strict-https = false;
     };
     #TODO: sslCertificate = "";

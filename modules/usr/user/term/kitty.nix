@@ -1,4 +1,10 @@
-{ lib, config, pkgs, usr, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  ...
+}:
 with lib;
 let
   nixGL = import ../../../nixGL/nixGL.nix { inherit pkgs config; };

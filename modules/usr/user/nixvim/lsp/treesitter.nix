@@ -1,6 +1,14 @@
-{ config, lib, sys, pkgs, ... }:
-let langs = config.u.user.nixvim.langSupport;
-in {
+{
+  config,
+  lib,
+  sys,
+  pkgs,
+  ...
+}:
+let
+  langs = config.u.user.nixvim.langSupport;
+in
+{
   programs.nixvim = {
     keymaps = [
       # Treesitter
@@ -69,8 +77,12 @@ in {
         };
         swap = {
           enable = true;
-          swapNext = { "<leader>a" = "@parameters.inner"; };
-          swapPrevious = { "<leader>A" = "@parameter.outer"; };
+          swapNext = {
+            "<leader>a" = "@parameters.inner";
+          };
+          swapPrevious = {
+            "<leader>A" = "@parameter.outer";
+          };
         };
       };
     };

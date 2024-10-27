@@ -1,7 +1,16 @@
-{ globals, usr, lib, config, pkgs, ... }:
+{
+  globals,
+  usr,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.u.user.tmux;
-in {
+let
+  cfg = config.u.user.tmux;
+in
+{
   options.u.user.tmux.enable = mkOption {
     type = types.bool;
     default = config.u.user.enable;
@@ -22,88 +31,92 @@ in {
         }
         {
           plugin = continuum;
-          extraConfig =
-            "	 set -g @continuum-restore 'on'\n	 set -g @continuum-save-interval '10' # minutes\n ";
+          extraConfig = "	 set -g @continuum-restore 'on'\n	 set -g @continuum-save-interval '10' # minutes\n ";
         }
         { plugin = vim-tmux-navigator; }
       ];
 
-      extraConfig = ''
-        ${builtins.readFile ./.tmux.conf}
-        set-environment -g TMUX_PLUGIN_MANAGER_PATH '${globals.envVars.TMUX_PLUGIN_MANAGER_PATH}'
-        # needed for yazi
-        set -g allow-passthrough on
-        set -ga update-environment TERM
-        set -ga update-environment TERM_PROGRAM
-
-        set-option -ga terminal-overrides ",xterm-256color:Tc"
-      '' + (if usr.style then
-        with config.lib.stylix.colors; ''
-          # Default statusbar color
-          set-option -g status-style bg="#${base01}",fg="#${base0F}"
-
-          # Default window title colors
-          set-window-option -g window-status-style bg="#${base06}",fg="#${base01}"
-
-          # Default window with an activity alert
-          set-window-option -g window-status-activity-style bg="#${base01}",fg="#${base0D}"
-
-          # Active window title colors
-          set-window-option -g window-status-current-style bg="#${base02}",fg="#${base01}"
-
-          # Set active pane border color
-          set-option -g pane-active-border-style fg="#${base0E}"
-
-          # Set inactive pane border color
-          set-option -g pane-border-style fg="#${base04}"
-
-          # Message info
-          set-option -g message-style bg="#${base01}",fg="#${base0B}"
-
-          # Writing commands inactive
-          set-option -g message-command-style bg="#${base01}",fg="#${base07}"
-
-          # Pane number display
-          set-option -g display-panes-active-colour "#${base05}"
-          set-option -g display-panes-colour "#${base01}"
-
-          # Clock
-          set-window-option -g clock-mode-colour "#${base03}"
-
-          # Bell
-          set-window-option -g window-status-bell-style bg="#${base08}",fg="#${base01}"
-
-          set-option -g status-left "\
-          #[fg="#${base0F}", bg="#${base02}"]#{?client_prefix,#[bg="#${base0D}"],} #S \
-          #[fg="#${base02}", bg="#${base01}"]#{?client_prefix,#[fg="#${base0D}"],}#{?window_zoomed_flag, ⭘,} "
-
-          set-window-option -g window-status-current-format "\
-          #[fg="#${base01}", bg="#${base0E}"]\
-          #[fg="#${base01}", bg="#${base0E}"] #I* \
-          #[fg="#${base01}", bg="#${base0E}", bold] #W \
-          #[fg="#${base0E}", bg="#${base01}"]"
-
-          set-window-option -g window-status-format "\
-          #[fg="#${base01}",bg="#${base03}",noitalics]\
-          #[fg="#${base0E}",bg="#${base03}"] #I \
-          #[fg="#${base0E}", bg="#${base03}"] #W \
-          #[fg="#${base03}", bg="#${base01}"]"
-          set -g status-right-length 120
-          set-option -g status-right "\
-          #[fg="#${base02}", bg="#${base01}"]\
-          #[fg="#${base08}", bg="#${base02}"] #h\
-          #[fg="#${base09}", bg="#${base02}"]  [E]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'e.*:.*state UP' -A 3 | awk '/inet /{printf $2}')\
-          #[fg="#${base0A}", bg="#${base02}"]  [W]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'wlp.*state UP' -A 3 | awk '/inet /{printf $2}')\
-          #[fg="#${base0B}", bg="#${base02}"]  [I]#(curl ifconfig.me)\
-          #[fg="#${base0C}", bg="#${base02}"]  [V]#(ip a | grep -E 'wg0|ppp0|tun0' -A 3 | awk '/inet /{printf $2}' | grep '\.' || echo ''')\
-          #[fg="#${base01}", bg="#${base02}"] \
-          #[fg="#${base02}", bg="#${base01}"] \
-          #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\
-          #[fg="#${base0E}", bg="#${base02}"]  %H:%M \
-          #[fg="#${base0D}", bg="#${base06}"]" 
+      extraConfig =
         ''
-      else
-        "");
+          ${builtins.readFile ./.tmux.conf}
+          set-environment -g TMUX_PLUGIN_MANAGER_PATH '${globals.envVars.TMUX_PLUGIN_MANAGER_PATH}'
+          # needed for yazi
+          set -g allow-passthrough on
+          set -ga update-environment TERM
+          set -ga update-environment TERM_PROGRAM
+
+          set-option -ga terminal-overrides ",xterm-256color:Tc"
+        ''
+        + (
+          if usr.style then
+            with config.lib.stylix.colors;
+            ''
+              # Default statusbar color
+              set-option -g status-style bg="#${base01}",fg="#${base0F}"
+
+              # Default window title colors
+              set-window-option -g window-status-style bg="#${base06}",fg="#${base01}"
+
+              # Default window with an activity alert
+              set-window-option -g window-status-activity-style bg="#${base01}",fg="#${base0D}"
+
+              # Active window title colors
+              set-window-option -g window-status-current-style bg="#${base02}",fg="#${base01}"
+
+              # Set active pane border color
+              set-option -g pane-active-border-style fg="#${base0E}"
+
+              # Set inactive pane border color
+              set-option -g pane-border-style fg="#${base04}"
+
+              # Message info
+              set-option -g message-style bg="#${base01}",fg="#${base0B}"
+
+              # Writing commands inactive
+              set-option -g message-command-style bg="#${base01}",fg="#${base07}"
+
+              # Pane number display
+              set-option -g display-panes-active-colour "#${base05}"
+              set-option -g display-panes-colour "#${base01}"
+
+              # Clock
+              set-window-option -g clock-mode-colour "#${base03}"
+
+              # Bell
+              set-window-option -g window-status-bell-style bg="#${base08}",fg="#${base01}"
+
+              set-option -g status-left "\
+              #[fg="#${base0F}", bg="#${base02}"]#{?client_prefix,#[bg="#${base0D}"],} #S \
+              #[fg="#${base02}", bg="#${base01}"]#{?client_prefix,#[fg="#${base0D}"],}#{?window_zoomed_flag, ⭘,} "
+
+              set-window-option -g window-status-current-format "\
+              #[fg="#${base01}", bg="#${base0E}"]\
+              #[fg="#${base01}", bg="#${base0E}"] #I* \
+              #[fg="#${base01}", bg="#${base0E}", bold] #W \
+              #[fg="#${base0E}", bg="#${base01}"]"
+
+              set-window-option -g window-status-format "\
+              #[fg="#${base01}",bg="#${base03}",noitalics]\
+              #[fg="#${base0E}",bg="#${base03}"] #I \
+              #[fg="#${base0E}", bg="#${base03}"] #W \
+              #[fg="#${base03}", bg="#${base01}"]"
+              set -g status-right-length 120
+              set-option -g status-right "\
+              #[fg="#${base02}", bg="#${base01}"]\
+              #[fg="#${base08}", bg="#${base02}"] #h\
+              #[fg="#${base09}", bg="#${base02}"]  [E]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'e.*:.*state UP' -A 3 | awk '/inet /{printf $2}')\
+              #[fg="#${base0A}", bg="#${base02}"]  [W]#(ip a | grep -vE '(veth|br-|docker)' | grep -E 'wlp.*state UP' -A 3 | awk '/inet /{printf $2}')\
+              #[fg="#${base0B}", bg="#${base02}"]  [I]#(curl ifconfig.me)\
+              #[fg="#${base0C}", bg="#${base02}"]  [V]#(ip a | grep -E 'wg0|ppp0|tun0' -A 3 | awk '/inet /{printf $2}' | grep '\.' || echo ''')\
+              #[fg="#${base01}", bg="#${base02}"] \
+              #[fg="#${base02}", bg="#${base01}"] \
+              #[fg="#${base0D}", bg="#${base02}"] %d %b '%y\
+              #[fg="#${base0E}", bg="#${base02}"]  %H:%M \
+              #[fg="#${base0D}", bg="#${base06}"]" 
+            ''
+          else
+            ""
+        );
 
       #ip a | grep -vE '(veth|br-|docker)' | grep -e 'state UP' -A 2 | grep -Po '(?<=inet)[^/]*'
     };

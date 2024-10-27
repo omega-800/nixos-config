@@ -21,8 +21,7 @@
       # auto_quit
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L18-L46
       {
-        desc =
-          "Quit neovim if more than one window is open and only sidebar windows are list";
+        desc = "Quit neovim if more than one window is open and only sidebar windows are list";
         event = "BufEnter";
         group = "auto_quit";
 
@@ -59,7 +58,11 @@
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L49-L70
       {
         desc = "Save view with mkview for real files";
-        event = [ "BufWinLeave" "BufWritePost" "WinLeave" ];
+        event = [
+          "BufWinLeave"
+          "BufWritePost"
+          "WinLeave"
+        ];
         group = "autoview";
 
         callback.__raw = ''
@@ -69,8 +72,7 @@
         '';
       }
       {
-        desc =
-          "Try to load file view if available and enable view saving for real files";
+        desc = "Try to load file view if available and enable view saving for real files";
         event = "BufWinEnter";
         group = "autoview";
 
@@ -93,7 +95,11 @@
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L118-L122
       {
         desc = "Check if buffers changed on editor focus";
-        event = [ "FocusGained" "TermClose" "TermLeave" ];
+        event = [
+          "FocusGained"
+          "TermClose"
+          "TermLeave"
+        ];
         group = "checktime";
         command = "checktime";
       }
@@ -101,8 +107,7 @@
       # create_dir
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L125-L132
       {
-        desc =
-          "Automatically create parent directories if they don't exist when saving a file";
+        desc = "Automatically create parent directories if they don't exist when saving a file";
         event = "BufWritePre";
         group = "create_dir";
 
@@ -120,8 +125,7 @@
       # editorconfig_filetype
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L135-L144
       {
-        desc =
-          "Configure editorconfig after filetype detection to override `ftplugin`s";
+        desc = "Configure editorconfig after filetype detection to override `ftplugin`s";
         event = "FileType";
         group = "editorconfig_filetype";
 
@@ -137,7 +141,10 @@
 
       {
         desc = "Set up the default HighlightURL highlight group";
-        event = [ "VimEnter" "User" ];
+        event = [
+          "VimEnter"
+          "User"
+        ];
         group = "highlighturl";
 
         callback.__raw = ''

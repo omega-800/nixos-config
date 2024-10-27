@@ -1,8 +1,15 @@
-{ lib, pkgs, config, usr, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  usr,
+  ...
+}:
 let
   cfg = config.m.sw.android;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.m.sw.android.enable = mkEnableOption "enables android tools";
 
   config = mkIf cfg.enable {

@@ -1,7 +1,11 @@
-{ globals, usr, pkgs, ... }:
+{
+  globals,
+  usr,
+  pkgs,
+  ...
+}:
 let
-  diaryDir =
-    "${globals.envVars.XDG_DOCUMENTS_DIR}/diary/$(date +%Y)/$(date +%m)";
+  diaryDir = "${globals.envVars.XDG_DOCUMENTS_DIR}/diary/$(date +%Y)/$(date +%m)";
   diaryEntry = "${diaryDir}/$(date +%d).md";
   diaryStartup = pkgs.writeShellScriptBin "diary-current-list" ''
     [ -d "${diaryDir}" ] || mkdir -p "${diaryDir}"
@@ -33,12 +37,16 @@ let
 
     ${diaryStartup}/bin/diary-current-list
   '';
-in {
+in
+{
   imports = [
     ./aliases.nix
     ./env.nix
     (import ./shells/${usr.shell.pname}.nix { inherit shellInitExtra; })
     ./posix.nix
   ];
-  home.packages = with pkgs; [ diaryStartup diaryEdit ];
+  home.packages = with pkgs; [
+    diaryStartup
+    diaryEdit
+  ];
 }

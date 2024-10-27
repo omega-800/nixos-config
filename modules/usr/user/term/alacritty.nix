@@ -1,4 +1,10 @@
-{ lib, config, pkgs, usr, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  ...
+}:
 with lib;
 let
   nixGL = import ../../../nixGL/nixGL.nix { inherit pkgs config; };
@@ -11,7 +17,10 @@ in
   };
 
   config = mkIf (cfg.enable && usr.term == "alacritty") {
-    home.packages = with pkgs; [ ueberzugpp ctpv];
+    home.packages = with pkgs; [
+      ueberzugpp
+      ctpv
+    ];
     programs.alacritty = {
       enable = true;
       package = (nixGL pkgs.alacritty);
