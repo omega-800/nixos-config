@@ -1,4 +1,5 @@
-{ sys, lib, ... }: {
+{ sys, lib, ... }:
+{
   config = lib.mkIf sys.hardened {
     boot.kernel.sysctl = {
       # Unprivileged userns has a large attack surface and has been the cause

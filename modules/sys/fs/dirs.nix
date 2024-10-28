@@ -1,9 +1,20 @@
 { config, lib, ... }:
 let
   cfg = config.m.fs.dirs;
-  inherit (lib) mkEnableOption mkOption mkIf mkMerge;
-  inherit (lib.types) listOf submodule str nullOr;
-in {
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    mkMerge
+    ;
+  inherit (lib.types)
+    listOf
+    submodule
+    str
+    nullOr
+    ;
+in
+{
   options.m.fs.dirs = {
     enable = mkEnableOption "enables creation of directories";
     extraDirs = mkOption {
@@ -36,8 +47,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.settings."mk-dirs" = mkMerge
-      (map (dir: { "${dir.path}".d = { inherit (dir) group mode user; }; })
-        cfg.extraDirs);
+    systemd.tmpfiles.settings."mk-dirs" = mkMerge (
+      map (dir: {
+        "${dir.path}".d = {
+          inherit (dir) group mode user;
+        };
+      }) cfg.extraDirs
+    );
   };
 }

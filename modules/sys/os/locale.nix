@@ -1,4 +1,5 @@
-{ sys, ... }: {
+{ sys, ... }:
+{
   i18n = {
     defaultLocale = sys.locale;
     extraLocaleSettings = {

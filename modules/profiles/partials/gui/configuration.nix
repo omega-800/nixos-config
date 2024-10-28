@@ -1,9 +1,13 @@
 { lib, ... }:
-let inherit (lib) mkDefault;
-in {
+let
+  inherit (lib) mkDefault;
+in
+{
   imports = [ ../../sys/wm ];
   m = {
-    net = { wifi.enable = mkDefault true; };
+    net = {
+      wifi.enable = mkDefault true;
+    };
     fs = {
       enable = mkDefault true;
       dirs.enable = mkDefault true;

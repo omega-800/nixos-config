@@ -2,8 +2,10 @@
 let
   name = "remote-build";
   script =
-    let fzf = "${pkgs.fzf}/bin/fzf";
-    in pkgs.writeShellScriptBin name ''
+    let
+      fzf = "${pkgs.fzf}/bin/fzf";
+    in
+    pkgs.writeShellScriptBin name ''
       help() {
         cat <<EOF
 

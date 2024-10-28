@@ -1,4 +1,5 @@
-{ usr, ... }: {
+{ usr, ... }:
+{
   services.grafana = {
     enable = true;
     #dataDir = "/srv/grafana";

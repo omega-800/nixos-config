@@ -1,18 +1,19 @@
-{ config, pkgs, usr, sys, lib, globals, ... }:
+{ config, pkgs, usr, sys, lib, inputs, ... }:
 let
   ifExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in {
+in
+{
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
     nixPath = [
-      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixpkgs=${inputs.nixpkgs}"
       #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
-    package = pkgs.nixFlakes;
+    #package = pkgs.nixFlakes;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
       extra-platforms = config.boot.binfmt.emulatedSystems;
@@ -59,7 +60,7 @@ in {
     #FIXME: fml broke my pc again
     # mutableUsers = false;
     users = {
-#FIXME: i fucked uuuup
+      #FIXME: i fucked uuuup
       root = {
         # hashedPasswordFile = config.sops.secrets."users/root".path;
         # to lock root account
@@ -67,7 +68,7 @@ in {
       };
       ${usr.username} = {
         isNormalUser = true;
-#FIXME: why doesn't this work??
+        #FIXME: why doesn't this work??
         hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
         extraGroups = [ "wheel" "video" "audio" ]
           ++ ifExist [ "podman" "adbusers" ];

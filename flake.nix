@@ -1,5 +1,5 @@
 {
-  description = "Nixos config flake";
+  description = "omega's NixOS config flake";
 
   nixConfig = {
     #keep-outputs = false;       # Nice for developers
@@ -28,13 +28,14 @@
 
     extra-experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-    bash-prompt = "> ";
+    #bash-prompt = "> ";
     use-xdg-base-directories = true;
     system-features = "kvm";
   };
 
-  outputs = { self, deploy-rs, ... }@inputs:
+  outputs = inputs:
     let
+<<<<<<< HEAD
       inherit (import ./modules/lib/builders { inherit inputs; })
         mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch
         mapPkgsByArch mapDeployments;
@@ -57,26 +58,45 @@
         (system: deployLib: deployLib.deployChecks self.deploy)
         deploy-rs.lib;
       # formatter
+=======
+      inherit (import ./modules/lib/flake { inherit inputs; })
+        mapHomes mapHosts mapDroids mapGenerics mapPkgs mapApps mapDeployments
+        mapChecks mapFormatters mapShells;
+    in
+    {
+      homeConfigurations = mapHomes;
+      nixosConfigurations = mapHosts;
+      nixOnDroidConfigurations = mapDroids;
+      systemConfigs = mapGenerics;
+      packages = mapPkgs;
+      apps = mapApps;
+      deploy = mapDeployments;
+      checks = mapChecks;
+      formatter = mapFormatters;
+      devShells = mapShells;
+      # devShells = mapModules ./modules/sh {
+      #   inherit (inputs) nixvim;
+      # };
+>>>>>>> refs/remotes/origin/main
       # hydraJobs
     };
 
   inputs = {
+    impermanence.url = "github:nix-community/impermanence";
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
+
     # döes nöt nörk :(
     # simplex = {
     #   url = "github:simplex-chat/simplex-chat";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
-    #TODO: nixpkgs.follows = correct-version
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
-
-    impermanence.url = "github:nix-community/impermanence";
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     home-manager-unstable = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -85,30 +105,67 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    system-manager = {
+    disko-unstable = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    disko-stable = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    system-manager-unstable = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nix-on-droid = {
+    system-manager-stable = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    nix-on-droid-unstable = {
       url = "github:nix-community/nix-on-droid/master";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager-unstable";
       };
     };
-
-    attic = {
+    nix-on-droid-stable = {
+      url = "github:nix-community/nix-on-droid/master";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager-stable";
+      };
+    };
+    attic-unstable = {
       url = "github:zhaofengli/attic";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nixgl.url = "github:nix-community/nixGL";
-    deploy-rs = {
+    attic-stable = {
+      url = "github:zhaofengli/attic";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    nixgl-unstable = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    nixgl-stable = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    deploy-rs-unstable = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    sops-nix = {
+    deploy-rs-stable = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    sops-nix-unstable = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    sops-nix-stable = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     # hyprland.url =
     #   "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
@@ -125,15 +182,32 @@
     #   url = "github:librephoenix/nix-straight.el/pgtk-patch";
     #   flake = false;
     # };
-    stylix.url = "github:danth/stylix";
+    stylix-unstable = {
+      url = "github:danth/stylix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        home-manager.follows = "home-manager-unstable";
+      };
+    };
+    stylix-stable = {
+      url = "github:danth/stylix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager-stable";
+      };
+    };
     rust-overlay.url = "github:oxalica/rust-overlay";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    lonsdaleite = {
+    lonsdaleite-unstable = {
       url = "github:omega-800/lonsdaleite";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    lonsdaleite-stable = {
+      url = "github:omega-800/lonsdaleite";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     omega-dwm = {
       url = "github:omega-800/dwm";
@@ -151,11 +225,16 @@
     #   url = "github:omega-800/nixvim";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    nixvim = {
+    nixvim-unstable = {
       url = "github:nix-community/nixvim";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.home-manager.follows = "home-manager-unstable";
     };
-    nixvim-stable = { url = "github:nix-community/nixvim/nixos-24.05"; };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.home-manager.follows = "home-manager-stable";
+    };
 
     # disko.url = "github:nix-community/disko";
 

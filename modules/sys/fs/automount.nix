@@ -2,7 +2,8 @@
 let
   cfg = config.m.fs.automount;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.m.fs.automount.enable = mkEnableOption "enables automount";
 
   config = mkIf cfg.enable {
@@ -13,7 +14,9 @@ in {
       mountOnMedia = true;
       settings = {
         "udisks2.conf" = {
-          defaults = { encryption = "luks2"; };
+          defaults = {
+            encryption = "luks2";
+          };
           udisks2 = {
             modules = [ "*" ];
             modules_load_preference = "ondemand";

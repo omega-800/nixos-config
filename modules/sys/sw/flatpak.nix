@@ -1,7 +1,14 @@
-{ lib, config, pkgs, ... }:
-let cfg = config.m.sw.flatpak;
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.m.sw.flatpak;
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.m.sw.flatpak.enable = mkEnableOption "enables flatpak";
 
   config = mkIf cfg.enable {

@@ -20,22 +20,12 @@
     };
     hw.power.enable = false;
     os.boot.mode = "ext";
-    sec = {
-      enable = false;
-      clamav.enable = false;
-    };
     dev = {
-      enable = false;
       docker.enable = false;
       virt.enable = false;
       mysql.enable = false;
     };
-    net = {
-      macchanger.enable = false;
-      firewall.enable = false;
-      ssh.enable = false;
-      vpn.wg.enable = false;
-    };
+    net.vpn.wg.enable = false;
   };
   networking = {
     hostId = "ffffff00";

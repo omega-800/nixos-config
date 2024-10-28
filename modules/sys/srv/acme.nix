@@ -1,5 +1,13 @@
-{ lib, usr, config, ... }: {
-  sops.secrets = { "duckdns/token" = { }; };
+{
+  lib,
+  usr,
+  config,
+  ...
+}:
+{
+  sops.secrets = {
+    "duckdns/token" = { };
+  };
 
   security.acme = {
     acceptTerms = true;
@@ -18,14 +26,15 @@
           "DUCKDS_TOKEN_FILE" = config.sops.secrets."duckdns/token".path;
         };
         enableDebugLogs = true;
-        extraDomainNames =
-          [ "media.omega-800.duckdns.org" "vpn.omega-800.duckdns.org" ];
+        extraDomainNames = [
+          "media.omega-800.duckdns.org"
+          "vpn.omega-800.duckdns.org"
+        ];
       };
     };
   };
 
-  environment.persistence =
-    lib.mkIf config.m.fs.disko.root.impermanence.enable {
-      "/nix/persist".directories = [ "/var/lib/acme" ];
-    };
+  environment.persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+    "/nix/persist".directories = [ "/var/lib/acme" ];
+  };
 }

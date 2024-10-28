@@ -1,5 +1,6 @@
 # https://docs.attic.rs/admin-guide/deployment/nixos.html
-{ inputs, lib, ... }: {
+{ inputs, lib, ... }:
+{
   imports = [ inputs.attic.nixosModules.atticd ];
   config = {
     services.atticd = {

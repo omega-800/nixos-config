@@ -1,4 +1,10 @@
-{ usr, sys, pkgs, lib, ... }:
+{
+  usr,
+  sys,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
 {
   imports = [
@@ -6,7 +12,10 @@ with lib;
   ];
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = mkDefault [ "nix-command" "flakes" ];
+    settings.experimental-features = mkDefault [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   nixpkgs.config.allowUnfree = mkDefault true;

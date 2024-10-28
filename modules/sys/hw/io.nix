@@ -2,12 +2,12 @@
 let
   cfg = config.m.hw.io;
   inherit (lib) mkIf mkEnableOption;
-in {
+in
+{
   options.m.hw.io = {
     enable = mkEnableOption "enables input";
     touchpad.enable = mkEnableOption "enables touchpad";
-    swapCaps.disable = mkEnableOption
-      "doesn't swap capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
+    swapCaps.disable = mkEnableOption "doesn't swap capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = {
     services = mkIf cfg.enable {

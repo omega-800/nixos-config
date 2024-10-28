@@ -1,5 +1,11 @@
-{ globals, lib, usr, ... }:
-with lib; {
+{
+  globals,
+  lib,
+  usr,
+  ...
+}:
+with lib;
+{
   imports = [ ];
   u = {
     dev.enable = mkDefault true;

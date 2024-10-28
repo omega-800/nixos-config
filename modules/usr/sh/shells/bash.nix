@@ -1,6 +1,14 @@
-{ shellInitExtra }:
-{ config, usr, globals, ... }: {
-  programs.bash = {
+{ config, usr, globals, lib, ... }:
+let
+  inherit (lib) mkOption types mkIf;
+  cfg = config.u.sh.bash;
+in
+{
+  options.u.sh.bash.enable = mkOption {
+    type = types.bool;
+    default = usr.shell.pname == "bash";
+  };
+  config.programs.bash = mkIf cfg.enable {
     enable = true;
     enableCompletion = true;
     historyControl = [ "ignorespace" "ignoredups" ];
@@ -32,7 +40,7 @@
       set -o vi
       source ${./cdcomplete};
       _bcpp --defaults
-      ${shellInitExtra}
+      ${config.u.sh.shellInitExtra}
     '';
   };
 }

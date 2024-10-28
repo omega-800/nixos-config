@@ -1,8 +1,22 @@
-{ inputs, config, sys, lib, pkgs, usr, ... }:
+{
+  inputs,
+  config,
+  sys,
+  lib,
+  pkgs,
+  usr,
+  ...
+}:
 let
   cfg = config.m.wm.sway;
-  inherit (lib) mkOption types mkIf mkMerge;
-in {
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    ;
+in
+{
   options.m.wm.sway = {
     enable = mkOption {
       description = "enables sway";

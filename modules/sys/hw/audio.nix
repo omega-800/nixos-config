@@ -1,8 +1,15 @@
-{ sys, lib, config, pkgs, ... }:
+{
+  sys,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.m.hw.audio;
   inherit (lib) mkEnableOption mkIf mkMerge;
-in {
+in
+{
   options.m.hw.audio = {
     enable = mkEnableOption "enables audio";
     pipewire = mkEnableOption "enables pipewire, pulseaudio otherwise";
@@ -14,20 +21,23 @@ in {
       # Enable sound.
       # sound.enable = true;
       hardware.pulseaudio.enable = !cfg.pipewire;
-      environment.systemPackages =
-        [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
+      environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
       security.rtkit.enable = cfg.pipewire;
-      services.pipewire = if cfg.pipewire then {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-        jack.enable = true;
-      } else {
-        enable = false;
-      };
+      services.pipewire =
+        if cfg.pipewire then
+          {
+            enable = true;
+            alsa.enable = true;
+            alsa.support32Bit = true;
+            pulse.enable = true;
+            jack.enable = true;
+          }
+        else
+          {
+            enable = false;
+          };
     }
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
@@ -53,16 +63,20 @@ in {
       # enables using headset buttons to control media player
       systemd.user.services.mpris-proxy = lib.mkIf (!sys.paranoid) {
         description = "Mpris proxy";
-        after = [ "network.target" "sound.target" ];
+        after = [
+          "network.target"
+          "sound.target"
+        ];
         wantedBy = [ "default.target" ];
         serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
       };
 
-      environment.persistence =
-        lib.mkIf config.m.fs.disko.root.impermanence.enable {
-          "/nix/persist".directories =
-            [ "/var/lib/bluetooth" "/etc/bluetooth" ];
-        };
+      environment.persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+        "/nix/persist".directories = [
+          "/var/lib/bluetooth"
+          "/etc/bluetooth"
+        ];
+      };
     })
     # (mkIf (!cfg.bluetooth && sys.hardened) {
     #   hardware.bluetooth.enable = false;

@@ -1,4 +1,21 @@
-{ pkgs, usr, sys, globals, lib, config, ... }: {
+{
+  pkgs,
+  usr,
+  sys,
+  globals,
+  lib,
+  config,
+  ...
+}:
+let
+  inherit (lib)
+    flatten
+    omega
+    fromHexString
+    mkForce
+    ;
+in
+{
   android-integration = {
     termux-open.enable = true;
     termux-open-url.enable = true;
@@ -18,7 +35,14 @@
     # binSh = lib.mkForce "${usr.shell}";
     etcBackupExtension = ".bak";
     extraOutputsToInstall =
-      if usr.extraBloat then [ "devdoc" "dev" "info" ] else [ ];
+      if usr.extraBloat then
+        [
+          "devdoc"
+          "dev"
+          "info"
+        ]
+      else
+        [ ];
     sessionVariables = globals.envVars;
   };
 
@@ -26,39 +50,53 @@
 
   nix = {
     extraOptions = "experimental-features = nix-command flakes";
-    trustedPublicKeys =
-      lib.flatten (lib.my.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
+    trustedPublicKeys = flatten (omega.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
   };
 
-  /* home-manager = {
-       backupFileExtension = ".bak-hm";
-       useGlobalPackages = true;
-       useUserPackages = false;
-       config = ../usr;
-     };
+  /*
+    home-manager = {
+      backupFileExtension = ".bak-hm";
+      useGlobalPackages = true;
+      useUserPackages = false;
+      config = ../usr;
+    };
   */
 
   time.timeZone = sys.timezone;
   terminal = {
     inherit (sys) font;
-    colors = let
-      theme = lib.my.templ.fromYAML ../themes/${usr.theme}/${usr.theme}.yaml;
-    in (lib.my.attrs.filterMapAttrNames
-      (n: v: !builtins.elem n [ "scheme" "author" ]) (n:
-        "color" +
-        # remove leading zeros
-        builtins.toString (lib.fromHexString (builtins.substring 4 6 n))) theme)
-    // {
-      # https://github.com/danth/stylix/blob/master/modules/alacritty/hm.nix
-      background = theme.base00;
-      foreground = theme.base05;
-      cursor = theme.base05;
-    };
+    colors =
+      let
+        theme = omega.templ.fromYAML ../themes/${usr.theme}/${usr.theme}.yaml;
+      in
+      (omega.attrs.filterMapAttrNames
+        (
+          n: v:
+          !builtins.elem n [
+            "scheme"
+            "author"
+          ]
+        )
+        (
+          n:
+          "color"
+          +
+            # remove leading zeros
+            builtins.toString (fromHexString (builtins.substring 4 6 n))
+        )
+        theme
+      )
+      // {
+        # https://github.com/danth/stylix/blob/master/modules/alacritty/hm.nix
+        background = theme.base00;
+        foreground = theme.base05;
+        cursor = theme.base05;
+      };
   };
   user = {
     inherit (usr) shell;
     home = usr.homeDir;
-    userName = lib.mkForce usr.username;
+    userName = mkForce usr.username;
   };
   system.stateVersion = "24.05";
 }

@@ -1,8 +1,14 @@
 { modulesPath, lib, ... }:
 let
   inherit (lib) mkDefault mkOverride;
-  nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
-in {
+  nasDirs = [
+    "/store/backup"
+    "/store/share"
+    "/store/share/img"
+    "/store/pers"
+  ];
+in
+{
   imports = [
     (modulesPath + "/profiles/minimal.nix")
     #TODO: test

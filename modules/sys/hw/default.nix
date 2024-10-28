@@ -5,7 +5,6 @@
     ./kernel.nix
     ./opengl.nix
     ./power.nix
-    ./swhkd.nix
     ./sysctl.nix
   ];
 }

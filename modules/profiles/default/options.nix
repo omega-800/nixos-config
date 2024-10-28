@@ -1,10 +1,12 @@
 { config, lib, pkgs, ... }:
 let
   # kind of a hacky workaround but if it works then it works
-  inherit (import ../../lib/my/dirs.nix { inherit lib; })
-    listNixModuleNames listFilterDirs;
+  inherit (import ../../lib/omega/dirs.nix { inherit lib; })
+    listNixModuleNames listFilterDirs listDirs;
+  inherit (import ../../lib/omega/cfg.nix { inherit lib; }) filterHosts;
   inherit (lib) mkOption types;
-in {
+in
+{
   options.c = {
     sys = {
       pubkeys = mkOption {
@@ -21,14 +23,16 @@ in {
         type = types.str;
         default = "nixie";
       }; # will be set to the dirname of the host configs
-      profile = let
-        profiles =
-          listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
-          ../.;
-      in mkOption {
-        type = types.enum profiles;
-        default = "pers";
-      }; # select a profile defined from my profiles directory
+      profile =
+        let
+          profiles =
+            listFilterDirs (n: v: !(builtins.elem n [ "default" "partials" ]))
+              ../.;
+        in
+        mkOption {
+          type = types.enum profiles;
+          default = "pers";
+        }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
         type = types.listOf (types.enum [
@@ -44,6 +48,13 @@ in {
         ]);
         default = [ ];
       };
+      #TODO: implement
+      friends = mkOption {
+        type =
+          let peers = filterHosts (c: c.sys.hostname != config.c.sys.hostname);
+          in types.listOf (types.enum peers);
+        default = [ ];
+      };
       stable = mkOption {
         type = types.bool;
         default = config.c.sys.profile == "serv";
@@ -51,7 +62,7 @@ in {
       system = mkOption {
         type = types.str;
         default = "x86_64-linux";
-      }; # system arch
+      };
       genericLinux = mkOption {
         type = types.bool;
         default = false;
@@ -59,11 +70,11 @@ in {
       timezone = mkOption {
         type = types.str;
         default = "Europe/Zurich";
-      }; # select timezone
+      };
       locale = mkOption {
         type = types.str;
         default = "en_US.UTF-8";
-      }; # select locale
+      };
       region = mkOption {
         type = types.str;
         default = "CH";
@@ -71,15 +82,15 @@ in {
       kbLayout = mkOption {
         type = types.str;
         default = "de_CH-latin1";
-      }; # select keyboard layout
+      };
       font = mkOption {
         type = types.str;
         default = "${pkgs.tamzen}/share/consolefonts/Tamzen8x16.psf";
-      }; # Selected console font
+      }; # console font
       fontPkg = mkOption {
         type = types.package;
         default = pkgs.tamzen;
-      }; # Console font package
+      }; # console font package
       hardened = mkOption {
         type = types.bool;
         default = true;
@@ -93,8 +104,9 @@ in {
         default = 0;
       };
       services = mkOption {
-        type = let serviceTypes = listNixModuleNames ../../sys/srv;
-        in types.listOf (types.enum serviceTypes);
+        type =
+          let serviceTypes = listNixModuleNames ../../sys/srv;
+          in types.listOf (types.enum serviceTypes);
         default = [ ];
       };
       monitorMeDaddy = mkOption {
@@ -139,25 +151,25 @@ in {
       dotfilesDir = mkOption {
         type = types.str;
         default = "~/.dotfiles";
-      }; # absolute path of the local repo
+      };
       theme = mkOption {
-        type = types.str;
+        type = let themes = listDirs ../../themes; in types.enum themes;
         default = "catppuccin-mocha";
-      }; # selected theme from my themes directory (./themes/)
+      };
       wm = mkOption {
         type = types.str;
         default = if config.c.usr.minimal then "none" else "dwm";
-      }; # Selected window manager or desktop environment: must select one in both ./user/wm/ and ./system/wm/
-      # window manager type (hyprland or x11) translator
+      };
       wmType = mkOption {
         type = types.str;
-        default = if config.c.usr.minimal then
-          "none"
-        else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
-          == "sway") then
-          "wayland"
-        else
-          "x11";
+        default =
+          if config.c.usr.minimal then
+            "none"
+          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm
+            == "sway") then
+            "wayland"
+          else
+            "x11";
       };
       term = mkOption {
         type = types.enum [ "alacritty" "kitty" "st" ];

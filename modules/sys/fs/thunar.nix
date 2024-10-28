@@ -1,12 +1,22 @@
-{ pkgs, lib, config, ... }:
-let cfg = config.m.fs.thunar;
-in {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+let
+  cfg = config.m.fs.thunar;
+in
+{
   options.m.fs.thunar.enable = lib.mkEnableOption "enables thunar";
   config = lib.mkIf cfg.enable {
     programs = {
       thunar = {
         enable = true;
-        plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+        plugins = with pkgs.xfce; [
+          thunar-archive-plugin
+          thunar-volman
+        ];
       };
       evince.enable = true;
     };
