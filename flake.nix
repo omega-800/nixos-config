@@ -35,30 +35,6 @@
 
   outputs = inputs:
     let
-<<<<<<< HEAD
-      inherit (import ./modules/lib/builders { inherit inputs; })
-        mapHosts mapHomes mapGeneric mapDroids mapModulesByArch mapAppsByArch
-        mapPkgsByArch mapDeployments;
-      # add more if needed
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    in
-    {
-      #TODO: move paths somewhere else?
-      homeConfigurations = mapHomes ./modules/hosts { };
-      nixosConfigurations = mapHosts ./modules/hosts { };
-      nixOnDroidConfigurations = mapDroids ./modules/hosts { };
-      systemConfigs = mapGeneric ./modules/hosts { };
-      # devShells = mapModulesByArch ./modules/sh supportedSystems {
-      #   inherit (inputs) nixvim;
-      # };
-      packages = mapPkgsByArch supportedSystems { };
-      apps = mapAppsByArch supportedSystems { };
-      deploy = mapDeployments ./modules/hosts { };
-      checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deploy-rs.lib;
-      # formatter
-=======
       inherit (import ./modules/lib/flake { inherit inputs; })
         mapHomes mapHosts mapDroids mapGenerics mapPkgs mapApps mapDeployments
         mapChecks mapFormatters mapShells;
@@ -77,7 +53,6 @@
       # devShells = mapModules ./modules/sh {
       #   inherit (inputs) nixvim;
       # };
->>>>>>> refs/remotes/origin/main
       # hydraJobs
     };
 
