@@ -1,8 +1,15 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, modulesPath, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    # https://nixos.wiki/wiki/NixOS_on_ARM
+    "${modulesPath}/installer/sd-card/sd-image-raspberrypi.nix"
   ];
+  nixpkgs.config.allowUnsupportedSystem = true;
+  nixpkgs.hostPlatform.system = "armv7l-linux";
+  nixpkgs.buildPlatform.system =
+    "x86_64-linux"; # If you build on x86 other wise changes this.
+  # ... extra configs as above
   m = {
     fs.disko = {
       enable = true;

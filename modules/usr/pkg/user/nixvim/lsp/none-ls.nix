@@ -85,7 +85,7 @@ in {
             }
             (mkIf (elem "sql" langs) { sqlfluff.enable = true; })
             (mkIf (elem "go" langs) { golangci_lint.enable = true; })
-            #(mkIf (elem "rust" langs) { ltrs.enable = true; })
+            (mkIf (elem "rust" langs) { ltrs.enable = true; })
             (mkIf (elem "nix" langs) { statix.enable = true; })
             (mkIf (elem "python" langs) { pylint.enable = true; })
             (mkIf (elem "css" langs) { checkstyle.enable = true; })
