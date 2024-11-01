@@ -2,6 +2,8 @@
 
 https://github.com/ibizaman/selfhostblocks
 https://github.com/cynicsketch/nix-mineral
+https://discourse.nixos.org/t/error-building-a-raspberry-pi-image-using-nix-on-a-x86-64-system/37968/2
+https://jade.fyi/blog/flakes-arent-real
 
 ## home-manager
 
