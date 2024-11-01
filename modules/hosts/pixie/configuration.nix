@@ -1,9 +1,15 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, modulesPath, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    # https://nixos.wiki/wiki/NixOS_on_ARM
+    "${modulesPath}/installer/sd-card/sd-image-raspberrypi.nix"
   ];
+  nixpkgs.config.allowUnsupportedSystem = true;
+  nixpkgs.hostPlatform.system = "armv7l-linux";
+  nixpkgs.buildPlatform.system =
+    "x86_64-linux"; # If you build on x86 other wise changes this.
+  # ... extra configs as above
   m = {
     fs.disko = {
       enable = true;
@@ -36,13 +42,11 @@
           policy = [ "magic" ];
         };
         ipv4 = {
-          addresses = [
-            {
-              address = "10.100.0.10";
-              # address = "10.0.5.121";
-              prefixLength = 24;
-            }
-          ];
+          addresses = [{
+            address = "10.100.0.10";
+            # address = "10.0.5.121";
+            prefixLength = 24;
+          }];
         };
       };
     };

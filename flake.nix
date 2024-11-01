@@ -30,6 +30,7 @@
     auto-optimise-store = true;
     #bash-prompt = "> ";
     use-xdg-base-directories = true;
+    # system-features = "kvm";
   };
 
   outputs = inputs:

@@ -36,7 +36,13 @@ in
         lsp = {
           enable = true;
           servers = mkMerge [
-            { typos_lsp.enable = true; }
+            {
+              typos-lsp = {
+                enable = true;
+                # TODO: fix this
+                autostart = false;
+              };
+            }
             (mkIf (elem "js" langs) {
               volar.enable = true;
               jsonls.enable = true;
