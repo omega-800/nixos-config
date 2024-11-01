@@ -14,6 +14,9 @@ in
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
     #package = pkgs.nixFlakes;
+    # for better error msgs
+    # https://lix.systems/
+    package = pkgs.lix;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
       extra-platforms = config.boot.binfmt.emulatedSystems;
