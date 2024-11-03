@@ -1,9 +1,8 @@
-{
-  config,
-  usr,
-  lib,
-  sys,
-  ...
+{ config
+, usr
+, lib
+, sys
+, ...
 }:
 let
   cfg = config.m.net.wifi;
@@ -45,14 +44,14 @@ in
           127.0.0.1 local.sendy.inteco.ch
         '';
         nameservers = [
-          # DNSWatch
-          "84.200.69.80"
-          # Quad9
-          "208.67.222.222"
           # Google
           "8.8.8.8"
           # Cloudflare
           "1.1.1.1"
+          # DNSWatch
+          "84.200.69.80"
+          # Quad9
+          "208.67.222.222"
         ];
 
         #TODO: make configurable

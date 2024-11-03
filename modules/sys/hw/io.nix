@@ -88,10 +88,12 @@ in
                   ''
                 }
                 ${
+                # FIXME: don't remap sft and ctl
                   optionalString vl ''
                     lsft esc
                     rsft (layer-switch vim)
                     lctl (tap-hold $tap-time $hold-time spc (layer-while-held vim))
+                    g (tap-hold $tap-time $hold-time g (layer-while-held vim))
                   ''
                 }
               )
