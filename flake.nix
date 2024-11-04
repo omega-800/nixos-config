@@ -1,6 +1,7 @@
 {
   description = "omega's NixOS config flake";
 
+  # TODO: put this into configuration.nix
   nixConfig = {
     #keep-outputs = false;       # Nice for developers
     #keep-derivations = false;   # Idem
@@ -13,6 +14,7 @@
       "https://nixpkgs-wayland.cachix.org"
       "https://viperml.cachix.org"
       "https://cache.lix.systems"
+      "https://microvm.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -22,6 +24,7 @@
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys="
     ];
     cores = 0;
     max-jobs = 2;
@@ -70,6 +73,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
 
+    # TODO: remove unstable suffix bc of conventions
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
     home-manager-unstable = {
@@ -86,6 +90,14 @@
     };
     disko-stable = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    microvm-unstable = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    microvm-stable = {
+      url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     system-manager-unstable = {
