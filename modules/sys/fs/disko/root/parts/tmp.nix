@@ -1,11 +1,18 @@
-{ config, lib, sys, ... }: {
+{
+  config,
+  lib,
+  sys,
+  ...
+}:
+{
   # disko.devices = lib.mkIf config.m.fs.disko.enable {
   #   nodev."/tmp" = {
   #     fsType = "tmpfs";
   #   };
   # };
   boot.tmp = {
-    cleanOnBoot = true;
-    useTmpfs = true;
+    #TODO: make /run/secrets permanent
+    # cleanOnBoot = true;
+    # useTmpfs = true;
   };
 }

@@ -1,18 +1,24 @@
-{ lib, config, pkgs, usr, sys, ... }:
-with lib;
-let cfg = config.m.dev.virt;
-in {
-  options.m.dev.virt.enable = mkOption {
-    description = "enables virtualization";
-    type = types.bool;
-    default = config.m.dev.enable
-      && (builtins.any (f: builtins.elem f [ "parent" "developer" ])
-      sys.flavors);
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  sys,
+  ...
+}:
+let
+  cfg = config.m.dev.virt;
+  inherit (lib) mkEnableOption mkIf;
+in
+{
+  options.m.dev.virt = {
+    enable = mkEnableOption "enables virtualization";
+    distrobox.enable = mkEnableOption "enables distrobox";
   };
 
   config = mkIf cfg.enable {
     environment = {
-      systemPackages = mkIf (usr.extraBloat) (with pkgs; [ distrobox ]);
+      systemPackages = mkIf (cfg.distrobox.enable) (with pkgs; [ distrobox ]);
 
       persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
         "/nix/persist".directories = [
@@ -25,10 +31,17 @@ in {
     };
 
     programs.virt-manager.enable = true;
-    users.users.${usr.username}.extraGroups = [ "libvirt" "libvirtd" "kvm" ];
+    users.users.${usr.username}.extraGroups = [
+      "libvirt"
+      "libvirtd"
+      "kvm"
+    ];
     virtualisation.libvirtd = {
       enable = true;
-      allowedBridges = [ "nm-bridge" "virbr0" ];
+      allowedBridges = [
+        "nm-bridge"
+        "virbr0"
+      ];
       qemu.runAsRoot = !sys.hardened;
     };
   };

@@ -1,8 +1,14 @@
 { modulesPath, lib, ... }:
 let
   inherit (lib) mkDefault mkOverride;
-  nasDirs = [ "/store/backup" "/store/share" "/store/share/img" "/store/pers" ];
-in {
+  nasDirs = [
+    "/store/backup"
+    "/store/share"
+    "/store/share/img"
+    "/store/pers"
+  ];
+in
+{
   imports = [
     (modulesPath + "/profiles/minimal.nix")
     #TODO: test
@@ -19,7 +25,6 @@ in {
       io = {
         enable = mkDefault false;
         touchpad.enable = mkDefault false;
-        swapCaps.enable = mkDefault false;
       };
       openGL.enable = mkDefault false;
       power = {
@@ -28,23 +33,13 @@ in {
         powersave = mkOverride 900 true;
       };
     };
-    sec = {
-      enable = mkDefault true;
-      clamav.enable = mkDefault true;
-    };
     dev = {
-      enable = mkDefault true;
       docker.enable = mkDefault true;
       virt.enable = mkDefault true;
       mysql.enable = mkDefault false;
       tools.disable = mkDefault true;
     };
     net = {
-      enable = mkDefault true;
-      macchanger.enable = mkDefault true;
-      firewall.enable = mkDefault true;
-      ssh.enable = mkDefault true;
-      sshd.enable = mkDefault true;
       wifi.enable = mkDefault false;
       vpn = {
         forti.enable = mkDefault false;
@@ -71,7 +66,6 @@ in {
         ];
       };
     };
-    sw.enable = mkDefault false;
   };
   #https://github.com/nix-community/srvos/blob/main/nixos/common/zfs.nix
 

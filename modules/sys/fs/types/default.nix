@@ -1,1 +1,6 @@
-{ imports = [ ./btrfs.nix ./zfs.nix ]; }
+{
+  imports = [
+    ./btrfs.nix
+    ./zfs.nix
+  ];
+}

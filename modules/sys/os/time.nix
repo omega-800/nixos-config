@@ -1,13 +1,21 @@
-{ sys, config, lib, ... }: {
+{
+  sys,
+  config,
+  lib,
+  ...
+}:
+{
   config = lib.mkMerge [
     (lib.mkIf sys.hardened {
-      networking.timeServers =
-        [ "ntp.3eck.net" "ntp.trifence.ch" "ntp.zeitgitter.net" ];
+      networking.timeServers = [
+        "ntp.3eck.net"
+        "ntp.trifence.ch"
+        "ntp.zeitgitter.net"
+      ];
 
-      environment.persistence =
-        lib.mkIf config.m.fs.disko.root.impermanence.enable {
-          "/nix/persist".directories = [ "/var/lib/chrony" ];
-        };
+      environment.persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+        "/nix/persist".directories = [ "/var/lib/chrony" ];
+      };
 
       services.chrony = {
         enable = true;
@@ -54,7 +62,7 @@
         "2.ch.pool.ntp.org"
         "3.ch.pool.ntp.org"
       ];
-      services.timesyncd.enable = true;
+      services.timesyncd.enable = lib.mkForce true;
     })
     { time.timeZone = sys.timezone; }
   ];

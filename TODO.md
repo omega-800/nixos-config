@@ -2,6 +2,10 @@
 
 https://github.com/ibizaman/selfhostblocks
 https://github.com/cynicsketch/nix-mineral
+https://discourse.nixos.org/t/error-building-a-raspberry-pi-image-using-nix-on-a-x86-64-system/37968/2
+https://jade.fyi/blog/flakes-arent-real
+https://github.com/nix-community/srvos/blob/main/README.md
+https://github.com/astro/microvm.nix/blob/main/doc/src/intro.md
 
 ## home-manager
 
@@ -39,6 +43,45 @@ https://github.com/cynicsketch/nix-mineral
 - include \*, handle "imports" / modules through \*.enable = true;
 - refactor lib/my
 - remove all with;'s
+
+- paranoia
+  - network
+    - ipv{4,6}
+    - ssh{,d}
+    - kerberos
+    - fail2ban
+    - time
+    - dns
+    - firewall
+    - mac
+  - sw
+    - gpg
+    - apparmor
+    - sops
+    - doas
+    - firejail
+    - antivirus
+    - systemd
+    - wrappers
+    - isolate
+    - pam
+    - virt
+  - fs
+    - permissions
+    - usbguard
+    - impermanence
+  - os
+    - memory
+    - randomness
+    - tty
+    - audit
+    - pam
+  - hw
+    - audio
+    - printing
+    - bluetooth
+    - modules
+    - sysctl
 
 ### profiles
 

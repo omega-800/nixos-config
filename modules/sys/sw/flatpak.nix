@@ -1,14 +1,15 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let cfg = config.m.sw.flatpak;
-in {
-  options.m.sw.flatpak = {
-    enable = mkOption {
-      description = "enables flatpak";
-      type = types.bool;
-      default = config.m.sw.enable;
-    };
-  };
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.m.sw.flatpak;
+  inherit (lib) mkEnableOption mkIf;
+in
+{
+  options.m.sw.flatpak.enable = mkEnableOption "enables flatpak";
 
   config = mkIf cfg.enable {
     services.flatpak.enable = true;

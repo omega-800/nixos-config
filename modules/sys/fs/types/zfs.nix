@@ -1,9 +1,10 @@
 { config, lib, ... }:
 let
   rootIsZfs = config.m.fs.disko.root.type == "zfs";
-  poolsAreZfs = lib.my.misc.poolsContainFs "zfs" config.m.fs.disko;
+  poolsAreZfs = lib.omega.misc.poolsContainFs "zfs" config.m.fs.disko;
 in
 {
+  #TODO: mkEnableOption
   config = lib.mkIf (config.m.fs.disko.enable && (rootIsZfs || poolsAreZfs)) {
     boot = {
       supportedFilesystems.zfs = true;

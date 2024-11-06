@@ -1,14 +1,16 @@
-{ lib, config, pkgs, usr, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  usr,
+  ...
+}:
 with lib;
-let cfg = config.m.dev.docker;
-in {
-  options.m.dev.docker = {
-    enable = mkOption {
-      description = "enables docker";
-      type = types.bool;
-      default = config.m.dev.enable;
-    };
-  };
+let
+  cfg = config.m.dev.docker;
+in
+{
+  options.m.dev.docker.enable = mkEnableOption "enables docker";
 
   config = mkIf cfg.enable {
     virtualisation.docker = {

@@ -1,6 +1,8 @@
 { config, lib, ... }:
-let cfg = config.m.fs.disko;
-in {
+let
+  cfg = config.m.fs.disko;
+in
+{
   config = lib.mkIf (cfg.enable && cfg.root.type == "btrfs") {
     boot.initrd = lib.mkIf cfg.root.impermanence.enable {
       #TODO:
@@ -46,40 +48,42 @@ in {
         # we can unmount /mnt and continue on the boot process.
         umount /mnt
       '';
-      /* postDeviceCommands = lib.mkAfter ''
-              mkdir /btrfs_tmp
-              mount /dev/mapper/cryptroot /btrfs_tmp
-              if [[ -e /btrfs_tmp/root ]]; then
-                  mkdir -p /btrfs_tmp/old_roots
-                  timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-                  mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-              fi
+      /*
+        postDeviceCommands = lib.mkAfter ''
+             mkdir /btrfs_tmp
+             mount /dev/mapper/cryptroot /btrfs_tmp
+             if [[ -e /btrfs_tmp/root ]]; then
+                 mkdir -p /btrfs_tmp/old_roots
+                 timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+                 mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+             fi
 
-              delete_subvolume_recursively() {
-                  IFS=$'\n'
-                  for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-                      delete_subvolume_recursively "/btrfs_tmp/$i"
-                  done
-                  btrfs subvolume delete "$1"
-              }
+             delete_subvolume_recursively() {
+                 IFS=$'\n'
+                 for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
+                     delete_subvolume_recursively "/btrfs_tmp/$i"
+                 done
+                 btrfs subvolume delete "$1"
+             }
 
-              for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +7); do
-                  delete_subvolume_recursively "$i"
-              done
+             for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +7); do
+                 delete_subvolume_recursively "$i"
+             done
 
-              btrfs subvolume create /btrfs_tmp/root
-              umount /btrfs_tmp
-            '';
+             btrfs subvolume create /btrfs_tmp/root
+             umount /btrfs_tmp
+           '';
       */
     };
 
     disko.devices.disk.root = {
       inherit (cfg.root) device;
       type = "disk";
-      /* # idk if this works as expected
-          postCreateHook = ''
-           btrfs subvolume snapshot -r /mnt/root /mnt/root-blank
-         '';
+      /*
+        # idk if this works as expected
+         postCreateHook = ''
+          btrfs subvolume snapshot -r /mnt/root /mnt/root-blank
+        '';
       */
       content = {
         type = "gpt";
@@ -90,32 +94,54 @@ in {
             # LUKS passphrase will be prompted interactively only
             type = "luks";
             name = "cryptroot";
-            extraOpenArgs =
-              [ "--perf-no_read_workqueue" "--perf-no_write_workqueue" ];
+            extraOpenArgs = [
+              "--perf-no_read_workqueue"
+              "--perf-no_write_workqueue"
+            ];
             settings.allowDiscards = true;
             content = {
               type = "btrfs";
-              extraArgs = [ "-L" "nixos" "-f" ];
+              extraArgs = [
+                "-L"
+                "nixos"
+                "-f"
+              ];
               subvolumes = {
                 "/root" = {
                   mountpoint = "/";
-                  mountOptions = [ "subvol=root" "compress=zstd" ];
+                  mountOptions = [
+                    "subvol=root"
+                    "compress=zstd"
+                  ];
                 };
                 "/home" = {
                   mountpoint = "/home";
-                  mountOptions = [ "subvol=home" "compress=zstd" ];
+                  mountOptions = [
+                    "subvol=home"
+                    "compress=zstd"
+                  ];
                 };
                 "/nix" = {
                   mountpoint = "/nix";
-                  mountOptions = [ "subvol=nix" "compress=zstd" "noatime" ];
+                  mountOptions = [
+                    "subvol=nix"
+                    "compress=zstd"
+                    "noatime"
+                  ];
                 };
                 "/log" = {
                   mountpoint = "/var/log";
-                  mountOptions = [ "subvol=log" "compress=zstd" ];
+                  mountOptions = [
+                    "subvol=log"
+                    "compress=zstd"
+                  ];
                 };
                 "/persist" = {
                   mountpoint = "/nix/persist";
-                  mountOptions = [ "subvol=persist" "compress=zstd" ];
+                  mountOptions = [
+                    "subvol=persist"
+                    "compress=zstd"
+                  ];
                 };
               };
             };

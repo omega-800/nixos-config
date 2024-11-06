@@ -1,4 +1,10 @@
-{ usr, pkgs, lib, ... }: {
+{
+  usr,
+  pkgs,
+  lib,
+  ...
+}:
+{
   envVars = rec {
     HOME = usr.homeDir;
     BROWSER = usr.browser;
@@ -21,8 +27,7 @@
     MEDIA_DIR = "${XDG_DOCUMENTS_DIR}/media";
     MISC_DIR = "${XDG_DOCUMENTS_DIR}/misc";
     GTK2_RC_FILES = lib.mkForce "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
-    XCURSOR_PATH = lib.mkForce
-      "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
+    XCURSOR_PATH = lib.mkForce "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
     WORKSPACE_DIR = "${HOME}/ws";
     NIXOS_CONFIG = "${WORKSPACE_DIR}/nixos-config";
 
@@ -76,15 +81,22 @@
       "hmac-sha2-256-etm@openssh.com"
       "umac-128-etm@openssh.com"
     ];
-    ciphers = [ "aes256-ctr" "aes192-ctr" "aes128-ctr" ];
-    hostKeyAlgorithms = [ "ssh-ed25519" "rsa-sha2-512" "rsa-sha2-256" ];
+    ciphers = [
+      "aes256-ctr"
+      "aes192-ctr"
+      "aes128-ctr"
+    ];
+    hostKeyAlgorithms = [
+      "ssh-ed25519"
+      "rsa-sha2-512"
+      "rsa-sha2-256"
+    ];
   };
   styling =
     let
       themePath = ./. + "../../../../themes/${usr.theme}";
       themeYamlPath = themePath + "/${usr.theme}.yaml";
-      themePolarity =
-        lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
+      themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + "/polarity.txt"));
       themeImage =
         if builtins.pathExists (themePath + "/${usr.theme}.png") then
           themePath + "/${usr.theme}.png"
@@ -93,8 +105,7 @@
             url = builtins.readFile (themePath + "/backgroundurl.txt");
             sha256 = builtins.readFile (themePath + "/backgroundsha256.txt");
           };
-      myLightDMTheme =
-        if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
+      myLightDMTheme = if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
     in
     rec {
       base16Scheme = themeYamlPath;

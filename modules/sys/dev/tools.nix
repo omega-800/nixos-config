@@ -1,14 +1,29 @@
-{ inputs, lib, config, pkgs, usr, ... }:
-with lib;
-let cfg = config.m.dev.tools;
-in {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.m.dev.tools;
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    mkMerge
+    mkIf
+    type
+    ;
+in
+{
   options.m.dev.tools = {
     enable = mkEnableOption "enables devtools";
     disable = mkEnableOption "disables devtools completely";
+    zen-browser.enable = mkEnableOption "enables zen-browser";
   };
 
   config = mkMerge [
-    (mkIf cfg.enable {
+    (mkIf (cfg.enable && (!cfg.disable)) {
       programs.nix-ld.enable = true;
       documentation = {
         enable = true;
@@ -23,12 +38,11 @@ in {
           includeAllModules = true;
         };
       };
-      environment.systemPackages = if usr.extraBloat then
-        [ inputs.zen-browser.packages."${pkgs.system}".default ]
-      else
-        [ ];
     })
-    (mkIf cfg.disable {
+    (mkIf cfg.zen-browser.enable {
+      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.system}".default ];
+    })
+    (mkIf (cfg.disable && (!cfg.enable)) {
       documentation = {
         enable = false;
         #ion.info.enable = false;

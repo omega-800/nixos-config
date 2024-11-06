@@ -1,13 +1,27 @@
-{ inputs, config, sys, lib, pkgs, usr, ... }:
+{
+  inputs,
+  config,
+  sys,
+  lib,
+  pkgs,
+  usr,
+  ...
+}:
 let
   cfg = config.m.wm.dm;
-  inherit (lib) mkOption types mkIf mkMerge;
-  cmd = if usr.wmType == "x11" then
-    "startx"
-  else
-    ("lxqt-policykit-agent "
-      + (if usr.wm == "hyprland" then "Hyprland" else usr.wm));
-in {
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    ;
+  cmd =
+    if usr.wmType == "x11" then
+      "startx"
+    else
+      ("lxqt-policykit-agent " + (if usr.wm == "hyprland" then "Hyprland" else usr.wm));
+in
+{
   options.m.wm.dm = {
     enable = mkOption {
       description = "enables dm";
@@ -21,8 +35,7 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command =
-            "${pkgs.greetd.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
           user = "greeter";
         };
       };

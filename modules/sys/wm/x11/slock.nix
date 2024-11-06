@@ -1,23 +1,31 @@
-{ lib
-, stdenv
-, writeText
-, xorgproto
-, libX11
-, libXext
-, libXrandr
-, libxcrypt
-, cargo
-, libXinerama
-, fetchFromGitHub
-, omega-slock
+{
+  lib,
+  stdenv,
+  writeText,
+  xorgproto,
+  libX11,
+  libXext,
+  libXrandr,
+  libxcrypt,
+  cargo,
+  libXinerama,
+  fetchFromGitHub,
+  omega-slock,
 }:
 stdenv.mkDerivation {
   pname = "slock";
   version = "1.5";
 
   src = omega-slock;
-  buildInputs =
-    [ cargo xorgproto libX11 libXext libXrandr libxcrypt libXinerama ];
+  buildInputs = [
+    cargo
+    xorgproto
+    libX11
+    libXext
+    libXrandr
+    libxcrypt
+    libXinerama
+  ];
 
   installFlags = [ "PREFIX=$(out)" ];
 
@@ -37,7 +45,10 @@ stdenv.mkDerivation {
       Simple X display locker. This is the simplest X screen locker.
     '';
     license = licenses.mit;
-    maintainers = with maintainers; [ astsmtl qusic ];
+    maintainers = with maintainers; [
+      astsmtl
+      qusic
+    ];
     platforms = platforms.linux;
   };
 }

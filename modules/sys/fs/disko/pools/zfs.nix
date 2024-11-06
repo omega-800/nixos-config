@@ -1,43 +1,51 @@
 # https://github.com/nix-community/disko-templates/blob/main/single-ext4-luks-and-double-zfs-mirror/disko-config.nix
 { lib, config, ... }:
-let cfg = config.m.fs.disko;
-in {
-  config = lib.mkIf (cfg.enable && lib.my.misc.poolsContainFs "zfs" cfg) {
+let
+  cfg = config.m.fs.disko;
+  inherit (lib)
+    omega
+    mkIf
+    attrsToList
+    imap
+    mkMerge
+    ;
+in
+{
+  config = mkIf (cfg.enable && omega.misc.poolsContainFs "zfs" cfg) {
     disko.devices =
       let
         inherit (cfg) pools;
-        zfsPools =
-          (builtins.filter (p: p.value.type == "zfs") (lib.attrsToList pools));
+        zfsPools = builtins.filter (p: p.value.type == "zfs") (attrsToList pools);
       in
       {
-        disk = lib.my.attrs.flatMapToAttrs
-          (p:
-            lib.imap
-              (i: device: {
-                "${p.name}${toString i}" = {
-                  inherit device;
-                  type = "disk";
+        disk = omega.attrs.flatMapToAttrs (
+          p:
+          imap (i: device: {
+            "${p.name}${toString i}" = {
+              inherit device;
+              type = "disk";
+              content = {
+                type = "gpt";
+                partitions.zfs = {
+                  size = "100%";
                   content = {
-                    type = "gpt";
-                    partitions.zfs = {
-                      size = "100%";
-                      content = {
-                        type = "zfs";
-                        pool = "${p.name}";
-                      };
-                    };
+                    type = "zfs";
+                    pool = "${p.name}";
                   };
                 };
-              })
-              p.value.devices)
-          zfsPools;
-        zpool = lib.mkMerge (map
-          (p: {
+              };
+            };
+          }) p.value.devices
+        ) zfsPools;
+        zpool = mkMerge (
+          map (p: {
             "${p.name}" = {
               type = "zpool";
               mode =
-                let nDisks = builtins.length p.value.devices;
-                in if p.value.stripe then
+                let
+                  nDisks = builtins.length p.value.devices;
+                in
+                if p.value.stripe then
                   ""
                 else if nDisks >= 10 then
                   "raidz3"
@@ -54,8 +62,7 @@ in {
                 compression = "zstd";
                 "com.sun:auto-snapshot" = "true";
               };
-              postCreateHook =
-                "zfs list -t snapshot -H -o name | grep -E '^${p.name}@blank$' || zfs snapshot ${p.name}@blank";
+              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${p.name}@blank$' || zfs snapshot ${p.name}@blank";
               datasets."crypt${p.name}" = {
                 type = "zfs_fs";
                 mountpoint = "/${p.name}";
@@ -70,8 +77,8 @@ in {
                 '';
               };
             };
-          })
-          zfsPools);
+          }) zfsPools
+        );
       };
   };
 }

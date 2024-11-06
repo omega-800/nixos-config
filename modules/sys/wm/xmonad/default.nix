@@ -1,8 +1,22 @@
-{ inputs, config, sys, lib, pkgs, usr, ... }:
+{
+  inputs,
+  config,
+  sys,
+  lib,
+  pkgs,
+  usr,
+  ...
+}:
 let
   cfg = config.m.wm.xmonad;
-  inherit (lib) mkOption types mkIf mkMerge;
-in {
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    ;
+in
+{
   options.m.wm.xmonad = {
     enable = mkOption {
       description = "enables xmonad";

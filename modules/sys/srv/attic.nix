@@ -1,7 +1,13 @@
 # https://docs.attic.rs/admin-guide/deployment/nixos.html
-{ inputs, lib, ... }: {
+{ config, inputs, lib, ... }:
+let
+  cfg = config.m.srv.attic;
+  inherit (lib) mkEnableOption mkIf;
+in
+{
   imports = [ inputs.attic.nixosModules.atticd ];
-  config = {
+  options.m.srv.attic.enable = mkEnableOption "Enables attic";
+  config = mkIf cfg.enable {
     services.atticd = {
       enable = true;
 
@@ -36,4 +42,5 @@
       };
     };
   };
+};
 }

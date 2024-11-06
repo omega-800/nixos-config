@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   imports = [
     # basically like work profile but with fun enabled
     ../work/configuration.nix

@@ -1,5 +1,10 @@
-{ pkgs, usr, lib, ... }:
-with lib; {
+{ pkgs
+, usr
+, lib
+, ...
+}:
+with lib;
+{
   imports = [ ../../sys ];
   m = {
     hw.power = {
@@ -12,5 +17,4 @@ with lib; {
       extraDirs = mkDefault [{ path = "/mnt/tmp"; }];
     };
   };
-  services.swhkd.enable = mkDefault false; # (usr.wmType == "wayland");
 }

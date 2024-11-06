@@ -1,12 +1,15 @@
-{ lib, pkgs, config, ... }:
-with lib;
-let cfg = config.m.sw.miracast;
-in {
-  options.m.sw.miracast.enable = mkOption {
-    description = "enables miracast";
-    type = types.bool;
-    default = config.m.sw.enable;
-  };
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
+  cfg = config.m.sw.miracast;
+  inherit (lib) mkEnableOption mkIf;
+in
+{
+  options.m.sw.miracast.enable = mkEnableOption "enables miracast";
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ gnome-network-displays ];
@@ -25,8 +28,14 @@ in {
     networking.firewall = {
       trustedInterfaces = [ "p2p-wl+" ];
 
-      allowedTCPPorts = [ 7236 7250 ];
-      allowedUDPPorts = [ 7236 5353 ];
+      allowedTCPPorts = [
+        7236
+        7250
+      ];
+      allowedUDPPorts = [
+        7236
+        5353
+      ];
     };
   };
 }

@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.m.fs.disko.root = {
     device = lib.mkOption {
       type = lib.types.nonEmptyStr;
@@ -6,10 +7,14 @@
       description = "root device";
     };
     type = lib.mkOption {
-      type = lib.types.enum (lib.my.dirs.listNixModuleNames ./.);
+      type = lib.types.enum (lib.omega.dirs.listNixModuleNames ./.);
       default = "btrfs";
       description = "root fs type";
     };
   };
-  imports = [ ./zfs.nix ./btrfs.nix ./parts ];
+  imports = [
+    ./zfs.nix
+    ./btrfs.nix
+    ./parts
+  ];
 }
