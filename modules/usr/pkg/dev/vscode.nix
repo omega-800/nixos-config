@@ -98,7 +98,7 @@ in {
       ];
 
       userSettings = with config.lib.stylix.colors; {
-        "editor.defaultFormatter" = "biomejs.biome";
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.formatOnSave" = true;
         "workbench.activityBar.location" = "top";
         "window.customTitleBarVisibility" = "auto";
@@ -188,7 +188,9 @@ in {
         "atlascode.bitbucket.enabled" = false;
         "redhat.telemetry.enabled" = false;
         "vim.digraphs" = { };
-        "[typescript]" = { "editor.defaultFormatter" = "biomejs.biome"; };
+        "[typescript]" = {
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        };
         "[vue]" = { "editor.defaultFormatter" = "Vue.volar"; };
         "[liquid]" = {
           "editor.defaultFormatter" = "vscode.html-language-features";

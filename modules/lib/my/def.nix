@@ -5,5 +5,6 @@
   mkLowMid = val: lib.mkOverride 600 val;
   mkMid = val: lib.mkOverride 500 val;
   mkHighMid = val: lib.mkOverride 400 val;
-  mkHighererMid = val: lib.mkOverride 300 val;
+  mkHigherMid = val: lib.mkOverride 300 val;
+  mkHighererMid = val: lib.mkOverride 200 val;
 }

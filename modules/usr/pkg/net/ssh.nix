@@ -1,7 +1,10 @@
 { lib, config, sys, ... }:
 with lib;
-let cfg = config.u.net.ssh;
-in {
+let
+  cfg = config.u.net.ssh;
+  inherit (sys) identityFile;
+in
+{
   options.u.net.ssh.enable = mkOption {
     type = types.bool;
     default = config.u.net.enable;
@@ -12,7 +15,7 @@ in {
       addKeysToAgent = "yes";
       forwardAgent = false;
       hashKnownHosts = true;
-      matchBlocks = with sys; {
+      matchBlocks = {
         Apollo = {
           host = "Apollo";
           hostname = "apollo.inteco.ch";
@@ -60,6 +63,13 @@ in {
         Dionysos = {
           host = "Dionysos";
           hostname = "172.16.200.121";
+          port = 22;
+          user = "inteco";
+          inherit identityFile;
+        };
+        Wegas = {
+          host = "Wegas";
+          hostname = "172.16.200.40";
           port = 22;
           user = "inteco";
           inherit identityFile;
