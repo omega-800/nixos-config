@@ -1,11 +1,4 @@
-{ globals
-, lib
-, sys
-, pkgs
-, usr
-, ...
-}:
-{
+{ globals, lib, sys, pkgs, usr, ... }: {
   imports = [
     ./keymaps.nix
     ./oil.nix
@@ -214,20 +207,12 @@
           undo.enable = true;
         };
         settings = {
-          pickers = {
-            colorscheme.enable_preview = true;
-          };
+          pickers = { colorscheme.enable_preview = true; };
           defaults.mappings = {
             n = {
-              q = {
-                __raw = "require('telescope.actions').close";
-              };
-              s = {
-                __raw = "require('telescope.actions').select_horizontal";
-              };
-              v = {
-                __raw = "require('telescope.actions').select_vertical";
-              };
+              q = { __raw = "require('telescope.actions').close"; };
+              s = { __raw = "require('telescope.actions').select_horizontal"; };
+              v = { __raw = "require('telescope.actions').select_vertical"; };
             };
           };
         };
@@ -280,101 +265,58 @@
       illuminate = {
         enable = true;
         underCursor = false;
-        filetypesDenylist = [
-          "Outline"
-          "TelescopePrompt"
-          "alpha"
-          "harpoon"
-          "reason"
-        ];
+        filetypesDenylist =
+          [ "Outline" "TelescopePrompt" "alpha" "harpoon" "reason" ];
       };
       which-key = lib.mkMerge [
         ({ enable = true; })
-        (
-          if sys.stable then
-            { }
-          else
-            {
-              settings = {
-                ignoreMissing = false;
-                icons = {
-                  breadcrumb = "»";
-                  group = "+";
-                  separator = ""; # ➜
-                };
-                # registrations = {
-                #   "<leader>t" = " Terminal";
-                # };
-                win = {
-                  border = "none";
-                  wo.winblend = 0;
-                };
-              };
-            }
-        )
-      ];
-      hardtime = {
-        enable = false;
-        settings = {
-          enabled = false;
-          disableMouse = true;
-          disabledFiletypes = [ "Oil" ];
-          hint = true;
-          maxCount = 4;
-          maxTime = 1000;
-          restrictionMode = "hint";
-          restrictedKeys = {
-            "h" = [
-              "n"
-              "x"
-            ];
-            "j" = [
-              "n"
-              "x"
-            ];
-            "k" = [
-              "n"
-              "x"
-            ];
-            "l" = [
-              "n"
-              "x"
-            ];
-            "-" = [
-              "n"
-              "x"
-            ];
-            "+" = [
-              "n"
-              "x"
-            ];
-            "gj" = [
-              "n"
-              "x"
-            ];
-            "gk" = [
-              "n"
-              "x"
-            ];
-            "<CR>" = [
-              "n"
-              "x"
-            ];
-            "<C-M>" = [
-              "n"
-              "x"
-            ];
-            "<C-N>" = [
-              "n"
-              "x"
-            ];
-            "<C-P>" = [
-              "n"
-              "x"
-            ];
+        (if sys.stable then
+          { }
+        else {
+          settings = {
+            ignoreMissing = false;
+            icons = {
+              breadcrumb = "»";
+              group = "+";
+              separator = ""; # ➜
+            };
+            # registrations = {
+            #   "<leader>t" = " Terminal";
+            # };
+            win = {
+              border = "none";
+              wo.winblend = 0;
+            };
           };
-        };
-      };
+        })
+      ];
+      /* hardtime = lib.mkIf (!sys.stable) {
+           enable = false;
+           settings = {
+             enabled = false;
+             disableMouse = true;
+             disabledFiletypes = [ "Oil" ];
+             hint = true;
+             maxCount = 4;
+             maxTime = 1000;
+             restrictionMode = "hint";
+             restrictedKeys = {
+               "h" = [ "n" "x" ];
+               "j" = [ "n" "x" ];
+               "k" = [ "n" "x" ];
+               "l" = [ "n" "x" ];
+               "-" = [ "n" "x" ];
+               "+" = [ "n" "x" ];
+               "gj" = [ "n" "x" ];
+               "gk" = [ "n" "x" ];
+               "<CR>" = [ "n" "x" ];
+               "<C-M>" = [ "n" "x" ];
+               "<C-N>" = [ "n" "x" ];
+               "<C-P>" = [ "n" "x" ];
+             };
+           };
+         };
+      */
     };
   };
 }

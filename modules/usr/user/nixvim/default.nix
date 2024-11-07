@@ -1,16 +1,10 @@
-{ inputs
-, config
-, lib
-, usr
-, sys
-, ...
-}:
+{ inputs, config, lib, usr, sys, ... }:
 with lib;
 let
   cfg = config.u.user.nixvim;
-in
-# what exactly was i planning with this??
+  # what exactly was i planning with this??
   # mapCfgImports = modules: map (m: (import m { inherit (cfg) enabled; })) modules;
+in
 {
   options.u.user.nixvim = {
     enable = mkOption {
@@ -18,41 +12,36 @@ in
       default = config.u.user.enable && !usr.minimal;
     };
     langSupport = mkOption {
-      type = types.listOf (
-        types.enum [
-          # includes ts, vue, json and node
-          "js"
-          # includes bash
-          "sh"
-          # includes cpp
-          "c"
-          # includes scss and tailwind
-          "css"
-          # includes ansible and docker compose
-          "yaml"
-          # includes htmx
-          "html"
-          # includes jupyter
-          "python"
-          # includes elixir
-          "erlang"
-          # includes psql
-          "sql"
-          "go"
-          "java"
-          "md"
-          "nix"
-          "gql"
-          "docker"
-          "lua"
-          "rust"
-        ]
-      );
-      default = [
+      type = types.listOf (types.enum [
+        # includes ts, vue, json and node
+        "js"
+        # includes bash
         "sh"
+        # includes cpp
+        "c"
+        # includes scss and tailwind
+        "css"
+        # includes ansible and docker compose
+        "yaml"
+        # includes htmx
+        "html"
+        # includes jupyter
+        "python"
+        # includes elixir
+        "erlang"
+        # includes psql
+        "sql"
+        "go"
+        "java"
         "md"
         "nix"
-      ];
+        "gql"
+        "docker"
+        "lua"
+        "rust"
+        "hs"
+      ]);
+      default = [ "sh" "md" "nix" ];
     };
   };
 

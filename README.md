@@ -25,12 +25,20 @@ Me too, here are some resources to make the learning experience more fun and the
 - [servers](https://sidhion.com/blog/posts/nixos_server_issues/)
 - [give them some love](https://aldoborrero.com/posts/2023/01/15/setting-up-my-machines-nix-style/)
 - [secrets](https://lgug2z.com/articles/handling-secrets-in-nixos-an-overview/)
+- [examples of modules](https://github.com/NuschtOS/nixos-modules)
 
 ### home-manager
 
 - [src](https://github.com/nix-community/home-manager)
 - [manual](https://nix-community.github.io/home-manager/)
 - config options: `man home-configuration.nix`
+
+### virtualization
+
+- [microvm](https://github.com/astro/microvm.nix)
+- [proxmox](https://github.com/SaumonNet/proxmox-nixos)
+- [libvirt](https://nixos.wiki/wiki/Libvirt)
+- [nixvirt](https://github.com/AshleyYakeley/NixVirt)
 
 ## now onto the config
 

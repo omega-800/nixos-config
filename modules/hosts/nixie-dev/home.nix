@@ -20,6 +20,7 @@
       "docker"
       "lua"
       "rust"
+      "hs"
     ];
   };
   # TODO: programs.dconf

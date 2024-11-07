@@ -48,6 +48,12 @@ in
               jsonls.enable = true;
             })
             (mkIf (elem "md" langs) { marksman.enable = true; })
+            (mkIf (elem "hs" langs) {
+              hls = {
+                enable = true;
+                installGhc = true;
+              };
+            })
             (mkIf (elem "nix" langs) {
               nixd = {
                 enable = true;
@@ -55,7 +61,6 @@ in
                 # extraOptions = options;
               };
             })
-            (mkIf (elem "sh" langs) { bashls.enable = true; })
             (mkIf (elem "sh" langs) { bashls.enable = true; })
             (mkIf (elem "html" langs) {
               html.enable = true;
