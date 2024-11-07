@@ -3,6 +3,7 @@
   options,
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -67,7 +68,8 @@ in
             (mkIf (elem "nix" langs) {
               nixd = {
                 enable = true;
-                # cmd = [ "nixfmt" ];
+                cmd = [ "nixfmt" ];
+                settings.formatting.command = [ "nixfmt" ];
                 # extraOptions = options;
               };
             })

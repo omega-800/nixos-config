@@ -2,7 +2,6 @@
 let
   inherit (inputs.nixpkgs-unstable.lib) mkMerge genAttrs;
   inherit (import ../utils/vars.nix) PATHS SYSTEMS;
-
 in
 {
   mapShells = genAttrs SYSTEMS (system: rec {

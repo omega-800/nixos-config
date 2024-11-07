@@ -3,6 +3,7 @@
   sys,
   usr,
   config,
+  pkgs,
   ...
 }:
 with lib;
@@ -131,8 +132,10 @@ in
           formatting = mkMerge [
             # { codespell.enable = true; }
             (mkIf (elem "nix" langs) {
-              nixfmt.enable = true;
-              # nixpkgs_fmt.enable = true;
+              nixfmt = {
+                enable = true;
+                package = pkgs.nixfmt-rfc-style;
+              };
             })
             (mkIf (elem "sql" langs) {
               pg_format.enable = true;
