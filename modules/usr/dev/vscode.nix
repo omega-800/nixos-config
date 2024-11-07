@@ -1,33 +1,22 @@
-{
-  globals,
-  usr,
-  lib,
-  config,
-  pkgs,
-  ...
-}:
+{ globals, usr, lib, config, pkgs, ... }:
 with lib;
-let
-  cfg = config.u.dev.vscode;
-in
-{
+let cfg = config.u.dev.vscode;
+in {
   options.u.dev.vscode.enable = mkOption {
     type = types.bool;
     default = config.u.dev.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vscode" ];
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [ "vscode" ];
     home.packages = with pkgs; [ ];
     programs.vscode = {
       enable = true;
       enableExtensionUpdateCheck = true;
       enableUpdateCheck = false;
       mutableExtensionsDir = true;
-      extensions = with pkgs.vscode-extensions; [
-        bbenoist.nix
-        vscodevim.vim
-      ];
+      extensions = with pkgs.vscode-extensions; [ bbenoist.nix vscodevim.vim ];
       globalSnippets = {
         fixme = {
           body = [ "$LINE_COMMENT FIXME: $0" ];
@@ -44,32 +33,38 @@ in
         {
           "key" = "a";
           "command" = "explorer.newFile";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
         }
         {
           "key" = "f";
           "command" = "explorer.newFolder";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
         }
         {
           "key" = "r";
           "command" = "renameFile";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
         }
         {
           "key" = "x";
           "command" = "filesExplorer.cut";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
         }
         {
           "key" = "y";
           "command" = "filesExplorer.copy";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus";
         }
         {
           "key" = "p";
           "command" = "filesExplorer.paste";
-          "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceReadonly && !inputFocus";
+          "when" =
+            "explorerViewletVisible && filesExplorerFocus && !explorerResourceReadonly && !inputFocus";
         }
         {
           "key" = "h";
@@ -103,7 +98,7 @@ in
       ];
 
       userSettings = with config.lib.stylix.colors; {
-        "editor.defaultFormatter" = "biomejs.biome";
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.formatOnSave" = true;
         "workbench.activityBar.location" = "top";
         "window.customTitleBarVisibility" = "auto";
@@ -125,10 +120,7 @@ in
         "editor.renderWhitespace" = "selection";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
-        "vim.statusBarColors.normal" = [
-          "#${base0D}"
-          "#${base02}"
-        ];
+        "vim.statusBarColors.normal" = [ "#${base0D}" "#${base02}" ];
         "vim.statusBarColors.insert" = "#${base0B}";
         "vim.statusBarColors.visual" = "#${base0E}";
         "vim.statusBarColors.visualline" = "#${base0E}";
@@ -139,9 +131,7 @@ in
         "vim.statusBarColors.easymotionmode" = "#${base07}";
         "vim.statusBarColors.easymotioninputmode" = "#${base07}";
         "vim.statusBarColors.surroundinputmode" = "#${base07}";
-        "extensions.experimental.affinity" = {
-          "vscodevim.vim" = 1;
-        };
+        "extensions.experimental.affinity" = { "vscodevim.vim" = 1; };
         "workbench.colorCustomizations" = {
           "statusBar.background" = "#${base0C}";
           "statusBar.noFolderBackground" = "#${base0C}";
@@ -151,91 +141,57 @@ in
         };
         "vim.normalModeKeyBindings" = [
           {
-            "before" = [
-              "<leader>"
-              "e"
-            ];
+            "before" = [ "<leader>" "e" ];
             "commands" = [ "workbench.view.explorer" ];
           }
           {
-            "before" = [
-              "<leader>"
-              "q"
-            ];
+            "before" = [ "<leader>" "q" ];
             "commands" = [ "workbench.action.closeActiveEditor" ];
           }
           {
-            "before" = [
-              "g"
-              "p"
-              "d"
-            ];
+            "before" = [ "g" "p" "d" ];
             "commands" = [ "editor.action.peekDefinition" ];
           }
           {
-            "before" = [
-              "g"
-              "h"
-            ];
+            "before" = [ "g" "h" ];
             "commands" = [ "editor.action.showDefinitionPreviewHover" ];
           }
           {
-            "before" = [
-              "g"
-              "i"
-            ];
+            "before" = [ "g" "i" ];
             "commands" = [ "editor.action.goToImplementation" ];
           }
           {
-            "before" = [
-              "g"
-              "p"
-              "i"
-            ];
+            "before" = [ "g" "p" "i" ];
             "commands" = [ "editor.action.peekImplementation" ];
           }
           {
-            "before" = [
-              "g"
-              "q"
-            ];
+            "before" = [ "g" "q" ];
             "commands" = [ "editor.action.quickFix" ];
           }
           {
-            "before" = [
-              "g"
-              "r"
-            ];
+            "before" = [ "g" "r" ];
             "commands" = [ "editor.action.referenceSearch.trigger" ];
           }
           {
-            "before" = [
-              "g"
-              "t"
-            ];
+            "before" = [ "g" "t" ];
             "commands" = [ "editor.action.goToTypeDefinition" ];
           }
           {
-            "before" = [
-              "g"
-              "p"
-              "t"
-            ];
+            "before" = [ "g" "p" "t" ];
             "commands" = [ "editor.action.peekTypeDefinition" ];
           }
         ];
         "yaml.schemas" = {
-          "file:///home/dev/.vscode-server/extensions/atlassian.atlascode-3.0.10/resources/schemas/pipelines-schema.json" = "bitbucket-pipelines.yml";
+          "file:///home/dev/.vscode-server/extensions/atlassian.atlascode-3.0.10/resources/schemas/pipelines-schema.json" =
+            "bitbucket-pipelines.yml";
         };
         "atlascode.bitbucket.enabled" = false;
         "redhat.telemetry.enabled" = false;
         "vim.digraphs" = { };
         "[typescript]" = {
-          "editor.defaultFormatter" = "biomejs.biome";
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
         };
-        "[vue]" = {
-          "editor.defaultFormatter" = "Vue.volar";
-        };
+        "[vue]" = { "editor.defaultFormatter" = "Vue.volar"; };
         "[liquid]" = {
           "editor.defaultFormatter" = "vscode.html-language-features";
         };

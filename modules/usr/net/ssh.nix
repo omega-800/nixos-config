@@ -1,14 +1,9 @@
-{
-  lib,
-  config,
-  sys,
-  ...
-}:
+{ lib, config, sys, ... }:
 with lib;
 let
   cfg = config.u.net.ssh;
-in
-{
+  inherit (sys) identityFile;
+in {
   options.u.net.ssh.enable = mkOption {
     type = types.bool;
     default = config.u.net.enable;
@@ -19,7 +14,7 @@ in
       addKeysToAgent = "yes";
       forwardAgent = false;
       hashKnownHosts = true;
-      matchBlocks = with sys; {
+      matchBlocks = {
         Apollo = {
           host = "Apollo";
           hostname = "apollo.inteco.ch";
@@ -46,9 +41,7 @@ in
           hostname = "morpheus.inteco.ch";
           port = 6699;
           user = "inteco";
-          extraOptions = {
-            Ciphers = "aes256-cbc";
-          };
+          extraOptions = { Ciphers = "aes256-cbc"; };
           inherit identityFile;
         };
         SB = {
@@ -63,14 +56,19 @@ in
           hostname = "ares.inteco.ch";
           port = 6699;
           user = "inteco";
-          extraOptions = {
-            Ciphers = "aes256-cbc";
-          };
+          extraOptions = { Ciphers = "aes256-cbc"; };
           inherit identityFile;
         };
         Dionysos = {
           host = "Dionysos";
           hostname = "172.16.200.121";
+          port = 22;
+          user = "inteco";
+          inherit identityFile;
+        };
+        Wegas = {
+          host = "Wegas";
+          hostname = "172.16.200.40";
           port = 22;
           user = "inteco";
           inherit identityFile;
