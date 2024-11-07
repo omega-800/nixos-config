@@ -110,7 +110,7 @@
     in
     rec {
       base16Scheme = themeYamlPath;
-      cursor = {
+      cursor = lib.mkIf (!usr.minimal) {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Ice";
         size = 32;
@@ -124,9 +124,15 @@
         };
         serif = monospace;
         sansSerif = serif;
-        emoji = {
+        emoji = lib.mkIf (!usr.minimal) {
           name = "Noto Color Emoji";
           package = pkgs.noto-fonts-emoji-blob-bin;
+        };
+        sizes = {
+          terminal = 18;
+          applications = 12;
+          popups = 12;
+          desktop = 12;
         };
       };
     };

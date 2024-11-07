@@ -68,8 +68,6 @@ in
             (mkIf (elem "nix" langs) {
               nixd = {
                 enable = true;
-                cmd = [ "nixfmt" ];
-                settings.formatting.command = [ "nixfmt" ];
                 # extraOptions = options;
               };
             })

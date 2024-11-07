@@ -4,22 +4,9 @@
   lib,
   pkgs,
   inputs,
-  PATHS,
+  globals,
   ...
 }:
-let
-  themePath = PATHS.THEMES + /${usr.theme};
-  themeYamlPath = themePath + /${usr.theme}.yaml;
-  themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + /polarity.txt));
-  themeImage =
-    if builtins.pathExists (themePath + /${usr.theme}.png) then
-      themePath + /${usr.theme}.png
-    else
-      pkgs.fetchurl {
-        url = builtins.readFile (themePath + /backgroundurl.txt);
-        sha256 = builtins.readFile (themePath + /backgroundsha256.txt);
-      };
-in
 {
   imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
   config =
@@ -100,43 +87,13 @@ in
             enable = true;
             autoEnable = true;
             opacity.terminal = 0.85;
-            base16Scheme = themeYamlPath;
-            cursor = lib.mkIf (!usr.minimal) {
-              package = pkgs.bibata-cursors;
-              name = "Bibata-Modern-Ice";
-              size = 32;
-            };
-            polarity = themePolarity;
-            # image = themeImage;
-            image = pkgs.fetchurl {
-              url = builtins.readFile ("${themePath}/backgroundurl.txt");
-              sha256 = builtins.readFile ("${themePath}/backgroundsha256.txt");
-            };
-
-            fonts = {
-              monospace = {
-                name = usr.font;
-                package = usr.fontPkg;
-              };
-              serif = {
-                name = usr.font;
-                package = usr.fontPkg;
-              };
-              sansSerif = {
-                name = usr.font;
-                package = usr.fontPkg;
-              };
-              emoji = lib.mkIf (!usr.minimal) {
-                name = "Noto Color Emoji";
-                package = pkgs.noto-fonts-emoji-blob-bin;
-              };
-              sizes = {
-                terminal = 18;
-                applications = 12;
-                popups = 12;
-                desktop = 12;
-              };
-            };
+            inherit (globals.styling)
+              base16Scheme
+              cursor
+              polarity
+              image
+              fonts
+              ;
 
             targets = {
               alacritty.enable = true;
