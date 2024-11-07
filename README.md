@@ -42,17 +42,46 @@ Me too, here are some resources to make the learning experience more fun and the
 
 ## now onto the config
 
-This frosty amalgamation of files allows for reproducible environment builds without sacrificing customization options. The important files (where your customization happens) are:
+This frosty amalgamation of files allows for reproducible environment builds without sacrificing customization options. Here's a quick overview:
 
-### profiles/\*
+```
+src
+├── apps                (custom apps)
+├── pkgs                (custom packages)
+├── formatter  # TODO   (custom formatter)
+├── shells              (devShells)
+├── checks     # TODO   (tests)
+├── modules             (config modules)
+│   ├── home            (home-manager)
+│   ├── droid           (nix-on-droid)
+│   ├── nixos           (nixos)
+│   └── system # TODO   (system-manager)
+├── hosts               (configurations)
+│   ├── nodes           (host profiles)
+│   └── profiles        (hosts)
+├── lib                 (custom lib)
+│   ├── flake           (flake utils)
+│   └── omega           (my lib)
+├── themes              (themes for modules)
+├── secrets             (please don't look)
+└── hooks      # TODO   (git hooks)
+```
+
+The important files (where your customization happens) are:
+
+### hosts/\*
+
+Host-specific configurations.
+
+#### profiles/\*
 
 Different profiles with different defaults for different use-cases. Can be set per-host through the option `sys.profile`.
 
-#### default/\*
+##### default/\*
 
 Default configs which get applied to all of the hosts.
 
-##### options.nix
+###### options.nix
 
 Here live all of the options (which ideally should be set inside of hosts/${hostname}/config.nix) as well as their defaults.
 
@@ -68,38 +97,47 @@ homeConfigurations.${hostname}.options
 :q
 ```
 
-#### work/\*
+##### work/\*
 
 Defaults for my work machine, duh.
 
-#### pers/\*
+##### pers/\*
 
 Defaults for my personal desktop(s?).
 
-#### serv/\*
+##### serv/\*
 
 Defaults for servers or minimal installations.
 
-### hosts/${hostname}/\*
+#### nodes/${hostname}/\*
 
 Specific hosts with their own configs.
 
-#### config.nix
+##### config.nix
 
 In this file the previously mentioned options are set, and defaults get overridden.
 **IMPORTANT:** sys.{hostname,system} _MUST_ be set!
 
-#### home.nix
+##### home.nix
 
 If this file is present, then a homeManagerConfiguration flake output is created, which can be applied by running `hms`, which is an alias for `home-manager switch --flake /home/${username}/ws/nixos-config#${hostname}`.
 
-#### configuration.nix
+##### nixos.nix
 
 If this file is present, then a nixosSystem flake output is created, which can be applied by running `nrs`, which is an alias for `nixos-rebuild switch --flake /home/${username}/ws/nixos-config#${hostname}`.
 
-#### hardware-configuration.nix
+##### hardware-configuration.nix
 
-This file can be present if running nixOS (and not the standalone home-manager).
+This file can be present if running nixOS (and not the standalone home-manager) to include hardware-specific configs.
+
+##### system.nix
+
+TODO:
+If this file is present, then a systemConfigs flake output is created for generic distros using system-manager.
+
+##### droid.nix
+
+If this file is present, then a nixOnDroidConfigurations flake output is created for android devices using the nix package manager with nix-on-droid.
 
 ## omega's cool help functions
 

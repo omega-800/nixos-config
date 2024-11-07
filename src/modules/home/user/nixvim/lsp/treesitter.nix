@@ -1,0 +1,91 @@
+{
+  config,
+  lib,
+  sys,
+  pkgs,
+  ...
+}:
+let
+  langs = config.u.user.nixvim.langSupport;
+in
+{
+  programs.nixvim = {
+    keymaps = [
+      # Treesitter
+      {
+        key = "<leader>c";
+        action = "+context";
+      }
+      {
+        key = "<leader>co";
+        action = "<CMD>TSContextToggle<CR>";
+        options.desc = "Toggle Treesitter context";
+      }
+    ];
+    plugins = {
+      web-devicons.enable = true;
+      treesitter = lib.mkMerge [
+        ({
+          enable = true;
+          nixGrammars = builtins.elem "nix" langs;
+          folding = false;
+          nixvimInjections = true;
+          grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+        })
+        (if sys.stable then { } else { settings.indent.enable = true; })
+      ];
+      treesitter-context = {
+        enable = true;
+        settings.max_lines = 2;
+      };
+      treesitter-textobjects = {
+        enable = false;
+        select = {
+          enable = true;
+          lookahead = true;
+          keymaps = {
+            "aa" = "@parameter.outer";
+            "ia" = "@parameter.inner";
+            "af" = "@function.outer";
+            "if" = "@function.inner";
+            "ac" = "@class.outer";
+            "ic" = "@class.inner";
+            "ii" = "@conditional.inner";
+            "ai" = "@conditional.outer";
+            "il" = "@loop.inner";
+            "al" = "@loop.outer";
+            "at" = "@comment.outer";
+          };
+        };
+        move = {
+          enable = true;
+          gotoNextStart = {
+            "]m" = "@function.outer";
+            "]]" = "@class.outer";
+          };
+          gotoNextEnd = {
+            "]M" = "@function.outer";
+            "][" = "@class.outer";
+          };
+          gotoPreviousStart = {
+            "[m" = "@function.outer";
+            "[[" = "@class.outer";
+          };
+          gotoPreviousEnd = {
+            "[M" = "@function.outer";
+            "[]" = "@class.outer";
+          };
+        };
+        swap = {
+          enable = true;
+          swapNext = {
+            "<leader>a" = "@parameters.inner";
+          };
+          swapPrevious = {
+            "<leader>A" = "@parameter.outer";
+          };
+        };
+      };
+    };
+  };
+}

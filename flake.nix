@@ -29,18 +29,31 @@
     cores = 0;
     max-jobs = 2;
 
-    extra-experimental-features = [ "nix-command" "flakes" ];
+    extra-experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
     #bash-prompt = "> ";
     use-xdg-base-directories = true;
     # system-features = "kvm";
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     let
-      inherit (import ./modules/lib/flake { inherit inputs; })
-        mapHomes mapHosts mapDroids mapGenerics mapPkgs mapApps mapDeployments
-        mapChecks mapFormatters mapShells;
+      inherit (import ./src/lib/flake { inherit inputs; })
+        mapHomes
+        mapHosts
+        mapDroids
+        mapGenerics
+        mapPkgs
+        mapApps
+        mapDeployments
+        mapChecks
+        mapFormatters
+        mapShells
+        ;
     in
     {
       homeConfigurations = mapHomes;
