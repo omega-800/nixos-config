@@ -145,24 +145,14 @@ note() { vim "$(date +%F)$( [ ! -z "$1" ] && echo "_$1" )".md; }
 space() { sudo du -hsx "$1"* | sort -rh | head -n 40; }
 rmr() { ls | grep -P "$1" | xargs -d"\n" rm; }
 calc() { awk "BEGIN{print $1}"; }
-cddir() {
-    mkdir "$1"
-    cd "$1"
-}
-mvdir() {
-    mkdir "$2"
-    mv "$1" "$2"
-}
-mvcd() {
-    mv "$1" "$2"
-    cd "$2"
-}
+cddir() { mkdir -p "$1" && cd "$1"; }
+mvdir() { mkdir "$2" && mv "$1" "$2"; }
+mvcd() { mv "$1" "$2" && cd "$2"; }
 cpbak() { cp -- "$1"{,.bak}; }
 cds() {
     dir=${1//\\//}
     cd "${dir/[cC]:/'/mnt/c'}"
 }
-catg() { cat "$1" | grep "$2"; }
 findr() { find / -name "$1" -print 2>/dev/null; }
 
 cdloc() {
