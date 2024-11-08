@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   imports = [
-    ../serv/configuration.nix
+    ../serv/nixos.nix
     inputs.microvm.nixosModules.microvm
   ];
   microvm = {

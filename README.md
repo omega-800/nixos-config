@@ -56,7 +56,7 @@ src
 │   ├── droid           (nix-on-droid)
 │   ├── nixos           (nixos)
 │   └── system # TODO   (system-manager)
-├── hosts               (configurations)
+├── configs             (configurations)
 │   ├── nodes           (host profiles)
 │   └── profiles        (hosts)
 ├── lib                 (custom lib)
@@ -69,7 +69,7 @@ src
 
 The important files (where your customization happens) are:
 
-### hosts/\*
+### configs/\*
 
 Host-specific configurations.
 
@@ -132,7 +132,6 @@ This file can be present if running nixOS (and not the standalone home-manager) 
 
 ##### system.nix
 
-TODO:
 If this file is present, then a systemConfigs flake output is created for generic distros using system-manager.
 
 ##### droid.nix

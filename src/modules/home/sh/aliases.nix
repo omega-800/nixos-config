@@ -22,9 +22,7 @@ in
   home.shellAliases = (
     mkMerge [
       {
-        noptions = ''
-          nix eval ${NIXOS_CONFIG}#nixosConfigurations.${sys.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed "s/\\\//g" | sed "s/^\"//" | sed "s/\"$//" | jq 'paths(scalars) as $p | getpath($p)' | sort
-        '';
+        noptions = "nix eval ${NIXOS_CONFIG}#nixosConfigurations.${sys.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' | sort";
         ndx = ''nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
         hms = "home-manager switch --flake ${NIXOS_CONFIG}#${sys.hostname} --show-trace";
         nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${sys.hostname} --show-trace --use-remote-sudo";

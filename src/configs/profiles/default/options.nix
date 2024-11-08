@@ -3,7 +3,6 @@
   lib,
   pkgs,
   PATHS,
-  CONFIGS,
   ...
 }:
 let
@@ -51,15 +50,16 @@ in
       flavors = mkOption {
         type = types.listOf (
           types.enum [
-            "builder"
-            "developer"
-            "master"
-            "slave"
-            "worker"
-            "storer"
-            "hoster"
-            "parent"
-            "child"
+            "builder" # beefy machines for building derivations
+            "developer" # enables devtools
+            "master" # orchestrator
+            "slave" # orchestrated
+            "worker" # peasant doing menial tasks
+            "storer" # data horder
+            "hoster" # web services provider
+            "grandparent" # hypervisor
+            "parent" # runs vm's / containers
+            "child" # vm/container
           ]
         );
         default = [ ];
@@ -129,7 +129,7 @@ in
       services = mkOption {
         type =
           let
-            serviceTypes = listNixModuleNames (PATHS.MODULES + /${CONFIGS.nixosConfigurations}/srv);
+            serviceTypes = listNixModuleNames (PATHS.M_NIXOS + /srv);
           in
           types.listOf (types.enum serviceTypes);
         default = [ ];

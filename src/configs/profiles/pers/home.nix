@@ -1,6 +1,7 @@
 {
   lib,
   globals,
+  CONFIGS,
   ...
 }:
 let
@@ -9,7 +10,7 @@ in
 {
   imports = [
     # basically like work profile but with fun enabled
-    ../work/home.nix
+    ../work/${CONFIGS.homeConfigurations}.nix
   ];
 
   # pkgs

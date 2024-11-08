@@ -3,6 +3,7 @@
   config,
   inputs,
   usr,
+  PATHS,
   ...
 }:
 let
@@ -13,7 +14,7 @@ in
   imports = [ inputs.sops-nix.nixosModules.sops ];
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = PATHS.SECRETS + /secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile =
       if config.m.fs.disko.root.impermanence.enable then "/nix/persist${keysLocation}" else keysLocation;

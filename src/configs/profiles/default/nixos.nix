@@ -1,14 +1,13 @@
 {
   lib,
   PATHS,
-  CONFIGS,
   ...
 }:
 let
   inherit (lib) mkDefault;
 in
 {
-  imports = [ (PATHS.MODULES + /${CONFIGS.nixosConfigurations}) ];
+  imports = [ PATHS.M_NIXOS ];
   m = {
     hw.power = {
       enable = mkDefault true;

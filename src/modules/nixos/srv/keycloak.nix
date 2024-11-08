@@ -43,7 +43,9 @@ in
     environment.noXlibs = false;
     services.keycloak = {
       enable = true;
-      realmFiles = [ (pkgs.writeText "OIDCDemo.json" (builtins.toJSON realm)) ];
+      # https://wiki.nixos.org/w/index.php?title=Keycloak&mobileaction=toggle_view_mobile
+      # Note: The module is not yet part of the latest NixOS stable release and will be available with version 24.11.
+      # realmFiles = [ (pkgs.writeText "OIDCDemo.json" (builtins.toJSON realm)) ];
       database = {
         createLocally = true;
         #TODO: caCert = "";

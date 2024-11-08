@@ -4,14 +4,13 @@
   pkgs,
   lib,
   PATHS,
-  CONFIGS,
   ...
 }:
 let
   inherit (lib) mkDefault;
 in
 {
-  imports = [ (PATHS.MODULES + /${CONFIGS.homeConfigurations}) ];
+  imports = [ PATHS.M_HOME ];
   nix = {
     package = pkgs.nix;
     settings.experimental-features = mkDefault [

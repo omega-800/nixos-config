@@ -32,7 +32,7 @@
     WORKSPACE_DIR = "${HOME}/ws";
     NIXOS_CONFIG = "${WORKSPACE_DIR}/nixos-config";
 
-    SCRIPTS_DIR = "${HOME}/ws/scripts";
+    SCRIPTS_DIR = "${WORKSPACE_DIR}/scripts";
     SCREENSHOTS_DIR = "${XDG_PICTURES_DIR}/screenshots";
     SHELLDIR = "${XDG_STATE_HOME}/shell";
     HISTFILE = "${SHELLDIR}/history";

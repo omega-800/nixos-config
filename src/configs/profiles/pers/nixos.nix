@@ -1,7 +1,8 @@
+{ CONFIGS, ... }:
 {
   imports = [
     # basically like work profile but with fun enabled
-    ../work/configuration.nix
+    ../work/${CONFIGS.nixosConfigurations}.nix
   ];
   m = {
     net.vpn = {

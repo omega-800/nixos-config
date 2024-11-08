@@ -45,7 +45,7 @@ rec {
 
   mapHosts =
     fn:
-    lib.mapAttrsToList (
+    lib.mapAttrsToList fn (
       lib.filterAttrs (
         n: v: v == "directory" && builtins.pathExists (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
       ) (builtins.readDir PATHS.NODES)
