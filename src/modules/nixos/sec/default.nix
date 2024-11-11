@@ -1,12 +1,7 @@
-{ lib, inputs, ... }:
 {
-  # testing 
   imports = [
-    # TODO: add as soon as it's finished
-    # inputs.lonsdaleite.nixosModules.lonsdaleite 
+    ./lonsdaleite.nix
     ./sops.nix
     ./gpg.nix
   ];
-
-  #  config.lonsdaleite.enable = false;
 }
