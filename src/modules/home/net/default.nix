@@ -5,5 +5,7 @@
     ./ssh.nix
     ./firefox.nix
     ./lynx.nix
+    ./chromium.nix
+    ./qutebrowser.nix
   ];
 }

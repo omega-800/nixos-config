@@ -5,37 +5,27 @@
   pkgs,
   ...
 }:
-with lib;
 let
   cfg = config.u.net;
   inherit (pkgs) nixGL;
+  inherit (lib) mkEnableOption mkIf optionals;
 in
-# nixGL = import ../nixGL/nixGL.nix { inherit config pkgs; };
 {
   options.u.net.enable = mkEnableOption "enables net packages";
 
   config = mkIf cfg.enable {
     home.packages =
       with pkgs;
-      (
-        if !usr.minimal then
-          [
-            (nixGL brave)
-            (nixGL qutebrowser)
-            wireguard-tools
-          ]
-        else
-          [ ]
-      )
-      ++ (
-        if usr.extraBloat then
-          [
-            (nixGL tor)
-            (nixGL vieb)
-            rtorrent
-          ]
-        else
-          [ ]
-      );
+      (optionals (!usr.minimal) [
+        (nixGL brave)
+        wireguard-tools
+      ])
+      ++ (optionals usr.extraBloat [
+        (nixGL tor)
+        (nixGL vieb)
+      ]);
+    programs.rtorrent = mkIf usr.extraBloat {
+      enable = true;
+    };
   };
 }

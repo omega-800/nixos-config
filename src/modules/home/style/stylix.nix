@@ -7,6 +7,9 @@
   globals,
   ...
 }:
+let
+  inherit (lib) optionalAttrs optionals;
+in
 {
   imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
   config =
@@ -14,15 +17,10 @@
       { }
     else
       lib.mkMerge [
-        (
-          if usr.minimal then
-            { }
-          else
-            {
-              u.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
-            }
-        )
-        ({
+        (optionalAttrs (!usr.minimal) {
+          u.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
+        })
+        {
           fonts.fontconfig.enable = true;
           home.packages =
             with pkgs;
@@ -30,38 +28,28 @@
               (nerdfonts.override {
                 fonts =
                   [ "JetBrainsMono" ]
-                  ++ (
-                    if usr.extraBloat then
-                      [
-                        "FiraCode"
-                        "FiraMono"
-                        "Hack"
-                        "Hasklig"
-                        "Ubuntu"
-                        "UbuntuMono"
-                        "CascadiaCode"
-                        "CodeNewRoman"
-                        "FantasqueSansMono"
-                        "Iosevka"
-                        "ShareTechMono"
-                        "Hermit"
-                      ]
-                    else
-                      [ ]
-                  );
+                  ++ (optionals usr.extraBloat [
+                    "FiraCode"
+                    "FiraMono"
+                    "Hack"
+                    "Hasklig"
+                    "Ubuntu"
+                    "UbuntuMono"
+                    "CascadiaCode"
+                    "CodeNewRoman"
+                    "FantasqueSansMono"
+                    "Iosevka"
+                    "ShareTechMono"
+                    "Hermit"
+                  ]);
               })
             ]
-            ++ (
-              if usr.extraBloat then
-                [
-                  noto-fonts
-                  noto-fonts-cjk-sans
-                  noto-fonts-emoji
-                  noto-fonts-monochrome-emoji
-                ]
-              else
-                [ ]
-            );
+            ++ (optionals usr.extraBloat [
+              noto-fonts
+              noto-fonts-cjk-sans
+              noto-fonts-emoji
+              noto-fonts-monochrome-emoji
+            ]);
           home.file = with config.lib.stylix.colors; {
             ".config/.currenttheme".text = usr.theme;
             ".config/.currentcolors.conf".text = ''
@@ -203,6 +191,6 @@
           #       wallpaper = HDMI-A-1,'' + config.stylix.image + ''
           #
           #         wallpaper = DP-1,'' + config.stylix.image + "";
-        })
+        }
       ];
 }

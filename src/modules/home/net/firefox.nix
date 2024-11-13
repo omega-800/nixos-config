@@ -8,8 +8,14 @@
   lib,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    optionals
+    readFile
+    ;
   cfg = config.u.net.firefox;
 in
 {
@@ -61,29 +67,24 @@ in
               i-dont-care-about-cookies
               privacy-badger
             ]
-            ++ (
-              if usr.extraBloat then
-                (
-                  with pkgs.nur.repos.rycee.firefox-addons;
-                  [
-                    link-cleaner
-                    decentraleyes
-                    anchors-reveal
-                    reddit-enhancement-suite
-                    # tree-style-tab
-                  ]
-                  ++ (with inputs.firefox-addons.packages.${sys.system}; [
-                    multi-account-containers
-                    youtube-shorts-block
-                    passff
-                    sponsorblock
-                    #firenvim
-                    #bitwarden
-                  ])
-                )
-              else
-                [ ]
-            )
+            ++ (optionals usr.extraBloat (
+              with pkgs.nur.repos.rycee.firefox-addons;
+              [
+                link-cleaner
+                decentraleyes
+                anchors-reveal
+                reddit-enhancement-suite
+                # tree-style-tab
+              ]
+              ++ (with inputs.firefox-addons.packages.${sys.system}; [
+                multi-account-containers
+                youtube-shorts-block
+                # passff
+                sponsorblock
+                #firenvim
+                #bitwarden
+              ])
+            ))
           );
 
         search = {

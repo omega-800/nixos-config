@@ -11,25 +11,28 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
+  # will have to fix impermanence first
+  /*
+    imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
 
-  options.m.sec.lon = mkEnableOption "Enables lonsdaleite";
+    options.m.sec.lon.enable = mkEnableOption "Enables lonsdaleite";
 
-  config = mkIf cfg.enable {
-    lonsdaleite = {
-      enable = false;
-      # FIXME: 
-      paranoia =
-        if sys.profile == "serv" then
-          2
-        else if sys.profile == "pers" then
-          1
-        else
-          0;
-      decapitated = sys.profile == "serv";
-      trustedUser = usr.username;
+    config = mkIf cfg.enable {
+      lonsdaleite = {
+        enable = false;
+        # FIXME:
+        paranoia =
+          if sys.profile == "serv" then
+            2
+          else if sys.profile == "pers" then
+            1
+          else
+            0;
+        decapitated = sys.profile == "serv";
+        trustedUser = usr.username;
 
-      os.systemd.enable = true;
+        os.systemd.enable = true;
+      };
     };
-  };
+  */
 }

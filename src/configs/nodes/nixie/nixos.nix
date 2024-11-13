@@ -15,6 +15,8 @@
   ];
   #FIXME: breaks my insecurities
   #m.sec.enable = lib.mkForce false;
+  # let's see...
+  m.sec.lon.enable = true;
   nixpkgs.config = {
     allowUnfreePredicate = _: true;
     allowUnfree = true;
