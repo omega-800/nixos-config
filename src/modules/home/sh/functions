@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+gitall() {
+  pushd .
+  for _tmp in $(fd '.git$' .); do 
+    dir="''${_tmp%%.git*}"
+    echo -e "\n\033[0;32m$dir\033[0m"
+    cd "$dir" 
+    if [ -n "$1" ]; then 
+      bash -c "$1"
+    else 
+      git status
+    fi
+  done
+  popd
+}
+
 fromhex() {
   hex=$1
   if [[ $hex == "#"* ]]; then
