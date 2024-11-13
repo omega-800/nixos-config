@@ -37,6 +37,7 @@ in
         cursor_blink_interval = 1;
         cursor_stop_blinking_after = 60;
         confirm_os_window_close = 0;
+        sync_to_monitor = false;
       };
     };
   };

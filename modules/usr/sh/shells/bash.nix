@@ -1,12 +1,11 @@
-{ config, usr, globals, lib, ... }:
+{ config, usr, globals, lib, sys, ... }:
 let
   inherit (lib) mkOption types mkIf;
   cfg = config.u.sh.bash;
-in
-{
+in {
   options.u.sh.bash.enable = mkOption {
     type = types.bool;
-    default = usr.shell.pname == "bash";
+    default = usr.shell.pname == "bash" || sys.genericLinux;
   };
   config.programs.bash = mkIf cfg.enable {
     enable = true;
