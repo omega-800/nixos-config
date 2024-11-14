@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+sys,
   ...
 }:
 let
@@ -16,7 +17,7 @@ in
 {
   options.u.net.chromium.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal && usr.profile == "work";
+    default = config.u.net.enable && !usr.minimal && sys.profile == "work";
   };
   config = mkIf cfg.enable {
     programs.chromium = {
