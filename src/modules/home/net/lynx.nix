@@ -1,9 +1,17 @@
-{ usr, config, lib, pkgs, globals, ... }:
+{
+  usr,
+  config,
+  lib,
+  pkgs,
+  globals,
+  ...
+}:
 let
   cfg = config.u.net.lynx;
   inherit (lib) mkOption types mkIf;
   inherit (globals.envVars) XDG_CONFIG_HOME XDG_DOWNLOAD_DIR;
-in {
+in
+{
   options.u.net.lynx.enable = mkOption {
     type = types.bool;
     default = config.u.net.enable && !usr.minimal;
