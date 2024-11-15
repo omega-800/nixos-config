@@ -17,7 +17,6 @@
     usr = {
       shell = pkgs.zsh;
       theme = "nord";
-      # extraBloat = lib.mkForce true;
       style = lib.mkForce true;
       termColors = {
         c1 = "34";
