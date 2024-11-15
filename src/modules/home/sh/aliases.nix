@@ -95,6 +95,7 @@ in
         vdir = "vdir --color=auto";
         dbr = "docker run --rm -it $(docker build -q .)";
         svn = "svn --username gs2 --password $(pass work/svn)";
+        vimtmp = "vim $(mktemp)";
         # nyehhehheh
         nano = "vim";
       }

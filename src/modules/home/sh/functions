@@ -1,9 +1,24 @@
 #!/usr/bin/env bash
 
+svnall() {
+  for _tmp in $(fd -td '.svn' .); do 
+    pushd . 
+    dir="${_tmp%%.svn*}" 
+    echo -e "\n\033[0;32m$dir\033[0m"
+    cd "$dir"
+    if [ -n "$1" ]; then 
+      bash -c "$1"
+    else 
+      svn status
+    fi
+    popd
+  done
+}
+
 gitall() {
-  pushd .
   for _tmp in $(fd '.git$' .); do 
-    dir="''${_tmp%%.git*}"
+    pushd .
+    dir="${_tmp%%.git*}"
     echo -e "\n\033[0;32m$dir\033[0m"
     cd "$dir" 
     if [ -n "$1" ]; then 
@@ -11,14 +26,14 @@ gitall() {
     else 
       git status
     fi
+    popd
   done
-  popd
 }
 
 fromhex() {
   hex=$1
   if [[ $hex == "#"* ]]; then
-    hex=$(echo "$1" | awk '{print substr($0,2)}')
+    hex=$(echo "$1" | awk '{print substr("$0",2)}')
   fi
   r=$(printf '0x%0.2s' "$hex")
   g=$(printf '0x%0.2s' $${hex#??})

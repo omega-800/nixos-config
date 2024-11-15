@@ -8,11 +8,18 @@
 }:
 let
   cfg = config.u.user.pass;
-  inherit (lib) mkEnableOption mkIf optionals;
+  inherit (lib)
+    mkOption
+    mkIf
+    optionals
+    types
+    ;
 in
 {
-  options.u.user.pass = {
-    enable = mkEnableOption "enables pass";
+  options.u.user.pass.enable = mkOption {
+    description = "enables pass";
+    type = types.bool;
+    default = config.u.user.enable;
   };
 
   config = mkIf cfg.enable {

@@ -19,6 +19,7 @@ in
       (optionals (!usr.minimal) [
         (nixGL brave)
         wireguard-tools
+        lsof
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor)

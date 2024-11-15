@@ -1,35 +1,25 @@
 {
   lib,
   sys,
-  usr,
   config,
   pkgs,
   ...
 }:
-with lib;
-with builtins;
 let
+  inherit (lib) mkMerge any mkIf;
+  inherit (builtins) elem;
   langs = config.u.user.nixvim.langSupport;
 in
 {
-  programs.nixvim = {
-    keymaps = [
-      # Format file
-      {
-        key = "<leader>=";
-        action = "<CMD>lua vim.lsp.buf.format()<CR>";
-        options.desc = "Format the current buffer";
-      }
-    ];
-
-    plugins.none-ls = lib.mkMerge [
+  programs.nixvim = mkIf false {
+    plugins.none-ls = mkMerge [
       (
         if sys.stable then
           { }
         else
           {
             sources.formatting.prettierd = {
-              enable = lib.any (l: elem l langs) [
+              enable = any (l: elem l langs) [
                 "js"
                 "css"
                 "yaml"
@@ -104,8 +94,10 @@ in
             };
           }
       )
-      ({
+      {
         enable = true;
+        enableLspFormat = true;
+        settings.diagnostics_format = "#{m} [#{c}] (#{s})";
         sources = {
           diagnostics = mkMerge [
             {
@@ -166,8 +158,29 @@ in
               rustywind.enable = true;
             })
           ];
+          code_actions = mkMerge [
+            {
+              refactoring.enable = true;
+            }
+            (mkIf (elem "nix" langs) {
+              statix.enable = true;
+            })
+            (mkIf (elem "js" langs) {
+              ts_node_action.enable = true;
+            })
+          ];
+          completion = mkMerge [
+            { spell.enable = true; }
+            (mkIf (elem "lua" langs) {
+              luasnip.enable = true;
+            })
+          ];
+          hover = {
+            dictionary.enable = true;
+            printenv.enable = true;
+          };
         };
-      })
+      }
     ];
   };
 }
