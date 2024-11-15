@@ -1,6 +1,5 @@
 {
-  config,
-  pkgs,
+  lib,
   modulesPath,
   ...
 }:
@@ -15,6 +14,11 @@
   nixpkgs.hostPlatform.system = "armv7l-linux";
   nixpkgs.buildPlatform.system = "x86_64-linux"; # If you build on x86 other wise changes this.
   # ... extra configs as above
+  # FIXME: conflicting values in (sd-image-raspberrypi.nix || disko)
+  fileSystems."/" = {
+    fsType = lib.mkForce "btrfs";
+    device = lib.mkForce "/dev/mapper/cryptroot";
+  };
   m = {
     fs.disko = {
       enable = true;

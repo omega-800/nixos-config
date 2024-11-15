@@ -8,13 +8,23 @@
 }:
 let
   cfg = config.m.dev.dictate;
-  inherit (lib) types mkEnableOption mkIf;
+  inherit (lib)
+    types
+    mkOption
+    mkIf
+    optionals
+    ;
+  inherit (builtins) elem;
   inherit (lib.omega.cfg) filterCfgs filterHosts;
 in
 {
-  options.m.dev.dictate.enable = mkEnableOption "enables orchestration tools";
+  options.m.dev.dictate.enable = mkOption {
+    description = "enables orchestration tools";
+    type = types.bool;
+    default = elem "master" sys.flavors;
+  };
   config = {
-    environment.systemPackages = if cfg.enable then (with pkgs; [ deploy-rs.deploy-rs ]) else [ ];
+    environment.systemPackages = optionals cfg.enable (with pkgs; [ deploy-rs ]);
 
     nix = {
       # https://nixos.wiki/wiki/Distributed_build

@@ -23,7 +23,7 @@
       enable = true;
       root = {
         device = "/dev/disk/by-uuid/3e578621-fca5-4613-979e-8dec12864c3e";
-        impermanence.enable = true;
+        impermanence.enable = false;
       };
     };
     hw.power.enable = false;
@@ -47,7 +47,7 @@
         ipv4 = {
           addresses = [
             {
-              address = "10.0.0.101";
+              address = "10.0.0.104";
               prefixLength = 24;
             }
           ];

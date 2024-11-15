@@ -57,7 +57,16 @@ rec {
     let
       cfg = mkCfg hostname;
       inherit (cfg.sys) stable system genericLinux;
-      defPkgs = mkPkgs stable system genericLinux;
+      defPkgs =
+        ((mkPkgs stable system genericLinux).extend (getInput "deploy-rs" stable).overlay).extend
+          (
+            self: super: {
+              deploy-rs = {
+                inherit (mkPkgs stable system genericLinux) deploy-rs;
+                inherit (super.deploy-rs) lib;
+              };
+            }
+          );
     in
     {
       #TODO: domain

@@ -5,6 +5,7 @@ let
     hasSuffix
     nameValuePair
     filterAttrs
+    optionals
     ;
   inherit
     (import ../../omega/str.nix {
@@ -18,25 +19,13 @@ rec {
   mkOverlays =
     isStable: system: isGenericLinux:
     [
-      (getInput "deploy-rs" isStable).overlay
-      (self: super: {
-        deploy-rs = {
-          inherit (mkPkgs isStable system isGenericLinux) deploy-rs;
-          inherit (super.deploy-rs) lib;
-        };
-      })
       (self: super: inputs.self.packages.${system})
     ]
-    ++ (
-      if isStable then
-        [ ]
-      else
-        [
-          inputs.rust-overlay.overlays.default
-          inputs.nur.overlay
-        ]
-    )
-    ++ (if isGenericLinux then [ (getInput "nixgl" isStable).overlay ] else [ ]);
+    ++ (optionals (!isStable) [
+      inputs.rust-overlay.overlays.default
+      inputs.nur.overlay
+    ])
+    ++ (optionals isGenericLinux [ (getInput "nixgl" isStable).overlay ]);
 
   mkInputs =
     isStable:
