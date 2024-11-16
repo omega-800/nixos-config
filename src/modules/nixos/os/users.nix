@@ -10,7 +10,8 @@
 }:
 let
   cfg = config.m.os.users;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf mkEnableOption optionals;
+  inherit (lib.omega.def) mkDisableOption;
   ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 # inherit (import (PATHS.LIBS + /flake/utils/util.nix) { inherit inputs; }) mkModules;
@@ -20,7 +21,7 @@ in
     # FIXME: implement without locking myself out 
     mutable = mkEnableOption "mutable users";
     lockRoot = mkEnableOption "locks root user";
-    enableHomeMgr = mkEnableOption "enables home-manager from nixos config";
+    enableHomeMgr = mkDisableOption "enables home-manager from nixos config";
   };
   config = {
     #TODO: split sops secrets per-user
@@ -43,6 +44,7 @@ in
           #FIXME: why doesn't this work??
           # i'm confused, past omega. it works on my machine?
           hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
+          packages = optionals cfg.enableHomeMgr [ inputs.home-manager.packages.${sys.system}.home-manager ];
           extraGroups =
             [
               "wheel"

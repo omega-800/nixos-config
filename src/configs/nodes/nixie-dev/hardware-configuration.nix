@@ -26,9 +26,9 @@
   #   fsType = "ext4";
   # };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/954189f8-a5a2-4081-a506-568f4aee68d5"; }
-  ];
+  # swapDevices = [
+  #   { device = "/dev/disk/by-uuid/954189f8-a5a2-4081-a506-568f4aee68d5"; }
+  # ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
