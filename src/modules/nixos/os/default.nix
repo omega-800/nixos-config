@@ -6,5 +6,6 @@
     ./os.nix
     ./env.nix
     ./shell.nix
+    ./users.nix
   ];
 }

@@ -7,9 +7,6 @@
   inputs,
   ...
 }:
-let
-  ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
 {
   #system-manager.allowAnyDistro = sys.genericLinux;
   environment.defaultPackages = [ ];
@@ -66,41 +63,6 @@ in
     # De-duplicate store paths using hardlinks except in containers
     # where the store is host-managed.
     # optimise.automatic = (!sys.isContainer);
-  };
-
-  #TODO: split sops secrets per-user
-  sops.secrets = {
-    "users/root".neededForUsers = true;
-    "users/${usr.username}".neededForUsers = true;
-  };
-  users = {
-    #FIXME: fml broke my pc again
-    # mutableUsers = false;
-    users = {
-      #FIXME: i fucked uuuup
-      root = {
-        # hashedPasswordFile = config.sops.secrets."users/root".path;
-        # to lock root account
-        # hashedPasswordFile = "!";
-        # FIXME: here for testing purposes, remove 
-        hashedPassword = "$y$j9T$HSTJgFkpelgvsAzEGN3QO1$z87dmFD01pFt4/ldVQHXYkXHO.ebz.eRUKsenM88Iu7";
-      };
-      ${usr.username} = {
-        isNormalUser = true;
-        #FIXME: why doesn't this work??
-        hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
-        extraGroups =
-          [
-            "wheel"
-            "video"
-            "audio"
-          ]
-          ++ ifExist [
-            "podman"
-            "adbusers"
-          ];
-      };
-    };
   };
 
   systemd.services = {

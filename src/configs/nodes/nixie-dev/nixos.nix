@@ -28,7 +28,10 @@
       };
     };
     hw.power.enable = false;
-    os.boot.mode = "bios";
+    os = {
+      boot.mode = "bios";
+      users.enableHomeMgr = true;
+    };
     net.vpn.wg.enable = false;
   };
   networking = {
@@ -48,7 +51,7 @@
         ipv4 = {
           addresses = [
             {
-              address = "10.0.0.104";
+              address = "10.0.0.14";
               prefixLength = 24;
             }
           ];
