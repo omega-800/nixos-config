@@ -1,0 +1,22 @@
+{
+  imports = [
+    ./c.nix
+    ./css.nix
+    ./docker.nix
+    ./erlang.nix
+    ./go.nix
+    ./gql.nix
+    ./hs.nix
+    ./html.nix
+    ./java.nix
+    ./js.nix
+    ./lua.nix
+    ./md.nix
+    ./nix.nix
+    ./python.nix
+    ./rust.nix
+    ./sh.nix
+    ./sql.nix
+    ./yaml.nix
+  ];
+}

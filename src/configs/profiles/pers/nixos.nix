@@ -12,5 +12,6 @@
       mullvad.enable = true;
     };
     fs.thunar.enable = true;
+    dev.mysql.enable = false;
   };
 }

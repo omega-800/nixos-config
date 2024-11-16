@@ -1,13 +1,9 @@
 {
-  config,
   lib,
   sys,
   pkgs,
   ...
 }:
-let
-  langs = config.u.user.nixvim.langSupport;
-in
 {
   programs.nixvim = {
     keymaps = [
@@ -25,13 +21,12 @@ in
     plugins = {
       web-devicons.enable = true;
       treesitter = lib.mkMerge [
-        ({
+        {
           enable = true;
-          nixGrammars = builtins.elem "nix" langs;
-          folding = false;
           nixvimInjections = true;
+          folding = false;
           grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-        })
+        }
         (if sys.stable then { } else { settings.indent.enable = true; })
       ];
       treesitter-context = {

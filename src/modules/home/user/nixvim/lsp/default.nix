@@ -1,21 +1,15 @@
 {
   sys,
-  options,
-  config,
   lib,
-  pkgs,
   ...
 }:
 let
-  langs = config.u.user.nixvim.langSupport;
-  inherit (lib) mkMerge mkIf;
-  inherit (builtins) elem;
+  inherit (lib) mkMerge;
 in
 {
   imports = [
     ./treesitter.nix
     ./none-ls.nix
-    ./typescript.nix
   ];
   programs.nixvim = mkMerge [
     {
@@ -27,12 +21,7 @@ in
         }
         # Trouble 
         {
-          mode = "n";
-          key = "<leader>d";
-          action = "+diagnostics/debug";
-        }
-        {
-          key = "<leader>dt";
+          key = "<leader>lt";
           action = "<CMD>TroubleToggle<CR>";
           options.desc = "Toggle trouble";
         }
@@ -52,57 +41,13 @@ in
         lsp = {
           enable = true;
           inlayHints = true;
-          servers = mkMerge [
-            {
-              typos_lsp = {
-                enable = true;
-                # TODO: fix this
-                autostart = false;
-              };
-            }
-            (mkIf (elem "js" langs) {
-              volar.enable = true;
-              jsonls.enable = true;
-            })
-            (mkIf (elem "md" langs) { marksman.enable = true; })
-            (mkIf (elem "hs" langs) {
-              hls = {
-                enable = true;
-                installGhc = true;
-              };
-            })
-            (mkIf (elem "nix" langs) {
-              nixd = {
-                enable = true;
-                # extraOptions = options;
-              };
-            })
-            (mkIf (elem "sh" langs) { bashls.enable = true; })
-            (mkIf (elem "html" langs) {
-              html.enable = true;
-              htmx.enable = true;
-            })
-            (mkIf (elem "css" langs) {
-              cssls.enable = true;
-              tailwindcss.enable = true;
-            })
-            (mkIf (elem "c" langs) {
-              clangd.enable = true;
-              cmake.enable = true;
-            })
-            (mkIf (elem "gql" langs) { graphql.enable = true; })
-            (mkIf (elem "docker" langs) { dockerls.enable = true; })
-            (mkIf (elem "yaml" langs) {
-              yamlls.enable = true;
-              docker_compose_language_service.enable = true;
-              ansiblels.enable = true;
-            })
-            (mkIf (elem "sql" langs) { sqls.enable = true; })
-            (mkIf (elem "lua" langs) { lua_ls.enable = true; })
-            (mkIf (elem "python" langs) { pylsp.enable = true; })
-            (mkIf (elem "go" langs) { gopls.enable = true; })
-            (mkIf (elem "java" langs) { java_language_server.enable = true; })
-          ];
+          servers = {
+            typos_lsp = {
+              enable = true;
+              # TODO: fix this
+              autostart = false;
+            };
+          };
           keymaps = {
             diagnostic = {
               "<leader>ln" = {
@@ -235,7 +180,7 @@ in
         # lsp-lines.enable = true;
         lsp-format.enable = true;
         # lsp-signature.enable = true;
-        # trouble.enable = true;
+        trouble.enable = true;
       };
     }
     (
