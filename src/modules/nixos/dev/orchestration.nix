@@ -24,7 +24,13 @@ in
     default = elem "master" sys.flavors;
   };
   config = {
-    environment.systemPackages = optionals cfg.enable (with pkgs; [ deploy-rs ]);
+    environment.systemPackages = optionals cfg.enable (
+      with pkgs;
+      [
+        deploy-rs
+        nixos-anywhere
+      ]
+    );
 
     nix = {
       # https://nixos.wiki/wiki/Distributed_build

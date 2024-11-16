@@ -22,8 +22,9 @@
     fs.disko = {
       enable = true;
       root = {
-        device = "/dev/disk/by-uuid/3e578621-fca5-4613-979e-8dec12864c3e";
+        device = "/dev/sda";
         impermanence.enable = false;
+        encrypt = false;
       };
     };
     hw.power.enable = false;

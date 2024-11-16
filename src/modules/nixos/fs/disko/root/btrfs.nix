@@ -1,15 +1,67 @@
+defPartitions:
 { config, lib, ... }:
 let
   cfg = config.m.fs.disko;
+  inherit (lib) mkIf mkMerge mkBefore;
+  btrfsContent = {
+    type = "btrfs";
+    extraArgs = [
+      "-L"
+      "nixos"
+      "-f"
+    ];
+    subvolumes = mkMerge [
+      {
+        "/root" = {
+          mountpoint = "/";
+          mountOptions = [
+            "subvol=root"
+            "compress=zstd"
+          ];
+        };
+        "/home" = {
+          mountpoint = "/home";
+          mountOptions = [
+            "subvol=home"
+            "compress=zstd"
+          ];
+        };
+        "/nix" = {
+          mountpoint = "/nix";
+          mountOptions = [
+            "subvol=nix"
+            "compress=zstd"
+            "noatime"
+          ];
+        };
+        "/log" = {
+          mountpoint = "/var/log";
+          mountOptions = [
+            "subvol=log"
+            "compress=zstd"
+          ];
+        };
+      }
+      (mkIf cfg.root.impermanence.enable {
+        "/persist" = {
+          mountpoint = "/nix/persist";
+          mountOptions = [
+            "subvol=persist"
+            "compress=zstd"
+          ];
+        };
+      })
+    ];
+  };
 in
 {
-  config = lib.mkIf (cfg.enable && cfg.root.type == "btrfs") {
-    boot.initrd = lib.mkIf cfg.root.impermanence.enable {
+  config = mkIf (cfg.enable && cfg.root.type == "btrfs") {
+    boot.initrd = mkIf cfg.root.impermanence.enable {
       #TODO:
       # finish
       # https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html
       # do i even need this if i have root as tmpfs?
-      postDeviceCommands = lib.mkBefore ''
+      postDeviceCommands = mkBefore ''
         mkdir -p /mnt
 
         # We first mount the btrfs root to /mnt
@@ -87,65 +139,32 @@ in
       */
       content = {
         type = "gpt";
-        partitions.root = {
-          size = "100%";
-          label = "luks";
-          content = {
-            # LUKS passphrase will be prompted interactively only
-            type = "luks";
-            name = "cryptroot";
-            extraOpenArgs = [
-              "--perf-no_read_workqueue"
-              "--perf-no_write_workqueue"
-            ];
-            settings.allowDiscards = true;
-            content = {
-              type = "btrfs";
-              extraArgs = [
-                "-L"
-                "nixos"
-                "-f"
-              ];
-              subvolumes = {
-                "/root" = {
-                  mountpoint = "/";
-                  mountOptions = [
-                    "subvol=root"
-                    "compress=zstd"
-                  ];
-                };
-                "/home" = {
-                  mountpoint = "/home";
-                  mountOptions = [
-                    "subvol=home"
-                    "compress=zstd"
-                  ];
-                };
-                "/nix" = {
-                  mountpoint = "/nix";
-                  mountOptions = [
-                    "subvol=nix"
-                    "compress=zstd"
-                    "noatime"
-                  ];
-                };
-                "/log" = {
-                  mountpoint = "/var/log";
-                  mountOptions = [
-                    "subvol=log"
-                    "compress=zstd"
-                  ];
-                };
-                "/persist" = {
-                  mountpoint = "/nix/persist";
-                  mountOptions = [
-                    "subvol=persist"
-                    "compress=zstd"
-                  ];
-                };
-              };
-            };
-          };
+        partitions = defPartitions // {
+          root = mkMerge [
+            {
+              end = "-8GiB";
+            }
+            (
+              # TODO: abstract away luks boilerplate
+              if cfg.root.encrypt then
+                {
+                  label = "luks";
+                  content = {
+                    extraOpenArgs = [
+                      "--perf-no_read_workqueue"
+                      "--perf-no_write_workqueue"
+                    ];
+                    settings.allowDiscards = true;
+                    # LUKS passphrase will be prompted interactively only
+                    type = "luks";
+                    name = "cryptroot";
+                    content = btrfsContent;
+                  };
+                }
+              else
+                { content = btrfsContent; }
+            )
+          ];
         };
       };
     };

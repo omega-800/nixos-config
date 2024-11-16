@@ -82,6 +82,8 @@ in
         # hashedPasswordFile = config.sops.secrets."users/root".path;
         # to lock root account
         # hashedPasswordFile = "!";
+        # FIXME: here for testing purposes, remove 
+        hashedPassword = "$y$j9T$HSTJgFkpelgvsAzEGN3QO1$z87dmFD01pFt4/ldVQHXYkXHO.ebz.eRUKsenM88Iu7";
       };
       ${usr.username} = {
         isNormalUser = true;

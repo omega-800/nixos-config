@@ -2,10 +2,11 @@
 let
   inherit (import ./vars.nix) CONFIGS PATHS;
   inherit (PATHS) PROFILES LIBS NODES;
+  inherit (inputs.nixpkgs-unstable) lib;
   inherit
     ((import (LIBS + /omega) {
       pkgs = inputs.nixpkgs-unstable;
-      inherit (inputs.nixpkgs-unstable) lib;
+      inherit lib;
     }).cfg
     )
     getCfgAttr
@@ -24,7 +25,7 @@ rec {
     let
       profileCfg = PROFILES + /${getCfgAttr hostname "sys" "profile"}/${CONFIGS.omega}.nix;
     in
-    (inputs.nixpkgs-unstable.lib.evalModules {
+    (lib.evalModules {
       modules = [
         {
           config = {
@@ -39,7 +40,7 @@ rec {
         }
         (PROFILES + /default/options.nix)
         (NODES + /${hostname}/${CONFIGS.omega}.nix)
-      ] ++ (if inputs.nixpkgs-unstable.lib.pathExists profileCfg then [ profileCfg ] else [ ]);
+      ] ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
     }).config.c;
 
   mkModules =
