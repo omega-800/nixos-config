@@ -37,7 +37,8 @@ in
       # why do i need this again?
       wayland
       # apparently this i definitely need
-      lxqt.lxqt-policykit
+      # lxqt.lxqt-policykit
     ];
+    # environment.pathsToLink = [ "${pkgs.xorg.libxcb}/lib/" ];
   };
 }

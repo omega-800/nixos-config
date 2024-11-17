@@ -19,7 +19,9 @@ let
     if usr.wmType == "x11" then
       "startx"
     else
-      ("lxqt-policykit-agent " + (if usr.wm == "hyprland" then "Hyprland" else usr.wm));
+      # audible confusion
+      # "lxqt-policykit-agent " +
+      (if usr.wm == "hyprland" then "Hyprland" else usr.wm);
 in
 {
   options.m.wm.dm = {
