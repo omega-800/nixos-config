@@ -4,14 +4,16 @@ let
 in
 rec {
   mkCfgModules = hostname: [
+    PATHS.M_OMEGA
+    (PATHS.NODES + /${hostname}/${CONFIGS.omega}.nix)
     {
-      config._module.args = {
-        inherit PATHS CONFIGS;
+      config = {
+        _module.args = {
+          inherit PATHS CONFIGS;
+        };
         c.net.hostname = hostname;
       };
     }
-    PATHS.M_OMEGA
-    (PATHS.NODES + /${hostname}/${CONFIGS.omega}.nix)
   ];
   # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
   getCfgAttr =

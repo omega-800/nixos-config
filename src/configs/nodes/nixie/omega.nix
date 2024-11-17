@@ -19,7 +19,7 @@
       ];
     };
     usr = {
-      wm = "sway";
+      wm = "dwm";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;
