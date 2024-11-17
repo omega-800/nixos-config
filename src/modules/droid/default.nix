@@ -50,7 +50,7 @@ in
 
   nix = {
     extraOptions = "experimental-features = nix-command flakes";
-    trustedPublicKeys = flatten (omega.cfg.getCfgAttrOfAllHosts "sys" "pubkeys");
+    trustedPublicKeys = flatten (omega.cfg.getCfgAttrOfAllHosts "net" "pubkeys");
   };
 
   /*

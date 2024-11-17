@@ -1,7 +1,12 @@
 { inputs }:
 let
   inherit (import ./vars.nix) CONFIGS PATHS;
-  inherit (PATHS) PROFILES LIBS NODES;
+  inherit (PATHS)
+    PROFILES
+    LIBS
+    NODES
+    M_OMEGA
+    ;
   inherit (inputs.nixpkgs-unstable) lib;
   inherit
     ((import (LIBS + /omega) {
@@ -10,6 +15,7 @@ let
     }).cfg
     )
     getCfgAttr
+    mkCfgModules
     ;
 
   inherit (import ./pkgs.nix { inherit inputs; })
@@ -23,24 +29,18 @@ rec {
   mkCfg =
     hostname:
     let
-      profileCfg = PROFILES + /${getCfgAttr hostname "sys" "profile"}/${CONFIGS.omega}.nix;
+      profile = getCfgAttr hostname "sys" "profile";
+      stable = getCfgAttr hostname "sys" "stable";
+      system = getCfgAttr hostname "sys" "system";
+      genericLinux = getCfgAttr hostname "sys" "genericLinux";
+      profileCfg = PROFILES + /${profile}/${CONFIGS.omega}.nix;
     in
     (lib.evalModules {
       modules = [
         {
-          config = {
-            _module.args = {
-              pkgs = mkPkgs (getCfgAttr hostname "sys" "stable") (getCfgAttr hostname "sys" "system") (
-                getCfgAttr hostname "sys" "genericLinux"
-              );
-              inherit (import ./vars.nix) PATHS CONFIGS;
-            };
-            c.sys.hostname = hostname;
-          };
+          config._module.args.pkgs = mkPkgs stable system genericLinux;
         }
-        (PROFILES + /default/options.nix)
-        (NODES + /${hostname}/${CONFIGS.omega}.nix)
-      ] ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
+      ] ++ (mkCfgModules hostname) ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
     }).config.c;
 
   mkModules =
@@ -51,8 +51,8 @@ rec {
         system
         genericLinux
         profile
-        hostname
         ;
+      inherit (cfg.net) hostname;
     in
     [
       { nixpkgs.overlays = mkOverlays stable system genericLinux; }
@@ -94,12 +94,12 @@ rec {
     in
     {
       inputs = mkInputs stable;
-      inherit (cfg) usr sys;
+      inherit (cfg) usr sys net;
       # nixpkgs = finalPkgs;
       # pkgs = finalPkgs;
       lib = myLib;
-      globals = import (PROFILES + /default/globals.nix) {
-        inherit (cfg) usr sys;
+      globals = import (M_OMEGA + /globals.nix) {
+        inherit (cfg) usr sys net;
         lib = myLib;
         pkgs = pkgsFinal;
         inherit (import ./vars.nix) PATHS CONFIGS;

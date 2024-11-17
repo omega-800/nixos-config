@@ -3,6 +3,7 @@
   lib,
   usr,
   sys,
+  net,
   config,
   CONFIGS,
   PATHS,
@@ -66,7 +67,7 @@ in
       #   imports = [
       #     (PATHS.PROFILES + /default/${CONFIGS.homeConfigurations}.nix)
       #     (PATHS.PROFILES + /${sys.profile}/${CONFIGS.homeConfigurations}.nix)
-      #     (PATHS.NODES + /${sys.hostname}/${CONFIGS.homeConfigurations}.nix)
+      #     (PATHS.NODES + /${net.hostname}/${CONFIGS.homeConfigurations}.nix)
       #   ];
       # };
     };

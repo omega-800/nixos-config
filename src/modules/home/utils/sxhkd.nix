@@ -1,6 +1,7 @@
 {
   sys,
   usr,
+  net,
   globals,
   lib,
   config,
@@ -115,7 +116,7 @@ in
           "super + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
 
           # nixOS
-          "super + s ; r ; {s,h}" = "{nixos-rebuild,home-manager} switch --flake ${NIXOS_CONFIG}#${sys.hostname}";
+          "super + s ; r ; {s,h}" = "{nixos-rebuild,home-manager} switch --flake ${NIXOS_CONFIG}#${net.hostname}";
         };
     };
   };

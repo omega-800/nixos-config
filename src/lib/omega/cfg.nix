@@ -3,25 +3,27 @@ let
   inherit (import ../flake/utils/vars.nix) PATHS CONFIGS;
 in
 rec {
+  mkCfgModules = hostname: [
+    {
+      config._module.args = {
+        inherit PATHS CONFIGS;
+        c.net.hostname = hostname;
+      };
+    }
+    PATHS.M_OMEGA
+    (PATHS.NODES + /${hostname}/${CONFIGS.omega}.nix)
+  ];
   # just don't try to get any attrs which depend on pkgs or you'll encounter that awesome infinite recursion everybody is talking about
   getCfgAttr =
     hostname: type: name:
     (lib.evalModules {
-      modules = [
-        {
-          config._module.args = {
-            inherit PATHS CONFIGS;
-          };
-        }
-        (PATHS.PROFILES + /default/options.nix)
-        (PATHS.NODES + /${hostname}/${CONFIGS.omega}.nix)
-      ];
+      modules = mkCfgModules hostname;
     }).config.c.${type}.${name};
 
   #TODO: flake.checks.isOnlyOrchestrator && flake.checks.hasOrchestrator
   getOrchestrator = builtins.elemAt (filterHosts (c: builtins.elem "master" c.sys.flavors)) 0;
 
-  filterHosts = fn: map (c: c.sys.hostname) (filterCfgs fn);
+  filterHosts = fn: map (c: c.net.hostname) (filterCfgs fn);
 
   filterCfgsByVal =
     type: name: val:
@@ -34,10 +36,7 @@ rec {
   allCfgs = mapHosts (
     n: v:
     (lib.evalModules {
-      modules = [
-        (PATHS.PROFILES + /default/options.nix)
-        (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
-      ];
+      modules = mkCfgModules n;
     }).config.c
   );
 

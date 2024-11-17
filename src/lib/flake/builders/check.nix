@@ -1,7 +1,12 @@
 { inputs }:
 let
   inherit (inputs.nixpkgs-unstable.lib) mkMerge genAttrs;
-  inherit (import ../utils/vars.nix) PATHS SYSTEMS;
+  inherit (import ../utils { inherit inputs; })
+    mkPkgs
+    mapModules
+    PATHS
+    SYSTEMS
+    ;
 in
 {
   mapChecks =
@@ -16,5 +21,12 @@ in
           nixfmt-rfc-style.enable = true;
         };
       };
-    }));
+    }
+    # // (mapModules (
+    #   path:
+    #   (mkPkgs false system false).callPackage path {
+    #     # system = arch;
+    #   }
+    # ) PATHS.CHECKS)
+    ));
 }

@@ -7,20 +7,53 @@
   inputs,
   ...
 }:
+let
+  # package = pkgs.nixFlakes;
+  # for better error msgs
+  # https://lix.systems/
+  package = pkgs.lix;
+in
 {
   #system-manager.allowAnyDistro = sys.genericLinux;
-  environment.defaultPackages = [ ];
+  environment = {
+    defaultPackages = [ ];
+    systemPackages =
+      let
+        repl-fast = pkgs.writeShellScriptBin "repl-fast" ''
+          source /etc/set-environment
+          nix repl "${toString ./repl.nix}" "$@"
+        '';
+      in
+      [
+        repl-fast
+        pkgs.vim
+        pkgs.curl
+        pkgs.gitMinimal
+      ];
+  };
+
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
+    inherit package;
+    registry = {
+      nixpkgs = {
+        flake = inputs.nixpkgs;
+        to = {
+          inherit (pkgs) path;
+          type = "path";
+          narHash = builtins.readFile (
+            pkgs.runCommandLocal "get-nixpkgs-hash" {
+              nativeBuildInputs = [ pkgs.nix ];
+            } "nix-hash --type sha256 --sri ${pkgs.path} > $out"
+          );
+        };
+      };
+    };
     nixPath = [
       "nixpkgs=${inputs.nixpkgs}"
-      #"nixos-config=${globals.envVars.NIXOS_CONFIG}/hosts/${sys.hostname}/configuration.nix"
-      "/nix/var/nix/profiles/per-user/root/channels"
+      # "repl=${toString ./.}/repl.nix"
+      # "/nix/var/nix/profiles/per-user/root/channels"
     ];
-    #package = pkgs.nixFlakes;
-    # for better error msgs
-    # https://lix.systems/
-    package = pkgs.lix;
     #extraOptions = "experimental-features = nix-command flakes";
     settings = {
       extra-platforms = config.boot.binfmt.emulatedSystems;
@@ -73,12 +106,6 @@
     # default is something like vt220... however we want to get alt least some colors...
     "serial-getty@".environment.TERM = "xterm-256color";
   };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    curl
-    git
-  ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

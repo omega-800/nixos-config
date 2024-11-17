@@ -23,7 +23,7 @@ in
   targets.genericLinux.enable = sys.genericLinux;
   programs.home-manager.enable = mkDefault true;
   home = {
-    username = usr.username;
+    inherit (usr) username;
     homeDirectory = "${usr.homeDir}";
 
     sessionVariables = mkDefault {

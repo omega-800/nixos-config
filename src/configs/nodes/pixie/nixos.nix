@@ -10,9 +10,11 @@
     # https://nixos.wiki/wiki/NixOS_on_ARM
     "${modulesPath}/installer/sd-card/sd-image-raspberrypi.nix"
   ];
-  nixpkgs.config.allowUnsupportedSystem = true;
-  nixpkgs.hostPlatform.system = "armv7l-linux";
-  nixpkgs.buildPlatform.system = "x86_64-linux"; # If you build on x86 other wise changes this.
+  nixpkgs = {
+    config.allowUnsupportedSystem = true;
+    hostPlatform.system = "armv7l-linux";
+    buildPlatform.system = "x86_64-linux"; # If you build on x86 other wise changes this.
+  };
   # ... extra configs as above
   # FIXME: conflicting values in (sd-image-raspberrypi.nix || disko)
   fileSystems."/" = {
@@ -35,32 +37,6 @@
       mysql.enable = false;
     };
     net.vpn.wg.enable = false;
-  };
-  networking = {
-    hostId = "ffffff00";
-    defaultGateway = {
-      address = "10.100.0.1";
-      interface = "eth0";
-    };
-    interfaces = {
-      eth0 = {
-        name = "eth0";
-        useDHCP = false;
-        wakeOnLan = {
-          enable = true;
-          policy = [ "magic" ];
-        };
-        ipv4 = {
-          addresses = [
-            {
-              address = "10.100.0.10";
-              # address = "10.0.5.121";
-              prefixLength = 24;
-            }
-          ];
-        };
-      };
-    };
   };
 
   hardware.enableRedistributableFirmware = true;

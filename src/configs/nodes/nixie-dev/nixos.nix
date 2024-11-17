@@ -34,31 +34,6 @@
     };
     net.vpn.wg.enable = false;
   };
-  networking = {
-    hostId = "10000000";
-    defaultGateway = {
-      address = "10.0.0.1";
-      interface = "eth0";
-    };
-    interfaces = {
-      eth0 = {
-        name = "eth0";
-        useDHCP = false;
-        wakeOnLan = {
-          enable = true;
-          policy = [ "magic" ];
-        };
-        ipv4 = {
-          addresses = [
-            {
-              address = "10.0.0.14";
-              prefixLength = 24;
-            }
-          ];
-        };
-      };
-    };
-  };
   boot = {
     binfmt.emulatedSystems = [
       "aarch64-linux"

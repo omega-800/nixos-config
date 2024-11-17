@@ -1,6 +1,7 @@
 {
   inputs,
   sys,
+  net,
   config,
   lib,
   pkgs,
@@ -38,7 +39,7 @@ in
         hostName:
         let
           configs = inputs.self.nixosConfigurations.${builtins.unsafeDiscardStringContext hostName}.config;
-          cfg = builtins.elemAt (filterCfgs (c: hostName == c.sys.hostname)) 0;
+          cfg = builtins.elemAt (filterCfgs (c: hostName == c.net.hostname)) 0;
           ip =
             let
               ifaces = configs.networking.interfaces;
@@ -59,7 +60,7 @@ in
           mandatoryFeatures = [ ];
           sshUser = cfg.usr.username;
         }
-      ) (filterHosts (c: (builtins.elem "builder" c.sys.flavors) && sys.hostname != c.sys.hostname));
+      ) (filterHosts (c: (builtins.elem "builder" c.sys.flavors) && net.hostname != c.net.hostname));
       extraOptions = "builders-use-substitutes = true";
       distributedBuilds = true;
     };
