@@ -90,8 +90,8 @@ in
               yazi.enable = true;
               kitty.enable = true;
               #gtk.enable = true;
-              rofi.enable = (usr.wmType == "x11");
-              feh.enable = (usr.wmType == "x11");
+              rofi.enable = true;
+              feh.enable = true;
               sxiv.enable = false;
               xfce.enable = true;
               nixvim.enable = true;
@@ -99,7 +99,7 @@ in
               vscode.enable = true;
               waybar.enable = true;
               wezterm.enable = true;
-              xresources.enable = (usr.wmType == "x11");
+              xresources.enable = true;
               dunst.enable = true;
               fzf.enable = true;
               hyprland.enable = true;
