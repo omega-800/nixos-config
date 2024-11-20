@@ -1,8 +1,8 @@
 {
   imports = [
-    ./boot.nix
+    # ./boot.nix
     ./tmp.nix
     ./impermanence.nix
-    ./swap.nix
+    # ./swap.nix
   ];
 }

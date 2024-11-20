@@ -15,7 +15,6 @@ let
     mkIf
     mkMerge
     ;
-  kaizen = inputs.kaizen.packages.${pkgs.system}.default;
 in
 {
   options.m.wm.hyprland = {
@@ -36,7 +35,6 @@ in
 
     # copypasta
     environment = {
-      systemPackages = with pkgs; [ kaizen ];
       /*
         loginShellInit = ''
         # INFO: If removed, xwayland apps won't work, idk why.

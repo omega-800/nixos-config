@@ -290,7 +290,7 @@
         ];
       };
       which-key = lib.mkMerge [
-        ({ enable = true; })
+        { enable = true; }
         (
           if sys.stable then
             { }

@@ -79,20 +79,26 @@ in
         };
         # grub.efiInstallAsRemovable = true;
         # grub.efiSupport = true;
-        grub = {
-          inherit configurationLimit;
-          enable = mkDefault cfg.mode == "bios";
-          zfsSupport =
-            let
-              d = config.m.fs.disko;
-            in
-            d.enable && omega.misc.poolsContainFs "zfs" d;
-          device = cfg.grubDevice; # does nothing if running uefi rather than bios
-          useOSProber = true;
-          users = mkIf sys.hardened {
-            root.hashedPasswordFile = config.users.users.root.hashedPasswordFile;
+        grub =
+          let
+            d = config.m.fs.disko;
+          in
+          {
+            inherit configurationLimit;
+            enable = cfg.mode == "bios";
+            enableCryptodisk = d.enable && d.root.encrypt;
+            zfsSupport =
+
+              d.enable && omega.misc.poolsContainFs "zfs" d;
+            device = cfg.grubDevice; # does nothing if running uefi rather than bios
+            # otherwise devices get duplicated?
+            devices = lib.optionals config.m.fs.disko.enable (lib.mkForce [ cfg.grubDevice ]);
+            useOSProber = true;
+            # FIXME: enable this again
+            # users = mkIf sys.hardened {
+            #   root.hashedPasswordFile = config.users.users.root.hashedPasswordFile;
+            # };
           };
-        };
       };
     }
   ];

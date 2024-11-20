@@ -50,7 +50,7 @@ src
 ├── pkgs                (custom packages)
 ├── formatter  # TODO   (custom formatter)
 ├── shells              (devShells)
-├── checks     # TODO   (tests)
+├── checks              (tests)
 ├── modules             (config modules)
 │   ├── home            (home-manager)
 │   ├── droid           (nix-on-droid)

@@ -2,9 +2,8 @@
 {
   imports = [
     ../serv/nixos.nix
-    inputs.microvm.nixosModules.microvm
+    # TODO: flake check fails...
+    # inputs.microvm.nixosModules.microvm
   ];
-  microvm = {
-    hypervisor = "qemu";
-  };
+  # microvm = { hypervisor = "qemu"; };
 }

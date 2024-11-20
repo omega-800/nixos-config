@@ -102,12 +102,22 @@
           action = "<Cmd>split<CR>";
           options.desc = "Horizontal split";
         }
-        # select
         {
           mode = "n";
-          key = "<leader>a";
+          key = "<leader>v";
+          action = "+visual";
+        }
+        {
+          mode = "n";
+          key = "<leader>va";
           action = "gg0vG$";
           options.desc = "Select all";
+        }
+        {
+          mode = "n";
+          key = "<leader>vc";
+          action = "<Cmd>nohls<CR>";
+          options.desc = "Clear highlight";
         }
         # moving line
         # {

@@ -7,5 +7,6 @@
     ./qtile
     ./hyprland
     ./picom
+    ./sway
   ];
 }

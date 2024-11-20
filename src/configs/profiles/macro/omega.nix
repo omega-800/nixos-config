@@ -1,4 +1,4 @@
 {
-  imports = [ ../serv/config.nix ];
+  imports = [ ../serv/omega.nix ];
   c.sys.flavors = [ "parent" ];
 }

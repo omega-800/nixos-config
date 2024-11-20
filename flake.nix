@@ -1,44 +1,6 @@
 {
   description = "omega's NixOS config flake";
 
-  # TODO: put this into configuration.nix
-  nixConfig = {
-    #keep-outputs = false;       # Nice for developers
-    #keep-derivations = false;   # Idem
-    substitute = "true";
-    extra-substituters = [
-      "https://cache.nixos.org"
-      "https://crane.cachix.org"
-      "https://isabelroses.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://nixpkgs-wayland.cachix.org"
-      "https://viperml.cachix.org"
-      "https://cache.lix.systems"
-      "https://microvm.cachix.org"
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
-      "isabelroses.cachix.org-1:mXdV/CMcPDaiTmkQ7/4+MzChpOe6Cb97njKmBQQmLPM="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-      "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
-      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-      "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys="
-    ];
-    cores = 0;
-    max-jobs = 2;
-
-    extra-experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    auto-optimise-store = true;
-    #bash-prompt = "> ";
-    use-xdg-base-directories = true;
-    # system-features = "kvm";
-  };
-
   outputs =
     inputs:
     let
@@ -76,8 +38,10 @@
     impermanence.url = "github:nix-community/impermanence";
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs-stable.follows = "nixpkgs-stable";
+      };
     };
 
     # döes nöt nörk :(
@@ -227,13 +191,17 @@
     # };
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.home-manager.follows = "home-manager-unstable";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        home-manager.follows = "home-manager-unstable";
+      };
     };
     nixvim-stable = {
       url = "github:nix-community/nixvim/nixos-24.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-      inputs.home-manager.follows = "home-manager-stable";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager-stable";
+      };
     };
 
     # disko.url = "github:nix-community/disko";

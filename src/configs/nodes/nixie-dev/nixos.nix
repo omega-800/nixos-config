@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -10,21 +9,42 @@
     ./hardware-configuration.nix
   ];
 
-  m.os.boot.mode = "bios";
-  m.dev.virt.enable = false;
-  m.dev.tools = {
-    enable = lib.mkForce true;
-    disable = lib.mkForce false;
+  m = {
+    dev = {
+      virt.enable = false;
+      tools = {
+        enable = lib.mkForce true;
+        disable = lib.mkForce false;
+      };
+      docker.enable = true;
+      mysql.enable = false;
+    };
+    fs.disko = {
+      enable = true;
+      root = {
+        device = "/dev/sda";
+        impermanence.enable = false;
+        encrypt = false;
+      };
+    };
+    hw.power.enable = false;
+    os = {
+      boot.mode = "bios";
+      users.enableHomeMgr = true;
+    };
+    net.vpn.wg.enable = false;
   };
-  boot.binfmt.emulatedSystems = [
-    "aarch64-linux"
-    "i686-linux"
-    "armv7l-linux"
-  ];
-  boot.kernelModules = [
-    "kvm-amd"
-    "kvm-intel"
-  ];
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  boot = {
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "i686-linux"
+      "armv7l-linux"
+    ];
+    kernelModules = [
+      "kvm-amd"
+      "kvm-intel"
+    ];
+    kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  };
   system.stateVersion = "24.05";
 }

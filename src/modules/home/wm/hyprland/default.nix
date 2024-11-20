@@ -26,10 +26,10 @@ in
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       plugins = [
-        inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
-        inputs.hycov.packages.${pkgs.system}.hycov
+        # inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
+        # inputs.hycov.packages.${pkgs.system}.hycov
       ];
       xwayland.enable = true;
       systemd.enable = true;

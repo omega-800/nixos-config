@@ -3,11 +3,10 @@
   config,
   lib,
   usr,
-  sys,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption types mkIf;
   cfg = config.u.user.nixvim;
 in
 # what exactly was i planning with this??
@@ -19,41 +18,12 @@ in
       default = config.u.user.enable && !usr.minimal;
     };
     langSupport = mkOption {
-      type = types.listOf (
-        types.enum [
-          # includes ts, vue, json and node
-          "js"
-          # includes bash
-          "sh"
-          # includes cpp
-          "c"
-          # includes scss and tailwind
-          "css"
-          # includes ansible and docker compose
-          "yaml"
-          # includes htmx
-          "html"
-          # includes jupyter
-          "python"
-          # includes elixir
-          "erlang"
-          # includes psql
-          "sql"
-          "go"
-          "java"
-          "md"
-          "nix"
-          "gql"
-          "docker"
-          "lua"
-          "rust"
-          "hs"
-        ]
-      );
+      type = types.listOf (types.enum (lib.omega.dirs.listNixModuleNames ./langs));
       default = [
         "sh"
         "md"
         "nix"
+        "lua"
       ];
     };
   };
@@ -67,8 +37,7 @@ in
     ./opts
     ./autocmd
     ./dap
-    ./py
-    ./rust
+    ./langs
     inputs.nixvim.homeManagerModules.nixvim
   ];
 

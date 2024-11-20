@@ -15,6 +15,8 @@
       q_close_windows.clear = true;
       terminal_settings.clear = true;
       unlist_quickfix.clear = true;
+      hihghlight_cursor_hold.clear = true;
+      hihghlight_cursor_move.clear = true;
     };
 
     autoCmd = [

@@ -1,13 +1,26 @@
 {
-  usr,
   config,
   lib,
+  usr,
   ...
 }:
+let
+  inherit (lib) mkIf mkMerge;
+  inherit (builtins) elem;
+  enabled = elem "python" config.u.user.nixvim.langSupport;
+  inherit (config.programs.nixvim) plugins;
+in
 {
-  programs.nixvim = lib.mkIf (builtins.elem "python" config.u.user.nixvim.langSupport) {
-    plugins = lib.mkMerge [
-      ({
+  config.programs.nixvim = mkIf enabled {
+    plugins = mkMerge [
+      {
+        lsp.servers = mkIf plugins.lsp.enable {
+          pylsp.enable = true;
+        };
+        none-ls.sources = mkIf plugins.none-ls.enable {
+          diagnostics.pylint.enable = true;
+        };
+        dap.extensions.dap-python.enable = true;
         molten = {
           enable = true;
           # package = pkgs.callPackage pkgs.vimUtils.buildVimPlugin {
@@ -46,7 +59,7 @@
             wrap_output = false;
           };
         };
-      })
+      }
       (
         if usr.minimal then
           { }
@@ -87,6 +100,7 @@
             };
           }
       )
+
     ];
   };
 }

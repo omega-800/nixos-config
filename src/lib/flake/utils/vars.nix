@@ -4,7 +4,7 @@ rec {
     nixosConfigurations = "nixos";
     nixOnDroidConfigurations = "droid";
     systemConfigs = "system";
-    omega = "config";
+    omega = "omega";
   };
   PATHS = rec {
     ROOT = ../../../../.;
@@ -14,6 +14,7 @@ rec {
     M_NIXOS = MODULES + /${CONFIGS.nixosConfigurations};
     M_DROID = MODULES + /${CONFIGS.nixOnDroidConfigurations};
     M_SYSTEM = MODULES + /${CONFIGS.systemConfigs};
+    M_OMEGA = MODULES + /${CONFIGS.omega};
     LIBS = SRC + /lib;
     CONFIG = SRC + /configs;
     NODES = CONFIG + /nodes;
@@ -23,6 +24,7 @@ rec {
     PACKAGES = SRC + /pkgs;
     APPS = SRC + /apps;
     THEMES = SRC + /themes;
+    CHECKS = SRC + /checks;
   };
   SYSTEMS = [
     "x86_64-linux"

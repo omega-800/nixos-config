@@ -12,18 +12,27 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [
-    "uhci_hcd"
-    "ehci_pci"
-    "ahci"
-    "xhci_pci"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    initrd = {
+      availableKernelModules = [
+        "uhci_hcd"
+        "ehci_pci"
+        "ahci"
+        "xhci_pci"
+        "usb_storage"
+        "usbhid"
+        "sd_mod"
+      ];
+      kernelModules = [ ];
+      luks.devices = {
+        "cryptroot".device = "/dev/disk/by-uuid/4fad4954-f3c2-4d79-ad4c-8e58b2d5017a";
+        "cryptdisk1".device = "/dev/disk/by-uuid/34db2f61-0161-4cc0-b9ee-c4efd1a54f38";
+        "cryptdisk2".device = "/dev/disk/by-uuid/ccd3bb16-c2e5-4042-999c-fd79d6327fe8";
+      };
+    };
+    kernelModules = [ ];
+    extraModulePackages = [ ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/ed35ecdd-bed1-426d-b826-ed4cfafb9176";
@@ -33,10 +42,6 @@
       "compress=zstd"
     ];
   };
-
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/4fad4954-f3c2-4d79-ad4c-8e58b2d5017a";
-  boot.initrd.luks.devices."cryptdisk1".device = "/dev/disk/by-uuid/34db2f61-0161-4cc0-b9ee-c4efd1a54f38";
-  boot.initrd.luks.devices."cryptdisk2".device = "/dev/disk/by-uuid/ccd3bb16-c2e5-4042-999c-fd79d6327fe8";
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/ed35ecdd-bed1-426d-b826-ed4cfafb9176";
@@ -66,7 +71,6 @@
     ];
   };
 
-  networking.hostId = "5657ea3c";
   fileSystems."/store/backups" = {
     device = "store/backups";
     fsType = "zfs";
@@ -78,7 +82,6 @@
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
 

@@ -1,8 +1,6 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 {
@@ -23,33 +21,6 @@
       };
     };
     os.boot.mode = "bios";
-  };
-
-  networking = {
-    hostId = "0000000a";
-    defaultGateway = {
-      address = "10.0.0.1";
-      interface = "eth0";
-    };
-    interfaces = {
-      eth0 = {
-        name = "eth0";
-        useDHCP = false;
-        wakeOnLan = {
-          enable = true;
-          policy = [ "magic" ];
-        };
-        ipv4 = {
-          addresses = [
-            {
-              address = "10.0.0.121";
-              # address = "10.0.5.121";
-              prefixLength = 24;
-            }
-          ];
-        };
-      };
-    };
   };
 
   boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;

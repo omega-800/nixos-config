@@ -1,6 +1,15 @@
 { lib, pkgs, ... }:
 {
   config.c = {
+    net = {
+      id = 14;
+      network = [
+        10
+        0
+        0
+      ];
+      prefix = 24;
+    };
     sys = {
       profile = "serv";
       system = "x86_64-linux";
@@ -17,7 +26,6 @@
     usr = {
       shell = pkgs.zsh;
       theme = "nord";
-      # extraBloat = lib.mkForce true;
       style = lib.mkForce true;
       termColors = {
         c1 = "34";

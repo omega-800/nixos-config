@@ -1,6 +1,7 @@
 {
   inputs,
   sys,
+  net,
   config,
   lib,
   pkgs,
@@ -8,13 +9,29 @@
 }:
 let
   cfg = config.m.dev.dictate;
-  inherit (lib) types mkEnableOption mkIf;
+  inherit (lib)
+    types
+    mkOption
+    mkIf
+    optionals
+    ;
+  inherit (builtins) elem;
   inherit (lib.omega.cfg) filterCfgs filterHosts;
 in
 {
-  options.m.dev.dictate.enable = mkEnableOption "enables orchestration tools";
+  options.m.dev.dictate.enable = mkOption {
+    description = "enables orchestration tools";
+    type = types.bool;
+    default = elem "master" sys.flavors;
+  };
   config = {
-    environment.systemPackages = if cfg.enable then (with pkgs; [ deploy-rs.deploy-rs ]) else [ ];
+    environment.systemPackages = optionals cfg.enable (
+      with pkgs;
+      [
+        deploy-rs
+        nixos-anywhere
+      ]
+    );
 
     nix = {
       # https://nixos.wiki/wiki/Distributed_build
@@ -22,7 +39,7 @@ in
         hostName:
         let
           configs = inputs.self.nixosConfigurations.${builtins.unsafeDiscardStringContext hostName}.config;
-          cfg = builtins.elemAt (filterCfgs (c: hostName == c.sys.hostname)) 0;
+          cfg = builtins.elemAt (filterCfgs (c: hostName == c.net.hostname)) 0;
           ip =
             let
               ifaces = configs.networking.interfaces;
@@ -43,7 +60,7 @@ in
           mandatoryFeatures = [ ];
           sshUser = cfg.usr.username;
         }
-      ) (filterHosts (c: (builtins.elem "builder" c.sys.flavors) && sys.hostname != c.sys.hostname));
+      ) (filterHosts (c: (builtins.elem "builder" c.sys.flavors) && net.hostname != c.net.hostname));
       extraOptions = "builders-use-substitutes = true";
       distributedBuilds = true;
     };

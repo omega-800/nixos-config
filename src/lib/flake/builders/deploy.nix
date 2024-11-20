@@ -57,29 +57,48 @@ rec {
     let
       cfg = mkCfg hostname;
       inherit (cfg.sys) stable system genericLinux;
-      defPkgs = mkPkgs stable system genericLinux;
+      defPkgs =
+        ((mkPkgs stable system genericLinux).extend (getInput "deploy-rs" stable).overlay).extend
+          (
+            self: super: {
+              deploy-rs = {
+                inherit (mkPkgs stable system genericLinux) deploy-rs;
+                inherit (super.deploy-rs) lib;
+              };
+            }
+          );
     in
     {
       #TODO: domain
-      inherit (cfg.sys) hostname;
-      profiles = lib.mapAttrs' (
-        n: t:
-        lib.nameValuePair t (
-          {
-            path =
-              defPkgs.deploy-rs.lib.activate.nixos
-                inputs.self.${n}.${builtins.unsafeDiscardStringContext cfg.sys.hostname};
-          }
-          // (mkDeployCfg cfg { } t)
-        )
-      ) (lib.filterAttrs (n: t: builtins.pathExists (PATHS.NODES + /${hostname}/${t}.nix)) CONFIGS);
+      inherit hostname;
+      profiles =
+        lib.mapAttrs'
+          (
+            n: t:
+            lib.nameValuePair t (
+              {
+                path = defPkgs.deploy-rs.lib.activate.nixos (
+                  inputs.self.${n}.${hostname}
+                  # // (lib.optionalAttrs (n == CONFIGS.homeConfigurations) { inherit system; })
+                );
+              }
+              // (mkDeployCfg cfg inputs.self.${n}.${hostname}.config t)
+            )
+          )
+          (
+            lib.filterAttrs
+              # (n: t: builtins.pathExists (PATHS.NODES + /${hostname}/${t}.nix)) 
+              (n: t: (lib.hasAttr n inputs.self) && (lib.hasAttr hostname inputs.self.${n}))
+              CONFIGS
+          );
     };
 
-  mapProfiles = attrs: attrs;
-
   mkDeployCfg = cfg: config: type: {
-    sshUser = cfg.usr.username;
-    user = if (type == CONFIGS.homeConfigurations) then cfg.usr.username else "root";
+    # FIXME: this is so scuffed. i guess i'll just use a plain nixos-rebuild
+    # sshUser = cfg.usr.username;
+    sshUser = "root";
+    # user = if (type == CONFIGS.homeConfigurations) then cfg.usr.username else "root";
+    user = "root";
     sudo = "${
       # if config.m.sec.priv.sudo.enable then "sudo" else
       "doas"

@@ -3,7 +3,7 @@
   config,
   lib,
   pkgs,
-sys,
+  sys,
   ...
 }:
 let

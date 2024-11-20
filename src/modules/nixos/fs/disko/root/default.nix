@@ -1,4 +1,9 @@
-{ lib, ... }:
+{ lib, ... }@args:
+let
+  swap = import ./parts/swap.nix;
+  boot = import ./parts/boot.nix args;
+  all = swap // boot;
+in
 {
   options.m.fs.disko.root = {
     device = lib.mkOption {
@@ -11,10 +16,13 @@
       default = "btrfs";
       description = "root fs type";
     };
+    # FIXME: doesn't work.. grub rescue> disk not found
+    encrypt = lib.mkEnableOption "encrypts root disk";
   };
   imports = [
-    ./zfs.nix
-    ./btrfs.nix
+    # FIXME: make this less shit. parts get overridden if parent disk is redefined
+    (import ./zfs.nix all)
+    (import ./btrfs.nix all)
     ./parts
   ];
 }

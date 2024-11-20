@@ -24,5 +24,13 @@ in
       default = usr.wm == "sway";
     };
   };
-  config = mkIf cfg.enable { security.polkit.enable = true; };
+  config = mkIf cfg.enable {
+    security.polkit.enable = true;
+    programs.sway = {
+      enable = true;
+      # wrapperFeatures.gtk = true;
+      # FIXME: should be handled by home-manager
+      # package = null;
+    };
+  };
 }
