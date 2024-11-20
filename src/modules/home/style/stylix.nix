@@ -18,7 +18,7 @@ in
     else
       lib.mkMerge [
         (optionalAttrs (!usr.minimal) {
-          u.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
+          u.wm.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
         })
         {
           fonts.fontconfig.enable = true;
@@ -50,9 +50,14 @@ in
               noto-fonts-emoji
               noto-fonts-monochrome-emoji
             ]);
-          home.file = with config.lib.stylix.colors; {
-            ".config/.currenttheme".text = usr.theme;
-            ".config/.currentcolors.conf".text = ''
+          home.file = {
+            ".config/currenttheme/image".source = globals.styling.image;
+            ".config/currenttheme/theme.conf".text = ''
+              name = ${usr.theme}
+              polarity = ${globals.styling.polarity}
+              font = ${usr.font}
+            '';
+            ".config/currenttheme/colors.conf".text = with config.lib.stylix.colors; ''
               base00 = #${base00}
               base01 = #${base01}
               base02 = #${base02}
@@ -90,8 +95,8 @@ in
               yazi.enable = true;
               kitty.enable = true;
               #gtk.enable = true;
-              rofi.enable = (usr.wmType == "x11");
-              feh.enable = (usr.wmType == "x11");
+              rofi.enable = true;
+              feh.enable = true;
               sxiv.enable = false;
               xfce.enable = true;
               nixvim.enable = true;
@@ -99,7 +104,7 @@ in
               vscode.enable = true;
               waybar.enable = true;
               wezterm.enable = true;
-              xresources.enable = (usr.wmType == "x11");
+              xresources.enable = true;
               dunst.enable = true;
               fzf.enable = true;
               hyprland.enable = true;

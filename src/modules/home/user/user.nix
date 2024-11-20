@@ -23,7 +23,6 @@ in
       ]
       ++ (optionals (!usr.minimal) [
         tree-sitter
-        feh
       ])
       ++ (optionals usr.extraBloat [
         fortune

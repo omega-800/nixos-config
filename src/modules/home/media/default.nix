@@ -21,6 +21,7 @@ in
     ./media.nix
     ./newsboat.nix
     ./mpd.nix
+    ./feh.nix
     spicetify-nix.homeManagerModules.default
   ];
 

@@ -9,14 +9,6 @@
       }
       {
         mode = "n";
-        key = "<leader>gg";
-        action = "<cmd>LazyGit<CR>";
-        options = {
-          desc = "LazyGit (root dir)";
-        };
-      }
-      {
-        mode = "n";
         key = "<leader>gt";
         action = "+toggles";
       }
@@ -75,35 +67,19 @@
           current_line_blame = true;
           trouble = true;
           signs = {
-            add = {
-              text = " ";
-            };
-            change = {
-              text = " ";
-            };
-            delete = {
-              text = " ";
-            };
-            untracked = {
-              text = "";
-            };
-            topdelete = {
-              text = "󱂥 ";
-            };
-            changedelete = {
-              text = "󱂧 ";
-            };
+            add.text = " ";
+            change.text = " ";
+            delete.text = " ";
+            untracked.text = "";
+            topdelete.text = "󱂥 ";
+            changedelete.text = "󱂧 ";
           };
         };
       };
-      lazygit.enable = true;
       git-worktree = {
         enable = true;
         enableTelescope = true;
       };
     };
-    extraConfigLua = ''
-      require("telescope").load_extension("lazygit")
-    '';
   };
 }

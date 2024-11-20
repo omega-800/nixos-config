@@ -8,10 +8,10 @@
 }:
 let
   inherit (lib) mkOption types mkIf;
-  cfg = config.u.x11;
+  cfg = config.u.wm.x11;
 in
 {
-  options.u.x11 = {
+  options.u.wm.x11 = {
     enable = mkOption {
       type = types.bool;
       default = usr.wmType == "x11";

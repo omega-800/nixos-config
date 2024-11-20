@@ -21,7 +21,7 @@ in
     default = usr.wm == "qtile";
   };
   config = mkIf cfg.enable {
-    u.x11.initExtra = ''
+    u.wm.x11.initExtra = ''
       qtile start
     '';
   };

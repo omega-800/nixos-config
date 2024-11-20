@@ -108,7 +108,7 @@
           };
       myLightDMTheme = if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
     in
-    rec {
+    {
       base16Scheme = themeYamlPath;
       cursor = lib.mkIf (!usr.minimal) {
         package = pkgs.bibata-cursors;
