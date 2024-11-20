@@ -28,7 +28,7 @@ in
     };
     u = {
       user.st.enable = mkDefault true;
-      x11.initExtra = ''
+      wm.x11.initExtra = ''
         ${dwm_stats} &
         #exec dbus-launch dwm
         exec dwm

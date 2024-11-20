@@ -20,6 +20,8 @@ in
         (nixGL brave)
         wireguard-tools
         lsof
+        tshark
+        termshark
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor)

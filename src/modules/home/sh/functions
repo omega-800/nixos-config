@@ -2,7 +2,7 @@
 
 svnall() {
   for _tmp in $(fd -td '.svn' .); do 
-    pushd . 
+    pushd . > /dev/null
     dir="${_tmp%%.svn*}" 
     echo -e "\n\033[0;32m$dir\033[0m"
     cd "$dir"
@@ -11,13 +11,13 @@ svnall() {
     else 
       svn status
     fi
-    popd
+    popd > /dev/null
   done
 }
 
 gitall() {
   for _tmp in $(fd '.git$' .); do 
-    pushd .
+    pushd . > /dev/null
     dir="${_tmp%%.git*}"
     echo -e "\n\033[0;32m$dir\033[0m"
     cd "$dir" 
@@ -26,7 +26,7 @@ gitall() {
     else 
       git status
     fi
-    popd
+    popd > /dev/null
   done
 }
 

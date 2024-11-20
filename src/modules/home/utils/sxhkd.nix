@@ -47,6 +47,7 @@ in
             top = "top -modi top";
             power = "p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
           };
+          rcurmon = "rofi -m -4";
         in
         {
           "super + y" = "${pkgs.screenkey}/bin/screenkey &";
@@ -78,24 +79,24 @@ in
           "super + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
 
           # clip password
-          "super + r ; y" = "passmenu";
+          "super + r ; y" = "passmenu -m -4";
           "super + r ; r" = runScript;
-          "super + r ; q" = ''p="$(rofi -dmenu -p 'Kill ')" && [ -n "$p" ] && pkill -f "$p"'';
+          "super + r ; q" = ''p="$(${rcurmon} -dmenu -p 'Kill ')" && [ -n "$p" ] && pkill -f "$p"'';
           "super + r ; k" = kaomojiScript;
-          "super + r ; {t,p,o,s}" = "rofi-{theme-selector,pass,obsidian,screenshot";
-          "super + r ; {c,e,f,w}" = "rofi -m -4 -show {${r.calc},emoji,${
+          "super + r ; {t,p,o,s}" = "rofi-{theme-selector,pass,obsidian,screenshot -m -4";
+          "super + r ; {c,e,f,w}" = "${rcurmon} -show {${r.calc},emoji,${
             if usr.extraBloat then "file-browser-extended" else "filebrowser"
           },window}";
-          "super + r ; h ; {d}" = ''echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -m -4 -dmenu'';
+          "super + r ; h ; {d}" = ''echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | ${rcurmon} -dmenu'';
 
           # open
           # firefox has to be opened through bash because otherwise the nixGL wrapper doesn't get applied?? /webGL doesn't work if not run through bash. don't ask why because i don't know
-          "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{rofi -m -4 -show drun,minecraft-launcher,obsidian,code,${usr.term} -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,${usr.term} -e aerc,${usr.term} -e ncmpcpp,${usr.term} -e lf,libreoffice,homebank,brave}";
+          "super + o ; {r,m,o,c,v,i,q,f,d,e,n,x,l,h,b}" = "{${rcurmon} -show drun,minecraft-launcher,obsidian,code,${usr.term} -e nvim,drawio,qutebrowser,bash -c 'firefox',discord,${usr.term} -e aerc,${usr.term} -e ncmpcpp,${usr.term} -e lf,libreoffice,homebank,brave}";
 
           # audio
           "super + a ; {j,k,l,h,p,s,r}" = "mpc {prev,next,seek + 00:00:05,seek - 00:00:05,toggle,random,repeat}";
-          "super + a ; p ; {o,i}" = "rofi-pulse-select {sink,source}";
-          "super + a ; m" = "rofi-mpd";
+          "super + a ; p ; {o,i}" = "rofi-pulse-select {sink,source} -m -4";
+          "super + a ; m" = "rofi-mpd -m -4";
           "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
           "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
           "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
@@ -103,10 +104,10 @@ in
           # system
           #"super + s ; b " = "bluetooth toggle";
           #"super + s ; b " = bluetoothScript;
-          "super + s ; {b,v,d}" = "rofi-{bluetooth,vpn,systemd}";
-          "super + s ; n" = "networkmanager_dmenu";
-          "super + s ; {t,h}" = "rofi -m -4 -show {${r.top},ssh}";
-          "super + s ; p" = "rofi -m -4 -show p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
+          "super + s ; {b,v,d}" = "rofi-{bluetooth,vpn,systemd} -m -4";
+          "super + s ; n" = "networkmanager_dmenu -m -4";
+          "super + s ; {t,h}" = "${rcurmon} -show {${r.top},ssh}";
+          "super + s ; p" = "${rcurmon} -show p -modi p:'rofi-power-menu' -font \"JetBrains Mono NF 24\" -theme-str 'window {width: 8em;} listview {lines: 6;}'";
           "{super + s ; s : d,XF86MonBrightnessDown}" = "${backlightScript} lower";
           "{super + s ; s : i,XF86MonBrightnessUp}" = "${backlightScript} raise";
           "{super + s ; s : r,XF86Display}" = "${screensScript}";
