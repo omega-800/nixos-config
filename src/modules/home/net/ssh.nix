@@ -23,7 +23,7 @@ in
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      addKeysToAgent = "yes";
+      # addKeysToAgent = "confirm";
       forwardAgent = false;
       hashKnownHosts = true;
       matchBlocks =

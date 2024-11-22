@@ -14,6 +14,9 @@ in
   options.m.sw.fonts.enable = mkEnableOption "enables fancyfonts";
 
   config = mkMerge [
+    {
+      console.keyMap = sys.kbLayout;
+    }
     (mkIf cfg.enable {
       fonts = {
         fontDir.enable = true;
@@ -39,7 +42,6 @@ in
       console = {
         font = sys.font;
         packages = [ sys.fontPkg ];
-        keyMap = sys.kbLayout;
       };
     })
     (mkIf (!cfg.enable) {
