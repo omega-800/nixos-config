@@ -49,6 +49,7 @@ with config.lib.stylix.colors;
     position = "top";
     trayOutput = "*";
     # command = "${pkgs.sway}/bin/swaybar";
+    # command = "${pkgs.waybar}/bin/waybar";
     # command = "i3bar";
     statusCommand = "${pkgs.i3status}/bin/i3status"; # ${globals.envVars.XDG_CONFIG_HOME}/i3status-rust/config-default.toml";
   }

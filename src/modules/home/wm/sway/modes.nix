@@ -57,6 +57,8 @@ in
     l = ''mode "default", exec libreoffice'';
     h = ''mode "default", exec homebank'';
     b = ''mode "default", exec brave'';
+    Escape = ''mode "default"'';
+    Return = ''mode "default"'';
   };
   run = {
 
@@ -76,9 +78,10 @@ in
     }'';
     w = ''mode "default", exec rofi -m -4 -show window'';
     "h+d" = ''mode "default", exec echo -e {'enable="Alt+e"\ndisable="Alt+d"\nstop="Alt+k"\nrestart="Alt+r"\ntail="Alt+t"} | rofi -m -4 -dmenu'';
+    Escape = ''mode "default"'';
+    Return = ''mode "default"'';
   };
   music = {
-
     j = ''exec mpc prev'';
     k = ''exec mpc next'';
     l = ''exec mpc seek+00:00:05'';
@@ -109,5 +112,7 @@ in
     "k+c" = ''mode "default", exec setxkbmap -layout ch -variant de'';
     "k+u" = ''mode "default", exec setxkbmap -layout us'';
     "k+r" = ''mode "default", exec setxkbmap -layout ru'';
+    Escape = ''mode "default"'';
+    Return = ''mode "default"'';
   };
 }

@@ -70,7 +70,6 @@ in
       )
       {
         enable = true;
-        enableLspFormat = true;
         settings.diagnostics_format = "#{m} [#{c}] (#{s})";
         sources = {
           diagnostics = {

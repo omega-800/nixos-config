@@ -17,6 +17,8 @@ let
 in
 {
   imports = [
+    ./i3status.nix
+    ./waybar.nix
     ./swhkd.nix
     ./swaync.nix
     ./swayidle.nix

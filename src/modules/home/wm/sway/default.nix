@@ -13,8 +13,8 @@ let
     mkOption
     mkIf
     types
-    mkOptionDefault
     ;
+  inherit (builtins) readFile;
   cfg = config.u.wm.sway;
   assigns = (import ./assigns.nix).${sys.profile};
   bars = import ./bars.nix { inherit config pkgs globals; };
@@ -36,7 +36,6 @@ let
   };
 in
 {
-  imports = [ ./i3status.nix ];
   options.u.wm.sway.enable = mkOption {
     type = types.bool;
     default = usr.wm == "sway";
@@ -49,6 +48,8 @@ in
       package = nixGL pkgs.sway;
       xwayland = true;
       systemd.enable = true;
+      # https://gitlab.com/that1communist/dotfiles/-/blob/master/.config/sway/modules/win-rules
+      extraConfig = readFile ./win-rules;
       config = {
         inherit
           assigns
@@ -64,6 +65,7 @@ in
         startup = [
           { command = usr.term; }
           { command = "exec sway-audio-idle-inhibit"; }
+          { command = "exec ${pkgs.writeShellScript "notify-bat" ./notify-bat.sh}"; }
         ];
         seat = {
           "*" = {
@@ -82,6 +84,7 @@ in
           "type:touchpad" = {
             tap = "enabled";
             natural_scroll = "disabled";
+            accel_profile = "adaptive";
           };
         };
         gaps = {
@@ -95,6 +98,14 @@ in
           inner = 5;
           smartBorders = "on";
           smartGaps = false;
+        };
+        floating = {
+          border = 2;
+          criteria = [
+            # am i stupid or should this not enforce floating behavior?
+            { class = "Pavucontrol"; }
+            { class = "Gpick"; }
+          ];
         };
         focus.followMouse = false;
       };
