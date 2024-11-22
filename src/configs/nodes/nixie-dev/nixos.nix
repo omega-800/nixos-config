@@ -30,7 +30,7 @@
     hw.power.enable = false;
     os = {
       boot.mode = "bios";
-      users.enableHomeMgr = true;
+      users.enableHomeMgr = false;
     };
     net.vpn.wg.enable = false;
   };

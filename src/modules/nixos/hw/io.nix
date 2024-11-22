@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, sys,... }:
 let
   cfg = config.m.hw.io;
   inherit (lib) mkIf mkEnableOption optionalString;
@@ -16,6 +16,7 @@ in
     swapCaps.enable = mkDisableOption "swaps capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = {
+    console.keyMap = sys.kbLayout;
     services = mkIf cfg.enable {
       /*
         keyd = mkIf (!cfg.swapCaps.disable) {

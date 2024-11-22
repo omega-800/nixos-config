@@ -27,6 +27,8 @@ in
       address = "${toString a}.${toString b}.${toString c}.${toString d}";
     };
 
+    toStr = ip: with ip; "${toString a}.${toString b}.${toString c}.${toString d}";
+
     prefix0 = x: concatStrings (replicate (3 - (digits x)) "0");
     with0Prefix = x: "${prefix0 x}${toString x}";
     firstHexChar = x: charAt (toHexString x) 0;
