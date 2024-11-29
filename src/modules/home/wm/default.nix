@@ -8,5 +8,6 @@
     ./hyprland
     ./picom
     ./sway
+    ./river
   ];
 }

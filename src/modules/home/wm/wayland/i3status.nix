@@ -107,7 +107,7 @@ in
           };
         };
         # battery 
-        "battery all" = {
+        "battery 0" = {
           position = 10;
           settings = {
             format = " [B] %status%percentage  ";

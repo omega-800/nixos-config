@@ -1,8 +1,16 @@
-pkgs: curtheme: spicetify-nix:
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
-  spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+  inherit (lib) mkIf types mkOption;
+  cfg = config.u.media.spicetify;
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 
-  customColorScheme = with curtheme; {
+  customColorScheme = with config.lib.stylix.colors; {
     text = base07;
     main = base00;
     player = base01;
@@ -22,35 +30,48 @@ let
   };
 in
 {
-  enable = true;
-
-  # theme = spicePkgs.themes.dribbblish;
-  # specify that we want to use our custom colorscheme
-  # colorScheme = "custom";
-  # inherit customColorScheme;
-
-  enabledCustomApps = with spicePkgs.apps; [
-    newReleases
-    #lyricsPlus
-    #reddit
-    historyInSidebar
-    #ncsVisualizer
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.default
   ];
 
-  enabledExtensions = with spicePkgs.extensions; [
-    fullAppDisplay
-    shuffle
-    trashbin
-    loopyLoop
-    #popupLyrics
-    keyboardShortcut
-    # Community Extensions
-    adblock
-    powerBar
-    groupSession
-    #wikify
-    #songStats
-    playNext
-    beautifulLyrics
-  ];
+  options.u.media.spicetify.enable = mkOption {
+    type = types.bool;
+    default = config.u.media.enable;
+  };
+
+  config = mkIf cfg.enable {
+    programs.spicetify = {
+      enable = true;
+
+      # theme = spicePkgs.themes.dribbblish;
+      # specify that we want to use our custom colorscheme
+      # colorScheme = "custom";
+      # inherit customColorScheme;
+
+      enabledCustomApps = with spicePkgs.apps; [
+        newReleases
+        #lyricsPlus
+        #reddit
+        historyInSidebar
+        #ncsVisualizer
+      ];
+
+      enabledExtensions = with spicePkgs.extensions; [
+        fullAppDisplay
+        shuffle
+        trashbin
+        loopyLoop
+        #popupLyrics
+        keyboardShortcut
+        # Community Extensions
+        adblock
+        powerBar
+        groupSession
+        #wikify
+        #songStats
+        playNext
+        beautifulLyrics
+      ];
+    };
+  };
 }
