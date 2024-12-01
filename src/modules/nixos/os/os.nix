@@ -81,7 +81,8 @@ in
         "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys="
       ];
       cores = 0;
-      max-jobs = 2;
+      # max-jobs = 2;
+      max-jobs = "auto";
 
       extra-experimental-features = [
         "nix-command"

@@ -6,8 +6,8 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkIf mkEnableOption optionals;
   cfg = config.u.office;
 in
 {
@@ -26,27 +26,17 @@ in
         libreoffice
         gimp
       ]
-      ++ (
-        if usr.extraBloat then
-          (
-            [
-              obsidian
-              skanpage
-              gpick
-            ]
-            ++ (
-              if sys.profile == "pers" then
-                [
-                  cointop
-                  valentina
-                  homebank
-                ]
-              else
-                [ ]
-            )
-          )
-        else
-          [ ]
-      );
+      ++ (optionals usr.extraBloat (
+        [
+          obsidian
+          skanpage
+          (if (usr.wmType == "x11") then gpick else hyprpicker)
+        ]
+        ++ (optionals (sys.profile == "pers") [
+          cointop
+          valentina
+          homebank
+        ])
+      ));
   };
 }

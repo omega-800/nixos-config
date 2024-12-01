@@ -19,7 +19,7 @@
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = false;
-      theme = "god";
+      theme = "thinkpad";
       termColors = {
         c1 = "31";
         c2 = "95";
