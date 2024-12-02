@@ -29,7 +29,6 @@ in
       # newman -> postman cli
       inkscape
       # keepass
-      remmina # freerdp # remote-desktop
       # veeam -> https://www.veeam.com/de/linux-backup-free.html
       bottles # if i really HAVE to emulate windows
       slides

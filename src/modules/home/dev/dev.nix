@@ -31,6 +31,7 @@ in
             gnumake
             man-pages
             man-pages-posix
+            # wikiman
           ]
         else
           [ ]
