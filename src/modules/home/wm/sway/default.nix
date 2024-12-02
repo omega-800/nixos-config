@@ -4,6 +4,7 @@
   usr,
   lib,
   sys,
+  globals,
   ...
 }:
 let
@@ -12,9 +13,27 @@ let
     mkOption
     mkIf
     types
-    mkOptionDefault
     ;
+  inherit (builtins) readFile;
   cfg = config.u.wm.sway;
+  assigns = (import ./assigns.nix).${sys.profile};
+  bars = import ./bars.nix { inherit config pkgs globals; };
+  keybindings = import ./keys.nix {
+    inherit
+      usr
+      sys
+      config
+      pkgs
+      lib
+      ;
+  };
+  modes = import ./modes.nix {
+    inherit
+      usr
+      pkgs
+      config
+      ;
+  };
 in
 {
   options.u.wm.sway.enable = mkOption {
@@ -22,33 +41,32 @@ in
     default = usr.wm == "sway";
   };
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [ sway-audio-idle-inhibit ];
     wayland.windowManager.sway = {
       enable = true;
       checkConfig = true;
       package = nixGL pkgs.sway;
       xwayland = true;
       systemd.enable = true;
-      extraConfig = import ./extraConfig.nix { inherit usr pkgs config; };
+      # https://gitlab.com/that1communist/dotfiles/-/blob/master/.config/sway/modules/win-rules
+      extraConfig = readFile ./win-rules;
       config = {
+        inherit
+          assigns
+          keybindings
+          modes
+          bars
+          ;
         modifier = "Mod4";
         defaultWorkspace = "workspace number 1";
         workspaceAutoBackAndForth = true;
-        workspaceLayout = "stacking";
+        # workspaceLayout = "stacking";
         terminal = usr.term;
-        startup = [ { command = usr.term; } ];
-        assigns = (import ./assigns.nix).${sys.profile};
-        # bars = import ./bars.nix;
-        keybindings = mkOptionDefault (
-          import ./keys.nix {
-            inherit
-              usr
-              sys
-              config
-              pkgs
-              lib
-              ;
-          }
-        );
+        startup = [
+          { command = usr.term; }
+          { command = "exec sway-audio-idle-inhibit"; }
+          { command = "exec ${pkgs.writeShellScript "notify-bat" ./notify-bat.sh}"; }
+        ];
         seat = {
           "*" = {
             hide_cursor = "when-typing enable";
@@ -66,6 +84,7 @@ in
           "type:touchpad" = {
             tap = "enabled";
             natural_scroll = "disabled";
+            accel_profile = "adaptive";
           };
         };
         gaps = {
@@ -75,32 +94,22 @@ in
           # right = 5;
           # horizontal = 5;
           # vertical = 5;
-          outer = 5;
-          inner = 10;
+          outer = 2;
+          inner = 5;
           smartBorders = "on";
           smartGaps = false;
         };
+        floating = {
+          border = 2;
+          criteria = [
+            # am i stupid or should this not enforce floating behavior?
+            { class = "Pavucontrol"; }
+            { class = "Gpick"; }
+          ];
+        };
+        focus.followMouse = false;
       };
       swaynag.enable = true;
-    };
-    services.swayidle = {
-      enable = true;
-      events = [
-        {
-          event = "before-sleep";
-          command = "${pkgs.swaylock}/bin/swaylock -fF";
-        }
-        {
-          event = "lock";
-          command = "lock";
-        }
-      ];
-    };
-    programs.swaylock = {
-      enable = true;
-      settings = {
-        show-failed-attempts = true;
-      };
     };
   };
 }

@@ -40,6 +40,13 @@ in
         confirm_os_window_close = 0;
         sync_to_monitor = false;
       };
+      keybindings = {
+        "ctrl+f>i" = "change_font_size all +1.0";
+        "ctrl+f>ctrl+i" = "change_font_size all +5.0";
+        "ctrl+f>d" = "change_font_size all -1.0";
+        "ctrl+f>ctrl+d" = "change_font_size all -5.0";
+        "ctrl+f>=" = "set_font_size ${toString config.programs.kitty.font.size}";
+      };
     };
   };
 }

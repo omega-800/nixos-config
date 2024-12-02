@@ -39,7 +39,6 @@ in
       console = {
         font = sys.font;
         packages = [ sys.fontPkg ];
-        keyMap = sys.kbLayout;
       };
     })
     (mkIf (!cfg.enable) {

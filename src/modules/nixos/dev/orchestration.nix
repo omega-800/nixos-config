@@ -33,18 +33,16 @@ in
       ]
     );
 
-    nix = {
+    nix = mkIf (!cfg.enable) {
       # https://nixos.wiki/wiki/Distributed_build
       buildMachines = map (
         hostName:
         let
+          inherit (builtins) elemAt attrNames length;
+          ifaces = configs.networking.interfaces;
           configs = inputs.self.nixosConfigurations.${builtins.unsafeDiscardStringContext hostName}.config;
-          cfg = builtins.elemAt (filterCfgs (c: hostName == c.net.hostname)) 0;
+          cfg = elemAt (filterCfgs (c: hostName == c.net.hostname)) 0;
           ip =
-            let
-              ifaces = configs.networking.interfaces;
-              inherit (builtins) elemAt attrNames length;
-            in
             if (length (attrNames ifaces) > 0) then
               (elemAt ifaces.${elemAt (attrNames ifaces) 0}.ipv4.addresses 0).address
             else
@@ -61,7 +59,6 @@ in
           sshUser = cfg.usr.username;
         }
       ) (filterHosts (c: (builtins.elem "builder" c.sys.flavors) && net.hostname != c.net.hostname));
-      extraOptions = "builders-use-substitutes = true";
       distributedBuilds = true;
     };
   };

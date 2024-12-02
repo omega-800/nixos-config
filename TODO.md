@@ -6,6 +6,9 @@ https://discourse.nixos.org/t/error-building-a-raspberry-pi-image-using-nix-on-a
 https://jade.fyi/blog/flakes-arent-real
 https://github.com/nix-community/srvos/blob/main/README.md
 https://github.com/astro/microvm.nix/blob/main/doc/src/intro.md
+https://github.com/ip1981/nixsap
+https://github.com/xtruder/nix-profiles
+https://github.com/nixcloud/nixcloud-webservices
 
 ## home-manager
 

@@ -2,17 +2,13 @@
 {
   config.c = {
     net = {
-      id = 52;
-      pubkeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9b/N++cCJpu4Bo4Lftg1FdmW33q59XdEdk2HBei/9e omega@nixie"
-      ];
+      id = 69;
     };
     sys = {
       profile = "pers";
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
-      hardened = false;
       flavors = [
         "developer"
         "master"
@@ -22,12 +18,11 @@
       wm = "sway";
       shell = pkgs.zsh;
       term = "kitty";
-      extraBloat = true;
-      theme = "gruvbox-dark-hard";
-      #theme = "atom-dark";
+      extraBloat = false;
+      theme = "thinkpad";
       termColors = {
-        c1 = "36";
-        c2 = "35";
+        c1 = "31";
+        c2 = "95";
       };
     };
   };

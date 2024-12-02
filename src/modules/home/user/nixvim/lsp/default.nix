@@ -178,7 +178,7 @@ in
           #          '';
         };
         # lsp-lines.enable = true;
-        lsp-format.enable = true;
+        # lsp-format.enable = true;
         # lsp-signature.enable = true;
         trouble.enable = true;
       };

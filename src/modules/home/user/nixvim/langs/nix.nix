@@ -25,7 +25,10 @@ in
           package = pkgs.nixfmt-rfc-style;
         };
         code_actions.statix.enable = true;
-        diagnostics.statix.enable = true;
+        diagnostics = {
+          statix.enable = true;
+          deadnix.enable = true;
+        };
       };
       treesitter.nixGrammars = true;
     };

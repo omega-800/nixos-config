@@ -16,7 +16,14 @@ let
     ;
 in
 {
-  imports = [ ./swhkd.nix ];
+  imports = [
+    ./i3status.nix
+    ./waybar.nix
+    ./swhkd.nix
+    ./swaync.nix
+    ./swayidle.nix
+    ./swaylock.nix
+  ];
   options.u.wm.wayland.enable = mkOption {
     type = types.bool;
     default = usr.wmType == "wayland";
@@ -66,7 +73,8 @@ in
         systemdTarget = "graphical-session.target";
       };
       swhkd = {
-        enable = true;
+        # still can't get it to work
+        enable = false;
         keybindings =
           let
             volumeScript = "${pkgs.writeScript "volume_control" (

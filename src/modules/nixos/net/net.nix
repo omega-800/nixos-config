@@ -23,6 +23,7 @@ let
     toHostId
     with0Prefix
     network
+    toStr
     ;
 in
 {
@@ -93,7 +94,7 @@ in
             {
               hostId = toHostId ip;
               defaultGateway = {
-                inherit ((network ip) // { d = 1; }) address;
+                address = toStr ((network ip) // { d = 1; });
                 interface = cfg.iface;
               };
               interfaces."${cfg.iface}" = {

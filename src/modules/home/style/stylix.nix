@@ -99,7 +99,13 @@ in
               feh.enable = true;
               sxiv.enable = false;
               xfce.enable = true;
-              nixvim.enable = true;
+              nixvim = {
+                enable = true;
+                transparentBackground = {
+                  main = true;
+                  signColumn = true;
+                };
+              };
               vim.enable = true;
               vscode.enable = true;
               waybar.enable = true;

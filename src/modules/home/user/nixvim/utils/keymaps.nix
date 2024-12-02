@@ -88,7 +88,7 @@
         {
           mode = "n";
           key = "<leader>w";
-          action = "+window";
+          action = "+window/wrap";
         }
         {
           mode = "n";
@@ -102,6 +102,8 @@
           action = "<Cmd>split<CR>";
           options.desc = "Horizontal split";
         }
+        # TODO: {,un}set wrap{,{,no}linebreak}
+        # visual
         {
           mode = "n";
           key = "<leader>v";

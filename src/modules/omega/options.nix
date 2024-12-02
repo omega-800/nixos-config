@@ -231,7 +231,13 @@ in
         default =
           if config.c.usr.minimal then
             "none"
-          else if (config.c.usr.wm == "hyprland" || config.c.usr.wm == "sway") then
+          else if
+            (elem config.c.usr.wm [
+              "hyprland"
+              "sway"
+              "river"
+            ])
+          then
             "wayland"
           else
             "x11";
