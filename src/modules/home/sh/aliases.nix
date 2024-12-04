@@ -106,8 +106,11 @@ in
         sst = "${./scripts/show_stats.sh}";
       }
       (mkIf (!usr.minimal) { rm = "trash"; })
-      (mkIf (config.u.user.nixvim.enable) { vim = "nvim"; })
-      (mkIf (config.u.user.vim.enable) { vi = "vim"; })
+      (mkIf config.u.user.nixvim.enable {
+        vim = "nvim";
+        vi = "nvim";
+      })
+      (mkIf config.u.user.vim.enable { vi = "vim"; })
       cdAliases
     ]
   );

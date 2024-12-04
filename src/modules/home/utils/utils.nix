@@ -23,9 +23,6 @@ in
         curl
         wget
         which
-        less
-        htop-vim
-        ripgrep
         bc
       ]
       ++ (

@@ -67,9 +67,7 @@ in
             hostname = "morpheus.inteco.ch";
             port = 6699;
             user = "inteco";
-            extraOptions = {
-              Ciphers = "aes256-cbc";
-            };
+            extraOptions.Ciphers = "aes256-cbc";
             inherit identityFile;
           };
           SB = {
