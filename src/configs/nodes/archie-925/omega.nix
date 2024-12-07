@@ -19,7 +19,7 @@
       wm = "dwm";
       shell = pkgs.zsh;
       extraBloat = true;
-      theme = "windows-95";
+      theme = "miramare";
       termColors = {
         c1 = "35";
         c2 = "91";

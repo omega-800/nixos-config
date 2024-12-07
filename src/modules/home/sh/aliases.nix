@@ -98,6 +98,12 @@ in
         vimtmp = "vim $(mktemp)";
         # nyehhehheh
         nano = "vim";
+
+        dcs = "${./scripts/docker_disk_usage.sh}";
+        flog = "${./scripts/filter_log.sh}";
+        ctf = "${./scripts/check_tmp_files.sh}";
+        csw = "${./scripts/check_swap.sh}";
+        sst = "${./scripts/show_stats.sh}";
       }
       (mkIf (!usr.minimal) { rm = "trash"; })
       (mkIf (config.u.user.nixvim.enable) { vim = "nvim"; })

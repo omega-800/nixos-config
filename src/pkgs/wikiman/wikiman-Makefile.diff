@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index b29848b..d602470 100644
+--- a/Makefile
++++ b/Makefile
+@@ -7,7 +7,7 @@ SOURCES= 	${UPSTREAM}/releases/download/
+ MKFILEREL!=	echo ${.MAKE.MAKEFILES} | sed 's/.* //'
+ MKFILEABS!=	readlink -f ${MKFILEREL} 2>/dev/null
+ MKFILEABS+= $(shell readlink -f ${MAKEFILE_LIST})
+-WORKDIR!=	dirname ${MKFILEABS} 2>/dev/null
++WORKDIR?=	$(shell dirname ${MKFILEABS} 2>/dev/null)
+ 
+ BUILDDIR:=	${WORKDIR}/pkgbuild
+ SOURCESDIR:=${WORKDIR}/srcbuild
