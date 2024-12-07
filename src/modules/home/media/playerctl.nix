@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 let
@@ -13,6 +14,7 @@ in
     default = config.u.media.enable;
   };
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [ playerctl ];
     services.playerctld = {
       enable = true;
     };

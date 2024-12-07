@@ -52,7 +52,8 @@ in
         #SearchBar = "unified"; # alternative: "separate"
       };
       profiles.${usr.username} = {
-        userChrome = readFile ./userChrome.css;
+        # FIXME: search bar doesn't autohide
+        # userChrome = readFile ./userChrome.css;
         extensions =
           with inputs.firefox-addons.packages.${sys.system};
           [
