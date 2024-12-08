@@ -41,8 +41,10 @@ pass home-net/nixie-ssh-key >"$temp/etc/ssh/ssh_host_ed25519_key"
 chmod 600 "$temp/etc/ssh/ssh_host_ed25519_key"
 keysd="$HOME/.config/sops/age"
 keystxt="$keysd/keys.txt"
-mkdir -p "${temp}${keysd}"
+# mkdir -p "${temp}${keysd}"
+install -d -m755 "${temp}${keysd}"
 cp "$keystxt" "${temp}${keystxt}"
+chmod 600 "${temp}${keystxt}"
 # TODO: enumerate disks and evaluate their keys from nixos config
 # read from pass or create under /disk/${hostname}
 
