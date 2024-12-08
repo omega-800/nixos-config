@@ -1,9 +1,7 @@
 { pkgs, ... }:
 {
   config.c = {
-    net = {
-      id = 69;
-    };
+    net.id = 69;
     sys = {
       profile = "pers";
       system = "x86_64-linux";

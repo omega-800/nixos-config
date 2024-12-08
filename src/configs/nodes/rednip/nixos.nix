@@ -12,7 +12,7 @@
       root = {
         device = "/dev/sda";
         type = "btrfs";
-        # impermanence.enable = true;
+        impermanence.enable = false;
       };
     };
     os.boot.mode = "uefi";
