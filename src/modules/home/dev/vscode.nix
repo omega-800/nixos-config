@@ -37,6 +37,14 @@ in
       };
       keybindings = [
         {
+          "key" = "ctrl+tab";
+          "command" = "workbench.action.nextEditor";
+        }
+        {
+          "key" = "ctrl+shift+tab";
+          "command" = "workbench.action.previousEditor";
+        }
+        {
           "key" = "space e";
           "command" = "workbench.action.toggleSidebarVisibility";
           "when" = "filesExplorerFocus && !inputFocus";

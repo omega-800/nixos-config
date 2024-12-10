@@ -25,6 +25,7 @@ in
       ++ (
         if !usr.minimal then
           [
+            yq-go
             qmk
             perl
             strace

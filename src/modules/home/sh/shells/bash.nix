@@ -13,7 +13,7 @@ in
 {
   options.u.sh.bash.enable = mkOption {
     type = types.bool;
-    default = usr.shell.pname == "bash" || sys.genericLinux;
+    default = usr.shell.pname == "bash";
   };
   config.programs.bash = mkIf cfg.enable {
     enable = true;
