@@ -2184,6 +2184,8 @@
         "omega-st": "omega-st",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay",
+        "scawm-stable": "scawm-stable",
+        "scawm-unstable": "scawm-unstable",
         "sops-nix-stable": "sops-nix-stable",
         "sops-nix-unstable": "sops-nix-unstable",
         "spicetify-nix": "spicetify-nix",
@@ -2251,6 +2253,52 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "scawm-stable": {
+      "inputs": {
+        "home-manager": [
+          "home-manager-stable"
+        ],
+        "nixpkgs": [
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733606853,
+        "narHash": "sha256-R/HoqGIGFAPDNNZjVjgROhQ8CmBeLyW5LPHWZf4h/gI=",
+        "owner": "omega-800",
+        "repo": "scawm",
+        "rev": "2a55572c0ac18f901dd6167c184c0d6fba74a6df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "omega-800",
+        "repo": "scawm",
+        "type": "github"
+      }
+    },
+    "scawm-unstable": {
+      "inputs": {
+        "home-manager": [
+          "home-manager-unstable"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733606853,
+        "narHash": "sha256-R/HoqGIGFAPDNNZjVjgROhQ8CmBeLyW5LPHWZf4h/gI=",
+        "owner": "omega-800",
+        "repo": "scawm",
+        "rev": "2a55572c0ac18f901dd6167c184c0d6fba74a6df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "omega-800",
+        "repo": "scawm",
         "type": "github"
       }
     },

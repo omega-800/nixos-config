@@ -17,7 +17,7 @@ in
 {
   options.u.net.chromium.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal && sys.profile == "work";
+    default = config.u.net.enable && !usr.minimal;
   };
   config = mkIf cfg.enable {
     programs.chromium = {

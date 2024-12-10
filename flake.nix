@@ -165,6 +165,20 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    scawm-unstable = {
+      url = "github:omega-800/scawm";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        home-manager.follows = "home-manager-unstable";
+      };
+    };
+    scawm-stable = {
+      url = "github:omega-800/scawm";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager-stable";
+      };
+    };
     lonsdaleite-unstable = {
       url = "github:omega-800/lonsdaleite";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

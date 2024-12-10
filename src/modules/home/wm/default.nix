@@ -9,5 +9,6 @@
     ./picom
     ./sway
     ./river
+    ./misc
   ];
 }

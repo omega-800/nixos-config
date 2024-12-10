@@ -57,7 +57,8 @@ in
           modes
           bars
           ;
-        modifier = "Mod4";
+        # handled by scawm
+        # modifier = "Mod4";
         defaultWorkspace = "workspace number 1";
         workspaceAutoBackAndForth = true;
         # workspaceLayout = "stacking";
