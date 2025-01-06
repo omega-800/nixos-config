@@ -65,6 +65,11 @@ in
           "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
         }
         {
+          "key" = "d";
+          "command" = "deleteFile";
+          "when" = "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
+        }
+        {
           "key" = "x";
           "command" = "filesExplorer.cut";
           "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
@@ -133,6 +138,13 @@ in
         "editor.renderWhitespace" = "selection";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
+        "editor.rulers" = [ {
+          column = 80;
+          color = "#${base02}";
+        } {
+          column = 120;
+          color = "#${base0D}";
+        }];
         "vim.statusBarColors.normal" = [
           "#${base0D}"
           "#${base02}"
@@ -182,8 +194,7 @@ in
           }
           {
             "before" = [
-              "g"
-              "h"
+              "K"
             ];
             "commands" = [ "editor.action.showDefinitionPreviewHover" ];
           }

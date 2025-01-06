@@ -52,7 +52,6 @@ in
       };
       none-ls.sources = mkIf plugins.none-ls.enable {
         formatting.biome.enable = true;
-        code_actions.ts_node_action.enable = true;
       };
       dap = {
         adapters = {
@@ -83,17 +82,19 @@ in
       typescript-tools = {
         enable = true;
         settings = {
+          /*
           on_attach = # lua
             ''
               function(client, bufnr)
-              client.server_capabilities.documentFormattingProvider = false
-              client.server_capabilities.documentRangeFormattingProvider = false
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
 
-              if vim.lsp.inlay_hint then
-                vim.lsp.inlay_hint(bufnr, true)
-                  end
-                  end
+                if vim.lsp.inlay_hint then
+                  vim.lsp.inlay_hint(bufnr, true)
+                end
+              end
             '';
+          */
           tsserver_file_preferences = {
             # Inlay Hints
             includeInlayParameterNameHints = "all";

@@ -12,6 +12,7 @@ let
     types
     mkIf
     listToAttrs
+    mapAttrs
     ;
   inherit (lib.omega.cfg) allCfgs;
 in
@@ -40,68 +41,62 @@ in
             };
           }) allCfgs
         ))
-        // {
-          Apollo = {
-            host = "Apollo";
-            hostname = "apollo.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            inherit identityFile;
-          };
-          Pluto = {
-            host = "Pluto";
-            hostname = "ns1.inteco.ch";
-            port = 6699;
-            user = "root";
-            inherit identityFile;
-          };
-          Zeus = {
-            host = "Zeus";
-            hostname = "zeus.inteco.ch";
-            port = 6699;
-            user = "root";
-            inherit identityFile;
-          };
-          Morpheus = {
-            host = "Morpheus";
-            hostname = "morpheus.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            extraOptions.Ciphers = "aes256-cbc";
-            inherit identityFile;
-          };
-          SB = {
-            host = "SB";
-            hostname = "scherer-buehler.ch";
-            port = 6699;
-            user = "inteco";
-            inherit identityFile;
-          };
-          Ares = {
-            host = "Ares";
-            hostname = "ares.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            extraOptions = {
-              Ciphers = "aes256-cbc";
+        // (mapAttrs
+          (
+            host: v:
+            {
+              inherit host;
+              inherit identityFile;
+              identitiesOnly = true;
+            }
+            // v
+          )
+          {
+            Apollo = {
+              hostname = "apollo.inteco.ch";
+              port = 6699;
+              user = "inteco";
+              extraOptions.HostkeyAlgorithms = "ssh-rsa";
             };
-            inherit identityFile;
-          };
-          Dionysos = {
-            host = "Dionysos";
-            hostname = "172.16.200.121";
-            port = 22;
-            user = "inteco";
-            inherit identityFile;
-          };
-          Wegas = {
-            host = "Wegas";
-            hostname = "172.16.200.40";
-            port = 22;
-            user = "inteco";
-            inherit identityFile;
-          };
-        };
+            Pluto = {
+              hostname = "ns1.inteco.ch";
+              port = 6699;
+              user = "root";
+            };
+            Zeus = {
+              hostname = "zeus.inteco.ch";
+              port = 6699;
+              user = "root";
+            };
+            Morpheus = {
+              hostname = "morpheus.inteco.ch";
+              port = 6699;
+              user = "inteco";
+              extraOptions.Ciphers = "aes256-cbc";
+            };
+            SB = {
+              hostname = "scherer-buehler.ch";
+              port = 6699;
+              user = "inteco";
+            };
+            Ares = {
+              hostname = "ares.inteco.ch";
+              port = 6699;
+              user = "inteco";
+              extraOptions.Ciphers = "aes256-cbc";
+            };
+            Dionysos = {
+              hostname = "172.16.200.121";
+              port = 22;
+              user = "inteco";
+            };
+            Wegas = {
+              hostname = "172.16.200.40";
+              port = 22;
+              user = "inteco";
+            };
+          }
+        );
     };
   };
 }
