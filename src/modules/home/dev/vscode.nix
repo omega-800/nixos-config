@@ -118,6 +118,10 @@ in
       userSettings = with config.lib.stylix.colors; {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.formatOnSave" = true;
+        "editor.minimap.enabled" = false;
+        "editor.wordWrap" = "off";
+        "editor.codeLens" = false;
+        "editor.formatOnPaste" = false;
         "workbench.activityBar.location" = "top";
         "window.customTitleBarVisibility" = "auto";
         "editor.cursorSurroundingLines" = 8;
@@ -138,13 +142,16 @@ in
         "editor.renderWhitespace" = "selection";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
-        "editor.rulers" = [ {
-          column = 80;
-          color = "#${base02}";
-        } {
-          column = 120;
-          color = "#${base0D}";
-        }];
+        "editor.rulers" = [
+          {
+            column = 80;
+            color = "#${base02}";
+          }
+          {
+            column = 120;
+            color = "#${base0D}";
+          }
+        ];
         "vim.statusBarColors.normal" = [
           "#${base0D}"
           "#${base02}"
