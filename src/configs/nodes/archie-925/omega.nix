@@ -19,7 +19,7 @@
       wm = "dwm";
       shell = pkgs.zsh;
       extraBloat = true;
-      theme = "miramare";
+      theme = "uwunicorn";
       termColors = {
         c1 = "35";
         c2 = "91";
