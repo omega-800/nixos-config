@@ -37,6 +37,14 @@ in
       };
       keybindings = [
         {
+          "key" = "ctrl+tab";
+          "command" = "workbench.action.nextEditor";
+        }
+        {
+          "key" = "ctrl+shift+tab";
+          "command" = "workbench.action.previousEditor";
+        }
+        {
           "key" = "space e";
           "command" = "workbench.action.toggleSidebarVisibility";
           "when" = "filesExplorerFocus && !inputFocus";
@@ -55,6 +63,11 @@ in
           "key" = "r";
           "command" = "renameFile";
           "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+        }
+        {
+          "key" = "d";
+          "command" = "deleteFile";
+          "when" = "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
         }
         {
           "key" = "x";
@@ -105,6 +118,10 @@ in
       userSettings = with config.lib.stylix.colors; {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.formatOnSave" = true;
+        "editor.minimap.enabled" = false;
+        "editor.wordWrap" = "off";
+        "editor.codeLens" = false;
+        "editor.formatOnPaste" = false;
         "workbench.activityBar.location" = "top";
         "window.customTitleBarVisibility" = "auto";
         "editor.cursorSurroundingLines" = 8;
@@ -125,6 +142,16 @@ in
         "editor.renderWhitespace" = "selection";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
+        "editor.rulers" = [
+          {
+            column = 80;
+            color = "#${base02}";
+          }
+          {
+            column = 120;
+            color = "#${base0D}";
+          }
+        ];
         "vim.statusBarColors.normal" = [
           "#${base0D}"
           "#${base02}"
@@ -174,8 +201,7 @@ in
           }
           {
             "before" = [
-              "g"
-              "h"
+              "K"
             ];
             "commands" = [ "editor.action.showDefinitionPreviewHover" ];
           }

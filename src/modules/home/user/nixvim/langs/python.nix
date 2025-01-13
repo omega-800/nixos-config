@@ -19,6 +19,7 @@ in
         };
         none-ls.sources = mkIf plugins.none-ls.enable {
           diagnostics.pylint.enable = true;
+          formatting.yapf.enable = true;
         };
         dap.extensions.dap-python.enable = true;
         molten = {

@@ -34,6 +34,5 @@ in
       DEFAULT_EDITOR:${usr.editor}
       SYSTEM_EDITOR:${usr.editor}
     '';
-
   };
 }
