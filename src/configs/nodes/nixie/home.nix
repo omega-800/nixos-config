@@ -5,6 +5,7 @@
       enable = true;
       langSupport = [
         "md"
+        "go"
         "sh"
         "nix"
         "rust"

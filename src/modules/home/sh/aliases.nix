@@ -32,6 +32,7 @@ in
         vf = "vim $(fzf)";
         gst = "git status";
         gp = "git fetch && git pull";
+        cal = "cal -m";
         please = "sudo";
         c = "clear";
         f = "fuck";

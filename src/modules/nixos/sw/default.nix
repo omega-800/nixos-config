@@ -6,5 +6,6 @@
     ./printing.nix
     ./miracast.nix
     ./android.nix
+    ./steam.nix
   ];
 }

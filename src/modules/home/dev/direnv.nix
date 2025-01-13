@@ -23,7 +23,7 @@ in
       enableZshIntegration = true;
       config = {
         strict_env = true;
-        load_dotenv = false;
+        load_dotenv = true;
       };
       nix-direnv.enable = true;
     };

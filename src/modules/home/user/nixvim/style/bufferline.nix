@@ -28,31 +28,27 @@
         key = "<leader>bN";
         action = "<cmd>BufferLineMoveNext<cr>";
       }
-
       {
         mode = "n";
         key = "<leader>bP";
         action = "<cmd>BufferLineMovePrev<cr>";
       }
-
       {
         mode = "n";
-        key = "<leader>bs";
+        key = "<leader>be";
         action = "<Cmd>BufferLinePick<CR>";
         options = {
           desc = "Select buffer";
         };
       }
-
       {
         mode = "n";
         key = "<leader>bd";
-        action = "<cmd>bdelete<cr>";
+        action = "<cmd>bprevious|bdelete #<cr>";
         options = {
           desc = "Delete buffer";
         };
       }
-
       {
         mode = "n";
         key = "<leader>br";
@@ -69,7 +65,6 @@
           desc = "Delete buffers to the left";
         };
       }
-
       {
         mode = "n";
         key = "<leader>bo";
@@ -101,7 +96,6 @@
         key = "<leader>bst";
         action = "<cmd>BufferLineSortByTabs<cr>";
       }
-
       {
         mode = "n";
         key = "<leader>bt";
@@ -110,7 +104,6 @@
           desc = "Toggle pin";
         };
       }
-
       {
         mode = "n";
         key = "<leader>bC";

@@ -30,7 +30,6 @@ in
       inkscape
       # keepass
       # veeam -> https://www.veeam.com/de/linux-backup-free.html
-      bottles # if i really HAVE to emulate windows
       slides
     ];
     programs.eclipse = {

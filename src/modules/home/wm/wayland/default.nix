@@ -23,6 +23,7 @@ in
     ./swaync.nix
     ./swayidle.nix
     ./swaylock.nix
+    ./gammastep.nix
   ];
   options.u.wm.wayland.enable = mkOption {
     type = types.bool;
