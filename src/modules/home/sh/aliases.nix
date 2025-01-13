@@ -24,7 +24,6 @@ in
       noptions = "nix eval ${NIXOS_CONFIG}#nixosConfigurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' | sort";
       ndx = ''nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace";
-      hmr = "bash $(home-manager generations | fzf | awk -F '-> ' '{print $2 \"/activate\"}')";
       nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --use-remote-sudo";
       nps = "nix repl --expr 'import <nixpkgs>{}'";
       ssh = "TERM=xterm-256color ssh";
@@ -32,6 +31,7 @@ in
       vf = "vim $(fzf)";
       gst = "git status";
       gp = "git fetch && git pull";
+      cal = "cal -m";
       please = "sudo";
       c = "clear";
       f = "fuck";
@@ -66,7 +66,7 @@ in
       ipinfo = "curl ifconfig.me && curl ifconfig.me/host";
       clip = "xclip -sel c <";
       fg = "find . -print | grep ";
-      dfr="diff -ZBbwdryEN --color --suppress-common-lines --no-dereference --speed-large-files";
+      dfr = "diff -ZBbwdryEN --color --suppress-common-lines --no-dereference --speed-large-files";
       # goodbye debian
       # get = "sudo apt-get install";
       # remove = "sudo apt-get --purge remove";
