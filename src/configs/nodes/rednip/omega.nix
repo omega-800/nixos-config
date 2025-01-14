@@ -5,7 +5,7 @@
     sys = {
       profile = "pers";
       system = "x86_64-linux";
-      genericLinux = false;
+      genericLinux = true;
       stable = false;
       flavors = [
         "developer"
@@ -13,7 +13,7 @@
       ];
     };
     usr = {
-      wm = "sway";
+      wm = "dwm";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = false;
