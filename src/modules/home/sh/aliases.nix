@@ -6,10 +6,16 @@
   config,
   ...
 }:
-with builtins;
-with lib;
-with globals.envVars;
 let
+  inherit (lib)
+    mkIf
+    mkMerge
+    genList
+    replicate
+    listToAttrs
+    concatStrings
+    ;
+  inherit (globals.envVars) NIXOS_CONFIG;
   cdAliases = listToAttrs (
     map (v: {
       name = "${concatStrings (replicate (v + 2) ".")}";
@@ -20,7 +26,7 @@ in
 {
 
   home.shellAliases = mkMerge [
-    {
+    rec {
       noptions = "nix eval ${NIXOS_CONFIG}#nixosConfigurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' | sort";
       ndx = ''nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace";
@@ -52,9 +58,9 @@ in
       # rm = ''rm -Iv'';
       # ll = ''ls -alF'';
       ll = "exa --icons -a -l -F -h -g -s size --git";
+      tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
+      treed = "${tree} -D";
       treea = "exa --tree --icons -a -l -F -h -g -s size --git";
-      treed = "exa --tree --icons -a -D";
-      tree = "exa --tree --icons -a";
       la = "ls -A";
       l = "ls -CF";
       lt = "ls --human-readable --size -1 -S --classify";
