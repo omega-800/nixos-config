@@ -51,6 +51,9 @@ in
         ci = "commit -m";
         co = "checkout";
         s = "status";
+        ss = "submodule status";
+        su = "submodule update --init --merge --recursive --remote";
+        f = "fetch";
         p = "pull";
         ps = "push";
         alias = "config --get-regexp ^alias";
