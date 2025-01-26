@@ -21,10 +21,12 @@ in
         # there are so many settings that i'm getting overwhelmed just by looking at the list
         # let's leave it at the defaults today
         settings = {
-          dap.adapter = {
-            command = "${pkgs.lldb_19}/bin/lldb-dap";
-            type = "executable";
-          };
+          /*
+            dap.adapter = {
+              command = "${pkgs.lldb_19}/bin/lldb-dap";
+              type = "executable";
+            };
+          */
           tools = {
             enable_clippy = true;
             # hover_actions.replace_builtin_hover = true;

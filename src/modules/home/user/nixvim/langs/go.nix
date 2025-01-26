@@ -18,7 +18,7 @@ in
           #goimports.enable = true;
         };
       };
-      dap.extensions.dap-go.enable = true;
+      # dap.extensions.dap-go.enable = true;
     };
   };
 }

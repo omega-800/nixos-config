@@ -15,7 +15,7 @@
         impermanence.enable = false;
       };
     };
-    os.boot.mode = "uefi";
+    os.boot.mode = "bios";
   };
   nixpkgs.config = {
     allowUnfreePredicate = _: false;

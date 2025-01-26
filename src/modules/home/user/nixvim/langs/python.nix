@@ -21,7 +21,7 @@ in
           diagnostics.pylint.enable = true;
           formatting.yapf.enable = true;
         };
-        dap.extensions.dap-python.enable = true;
+        #dap.extensions.dap-python.enable = true;
         molten = {
           enable = true;
           # package = pkgs.callPackage pkgs.vimUtils.buildVimPlugin {

@@ -29,7 +29,7 @@ in
       };
     };
     # dap
-    extraPlugins = [ pkgs.vimPlugins.nvim-gdb ];
+    # extraPlugins = [ pkgs.vimPlugins.nvim-gdb ];
     extraConfigLua = ''
       -- DEBUG C
       dap.adapters.lldb = {
