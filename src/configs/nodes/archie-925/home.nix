@@ -2,6 +2,13 @@
 {
   u = {
     social.enable = false;
+    user.nixvim.langSupport = [
+      "sh"
+      "md"
+      "nix"
+      "lua"
+      "c"
+    ];
     net = {
       lynx.enable = true;
     };

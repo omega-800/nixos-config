@@ -11,9 +11,11 @@ while true; do
 	memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"
 	memoryStats=$(free -h | awk 'NR==2 {printf "%s / %s",$3,$2}')
 	mms="$( ([ "$memory" -gt "80" ] && echo "$critical") || ([ "$memory" -gt "60" ] && echo "$warning") || echo "$nrm")"
-	homeD="$(df -h | grep home | awk '{printf "%d",$5}')"
-	homeDStats="$(df -h | grep home | awk '{printf "%s / %s",$3,$2}')"
-	hms="$( ([ "$homeD" -gt "80" ] && echo "$critical") || ([ "$homeD" -gt "60" ] && echo "$warning") || echo "$nrm")"
+  homeD="$(df -h | grep home | awk '{printf "%d",$5}')"
+  if [ "$homeD" != "" ]; then
+    homeDStats="$(df -h | grep home | awk '{printf "%s / %s",$3,$2}')"
+    hms="$( ([ "$homeD" -gt "80" ] && echo "$critical") || ([ "$homeD" -gt "60" ] && echo "$warning") || echo "$nrm")"
+  fi
 	rootD="$(df -h | grep "/$" | awk '{printf "%d",$5}')"
 	rootDStats="$(df -h | grep "/$" | awk '{printf "%s / %s",$3,$2}')"
 	rms="$( ([ "$rootD" -gt "80" ] && echo "$critical") || ([ "$rootD" -gt "60" ] && echo "$warning") || echo "$nrm")"
@@ -23,7 +25,9 @@ while true; do
 	batteryStats=$(cat /sys/class/power_supply/BAT0/status)
 	batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
 	bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
-	backlight=$(("$(cat /sys/class/backlight/*/actual_brightness)" * 100 / "$(cat /sys/class/backlight/*/max_brightness)"))
+  bla=( $(cat /sys/class/backlight/*/actual_brightness) )
+  blm=( $(cat /sys/class/backlight/*/max_brightness) )
+	backlight=$(("${bla[0]}" * 100 / "${blm[0]}"))
 	volume=("$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i", $2/2 }')" "$(pactl get-sink-mute @DEFAULT_SINK@ | sed 's/Mute: //')")
 	muted="A"
 	vls="$nrm"

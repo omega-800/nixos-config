@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  globals,
   ...
 }:
 with lib;
@@ -21,26 +22,25 @@ in
     #   enable = true;
     #   components = [ "ssh" "secrets" ];
     # };
-    # programs.gpg = {
-    #   enable = true;
-    #   homedir = /home/${usr.username}/.local/share/gnupg; # globals.envVars.GNUPGHOME;
-    # };
-    programs.gpg.enable = true;
-    # services.gpg-agent = {
-    #   enable = true;
-    #   enableBashIntegration = true;
-    #   enableZshIntegration = true;
-    #   enableSshSupport = true;
-    #   defaultCacheTtl = 30;
-    #   defaultCacheTtlSsh = 30;
-    #   maxCacheTtl = 600;
-    #   maxCacheTtlSsh = 600;
-    #   # extraConfig = ''
-    #   #   allow-loopback-pinentry
-    #   # '';
-    #   pinentryPackage = pkgs.pinentry-tty;
-    #   grabKeyboardAndMouse = true;
-    # };
+    programs.gpg = {
+      enable = true;
+      homedir = globals.envVars.GNUPGHOME;
+    };
+    services.gpg-agent = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      enableSshSupport = true;
+      defaultCacheTtl = 30;
+      defaultCacheTtlSsh = 30;
+      maxCacheTtl = 600;
+      maxCacheTtlSsh = 600;
+      # extraConfig = ''
+      #   allow-loopback-pinentry
+      # '';
+      pinentryPackage = pkgs.pinentry-tty;
+      grabKeyboardAndMouse = true;
+    };
     home.packages = with pkgs; [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
     programs.git = {
       enable = true;
@@ -51,6 +51,9 @@ in
         ci = "commit -m";
         co = "checkout";
         s = "status";
+        ss = "submodule status";
+        su = "submodule update --init --merge --recursive --remote";
+        f = "fetch";
         p = "pull";
         ps = "push";
         alias = "config --get-regexp ^alias";

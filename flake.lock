@@ -2266,11 +2266,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1733606853,
-        "narHash": "sha256-R/HoqGIGFAPDNNZjVjgROhQ8CmBeLyW5LPHWZf4h/gI=",
+        "lastModified": 1737627497,
+        "narHash": "sha256-DDVZvocrmmGNzIst1XWj72n0BD7xvRQntIYSmd1yJUQ=",
         "owner": "omega-800",
         "repo": "scawm",
-        "rev": "2a55572c0ac18f901dd6167c184c0d6fba74a6df",
+        "rev": "d4d52d7fad08a224a68f53761ac00ea488c85ee8",
         "type": "github"
       },
       "original": {
@@ -2289,11 +2289,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1733606853,
-        "narHash": "sha256-R/HoqGIGFAPDNNZjVjgROhQ8CmBeLyW5LPHWZf4h/gI=",
+        "lastModified": 1737627497,
+        "narHash": "sha256-DDVZvocrmmGNzIst1XWj72n0BD7xvRQntIYSmd1yJUQ=",
         "owner": "omega-800",
         "repo": "scawm",
-        "rev": "2a55572c0ac18f901dd6167c184c0d6fba74a6df",
+        "rev": "d4d52d7fad08a224a68f53761ac00ea488c85ee8",
         "type": "github"
       },
       "original": {

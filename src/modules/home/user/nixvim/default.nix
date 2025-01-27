@@ -71,21 +71,6 @@ in
         mapleader = " ";
         maplocalleader = " ";
       };
-      autoCmd = [
-        # Open help in a vertical split
-        {
-          event = "FileType";
-          pattern = "help";
-          command = "wincmd L";
-        }
-
-        # Enable spellcheck for some filetypes
-        {
-          event = "FileType";
-          pattern = [ "markdown" ];
-          command = "setlocal spell spelllang=en,de";
-        }
-      ];
     };
   };
 }
