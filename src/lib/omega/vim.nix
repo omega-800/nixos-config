@@ -6,15 +6,16 @@ rec {
       desc = "+${name}";
     in
     [ (key "n" k desc desc) ] ++ (map (i: i // { key = "${k}${i.key}"; }) list);
-  key = mode: key: action: desc: {
-    inherit mode key action;
+  key = mode: k: action: desc: {
+    inherit mode action;
+    key = k;
     options = {
       inherit desc;
     };
   };
   keyS =
-    mode: key: action: desc:
-    (key mode key action desc)
+    mode: k: action: desc:
+    (key mode k action desc)
     // {
       options = {
         inherit desc;
