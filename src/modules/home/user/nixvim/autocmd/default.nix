@@ -20,6 +20,18 @@
     };
 
     autoCmd = [
+      # Open help in a vertical split
+      {
+        event = "FileType";
+        pattern = "help";
+        command = "wincmd L";
+      }
+      # Enable spellcheck for some filetypes
+      {
+        event = "FileType";
+        pattern = [ "markdown" ];
+        command = "setlocal spell spelllang=en,de";
+      }
       # auto_quit
       # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/_astrocore_autocmds.lua#L18-L46
       {
