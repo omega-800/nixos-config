@@ -30,18 +30,32 @@ in
     default = usr.wmType == "wayland";
   };
   config = mkIf cfg.enable {
+    xdg.portal = {
+      enable = true;
+      config = {
+        common.default = [ "gtk" ];
+        sway = {
+          "org.freedesktop.impl.portal.Screencast" = "wlr";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        };
+      };
+      extraPortals = with pkgs; [
+          xdg-desktop-portal-gnome
+          xdg-desktop-portal-gtk
+          xdg-desktop-portal-wlr
+      ];
+    };
     home = {
       sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
         QT_AUTO_SCREEN_SCALE_FACTOR = 1;
         QT_ENABLE_HIGHDPI_SCALING = 1;
+        WAYLAND_DISPLAY = "wayland-1";
       };
+      # TODO: clean this up
       packages =
         with pkgs;
         [
-          xdg-desktop-portal
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-wlr
           xdg-utils
           #xdg-mime
           #xdg-open
@@ -57,7 +71,6 @@ in
             [
               lxqt.lxqt-policykit
               xwayland
-              xdg-desktop-portal
             ]
           else
             [ ]
@@ -73,26 +86,28 @@ in
         enable = true;
         systemdTarget = "graphical-session.target";
       };
-      swhkd = {
-        # still can't get it to work
-        enable = false;
-        keybindings =
-          let
-            volumeScript = "${pkgs.writeScript "volume_control" (
-              builtins.readFile ../../utils/scripts/volume.sh
-            )}";
-          in
-          {
+      /*
+        swhkd = {
+          # still can't get it to work
+          enable = false;
+          keybindings =
+            let
+              volumeScript = "${pkgs.writeScript "volume_control" (
+                builtins.readFile ../../utils/scripts/volume.sh
+              )}";
+            in
+            {
 
-            "super + shift + s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
-            "super + ctrl + shift + s" = "flameshot screen";
-            "super + alt + shift + s" = "flameshot full";
-            "super + enter " = usr.term;
-            "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
-            "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
-            "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
-          };
-      };
+              "super + shift + s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
+              "super + ctrl + shift + s" = "flameshot screen";
+              "super + alt + shift + s" = "flameshot full";
+              "super + enter " = usr.term;
+              "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
+              "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
+              "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
+            };
+        };
+      */
     };
     # systemd.user.services.swhkd = {
     #   Service.Type = "simple";

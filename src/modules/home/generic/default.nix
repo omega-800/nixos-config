@@ -34,7 +34,7 @@ with lib;
       ])
       ++ (
         if
-          true # usr.wmType == "x11"
+          usr.wmType == "x11"
         then
           (with pkgs.xorg; [
             #xorgserver

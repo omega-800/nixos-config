@@ -17,9 +17,11 @@
       devName = "gs2";
       devEmail = "georgiy.shevoroshkin@inteco.ch";
       wm = "dwm";
+      # wm = "sway";
       shell = pkgs.zsh;
       extraBloat = true;
-      theme = "uwunicorn";
+      # theme = "uwunicorn";
+      theme = "spaceduck";
       termColors = {
         c1 = "35";
         c2 = "91";

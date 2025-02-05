@@ -24,7 +24,7 @@ gitall() {
       if [ -n "$1" ]; then 
         bash -c "$1"
       else 
-        git status
+        git -c color.status=always -c color.ui=always status | grep -ve 'Your branch is up to date' -ve 'nothing to commit' -ve '^$'
       fi
     )
   done
