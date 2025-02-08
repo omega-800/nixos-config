@@ -74,12 +74,10 @@ in
 
           init.defaultBranch = "main";
           credential = {
-            #credentialStore = "secretservice";
-            helper = "libsecret";
-            #helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
-            # helper = "${
-            #     pkgs.git.override { withLibsecret = true; }
-            #   }/bin/git-credential-libsecret";
+            # credentialStore = "secretservice";
+            # helper = "libsecret";
+            # helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
+            helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
           };
           push.autoSetupRemote = true;
           safe.directory = "*";
