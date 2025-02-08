@@ -11,7 +11,7 @@
 
   m = {
     dev = {
-      virt.enable = false;
+      virt.enable = true;
       tools = {
         enable = lib.mkForce true;
         disable = lib.mkForce false;
