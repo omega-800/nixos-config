@@ -56,6 +56,7 @@ in
         f = "fetch";
         p = "pull";
         ps = "push";
+        m = "merge";
         alias = "config --get-regexp ^alias";
       };
       extraConfig = mkMerge [
@@ -74,10 +75,13 @@ in
 
           init.defaultBranch = "main";
           credential = {
-            # credentialStore = "secretservice";
+            # kms
             # helper = "libsecret";
+            # helper = "oauth";
             # helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
-            helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
+            # helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
+            credentialStore = "secretservice";
+            helper = "${pkgs.nur.repos.utybo.git-credential-manager}/bin/git-credential-manager";
           };
           push.autoSetupRemote = true;
           safe.directory = "*";
