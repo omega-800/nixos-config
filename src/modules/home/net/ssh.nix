@@ -78,6 +78,7 @@ in
               hostname = "scherer-buehler.ch";
               port = 6699;
               user = "inteco";
+              #extraOptions.HostkeyAlgorithms = "ssh-rsa";
             };
             Ares = {
               hostname = "ares.inteco.ch";

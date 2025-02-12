@@ -55,6 +55,7 @@ in
         su = "submodule update --init --merge --recursive --remote";
         f = "fetch";
         p = "pull";
+        d = "diff";
         ps = "push";
         alias = "config --get-regexp ^alias";
       };

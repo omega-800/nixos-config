@@ -116,30 +116,44 @@ in
       ];
 
       userSettings = with config.lib.stylix.colors; {
-        "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "editor.formatOnSave" = true;
+        # telemetry (copium)
+        "telemetry.telemetryLevel" = "off";
+        "telemetry.enableTelemetry" = false;
+        "telemetry.enableCrashReporter" = false;
+        "workbench.settings.enableNaturalLanguageSearch" = false;
+        "workbench.enableExperiments" = false;
+        "redhat.telemetry.enabled" = false;
+        "update.channel" = "none";
+        "extensions.autoUpdate" = false;
+        "extensions.autoCheckUpdates" = false;
+        "git.enabled" = false;
+        "typescript.tsserver.enableRegionDiagnostics" = false;
+        "typescript.surveys.enabled" = false;
+        "typescript.tsserver.experimental.enableProjectDiagnostics" = false;
+        # performance (copium)
+        "editor.renderWhitespace" = "none";
+        "files.autoGuessEncoding" = false;
+        "files.watcherExclude" = {
+          "/.git/objects/" = true;
+          "/.git/subtree-cache/" = true;
+          "/node_modules/" = true;
+        };
+        "search.exclude" = {
+          "/node_modules" = true;
+          "/bower_components" = true;
+        };
+        "workbench.tips.enabled" = false;
+        "explorer.openEditors.visible" = 1;
         "editor.minimap.enabled" = false;
-        "editor.wordWrap" = "off";
         "editor.codeLens" = false;
         "editor.formatOnPaste" = false;
-        "workbench.activityBar.location" = "top";
-        "window.customTitleBarVisibility" = "auto";
+        # quality of life
+        "extensions.ignoreRecommendations" = true;
+        "editor.cursorBlinking" = "blink";
+        "editor.formatOnSave" = true;
+        "editor.wordWrap" = "off";
         "editor.cursorSurroundingLines" = 8;
-        "zenMode.hideStatusBar" = false;
-        "zenMode.hideActivityBar" = false;
-        "zenMode.restore" = true;
-        "vim.smartRelativeLine" = true;
-        "vim.useSystemClipboard" = false;
-        "vim.vimrc.enable" = true;
-        "vim.vimrc.path" = "${globals.envVars.HOME}/.vimrc";
-        "vim.leader" = "<space>";
-        "vim.highlightedyank.enable" = true;
-        "vim.highlightedyank.color" = "#${base09}";
-        "vim.highlightedyank.duration" = 250;
-        "vim.hlsearch" = true;
-        "vim.enableNeovim" = false;
-        "vim.statusBarColorControl" = false;
-        "editor.renderWhitespace" = "selection";
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.cursorStyle" = "line";
         "editor.cursorSmoothCaretAnimation" = "off";
         "editor.rulers" = [
@@ -152,6 +166,30 @@ in
             color = "#${base0D}";
           }
         ];
+        "workbench.colorCustomizations" = {
+          "statusBar.background" = "#${base0C}";
+          "statusBar.noFolderBackground" = "#${base0C}";
+          "statusBar.debuggingBackground" = "#${base0C}";
+          "statusBar.foreground" = "#${base04}";
+          "statusBar.debuggingForeground" = "#${base04}";
+        };
+        "workbench.activityBar.location" = "top";
+        "window.customTitleBarVisibility" = "auto";
+        "zenMode.hideStatusBar" = false;
+        "zenMode.hideActivityBar" = false;
+        "zenMode.restore" = true;
+        # vim
+        "vim.smartRelativeLine" = true;
+        "vim.useSystemClipboard" = false;
+        "vim.vimrc.enable" = true;
+        "vim.vimrc.path" = "${globals.envVars.HOME}/.vimrc";
+        "vim.leader" = "<space>";
+        "vim.highlightedyank.enable" = true;
+        "vim.highlightedyank.color" = "#${base09}";
+        "vim.highlightedyank.duration" = 250;
+        "vim.hlsearch" = true;
+        "vim.enableNeovim" = false;
+        "vim.statusBarColorControl" = false;
         "vim.statusBarColors.normal" = [
           "#${base0D}"
           "#${base02}"
@@ -166,15 +204,9 @@ in
         "vim.statusBarColors.easymotionmode" = "#${base07}";
         "vim.statusBarColors.easymotioninputmode" = "#${base07}";
         "vim.statusBarColors.surroundinputmode" = "#${base07}";
+        "vim.digraphs" = { };
         "extensions.experimental.affinity" = {
           "vscodevim.vim" = 1;
-        };
-        "workbench.colorCustomizations" = {
-          "statusBar.background" = "#${base0C}";
-          "statusBar.noFolderBackground" = "#${base0C}";
-          "statusBar.debuggingBackground" = "#${base0C}";
-          "statusBar.foreground" = "#${base04}";
-          "statusBar.debuggingForeground" = "#${base04}";
         };
         "vim.normalModeKeyBindings" = [
           {
@@ -250,12 +282,8 @@ in
             "commands" = [ "editor.action.peekTypeDefinition" ];
           }
         ];
-        "yaml.schemas" = {
-          "file:///home/dev/.vscode-server/extensions/atlassian.atlascode-3.0.10/resources/schemas/pipelines-schema.json" = "bitbucket-pipelines.yml";
-        };
+        # plugins
         "atlascode.bitbucket.enabled" = false;
-        "redhat.telemetry.enabled" = false;
-        "vim.digraphs" = { };
         "[typescript]" = {
           "editor.defaultFormatter" = "esbenp.prettier-vscode";
         };
@@ -265,6 +293,11 @@ in
         "[liquid]" = {
           "editor.defaultFormatter" = "vscode.html-language-features";
         };
+        # bloat
+        "typescript.tsserver.log" = "verbose";
+        "typescript.tsserver.maxTsServerMemory" = 4096;
+        #"typescript.disableAutomaticTypeAcquisition" = true;
+        #"typescript.tsserver.useSeparateProcess" = true;
       };
     };
   };
