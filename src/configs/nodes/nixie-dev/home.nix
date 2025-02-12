@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
-  u.user.nixvim = {
+  u.user = {
+    nixvim = {
     enable = true;
     langSupport = [
       "js"
@@ -22,6 +23,8 @@
       "rust"
       "hs"
     ];
+  };
+    vim.enable = false;
   };
   # TODO: programs.dconf
   home.packages = with pkgs; [

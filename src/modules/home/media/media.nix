@@ -38,6 +38,7 @@ in
             imagemagick
             zathura
             pavucontrol
+            schismtracker
           ]
         else
           [ ]

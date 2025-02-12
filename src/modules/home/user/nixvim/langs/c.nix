@@ -19,7 +19,8 @@ in
       };
       none-ls.sources = mkIf plugins.none-ls.enable {
         diagnostics = {
-          cppcheck.enable = true;
+          # eats up cpu?
+          # cppcheck.enable = true;
           checkmake.enable = true;
         };
         formatting = {
