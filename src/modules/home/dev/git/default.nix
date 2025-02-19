@@ -41,7 +41,7 @@ in
       pinentryPackage = pkgs.pinentry-tty;
       grabKeyboardAndMouse = true;
     };
-    home.packages = with pkgs; [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
+    home.packages = with pkgs; [ git-secrets ] ++ (optionals (!usr.minimal) [ lazygit ]);
     programs.git = {
       enable = true;
       package = pkgs.gitFull;

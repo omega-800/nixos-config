@@ -14,6 +14,7 @@ in
           enable = true;
           installGhc = true;
         };
+        # ghcide.enable = true;
       };
     };
   };

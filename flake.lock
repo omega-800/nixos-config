@@ -2035,11 +2035,11 @@
     "omega-dwm": {
       "flake": false,
       "locked": {
-        "lastModified": 1728158217,
-        "narHash": "sha256-UfLuP4Nba8frNsf80Wyi2MnIiGQP6n21zZ16GsnhjYY=",
+        "lastModified": 1739975484,
+        "narHash": "sha256-QERHO54esj2OExxrlMZZI01i/npyQ3UFONJtx85NPNw=",
         "owner": "omega-800",
         "repo": "dwm",
-        "rev": "cbc49d3e3a899aa679dbe32847694757fe63f6b0",
+        "rev": "3d89919cd7e25abef1d1505ab58622333a760030",
         "type": "github"
       },
       "original": {
