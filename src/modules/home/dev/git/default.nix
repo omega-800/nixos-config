@@ -48,11 +48,15 @@ in
       userName = usr.devName;
       userEmail = usr.devEmail;
       aliases = {
+        a = "add";
         ci = "commit -m";
         co = "checkout";
         s = "status";
         ss = "submodule status";
         su = "submodule update --init --merge --recursive --remote";
+        sl = "stash list";
+        sps = "stash push .";
+        sp = "stash pop";
         f = "fetch";
         p = "pull";
         d = "diff";

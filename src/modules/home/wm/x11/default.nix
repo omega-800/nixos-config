@@ -11,6 +11,7 @@ let
   cfg = config.u.wm.x11;
 in
 {
+  imports = [ ./autorandr.nix ];
   options.u.wm.x11 = {
     enable = mkOption {
       type = types.bool;

@@ -68,6 +68,7 @@ in
               i-dont-care-about-cookies
               privacy-badger
             ]
+            /*
             ++ (optionals usr.extraBloat (
               with pkgs.nur.repos.rycee.firefox-addons;
               [
@@ -86,6 +87,7 @@ in
                 #bitwarden
               ])
             ))
+            */
           );
 
         search = {

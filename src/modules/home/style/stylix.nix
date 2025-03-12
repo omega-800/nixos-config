@@ -28,6 +28,7 @@ in
               (nerdfonts.override {
                 fonts =
                   [ "JetBrainsMono" ]
+                /*
                   ++ (optionals usr.extraBloat [
                     "FiraCode"
                     "FiraMono"
@@ -41,7 +42,10 @@ in
                     "Iosevka"
                     "ShareTechMono"
                     "Hermit"
-                  ]);
+                  ])
+                  */
+                  ;
+
               })
             ]
             ++ (optionals usr.extraBloat [

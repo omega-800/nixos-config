@@ -4,10 +4,13 @@
     social.enable = false;
     user.nixvim.langSupport = [
       "sh"
+      "hs"
+      "rust"
       "md"
       "nix"
       "lua"
       "c"
+      "ftl"
     ];
     net = {
       lynx.enable = true;

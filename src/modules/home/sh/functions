@@ -30,6 +30,28 @@ gitall() {
   done
 }
 
+mt() {
+  last="eDP1"
+  for monitor in "$@"; do 
+    if xrandr -q | grep "$monitor connected (" > /dev/null ; then
+        xrandr --output "$monitor" --auto --right-of "$last"
+    else
+        xrandr --output "$monitor" --off
+    fi
+    last="$monitor"
+  done
+}
+
+mht() {
+  mt HDMI1 DP2
+}
+mwst() {
+  mt DP2-2 DP2-3
+}
+mwmt() {
+  mt DP1-2 DP1-3
+}
+
 fromhex() {
   hex=$1
   if [[ $hex == "#"* ]]; then

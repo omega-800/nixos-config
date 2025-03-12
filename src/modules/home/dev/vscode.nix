@@ -294,7 +294,8 @@ in
           "editor.defaultFormatter" = "vscode.html-language-features";
         };
         # bloat
-        "typescript.tsserver.log" = "verbose";
+        "javascript.updateImportsOnFileMove.enabled" = "never";
+        # "typescript.tsserver.log" = "verbose";
         "typescript.tsserver.maxTsServerMemory" = 4096;
         #"typescript.disableAutomaticTypeAcquisition" = true;
         #"typescript.tsserver.useSeparateProcess" = true;
