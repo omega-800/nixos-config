@@ -67,25 +67,26 @@
           ];
         };
       };
-      nvim-colorizer = {
+      colorizer = {
         enable = true;
-        userDefaultOptions = {
-          RGB = true;
-          RRGGBB = true;
-          names = true;
-          RRGGBBAA = true;
-          AARRGGBB = true;
-          rgb_fn = true;
-          hsl_fn = true;
-          css = true;
-          css_fn = true;
-          mode = "background";
-          tailwind = true;
-          sass = {
-            enable = true;
-          }; # fff
-          virtualtext = "■";
-        };
+          #FIXME: update
+        #userDefaultOptions = {
+        #  RGB = true;
+        #  RRGGBB = true;
+        #  names = true;
+        #  RRGGBBAA = true;
+        #  AARRGGBB = true;
+        #  rgb_fn = true;
+        #  hsl_fn = true;
+        #  css = true;
+        #  css_fn = true;
+        #  mode = "background";
+        #  tailwind = true;
+        #  sass = {
+        #    enable = true;
+        #  }; 
+        #  virtualtext = "■";
+        #};
       };
       wilder = {
         enable = false;

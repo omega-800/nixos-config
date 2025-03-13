@@ -19,7 +19,19 @@
       hihghlight_cursor_move.clear = true;
     };
 
-    autoCmd = [
+    autoCmd = 
+      (map (t: {
+        # templates
+        event = "BufNewFile";
+        pattern = "*.${t}";
+        command = "0r ${./templates/${t}.${t}}";
+      }) ["md" "html" "sh"]) ++ [
+      {
+        # templates
+        event = "BufNewFile";
+        pattern = "README.md";
+        command = "0r ${./templates/README.md}";
+      }
       # Open help in a vertical split
       {
         event = "FileType";

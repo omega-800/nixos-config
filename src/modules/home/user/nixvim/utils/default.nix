@@ -249,10 +249,10 @@
       };
       fidget = {
         enable = true;
-        progress = {
-          suppressOnInsert = true;
-          ignoreDoneAlready = true;
-          pollRate = 0.5;
+        settings.progress = {
+          suppress_on_insert = true;
+          ignore_done_already = true;
+          poll_rate = 1;
         };
       };
       undotree = {
@@ -264,10 +264,12 @@
       };
       floaterm = {
         enable = true;
-        width = 0.8;
-        height = 0.8;
-        title = "";
-        keymaps.toggle = "<leader>,";
+        settings = {
+          keymaps_toggle = "<leader>,";
+          width = 0.8;
+          height = 0.8;
+          title = "";
+        };
       };
       comment = {
         enable = true;

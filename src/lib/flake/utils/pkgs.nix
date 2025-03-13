@@ -20,10 +20,10 @@ rec {
     isStable: system: isGenericLinux:
     [
       (self: super: inputs.self.packages.${system})
+      (getInput "nur" isStable).overlays.default
     ]
     ++ (optionals (!isStable) [
       inputs.rust-overlay.overlays.default
-      inputs.nur.overlay
     ])
     ++ (optionals isGenericLinux [ (getInput "nixgl" isStable).overlay ]);
 

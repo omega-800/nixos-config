@@ -29,7 +29,7 @@ in
       ++ (optionals usr.extraBloat (
         [
           obsidian
-          skanpage
+          kdePackages.skanpage
           (if (usr.wmType == "x11") then gpick else hyprpicker)
         ]
         ++ (optionals (sys.profile == "pers") [

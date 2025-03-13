@@ -62,12 +62,10 @@ in
           (keyS "n" "r" ''<cmd>DapVirtualTextForceRefresh<ct>'' "refresh")
         ])
       ));
-    plugins.dap = {
-      enable = true;
-      extensions = {
-        dap-ui.enable = true;
-        dap-virtual-text.enable = true;
-      };
+    plugins={
+      dap.enable = true;
+      dap-ui.enable = true;
+      dap-virtual-text.enable = true;
     };
     extraConfigLua =
       # lua

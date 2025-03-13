@@ -9,7 +9,8 @@ in
   config.programs.nixvim = mkIf enabled {
     plugins = {
       lsp.servers = mkIf plugins.lsp.enable {
-        graphql.enable = true;
+        # FIXME: update
+        # graphql.enable = true;
       };
     };
   };
