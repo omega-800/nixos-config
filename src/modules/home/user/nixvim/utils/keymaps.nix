@@ -9,6 +9,13 @@
         };
       in
       [
+        # manpage
+        {
+          mode = "n";
+          key = "M";
+          action = ":Man <C-R>=expand(\"<cword>\")<cr><cr>";
+          options.desc = "Open manpage";
+        }
         # Default
         {
           mode = "n";

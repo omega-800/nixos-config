@@ -30,6 +30,7 @@ in
             };
           };
         };
+        # ghcide.enable = true;
       };
     };
   };

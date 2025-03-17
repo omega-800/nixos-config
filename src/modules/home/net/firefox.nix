@@ -54,8 +54,9 @@ in
       profiles.${usr.username} = {
         # FIXME: search bar doesn't autohide
         # userChrome = readFile ./userChrome.css;
-        extensions =
-          with inputs.firefox-addons.packages.${sys.system};
+        extensions.packages =
+          #with inputs.firefox-addons.packages.${sys.system};
+          with pkgs.nur.repos.rycee.firefox-addons;
           [
             ublock-origin
             darkreader
@@ -68,6 +69,7 @@ in
               i-dont-care-about-cookies
               privacy-badger
             ]
+            /*
             ++ (optionals usr.extraBloat (
               with pkgs.nur.repos.rycee.firefox-addons;
               [
@@ -86,6 +88,7 @@ in
                 #bitwarden
               ])
             ))
+            */
           );
 
         search = {

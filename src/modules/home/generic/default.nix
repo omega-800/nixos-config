@@ -49,7 +49,7 @@ with lib;
             xsetroot
             setxkbmap
             encodings
-            xf86videointel
+            #xf86videointel
           ])
         else
           [ ]

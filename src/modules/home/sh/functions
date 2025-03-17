@@ -22,12 +22,34 @@ gitall() {
     (
       cd "$dir" || exit
       if [ -n "$1" ]; then 
-        bash -c "$1"
+        bash -c "$(command -v f &> /dev/null || echo 'git') $1"
       else 
         git -c color.status=always -c color.ui=always status | grep -ve 'Your branch is up to date' -ve 'nothing to commit' -ve '^$'
       fi
     )
   done
+}
+
+mt() {
+  last="eDP1"
+  for monitor in "$@"; do 
+    if xrandr -q | grep "$monitor connected (" > /dev/null ; then
+        xrandr --output "$monitor" --auto --right-of "$last"
+    else
+        xrandr --output "$monitor" --off
+    fi
+    last="$monitor"
+  done
+}
+
+mht() {
+  mt HDMI1 DP2
+}
+mwst() {
+  mt DP2-2 DP2-3
+}
+mwmt() {
+  mt DP1-2 DP1-3
 }
 
 fromhex() {

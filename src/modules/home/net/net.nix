@@ -24,7 +24,7 @@ in
         termshark
       ])
       ++ (optionals usr.extraBloat [
-        (nixGL tor)
+        (nixGL tor-browser)
         (nixGL vieb)
       ]);
     programs.rtorrent = mkIf usr.extraBloat {

@@ -18,5 +18,7 @@
     ./sh.nix
     ./sql.nix
     ./yaml.nix
+    ./ftl.nix
+    ./lisp.nix
   ];
 }

@@ -40,7 +40,7 @@
       url = "github:cachix/git-hooks.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        nixpkgs-stable.follows = "nixpkgs-stable";
+        # nixpkgs-stable.follows = "nixpkgs-stable";
       };
     };
 
@@ -161,10 +161,12 @@
       };
     };
     rust-overlay.url = "github:oxalica/rust-overlay";
+    /*
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    */
     scawm-unstable = {
       url = "github:omega-800/scawm";
       inputs = {
@@ -207,20 +209,27 @@
       url = "github:nix-community/nixvim";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        home-manager.follows = "home-manager-unstable";
+        # home-manager.follows = "home-manager-unstable";
       };
     };
     nixvim-stable = {
       url = "github:nix-community/nixvim/nixos-24.05";
       inputs = {
         nixpkgs.follows = "nixpkgs-stable";
-        home-manager.follows = "home-manager-stable";
+        # home-manager.follows = "home-manager-stable";
       };
     };
 
     # disko.url = "github:nix-community/disko";
 
-    nur.url = "github:nix-community/NUR";
+    nur-stable = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    nur-unstable = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
     # kaizen.url = "github:thericecold/kaizen";

@@ -41,18 +41,22 @@ in
       pinentryPackage = pkgs.pinentry-tty;
       grabKeyboardAndMouse = true;
     };
-    home.packages = with pkgs; [ git-secrets ] ++ (if (!usr.minimal) then [ lazygit ] else [ ]);
+    home.packages = with pkgs; [ git-secrets ] ++ (optionals (!usr.minimal) [ lazygit ]);
     programs.git = {
       enable = true;
       package = pkgs.gitFull;
       userName = usr.devName;
       userEmail = usr.devEmail;
       aliases = {
+        a = "add";
         ci = "commit -m";
         co = "checkout";
         s = "status";
         ss = "submodule status";
         su = "submodule update --init --merge --recursive --remote";
+        sl = "stash list";
+        sps = "stash push .";
+        sp = "stash pop";
         f = "fetch";
         p = "pull";
         d = "diff";

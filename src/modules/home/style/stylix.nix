@@ -23,27 +23,7 @@ in
         {
           fonts.fontconfig.enable = true;
           home.packages =
-            with pkgs;
-            [
-              (nerdfonts.override {
-                fonts =
-                  [ "JetBrainsMono" ]
-                  ++ (optionals usr.extraBloat [
-                    "FiraCode"
-                    "FiraMono"
-                    "Hack"
-                    "Hasklig"
-                    "Ubuntu"
-                    "UbuntuMono"
-                    "CascadiaCode"
-                    "CodeNewRoman"
-                    "FantasqueSansMono"
-                    "Iosevka"
-                    "ShareTechMono"
-                    "Hermit"
-                  ]);
-              })
-            ]
+            with pkgs; [ nerd-fonts.jetbrains-mono ]
             ++ (optionals usr.extraBloat [
               noto-fonts
               noto-fonts-cjk-sans
@@ -94,7 +74,7 @@ in
               kde.enable = true;
               yazi.enable = true;
               kitty.enable = true;
-              #gtk.enable = true;
+              gtk.enable = true;
               rofi.enable = true;
               feh.enable = true;
               sxiv.enable = false;
@@ -107,7 +87,10 @@ in
                 };
               };
               vim.enable = true;
-              vscode.enable = true;
+              vscode = {
+                profileNames = [ "default" ];
+                enable = true;
+              };
               waybar.enable = true;
               wezterm.enable = true;
               xresources.enable = true;
