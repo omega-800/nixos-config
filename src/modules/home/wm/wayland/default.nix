@@ -40,9 +40,9 @@ in
         };
       };
       extraPortals = with pkgs; [
-          xdg-desktop-portal-gnome
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-wlr
+        xdg-desktop-portal-gnome
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
       ];
     };
     home = {
@@ -80,7 +80,7 @@ in
       cliphist = {
         enable = true;
         allowImages = true;
-        systemdTarget = "graphical-session.target";
+        systemdTargets = "graphical-session.target";
       };
       kanshi = {
         enable = true;
