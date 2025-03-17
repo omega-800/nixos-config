@@ -32,6 +32,12 @@
         pattern = "README.md";
         command = "0r ${./templates/README.md}";
       }
+      {
+        # autoclose tags
+        event = "FileType";
+        pattern = "html,vue";
+        command = "set omnifunc=htmlcomplete#CompleteTags";
+      }
       # Open help in a vertical split
       {
         event = "FileType";

@@ -50,12 +50,16 @@ in
         };
         #defaultKeymap = "vicmd";
         #PROMPT=$'\n'"%F{#${base08}}%n%F{#${base0A}}%F{#${base0A}} %~%F{#${base0E}}%f$"$'\n'"%F{#${base00}}%m%F{#${base03}}%F{#${base03}} %j%F{#${base06}}%F{#${base00}} zsh%F{#${base03}}%F{#${base03}} %!%F{#${base0E}}%F{#${base0B}}%(!.%F{red}#.%F{green}$)%f "
-        initExtra = with usr.termColors; ''
+        initExtra = with usr.termColors; let 
+          retC = a: b: "%(?.%{\\e[${a};${b};${c1}m%}.%{\\e[${a};${b};${c2}m%})";
+        in ''
           ${config.u.sh.shellInitExtra}
           setopt noautomenu
           # "7;49;35" "0;40;35" "0;49;30" "7;49;91" "0;40;91" "0;101;30" "5;49;91"
 
-          PROMPT=$'\n%{\e[7;49;${c1}m%}'"%n"$'%{\e[0;40;${c1}m%}'""$'%{\e[0;40;${c1}m%}'" %~"$'%{\e[0;49;30m%}'""$'%{\e[m%}\n%{\e[7;49;${c2}m%}'"%m"$'%{\e[0;40;${c2}m%}'""$'%{\e[0;40;${c2}m%}'" %j"$'%{\e[7;49;${c2}m%}'""$'%{\e[7;49;${c2}m%}'" zsh"$'%{\e[0;40;${c2}m%}'""$'%{\e[0;40;${c2}m%}'" %!"$'%{\e[0;49;30m%}'""$'%{\e[0;40;${c2}m%}'"%(!.#.$) "$'%{\e[m%}'
+          PROMPT=$'\n${retC "7" "49"}'"%n"$'${retC "0" "40"}'""$'${retC "0" "40"}'" %~"$'%{\e[0;49;30m%}'""
+          PROMPT+=$'%{\e[m%}\n%{\e[7;49;${c2}m%}'"%m"$'%{\e[0;40;${c2}m%}'""$'%{\e[0;40;${c2}m%}'" %j"$'%{\e[7;49;${c2}m%}'""$'%{\e[7;49;${c2}m%}'
+          PROMPT+=" zsh"$'%{\e[0;40;${c2}m%}'""$'%{\e[0;40;${c2}m%}'" %!"$'%{\e[0;49;30m%}'""$'%{\e[0;40;${c2}m%}'"%(!.#.$) "$'%{\e[m%}'
           # Autoload zsh's `add-zsh-hook` and `vcs_info` functions
           # (-U autoload w/o substition, -z use zsh style)
           autoload -Uz add-zsh-hook vcs_info

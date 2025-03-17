@@ -24,4 +24,5 @@
     "@wheel"
     usr.username
   ];
+  home.preferXdgDirectories = true;
 }

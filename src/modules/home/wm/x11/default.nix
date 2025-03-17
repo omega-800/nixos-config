@@ -23,6 +23,9 @@ in
     };
   };
   config = mkIf cfg.enable {
+    home.keyboard = {
+      layout = sys.kbLayout; 
+    };
     services.unclutter = {
       enable = true;
       threshold = 5;

@@ -66,6 +66,8 @@ in
         filetype on
         filetype plugin on
         filetype indent on
+        runtime ftplugin/man.vim
+        let g:markdown_fenced_languages = ['html', 'python', 'vim', 'js=javascript', 'javascript', 'ts=typescript', 'typescript', 'xml', 'css', 'sass', 'haskell', 'hs=haskell', 'rust', 'rs=rust', 'c']
       '';
       globals = {
         mapleader = " ";

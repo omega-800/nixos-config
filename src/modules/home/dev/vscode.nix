@@ -159,8 +159,11 @@ in
           "editor.codeLens" = false;
           "editor.formatOnPaste" = false;
           # quality of life
+          "editor.tabSize" = 2;
+          "editor.insertSpaces" = true;
+          "editor.detectIndentation" = false;
           "window.zoomLevel" = -1;
-          "terminal.integrated.fontSize" = lib.mkForce 18;
+          "terminal.integrated.fontSize" = lib.mkForce 14;
           "markdown.preview.fontSize" = lib.mkForce 18;
           "scm.inputFontSize" = lib.mkForce 18;
           "screencastMode.fontSize" = lib.mkForce 18;

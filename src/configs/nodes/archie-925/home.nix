@@ -11,6 +11,7 @@
       "lua"
       "c"
       "ftl"
+      "lisp"
     ];
     net = {
       lynx.enable = true;
