@@ -13,6 +13,22 @@ in
         hls = {
           enable = true;
           installGhc = true;
+          autostart = true;
+          filetypes = [
+            "haskell"
+            "lhaskell"
+            "cabal"
+          ];
+          cmd = [
+            "haskell-language-server-wrapper"
+            "--lsp"
+          ];
+          settings = {
+            haskell = {
+              cabalFormattingProvider = "cabalfmt";
+              formattingProvider = "ormolu";
+            };
+          };
         };
       };
     };
