@@ -318,6 +318,7 @@ in
           };
           # bloat
           "javascript.updateImportsOnFileMove.enabled" = "never";
+          "typescript.updateImportsOnFileMove.enabled" = "never";
           # "typescript.tsserver.log" = "verbose";
           "typescript.tsserver.maxTsServerMemory" = 4096;
           #"typescript.disableAutomaticTypeAcquisition" = true;

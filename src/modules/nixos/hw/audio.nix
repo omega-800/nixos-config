@@ -18,26 +18,27 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      # Enable sound.
-      # sound.enable = true;
-      hardware.pulseaudio.enable = !cfg.pipewire;
       environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
       security.rtkit.enable = cfg.pipewire;
-      services.pipewire =
-        if cfg.pipewire then
-          {
-            enable = true;
-            alsa.enable = true;
-            alsa.support32Bit = true;
-            pulse.enable = true;
-            jack.enable = true;
-          }
-        else
-          {
-            enable = false;
-          };
+
+      services = {
+        pulseaudio.enable = !cfg.pipewire;
+        pipewire =
+          if cfg.pipewire then
+            {
+              enable = true;
+              alsa.enable = true;
+              alsa.support32Bit = true;
+              pulse.enable = true;
+              jack.enable = true;
+            }
+          else
+            {
+              enable = false;
+            };
+      };
     }
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
