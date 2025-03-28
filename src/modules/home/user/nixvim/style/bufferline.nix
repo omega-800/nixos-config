@@ -4,6 +4,22 @@
     keymaps = [
       {
         mode = "n";
+        key = "<C-n>";
+        action = "<cmd>BufferLineCycleNext<cr>";
+        options = {
+          desc = "Cycle to next buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<C-p>";
+        action = "<cmd>BufferLineCyclePrev<cr>";
+        options = {
+          desc = "Cycle to previous buffer";
+        };
+      }
+      {
+        mode = "n";
         key = "<leader>b";
         action = "+buffer";
       }

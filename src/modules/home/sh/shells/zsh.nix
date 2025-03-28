@@ -6,12 +6,10 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types;
+  inherit (lib) mkOption mkIf types optionals;
   cfg = config.u.sh.zsh;
 in
 {
-  #FIXME: set shell to zsh even if on genericLinux
-  # imports = [ ./bash.nix ];
   options.u.sh.zsh.enable = mkOption {
     type = types.bool;
     default = usr.shell.pname == "zsh";
@@ -113,7 +111,7 @@ in
               "history"
             ]
             ++ (
-              if usr.extraBloat then
+              optionals usr.extraBloat 
                 [
                   # "encode64"
                   # "man"
@@ -126,8 +124,6 @@ in
                   "git-extras"
                   "git-auto-fetch"
                 ]
-              else
-                [ ]
             );
         };
       };
