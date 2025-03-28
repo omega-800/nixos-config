@@ -21,7 +21,7 @@ in
           u.wm.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
         })
         {
-          fonts.fontconfig.enable = true;
+          fonts.fontconfig.enable = true; 
           home.packages =
             with pkgs; [ nerd-fonts.jetbrains-mono ]
             ++ (optionals usr.extraBloat [

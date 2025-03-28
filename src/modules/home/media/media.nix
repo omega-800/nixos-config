@@ -26,6 +26,7 @@ in
             bluez
             bluez-tools
             (nixGL mpv)
+            bk
           ]
         else
           [ ]

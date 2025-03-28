@@ -17,7 +17,7 @@ in
     home.packages =
       with pkgs;
       (optionals (!usr.minimal) [
-        (nixGL brave)
+        # (nixGL brave)
         wireguard-tools
         lsof
         tshark

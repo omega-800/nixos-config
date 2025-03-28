@@ -9,10 +9,11 @@
 let
   cfg = config.u.utils.rofi;
   inherit (lib)
-    mkOption
-    mkIf
-    types
+    optionalString
     optionals
+    mkOption
+    types
+    mkIf
     ;
 in
 {
@@ -22,7 +23,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.file.".config/networkmanager-dmenu/config.ini".text = lib.readFile ./networkmanager-dmenu.config.ini;
+    home.file.".config/networkmanager-dmenu/config.ini".text =
+      lib.readFile ./networkmanager-dmenu.config.ini;
     home.packages =
       with pkgs;
       (
@@ -41,11 +43,14 @@ in
       );
     programs.rofi = {
       enable = true;
+      package = mkIf (usr.wmType == "wayland") pkgs.rofi-wayland;
       cycle = false;
       extraConfig = {
         modi =
-          "drun,run,ssh,window,windowcd,combi,keys,filebrowser,calc"
-          + (if usr.extraBloat then ",emoji,top,file-browser-extended" else "");
+          "drun,run,ssh,window,combi,keys,filebrowser,calc"
+          # huh
+          + (optionalString (usr.wmType != "wayland") ",windowcd")
+          + (optionalString usr.extraBloat ",emoji,top,file-browser-extended");
         kb-primary-paste = "Control+V,Shift+Insert";
         kb-secondary-paste = "Control+v,Insert";
       };
