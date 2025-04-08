@@ -252,11 +252,11 @@ in
       }; # Default terminal command
       font = mkOption {
         type = str;
-        default = "JetBrainsMono Nerd Font Mono";
+        default = "JetBrainsMono";
       };
       fontPkg = mkOption {
         type = package;
-        default = pkgs.jetbrains-mono;
+        default = pkgs.nerd-fonts.jetbrains-mono;
       }; # Console font package
       editor = mkOption {
         type = enum [

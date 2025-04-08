@@ -17,7 +17,14 @@ let
   inherit (builtins) readFile;
   cfg = config.u.wm.sway;
   assigns = (import ./assigns.nix).${sys.profile};
-  bars = import ./bars.nix { inherit config pkgs globals; };
+  bars = import ./bars.nix {
+    inherit
+      config
+      pkgs
+      globals
+      usr
+      ;
+  };
   keybindings = import ./keys.nix {
     inherit
       usr
@@ -49,30 +56,37 @@ in
       xwayland = true;
       systemd.enable = true;
       # https://gitlab.com/that1communist/dotfiles/-/blob/master/.config/sway/modules/win-rules
-      extraConfig = (readFile ./win-rules) + (if sys.profile == "work" then ''
-        output eDP-1 pos 0 0 res 1920x1080
-        output DP-8 pos 1920 0 res 1920x1080
-        output DP-9 pos 3840 0 res 1920x1080
-        output DP-6 pos 1920 0 res 1920x1080
-        output DP-7 pos 3840 0 res 1920x1080
-        workspace 1 output eDP1
-        workspace 2 output eDP1
-        workspace 3 output eDP1
-        workspace 4 output DP-8
-        workspace 5 output DP-8
-        workspace 6 output DP-8
-        workspace 7 output DP-8
-        workspace 8 output DP-9
-        workspace 9 output DP-9
-        workspace 10 output DP-9
-        workspace 4 output DP-6
-        workspace 5 output DP-6
-        workspace 6 output DP-6
-        workspace 7 output DP-6
-        workspace 8 output DP-7
-        workspace 9 output DP-7
-        workspace 10 output DP-7
-      '' else "");
+      extraConfig =
+        (readFile ./win-rules)
+        + (
+          if sys.profile == "work" then
+            ''
+              output eDP-1 pos 0 0 res 1920x1080
+              output DP-8 pos 1920 0 res 1920x1080
+              output DP-9 pos 3840 0 res 1920x1080
+              output DP-6 pos 1920 0 res 1920x1080
+              output DP-7 pos 3840 0 res 1920x1080
+              workspace 1 output eDP1
+              workspace 2 output eDP1
+              workspace 3 output eDP1
+              workspace 4 output DP-8
+              workspace 5 output DP-8
+              workspace 6 output DP-8
+              workspace 7 output DP-8
+              workspace 8 output DP-9
+              workspace 9 output DP-9
+              workspace 10 output DP-9
+              workspace 4 output DP-6
+              workspace 5 output DP-6
+              workspace 6 output DP-6
+              workspace 7 output DP-6
+              workspace 8 output DP-7
+              workspace 9 output DP-7
+              workspace 10 output DP-7
+            ''
+          else
+            ""
+        );
       config = {
         inherit
           assigns

@@ -8,7 +8,7 @@
 }:
 let
   cfg = config.m.sw.fonts;
-  inherit (lib) mkEnableOption mkIf mkMerge optionals;
+  inherit (lib) mkEnableOption mkIf mkMerge;
 in
 {
   options.m.sw.fonts.enable = mkEnableOption "enables fancyfonts";
@@ -18,7 +18,7 @@ in
       fonts = {
         fontDir.enable = true;
         fontconfig.enable = true;
-        packages = optionals (! usr.minimal) (with pkgs; [ nerd-fonts.jetbrains-mono ]);
+        packages = [ usr.fontPkg ];
       };
       console = {
         inherit (sys) font;

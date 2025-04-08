@@ -2,6 +2,7 @@
   config,
   pkgs,
   globals,
+  usr,
   ...
 }:
 with config.lib.stylix.colors;
@@ -41,7 +42,8 @@ with config.lib.stylix.colors;
       };
     };
     fonts = {
-      names = [ "JetBrainsMono Nerd Font" ];
+      # names = [ "JetBrainsMono Nerd Font" ];
+      names = [ usr.font ];
       style = "Mono";
       size = 12.0;
     };
