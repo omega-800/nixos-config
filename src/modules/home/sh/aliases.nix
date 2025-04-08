@@ -64,7 +64,7 @@ in
       la = "ls -A";
       l = "ls -CF";
       lt = "ls --human-readable --size -1 -S --classify";
-      ld = "ls -ld */";
+      # ld = "ls -ld */";
       lg = "ll | grep";
       hg = "history | grep";
       ag = "alias | grep";
