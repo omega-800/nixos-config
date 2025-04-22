@@ -128,7 +128,6 @@ in
           t = ''${rcurmon} -show top -modi top'';
           h = ''${rcurmon} -show ssh'';
 
-          # p = ''${rcurmon} -show p -modi p:"rofi-power-menu" -font "JetBrains Mono NF 24" -theme-str "window {width: 8em;} listview {lines: 6;}"'';
           "s d" = ''${backlightScript} lower'';
           "s i" = ''${backlightScript} raise'';
           "s r" = ''${screensScript}'';

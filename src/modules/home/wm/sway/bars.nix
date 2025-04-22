@@ -42,9 +42,8 @@ with config.lib.stylix.colors;
       };
     };
     fonts = {
-      # names = [ "JetBrainsMono Nerd Font" ];
       names = [ usr.font ];
-      style = "Mono";
+      # style = "Mono";
       size = 12.0;
     };
     id = "primary";
