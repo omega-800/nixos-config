@@ -27,6 +27,7 @@ in
       io = {
         enable = mkDefault true;
         touchpad.enable = mkDefault true;
+        tablet.enable = mkDefault true;
       };
       openGL.enable = mkDefault true;
       kernel.zen = mkDefault true;

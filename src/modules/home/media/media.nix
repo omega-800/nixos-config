@@ -35,6 +35,7 @@ in
         if usr.extraBloat then
           [
             (nixGL ani-cli)
+            krita
             ffmpeg
             imagemagick
             zathura

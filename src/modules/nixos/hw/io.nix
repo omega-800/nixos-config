@@ -1,4 +1,9 @@
-{ lib, config, sys,... }:
+{
+  lib,
+  config,
+  sys,
+  ...
+}:
 let
   cfg = config.m.hw.io;
   inherit (lib) mkIf mkEnableOption optionalString;
@@ -10,6 +15,7 @@ in
 {
   options.m.hw.io = {
     enable = mkEnableOption "enables input";
+    tablet.enable = mkEnableOption "enables touchpad support";
     touchpad.enable = mkEnableOption "enables touchpad";
     homeMods.enable = mkDisableOption "enables home modifier keys";
     vimLayer.enable = mkDisableOption "enables vim layer";
@@ -17,6 +23,11 @@ in
   };
   config = {
     console.keyMap = sys.kbLayout;
+    hardware.opentabletdriver = mkIf (cfg.enable && cfg.tablet.enable) {
+      enable = true;
+      # TODO: blacklistedKernelModules
+      daemon.enable = true;
+    };
     services = mkIf cfg.enable {
       /*
         keyd = mkIf (!cfg.swapCaps.disable) {
