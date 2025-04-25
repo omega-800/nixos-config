@@ -62,14 +62,12 @@ in
             darkreader
             vimium
           ]
-          ++ (
-            with pkgs.nur.repos.rycee.firefox-addons;
-            [
-              cookie-autodelete
-              i-dont-care-about-cookies
-              privacy-badger
-            ]
-            /*
+          ++ (with pkgs.nur.repos.rycee.firefox-addons; [
+            cookie-autodelete
+            i-dont-care-about-cookies
+            privacy-badger
+          ]
+          /*
             ++ (optionals usr.extraBloat (
               with pkgs.nur.repos.rycee.firefox-addons;
               [
@@ -88,13 +86,13 @@ in
                 #bitwarden
               ])
             ))
-            */
+          */
           );
 
         search = {
           force = true;
-          default = "DuckDuckGo";
-          privateDefault = "DuckDuckGo";
+          default = "ddg";
+          privateDefault = "ddg";
 
           engines = {
             "Nix Packages" = {
@@ -128,23 +126,23 @@ in
               ];
               definedAliases = [ "@ni" ];
             };
-            "NixOS Wiki" = {
+            "NixOS wiki" = {
               urls = [
                 {
                   template = "https://wiki.nixos.org/index.php?search={searchTerms}";
                 }
               ];
-              iconUpdateURL = "https://wiki.nixos.org/favicon.png";
+              icon = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
             };
-            "Noogle" = {
+            "noogle" = {
               urls = [ { template = "https://noogle.dev/q?term={searchTerms}"; } ];
-              iconUpdateURL = "https://wiki.nixos.org/favicon.png";
+              icon = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@ng" ];
             };
-            "Youtube" = {
+            "youtube" = {
               urls = [
                 {
                   template = "https://www.youtube.com/results?search_query={searchTerms}";
@@ -152,7 +150,7 @@ in
               ];
               definedAliases = [ "@y" ];
             };
-            "Reddit" = {
+            "reddit" = {
               urls = [
                 {
                   template = "https://www.reddit.com/search/?q={searchTerms}";
@@ -160,11 +158,11 @@ in
               ];
               definedAliases = [ "@r" ];
             };
-            "Subreddit" = {
+            "subreddit" = {
               urls = [ { template = "https://www.reddit.com/r/{searchTerms}/"; } ];
               definedAliases = [ "@rr" ];
             };
-            "Github" = {
+            "github" = {
               urls = [
                 {
                   template = "https://github.com/search?q={searchTerms}&type=repositories";
@@ -172,11 +170,11 @@ in
               ];
               definedAliases = [ "@gh" ];
             };
-            "Github Link" = {
+            "github link" = {
               urls = [ { template = "https://github.com/{searchTerms}"; } ];
               definedAliases = [ "@ghl" ];
             };
-            "Github Self" = {
+            "github self" = {
               urls = [
                 {
                   template = "https://github.com/${usr.devName}/{searchTerms}";
@@ -185,8 +183,8 @@ in
               definedAliases = [ "@ghs" ];
             };
 
-            "Bing".metaData.hidden = true;
-            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            "bing".metaData.hidden = true;
+            "google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
         };
 

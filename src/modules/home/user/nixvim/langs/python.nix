@@ -69,33 +69,35 @@ in
             molten.settings.image_provider = "image.nvim";
             image = {
               enable = true;
-              hijackFilePatterns = [
-                "*.png"
-                "*.jpg"
-                "*.jpeg"
-                "*.gif"
-                "*.webp"
-              ];
-              windowOverlapClearFtIgnore = [
-                "cmp_menu"
-                "cmp_docs"
-                ""
-              ];
-              backend =
-                if usr.term == "kitty" then
-                  "kitty"
-                else if usr.term == "alacritty" then
-                  "ueberzug"
-                else
-                  null;
-              integrations = {
-                markdown = {
-                  enabled = true;
-                  # downloadRemoteImage = true;
-                  filetypes = [
-                    "markdown"
-                    "vimwiki"
-                  ];
+              settings = {
+                hijack_file_patterns = [
+                  "*.png"
+                  "*.jpg"
+                  "*.jpeg"
+                  "*.gif"
+                  "*.webp"
+                ];
+                window_overlap_clear_ft_ignore = [
+                  "cmp_menu"
+                  "cmp_docs"
+                  ""
+                ];
+                backend =
+                  if usr.term == "kitty" then
+                    "kitty"
+                  else if usr.term == "alacritty" then
+                    "ueberzug"
+                  else
+                    null;
+                integrations = {
+                  markdown = {
+                    enabled = true;
+                    # downloadRemoteImage = true;
+                    filetypes = [
+                      "markdown"
+                      "vimwiki"
+                    ];
+                  };
                 };
               };
             };

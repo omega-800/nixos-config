@@ -21,9 +21,10 @@ in
           u.wm.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
         })
         {
-          fonts.fontconfig.enable = true; 
+          fonts.fontconfig.enable = true;
           home.packages =
-            with pkgs; [ nerd-fonts.jetbrains-mono ]
+            with pkgs;
+            [ nerd-fonts.jetbrains-mono ]
             ++ (optionals usr.extraBloat [
               noto-fonts
               noto-fonts-cjk-sans
@@ -73,6 +74,7 @@ in
               bat.enable = true;
               kde.enable = true;
               yazi.enable = true;
+              # FIXME:
               kitty.enable = true;
               gtk.enable = true;
               rofi.enable = true;
