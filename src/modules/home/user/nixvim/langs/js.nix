@@ -6,6 +6,7 @@
 }:
 let
   inherit (lib) mkIf mkBefore;
+  inherit (lib.omega.vim) keyG key keyS;
   inherit (builtins) elem;
   enabled = elem "js" config.u.user.nixvim.langSupport;
   inherit (config.programs.nixvim) plugins;
@@ -22,29 +23,14 @@ in
 {
   # TODO: split this up into js/ts/json?
   config.programs.nixvim = mkIf enabled {
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>lt";
-        action = "+typescript";
-      }
-      {
-        mode = "n";
-        key = "<leader>lto";
-        action = "<cmd>TSToolsOrganizeImports<cr>";
-        options = {
-          desc = "Organize Imports";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>ltr";
-        action = "<cmd>TSToolsRemoveUnusedImports<cr>";
-        options = {
-          desc = "Remove Unused Imports";
-        };
-      }
-    ];
+    keymaps =
+      (keyG "<leader>lt" "typescript" [
+        (key "n" "o" "<cmd>TSToolsOrganizeImports<cr>" "Organize Imports")
+        (key "n" "r" "<cmd>TSToolsRemoveUnusedImports<cr>" "Remove Unused Imports")
+      ])
+      ++ (keyG "<leader>j" "javascript" [
+        (key "n" "<leader>jb" "<CMD>!npm run build<CR>" "Build npm project")
+      ]);
     plugins = {
       lsp.servers = mkIf plugins.lsp.enable {
         volar.enable = true;
