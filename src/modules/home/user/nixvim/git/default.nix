@@ -4,22 +4,19 @@ let
 in
 {
   programs.nixvim = {
-    keymaps = [
-      # Git
-      (keyG "<leader>g" "git" (
-        (keyG "t" "toggles" [
-          (key "n" "b" "<CMD>Gitsigns toggle_current_line_blame<CR>" "Gitsigns current line blame")
-          (key "n" "d" "<CMD>Gitsigns toggle_deleted<CR>" "Gitsigns deleted")
-        ])
-        ++ (keyG "r" "resets" [
-          (key "n" "h" "<CMD>Gitsigns reset_hunk<CR>" "Gitsigns reset hunk")
-          (key "n" "b" "<CMD>Gitsigns reset_buffer<CR>" "Gitsigns reset buffer")
-        ])
-        ++ [
-          (key "n" "d" "<CMD>Gitsigns diffthis<CR>" "Gitsigns diff this buffer")
-        ]
-      ))
-    ];
+    keymaps = keyG "<leader>g" "git" (
+      (keyG "t" "toggles" [
+        (key "n" "b" "<CMD>Gitsigns toggle_current_line_blame<CR>" "Gitsigns current line blame")
+        (key "n" "d" "<CMD>Gitsigns toggle_deleted<CR>" "Gitsigns deleted")
+      ])
+      ++ (keyG "r" "resets" [
+        (key "n" "h" "<CMD>Gitsigns reset_hunk<CR>" "Gitsigns reset hunk")
+        (key "n" "b" "<CMD>Gitsigns reset_buffer<CR>" "Gitsigns reset buffer")
+      ])
+      ++ [
+        (key "n" "d" "<CMD>Gitsigns diffthis<CR>" "Gitsigns diff this buffer")
+      ]
+    );
     plugins = {
       gitlinker = {
         enable = true;
