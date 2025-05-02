@@ -74,7 +74,6 @@ in
               bat.enable = true;
               kde.enable = true;
               yazi.enable = true;
-              # FIXME:
               kitty.enable = true;
               gtk.enable = true;
               rofi.enable = true;
