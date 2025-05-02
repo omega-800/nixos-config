@@ -11,6 +11,7 @@ in
       ]
       ++ (
         keyG "<leader>b" "buffer" [
+          # TODO: change to buf
           (key "n" "n" "<cmd>BufferLineCycleNext<cr>" "Cycle to next buffer")
           (key "n" "p" "<cmd>BufferLineCyclePrev<cr>" "Cycle to previous buffer")
           (key "n" "N" "<cmd>BufferLineMoveNext<cr>" "")

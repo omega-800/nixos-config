@@ -252,7 +252,7 @@ in
       }; # Default terminal command
       font = mkOption {
         type = str;
-        default = "JetBrainsMono";
+        default = "JetBrainsMono Nerd Font Mono";
       };
       fontPkg = mkOption {
         type = package;
