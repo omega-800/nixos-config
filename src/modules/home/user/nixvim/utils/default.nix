@@ -6,213 +6,77 @@
   usr,
   ...
 }:
+let
+  inherit (lib.omega.vim) keyG key keyS;
+in
 {
   imports = [
     ./keymaps.nix
     ./oil.nix
-    #./firenvim.nix 
+    #./firenvim.nix
   ];
   programs.nixvim = {
-    keymaps = [
-      # harpoon
-      {
-        mode = "n";
-        key = "<leader>h";
-        action = "+harpoon";
-      }
-      {
-        mode = "n";
-        key = "<leader>ha";
-        action.__raw = "function() require'harpoon':list():add() end";
-      }
-      {
-        mode = "n";
-        key = "<leader>hh";
-        action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
-      }
-      {
-        mode = "n";
-        key = "<C-j>";
-        action.__raw = "function() require'harpoon':list():select(1) end";
-      }
-      {
-        mode = "n";
-        key = "<C-k>";
-        action.__raw = "function() require'harpoon':list():select(2) end";
-      }
-      {
-        mode = "n";
-        key = "<C-l>";
-        action.__raw = "function() require'harpoon':list():select(3) end";
-      }
-      {
-        mode = "n";
-        key = "<C-m>";
-        action.__raw = "function() require'harpoon':list():select(4) end";
-      }
-
-      {
-        mode = "n";
-        key = "<leader>u";
-        action = "+undo";
-      }
-      {
-        # Escape terminal mode using ESC
-        mode = "t";
-        key = "<esc>";
-        action = "<C-\\><C-n>";
-        options.desc = "Escape terminal mode";
-      }
-      # npm
-      {
-        mode = "n";
-        key = "<leader>j";
-        action = "+js";
-      }
-      {
-        mode = "n";
-        key = "<leader>jb";
-        action = "<CMD>!npm run build<CR>";
-        options.desc = "Build npm project";
-      }
-      {
-        mode = "n";
-        key = "<leader>ut";
-        action = "<cmd>UndotreeToggle<CR>";
-        options = {
-          silent = true;
-          desc = "Undotree";
-        };
-      }
-      # telescope
-      # file
-      {
-        mode = "n";
-        key = "<leader>f";
-        action = "+find/file";
-      }
-      {
-        mode = "n";
-        key = "<leader>fF";
-        action = "<cmd>Telescope find_files hidden=true<cr>";
-        options.desc = "Find files Hidden Also";
-      }
-      {
-        mode = "n";
-        key = "<leader>go";
-        action = "<cmd>Telescope git_status<cr>";
-        options.desc = "Open changed file";
-      }
-      {
-        mode = "n";
-        key = "<leader>gb";
-        action = "<cmd>Telescope git_branches<cr>";
-        options.desc = "Checkout branch";
-      }
-      {
-        mode = "n";
-        key = "<leader>gc";
-        action = "<cmd>Telescope git_commits<cr>";
-        options.desc = "Checkout commit";
-      }
-
-      {
-        mode = "n";
-        key = "<leader>sd";
-        action = "<cmd>Telescope diagnostics theme=ivy<cr>";
-        options.desc = "Search Diagnostics";
-      }
-      {
-        mode = "n";
-        key = "<leader>sn";
-        action = "<cmd>Telescope notify<cr>";
-        options.desc = "Notifications Search";
-      }
-      {
-        mode = "n";
-        key = "<leader>sk";
-        action = "<cmd>Telescope keymaps theme=dropdown<cr>";
-        options.desc = "Search Keymaps";
-      }
-      {
-        mode = "n";
-        key = "<leader>ss";
-        action = "<cmd>Telescope builtin<cr>";
-        options.desc = "Search Telescope";
-      }
-      {
-        mode = "n";
-        key = "<leader>sg";
-        action = "<cmd>Telescope live_grep<cr>";
-        options.desc = "Search Live Grep";
-      }
-      {
-        mode = "n";
-        key = "<leader>sH";
-        action = "<cmd>Telescope help_tags<cr>";
-        options.desc = "Search Help Tags";
-      }
-      {
-        mode = "n";
-        key = "<leader>sb";
-        action = "<cmd>Telescope buffers<cr>";
-        options.desc = "Search Buffers";
-      }
-      {
-        mode = "n";
-        key = "<leader>sc";
-        action = "<cmd>Telescope commands<cr>";
-        options.desc = "Search Commands";
-      }
-      {
-        mode = "n";
-        key = "<leader>sm";
-        action = "<cmd>Telescope marks<cr>";
-        options.desc = "Search in Media Mode";
-      }
-      {
-        mode = "n";
-        key = "<leader>so";
-        action = "<cmd>Telescope vim_options<cr>";
-        options.desc = "Search Vim Options";
-      }
-      {
-        mode = "n";
-        key = "<leader>sq";
-        action = "<cmd>Telescope quickfix<cr>";
-        options.desc = "Search Quickfix";
-      }
-      {
-        mode = "n";
-        key = "<leader>sl";
-        action = "<cmd>Telescope loclist<cr>";
-        options.desc = "Search Location List";
-      }
-      {
-        mode = "n";
-        key = "<leader>sp";
-        action = "<cmd>Telescope projects<cr>";
-        options.desc = "Search Projects";
-      }
-      {
-        mode = "n";
-        key = "<leader>sP";
-        action = "<cmd>Telescope colorscheme<cr>";
-        options.desc = "Search ColorScheme with previews";
-      }
-      {
-        mode = "n";
-        key = "<leader>su";
-        action = "<cmd>Telescope undo<cr>";
-        options.desc = "Search undo";
-      }
-      {
-        mode = "n";
-        key = "<leader>s/";
-        action = "<cmd>Telescope current_buffer_fuzzy_find<cr>";
-        options.desc = "Fuzzy Buffer Search";
-      }
-    ];
+    keymaps =
+      (keyG "<leader>h" "harpoon" [ ])
+      ++ (keyG "<leader>u" "undo" [
+        (keyS "n" "t" "<cmd>UndotreeToggle<CR>" "Undotree")
+      ])
+      ++ (keyG "<leader>f" "find/file" [
+        (key "n" "F" "<cmd>Telescope find_files hidden=true<cr>" "Find files Hidden Also")
+        (key "n" "d" "<cmd>Telescope diagnostics theme=ivy<cr>" "Search Diagnostics")
+        (key "n" "n" "<cmd>Telescope notify<cr>" "Notifications Search")
+        (key "n" "k" "<cmd>Telescope keymaps theme=dropdown<cr>" "Search Keymaps")
+        (key "n" "s" "<cmd>Telescope builtin<cr>" "Search Telescope")
+        (key "n" "g" "<cmd>Telescope live_grep<cr>" "Search Live Grep")
+        (key "n" "H" "<cmd>Telescope help_tags<cr>" "Search Help Tags")
+        (key "n" "b" "<cmd>Telescope buffers<cr>" "Search Buffers")
+        (key "n" "c" "<cmd>Telescope commands<cr>" "Search Commands")
+        (key "n" "m" "<cmd>Telescope marks<cr>" "Search in Media Mode")
+        (key "n" "o" "<cmd>Telescope vim_options<cr>" "Search Vim Options")
+        (key "n" "q" "<cmd>Telescope quickfix<cr>" "Search Quickfix")
+        (key "n" "l" "<cmd>Telescope loclist<cr>" "Search Location List")
+        (key "n" "p" "<cmd>Telescope projects<cr>" "Search Projects")
+        (key "n" "P" "<cmd>Telescope colorscheme<cr>" "Search ColorScheme with previews")
+        (key "n" "u" "<cmd>Telescope undo<cr>" "Search undo")
+        (key "n" "/" "<cmd>Telescope current_buffer_fuzzy_find<cr>" "Fuzzy Buffer Search")
+        (key "n" "t" "<CMD>TodoTelescope<CR>" "Search TODO's")
+      ])
+      ++ [
+        (key "t" "<esc>" "<C-\\><C-n>" "Escape terminal mode")
+        (key "n" "<leader>go" "<cmd>Telescope git_status<cr>" "Open changed file")
+        (key "n" "<leader>gb" "<cmd>Telescope git_branches<cr>" "Checkout branch")
+        (key "n" "<leader>gc" "<cmd>Telescope git_commits<cr>" "Checkout commit")
+        {
+          mode = "n";
+          key = "<leader>ha";
+          action.__raw = "function() require'harpoon':list():add() end";
+        }
+        {
+          mode = "n";
+          key = "<leader>hh";
+          action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
+        }
+        {
+          mode = "n";
+          key = "<C-j>";
+          action.__raw = "function() require'harpoon':list():select(1) end";
+        }
+        {
+          mode = "n";
+          key = "<C-k>";
+          action.__raw = "function() require'harpoon':list():select(2) end";
+        }
+        {
+          mode = "n";
+          key = "<C-l>";
+          action.__raw = "function() require'harpoon':list():select(3) end";
+        }
+        {
+          mode = "n";
+          key = "<C-m>";
+          action.__raw = "function() require'harpoon':list():select(4) end";
+        }
+      ];
     plugins = {
       # codesnap = {
       #   enable = true;

@@ -5,6 +5,7 @@
 }:
 let
   inherit (lib) mkMerge;
+  inherit (lib.omega.vim) keyG key;
 in
 {
   imports = [
@@ -13,30 +14,14 @@ in
   ];
   programs.nixvim = mkMerge [
     {
-      keymaps = [
-        {
-          mode = "n";
-          key = "<leader>g";
-          action = "+goto";
-        }
-        # Trouble 
-        {
-          key = "<leader>lt";
-          action = "<CMD>TroubleToggle<CR>";
-          options.desc = "Toggle trouble";
-        }
-        # lsp
-        {
-          mode = "n";
-          key = "<leader>l";
-          action = "+lsp";
-        }
-        {
-          mode = "n";
-          key = "<leader>le";
-          action = "+inlay_hint";
-        }
-      ];
+      keymaps =
+        (keyG "<leader>g" "goto" [ ])
+        ++ (keyG "<leader>l" "lsp" (
+          [
+            (key "n" "t" "<CMD>TroubleToggle<CR>" "Toggle trouble")
+          ]
+          ++ (keyG "e" "inlay_hint" [ ])
+        ));
       plugins = {
         lsp = {
           enable = true;
@@ -136,7 +121,6 @@ in
                 key = "<leader>let";
                 options.desc = "Toggle";
               }
-              #nprstx
               {
                 action = "<CMD>LspInfo<Enter>";
                 key = "<leader>li";
@@ -160,20 +144,20 @@ in
           #               group = vim.api.nvim_create_augroup("UserLspConfig", {}),
           #               callback = function(args)
           #                 local client = vim.lsp.get_client_by_id(args.data.client_id)
-          #                 if client.supports_method('textDocument/documentHighlight') then 
+          #                 if client.supports_method('textDocument/documentHighlight') then
           #                   vim.lsp.buf.document_highlight()
           #                 end
-          #               end 
+          #               end
           #             })
           #
           #             vim.api.nvim_create_autocmd("CursorMoved", {
           #               callback = function(args)
           #
           #                 local client = vim.lsp.get_client_by_id(args.data.client_id)
-          #                 if client.supports_method('textDocument/documentHighlight') then 
+          #                 if client.supports_method('textDocument/documentHighlight') then
           #                   vim.lsp.buf.clear_references()
           #                 end
-          #               end 
+          #               end
           #             })
           #          '';
         };

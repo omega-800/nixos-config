@@ -1,48 +1,22 @@
+{ lib, ... }:
+let
+  inherit (lib.omega.vim) keyG key;
+in
 {
   programs.nixvim = {
-    keymaps = [
-      # Git    
-      {
-        mode = "n";
-        key = "<leader>g";
-        action = "+git";
-      }
-      {
-        mode = "n";
-        key = "<leader>gt";
-        action = "+toggles";
-      }
-      {
-        key = "<leader>gtb";
-        action = "<CMD>Gitsigns toggle_current_line_blame<CR>";
-        options.desc = "Gitsigns current line blame";
-      }
-      {
-        key = "<leader>gtd";
-        action = "<CMD>Gitsigns toggle_deleted";
-        options.desc = "Gitsigns deleted";
-      }
-      {
-        key = "<leader>gd";
-        action = "<CMD>Gitsigns diffthis<CR>";
-        options.desc = "Gitsigns diff this buffer";
-      }
-      {
-        mode = "n";
-        key = "<leader>gr";
-        action = "+resets";
-      }
-      {
-        key = "<leader>grh";
-        action = "<CMD>Gitsigns reset_hunk<CR>";
-        options.desc = "Gitsigns reset hunk";
-      }
-      {
-        key = "<leader>grb";
-        action = "<CMD>Gitsigns reset_buffer<CR>";
-        options.desc = "Gitsigns reset current buffer";
-      }
-    ];
+    keymaps = keyG "<leader>g" "git" (
+      (keyG "t" "toggles" [
+        (key "n" "b" "<CMD>Gitsigns toggle_current_line_blame<CR>" "Gitsigns current line blame")
+        (key "n" "d" "<CMD>Gitsigns toggle_deleted<CR>" "Gitsigns deleted")
+      ])
+      ++ (keyG "r" "resets" [
+        (key "n" "h" "<CMD>Gitsigns reset_hunk<CR>" "Gitsigns reset hunk")
+        (key "n" "b" "<CMD>Gitsigns reset_buffer<CR>" "Gitsigns reset buffer")
+      ])
+      ++ [
+        (key "n" "d" "<CMD>Gitsigns diffthis<CR>" "Gitsigns diff this buffer")
+      ]
+    );
     plugins = {
       gitlinker = {
         enable = true;

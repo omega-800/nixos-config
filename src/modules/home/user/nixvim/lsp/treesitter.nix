@@ -4,20 +4,15 @@
   pkgs,
   ...
 }:
+let
+  inherit (lib.omega.vim) keyG key;
+in
 {
   programs.nixvim = {
-    keymaps = [
-      # Treesitter
-      {
-        key = "<leader>c";
-        action = "+context";
-      }
-      {
-        key = "<leader>co";
-        action = "<CMD>TSContextToggle<CR>";
-        options.desc = "Toggle Treesitter context";
-      }
+    keymaps = keyG "<leader>c" "context" [
+      (key "n" "o" "<CMD>TSContextToggle<CR>" "Toggle Treesitter context")
     ];
+
     plugins = {
       web-devicons.enable = true;
       treesitter = lib.mkMerge [

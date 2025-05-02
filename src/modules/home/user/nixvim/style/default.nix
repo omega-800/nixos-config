@@ -1,59 +1,28 @@
 {
+  lib,
+  ...
+}:
+let
+  inherit (lib.omega.vim) keyG key;
+in
+{
   imports = [
     ./lualine.nix
     ./startup.nix
     ./bufferline.nix
   ];
   programs.nixvim = {
-    keymaps = [
-      # Tabs
-      {
-        mode = "n";
-        key = "<leader>t";
-        action = "+tab";
-      }
-      {
-        mode = "n";
-        key = "<leader>tt";
-        action = "<CMD>tabnew<CR>";
-        options.desc = "Create new tab";
-      }
-      {
-        mode = "n";
-        key = "<leader>td";
-        action = "<CMD>tabclose<CR>";
-        options.desc = "Close tab";
-      }
-      {
-        mode = "n";
-        key = "<leader>tn";
-        action = "<CMD>tabnext<CR>";
-        options.desc = "Go to the next tab";
-      }
-      {
-        mode = "n";
-        key = "<leader>tp";
-        action = "<CMD>tabprevious<CR>";
-        options.desc = "Go to the previous tab";
-      }
-      {
-        mode = "n";
-        key = "<Tab>";
-        action = "<CMD>tabnext<CR>";
-        options.desc = "Go to the next tab";
-      }
-      {
-        mode = "n";
-        key = "<S-Tab>";
-        action = "<CMD>tabprevious<CR>";
-        options.desc = "Go to the previous tab";
-      }
-      {
-        mode = "n";
-        key = "<leader>ft";
-        action = "<CMD>TodoTelescope<CR>";
-      }
-    ];
+    keymaps =
+      [
+        (key "n" "<Tab>" "<CMD>tabnext<CR>" "Go to the next tab")
+        (key "n" "<S-Tab>" "<CMD>tabprevious<CR>" "Go to the previous tab")
+      ]
+      ++ (keyG "<leader>t" "tab" [
+        (key "n" "t" "<CMD>tabnew<CR>" "Create new tab")
+        (key "n" "d" "<CMD>tabclose<CR>" "Close tab")
+        (key "n" "n" "<CMD>tabnext<CR>" "Go to the next tab")
+        (key "n" "p" "<CMD>tabprevious<CR>" "Go to the previous tab")
+      ]);
     plugins = {
       todo-comments.enable = true;
       rainbow-delimiters.enable = true;
@@ -69,7 +38,7 @@
       };
       colorizer = {
         enable = true;
-          #FIXME: update
+        #FIXME: update
         #userDefaultOptions = {
         #  RGB = true;
         #  RRGGBB = true;
@@ -84,7 +53,7 @@
         #  tailwind = true;
         #  sass = {
         #    enable = true;
-        #  }; 
+        #  };
         #  virtualtext = "■";
         #};
       };

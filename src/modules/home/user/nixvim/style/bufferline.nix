@@ -1,134 +1,35 @@
 { lib, sys, ... }:
+let
+  inherit (lib.omega.vim) keyG key;
+in
 {
   programs.nixvim = lib.mkIf (!sys.stable) {
-    keymaps = [
-      {
-        mode = "n";
-        key = "<C-n>";
-        action = "<cmd>BufferLineCycleNext<cr>";
-        options = {
-          desc = "Cycle to next buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<C-p>";
-        action = "<cmd>BufferLineCyclePrev<cr>";
-        options = {
-          desc = "Cycle to previous buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>b";
-        action = "+buffer";
-      }
-      {
-        mode = "n";
-        key = "<leader>bn";
-        action = "<cmd>BufferLineCycleNext<cr>";
-        options = {
-          desc = "Cycle to next buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bp";
-        action = "<cmd>BufferLineCyclePrev<cr>";
-        options = {
-          desc = "Cycle to previous buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bN";
-        action = "<cmd>BufferLineMoveNext<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>bP";
-        action = "<cmd>BufferLineMovePrev<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>be";
-        action = "<Cmd>BufferLinePick<CR>";
-        options = {
-          desc = "Select buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bd";
-        action = "<cmd>bprevious|bdelete #<cr>";
-        options = {
-          desc = "Delete buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>br";
-        action = "<cmd>BufferLineCloseRight<cr>";
-        options = {
-          desc = "Delete buffers to the right";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bl";
-        action = "<cmd>BufferLineCloseLeft<cr>";
-        options = {
-          desc = "Delete buffers to the left";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bo";
-        action = "<cmd>BufferLineCloseOthers<cr>";
-        options = {
-          desc = "Delete other buffers";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bs";
-        action = "+buffer sort";
-        options = {
-          desc = "Sort buffers";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bsd";
-        action = "<cmd>BufferLineSortByDirectory<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>bse";
-        action = "<cmd>BufferLineSortByExtension<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>bst";
-        action = "<cmd>BufferLineSortByTabs<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>bt";
-        action = "<cmd>BufferLineTogglePin<cr>";
-        options = {
-          desc = "Toggle pin";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bC";
-        action = "<Cmd>BufferLineGroupClose ungrouped<CR>";
-        options = {
-          desc = "Delete non-pinned buffers";
-        };
-      }
-    ];
+    keymaps =
+      [
+        (key "n" "<C-n>" "<cmd>BufferLineCycleNext<cr>" "Cycle to next buffer")
+        (key "n" "<C-p>" "<cmd>BufferLineCyclePrev<cr>" "Cycle to previous buffer")
+      ]
+      ++ (
+        keyG "<leader>b" "buffer" [
+          # TODO: change to buf
+          (key "n" "n" "<cmd>BufferLineCycleNext<cr>" "Cycle to next buffer")
+          (key "n" "p" "<cmd>BufferLineCyclePrev<cr>" "Cycle to previous buffer")
+          (key "n" "N" "<cmd>BufferLineMoveNext<cr>" "")
+          (key "n" "P" "<cmd>BufferLineMovePrev<cr>" "")
+          (key "n" "e" "<Cmd>BufferLinePick<CR>" "Select buffer")
+          (key "n" "d" "<cmd>bprevious|bdelete #<cr>" "Delete buffer")
+          (key "n" "r" "<cmd>BufferLineCloseRight<cr>" "Delete buffers to the right")
+          (key "n" "l" "<cmd>BufferLineCloseLeft<cr>" "Delete buffers to the left")
+          (key "n" "o" "<cmd>BufferLineCloseOthers<cr>" "Delete other buffers")
+          (key "n" "C" "<Cmd>BufferLineGroupClose ungrouped<CR>" "Delete non-pinned buffers")
+          (key "n" "t" "<cmd>BufferLineTogglePin<cr>" "Toggle pin")
+        ]
+        ++ (keyG "s" "buffer sort" [
+          (key "n" "d" "<cmd>BufferLineSortByDirectory<cr>" "")
+          (key "n" "e" "<cmd>BufferLineSortByExtension<cr>" "")
+          (key "n" "t" "<cmd>BufferLineSortByTabs<cr>" "")
+        ])
+      );
     plugins.bufferline = {
       enable = true;
       settings.options = {

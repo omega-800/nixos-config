@@ -1,165 +1,41 @@
-{ pkgs, ... }:
+{ lib, ... }:
+let
+  inherit (lib.omega.vim) keyG key;
+in
 {
   programs.nixvim = {
     keymaps =
-      let
-        forceWrite = {
-          action = "<cmd>silent! update! | redraw<cr>";
-          options.desc = "Force write";
-        };
-      in
       [
-        # manpage
-        {
-          mode = "n";
-          key = "M";
-          action = ":Man <C-R>=expand(\"<cword>\")<cr><cr>";
-          options.desc = "Open manpage";
-        }
-        # Default
-        {
-          mode = "n";
-          key = "<leader>q";
-          action = "<cmd>confirm q<cr>";
-          options.desc = "Quit window";
-        }
-        {
-          mode = "n";
-          key = "<leader>Q";
-          action = "<cmd>confirm qall<cr>";
-          options.desc = "Exit neovim";
-        }
-        {
-          mode = "n";
-          key = "<leader>n";
-          action = "<cmd>enew<cr>";
-          options.desc = "New file";
-        }
-        {
-          inherit (forceWrite) action options;
-          mode = "n";
-          key = "<c-s>";
-        }
-        {
-          inherit (forceWrite) options;
-          mode = [
-            "i"
-            "x"
-          ];
-          key = "<c-s>";
-          action = "<esc>" + forceWrite.action;
-        }
-        {
-          mode = "n";
-          key = "<c-q>";
-          action = "<cmd>q!<cr>";
-          options.desc = "Force quit";
-        }
-        {
-          mode = "v";
-          key = "<S-Tab>";
-          action = "<gv";
-          options.desc = "Unindent line";
-        }
-        {
-          mode = "v";
-          key = "<Tab>";
-          action = ">gv";
-          options.desc = "Indent line";
-        }
+        (key "n" "M" ":Man <C-R>=expand(\"<cword>\")<cr><cr>" "Open manpage")
+        (key "n" "<leader>q" "<cmd>confirm q<cr>" "Quit window")
+        (key "n" "<leader>Q" "<cmd>confirm qall<cr>" "Exit vim")
+        (key "n" "<leader>n" "<cmd>enew<cr>" "New file")
+        (key "n" "<c-s>" "<cmd>silent! update! | redraw<cr>" "Force write")
+        (key [ "i" "x" ] "<c-s>" "<esc><cmd>silent! update! | redraw<cr>" "Force write")
+        (key "n" "<c-q>" "<cmd>q!<cr>" "Force quit")
+        (key "v" "<S-Tab>" "<gv" "Unindent line")
+        (key "v" "<Tab>" ">gv" "Indent line")
+        (key "n" "<C-Up>" "<Cmd>resize -1<CR>" "Resize split up")
         # Windows
-        {
-          mode = "n";
-          key = "<C-Up>";
-          action = "<Cmd>resize -1<CR>";
-          options.desc = "Resize split up";
-        }
-        {
-          mode = "n";
-          key = "<C-Down>";
-          action = "<Cmd>resize +1<CR>";
-          options.desc = "Resize split down";
-        }
-        {
-          mode = "n";
-          key = "<C-Left>";
-          action = "<Cmd>vertical resize -2<CR>";
-          options.desc = "Resize split left";
-        }
-        {
-          mode = "n";
-          key = "<C-Right>";
-          action = "<Cmd>vertical resize +2<CR>";
-          options.desc = "Resize split right";
-        }
-        {
-          mode = "n";
-          key = "<leader>w";
-          action = "+window/wrap";
-        }
-        {
-          mode = "n";
-          key = "<leader>wv";
-          action = "<Cmd>vsplit<CR>";
-          options.desc = "Vertical split";
-        }
-        {
-          mode = "n";
-          key = "<leader>wh";
-          action = "<Cmd>split<CR>";
-          options.desc = "Horizontal split";
-        }
-        # TODO: {,un}set wrap{,{,no}linebreak}
-        # visual
-        {
-          mode = "n";
-          key = "<leader>v";
-          action = "+visual";
-        }
-        {
-          mode = "n";
-          key = "<leader>va";
-          action = "gg0vG$";
-          options.desc = "Select all";
-        }
-        {
-          mode = "n";
-          key = "<leader>vc";
-          action = "<Cmd>nohls<CR>";
-          options.desc = "Clear highlight";
-        }
+        (key "n" "<C-Down>" "<Cmd>resize +1<CR>" "Resize split down")
+        (key "n" "<C-Left>" "<Cmd>vertical resize -2<CR>" "Resize split left")
+        (key "n" "<C-Right>" "<Cmd>vertical resize +2<CR>" "Resize split right")
         # moving line
-        # {
-        #   mode = "v";
-        #   key = "<M-k>";
-        #   action = ":m '<lt>-2<CR>gv-gv";
-        # }
-        # {
-        #   mode = "v";
-        #   key = "<M-j>";
-        #   action = ":m '>+1<CR>gv-gv";
-        # }
-        # {
-        #   mode = "n";
-        #   key = "<M-k>";
-        #   action = "<Cmd>m .-2<CR>==";
-        # }
-        # {
-        #   mode = "n";
-        #   key = "<M-j>";
-        #   action = "<Cmd>m .+1<CR>==";
-        # }
-        # {
-        #   mode = "i";
-        #   key = "<M-k>";
-        #   action = "<esc>:m .-2<CR>==gi";
-        # }
-        # {
-        #   mode = "i";
-        #   key = "<M-j>";
-        #   action = "<esc>:m .+1<CR>==gi";
-        # }
-      ];
+        # (key "v" "<M-k>" ":m '<lt>-2<CR>gv-gv" "")
+        # (key "v" "<M-j>" ":m '>+1<CR>gv-gv" "")
+        # (key "n" "<M-k>" "<Cmd>m .-2<CR>==" "")
+        # (key "n" "<M-j>" "<Cmd>m .+1<CR>==" "")
+        # (key "i" "<M-k>" "<esc>:m .-2<CR>==gi" "")
+        # (key "i" "<M-j>" "<esc>:m .+1<CR>==gi" "")
+      ]
+      ++ (keyG "<leader>w" "window/wrap" [
+        (key "n" "v" "<Cmd>vsplit<CR>" "Vertical split")
+        (key "n" "h" "<Cmd>split<CR>" "Horizontal split")
+      ])
+      ++ (keyG "<leader>v" "visual" [
+        (key "n" "a" "gg0vG$" "Select all")
+        (key "n" "c" "<Cmd>nohls<CR>" "Clear highlight")
+      ]);
     /*
       extraPlugins = with pkgs.vimUtils;
         [
@@ -179,5 +55,4 @@
       '';
     */
   };
-
 }
