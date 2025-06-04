@@ -22,6 +22,7 @@ in
         lsof
         tshark
         termshark
+        whois
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)

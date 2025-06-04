@@ -169,7 +169,7 @@ in
           "screencastMode.fontSize" = lib.mkForce 18;
           "chat.editor.fontSize" = lib.mkForce 18;
           "editor.fontSize" = lib.mkForce 14;
-          "debug.console.fontSize" = lib.mkForce 18;
+          "debug.console.fontSize" = lib.mkForce 14;
           "editor.minimap.sectionHeaderFontSize" = lib.mkForce 18;
           "extensions.ignoreRecommendations" = true;
           "editor.cursorBlinking" = "blink";
@@ -232,6 +232,14 @@ in
             "vscodevim.vim" = 1;
           };
           "vim.normalModeKeyBindings" = [
+            {
+              "before" = [
+                "<leader>"
+                "d"
+                "b"
+              ];
+              "commands" = [ "debug.toggleBreakpoint" ];
+            }
             {
               "before" = [
                 "<leader>"
@@ -321,11 +329,36 @@ in
           "typescript.updateImportsOnFileMove.enabled" = "never";
           # "typescript.tsserver.log" = "verbose";
           "typescript.tsserver.maxTsServerMemory" = 4096;
-          #"typescript.disableAutomaticTypeAcquisition" = true;
-          #"typescript.tsserver.useSeparateProcess" = true;
+          "typescript.disableAutomaticTypeAcquisition" = true;
+          "typescript.tsserver.useSeparateProcess" = true;
+          "extensions.allowed" = {
+            "*" = true;
+            "vscode.ipynb" = false;
+            "vscode.builtin-notebook-renderers" = false;
+            "vscode.emmet" = false;
+            "vscode.extension-editing" = false;
+            "vscode.git" = false;
+            "vscode.git-base" = false;
+            "vscode.github" = false;
+            "vscode.github-authentication" = false;
+            "vscode.grunt" = false;
+            "vscode.gulp" = false;
+            "vscode.jake" = false;
+            #"ms-vscode.js-debug" = false;
+            #"ms-vscode.js-debug-companion" = false;
+            "vscode.markdown-math" = false;
+            "vscode.media-preview" = false;
+            "vscode.merge-conflict" = false;
+            "vscode.microsoft-authentication" = false;
+            "vscode.npmvscode.npm" = false;
+            "vscode.terminal-suggest" = false;
+            "ms-vscode.vscode-js-profile-table" = false;
+            "vscode.simple-browser" = false;
+            "vscode.search-result" = false;
+            "vscode.references-view" = false;
+          };
         };
       };
-
     };
   };
 }

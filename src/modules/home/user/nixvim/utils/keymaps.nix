@@ -6,6 +6,9 @@ in
   programs.nixvim = {
     keymaps =
       [
+        (key "n" "<leader>cl" "yiwoconsole.log('<esc>pa', <esc>pa);<esc>" "console.log")
+        (key "v" "<leader>cl" "yoconsole.log('<esc>pa', <esc>pa);<esc>" "console.log")
+
         (key "n" "M" ":Man <C-R>=expand(\"<cword>\")<cr><cr>" "Open manpage")
         (key "n" "<leader>q" "<cmd>confirm q<cr>" "Quit window")
         (key "n" "<leader>Q" "<cmd>confirm qall<cr>" "Exit vim")

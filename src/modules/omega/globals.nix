@@ -7,6 +7,7 @@
 }:
 {
   envVars = rec {
+    MANPAGER = "less -R --use-color -Dd+r -Du+g -Dk+m -Ds+c";
     HOME = usr.homeDir;
     BROWSER = usr.browser;
     XDG_CACHE_HOME = "${HOME}/.cache";

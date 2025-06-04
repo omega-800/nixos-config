@@ -38,7 +38,6 @@ in
             krita
             ffmpeg
             imagemagick
-            zathura
             pavucontrol
             schismtracker
           ]
@@ -46,5 +45,9 @@ in
           [ ]
       );
     home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
+    programs.zathura = mkIf usr.extraBloat {
+      enable = true;
+      extraConfig = "set selection-clipboard clipboard";
+    };
   };
 }

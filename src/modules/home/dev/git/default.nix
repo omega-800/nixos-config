@@ -30,7 +30,8 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      enableSshSupport = true;
+      # TODO: 
+      enableSshSupport = false;
       defaultCacheTtl = 30;
       defaultCacheTtlSsh = 30;
       maxCacheTtl = 600;
