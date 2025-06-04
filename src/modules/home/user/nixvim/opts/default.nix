@@ -8,6 +8,7 @@
   programs.nixvim.opts = {
     # completeopt = [ "menu" "menuone" "noselect" ];
     updatetime = 50; # Faster completion
+    exrc = true;
 
     number = true;
     relativenumber = true;

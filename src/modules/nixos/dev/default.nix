@@ -6,5 +6,6 @@
     ./mysql.nix
     ./virt.nix
     ./orchestration.nix
+    ./android.nix
   ];
 }

@@ -12,6 +12,9 @@
       mullvad.enable = true;
     };
     fs.thunar.enable = true;
-    dev.mysql.enable = false;
+    dev = {
+      mysql.enable = false;
+      android.enable = true;
+    };
   };
 }
