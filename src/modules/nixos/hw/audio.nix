@@ -17,6 +17,16 @@ in
   };
 
   config = mkIf cfg.enable (mkMerge [
+    (mkIf (!cfg.pipewire) (
+      if sys.stable then
+        {
+          hardware.pulseaudio.enable = true;
+        }
+      else
+        {
+          services.pulseaudio.enable = true;
+        }
+    ))
     {
       environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
@@ -24,7 +34,6 @@ in
       security.rtkit.enable = cfg.pipewire;
 
       services = {
-        pulseaudio.enable = !cfg.pipewire;
         pipewire =
           if cfg.pipewire then
             {

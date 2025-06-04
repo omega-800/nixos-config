@@ -20,5 +20,6 @@
     ./yaml.nix
     ./ftl.nix
     ./lisp.nix
+    ./dart.nix
   ];
 }
