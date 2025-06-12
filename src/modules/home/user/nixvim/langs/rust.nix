@@ -16,6 +16,9 @@ in
       # TODO: change rustaceanvim to none-ls/lsp + dap configs
       lsp.servers = mkIf plugins.lsp.enable { };
       none-ls.sources = mkIf plugins.none-ls.enable { };
+      dap = {
+        # TODO: ensure that c config is enabled
+      };
       rustaceanvim = {
         enable = true;
         # there are so many settings that i'm getting overwhelmed just by looking at the list

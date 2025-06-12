@@ -59,7 +59,7 @@ in
       extraConfig =
         (readFile ./win-rules)
         + (
-          if sys.profile == "work" then
+          if sys.profile == "work" || sys.profile == "pers" then
             ''
               output eDP-1 pos 0 0 res 1920x1080
               output DP-8 pos 1920 0 res 1920x1080

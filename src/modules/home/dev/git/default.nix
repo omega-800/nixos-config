@@ -30,7 +30,7 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      # TODO: 
+      # TODO:
       enableSshSupport = false;
       defaultCacheTtl = 30;
       defaultCacheTtlSsh = 30;
@@ -63,6 +63,7 @@ in
         d = "diff";
         ps = "push";
         m = "merge";
+        l = "log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n'";
         alias = "config --get-regexp ^alias";
       };
       extraConfig = mkMerge [
@@ -80,6 +81,11 @@ in
         {
 
           init.defaultBranch = "main";
+          status = {
+            branch = true;
+            showStash = true;
+            showUntrackedFiles = true;
+          };
           credential =
             #if sys.profile == "pers" && usr.extraBloat then
             #  {
@@ -94,8 +100,44 @@ in
               # helper = "${pkgs.gitAndTools.gitFull}/bin/git-credential-libsecret";
               # helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
             };
-          push.autoSetupRemote = true;
+          push = {
+            autoSetupRemote = true;
+            default = "current";
+            followTags = true;
+          };
+          pull.default = "current";
+          rebase.missingCommitsCheck = "warn";
+          apply.whitespace = "error";
+          # FIXME:
           safe.directory = "*";
+          branch.sort = "-committerdate";
+          tag.sort = "-taggerdate";
+          pager = {
+            branch = false;
+            tag = false;
+          };
+          log = {
+            abbrevCommit = true;
+            graphColors = "blue,yellow,cyan,magenta,green,red";
+          };
+          core = {
+            compression = 9;
+            whitespace = "blank-at-eof,blank-at-eol,space-before-tab,trailing-space,tabwidth=${toString config.programs.nixvim.opts.tabstop}";
+            preloadindex = true;
+          };
+          advice = {
+            addEmptyPathspec = false;
+            pushNonFastForward = false;
+            statusHints = false;
+          };
+          url = {
+            "git@github.com:${usr.devName}/" = {
+              insteadOf = "gh:";
+            };
+            "git@gitlab.com:${usr.devName}/" = {
+              insteadOf = "gl:";
+            };
+          };
         }
       ];
       diff-so-fancy = {
@@ -113,6 +155,9 @@ in
         commit-msg = ./commit-msg;
         prepare-commit-msg = ./prepare-commit-msg;
       };
+      # TODO:
+      # https://github.com/gitattributes/gitattributes/tree/master
+      attributes = [ ];
     };
   };
 }
