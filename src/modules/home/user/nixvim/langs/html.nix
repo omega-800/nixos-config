@@ -10,7 +10,11 @@ in
     plugins = {
       lsp.servers = mkIf plugins.lsp.enable {
         html.enable = true;
-        htmx.enable = true;
+        htmx = {
+          enable = true;
+          # FIXME: 
+          autostart = false;
+        };
       };
       none-ls.sources = mkIf plugins.none-ls.enable {
         formatting.htmlbeautifier.enable = true;

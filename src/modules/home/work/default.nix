@@ -1,6 +1,7 @@
 {
   imports = [
     ./work.nix
-    ./remmina.nix
+    ./rdp.nix
+    ./eclipse.nix
   ];
 }

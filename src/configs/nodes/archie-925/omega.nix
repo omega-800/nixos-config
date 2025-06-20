@@ -20,8 +20,7 @@
       # wm = "sway";
       shell = pkgs.zsh;
       extraBloat = true;
-      # theme = "uwunicorn";
-      theme = "spaceduck";
+      theme = "ayu-dark";
       termColors = {
         c1 = "35";
         c2 = "91";

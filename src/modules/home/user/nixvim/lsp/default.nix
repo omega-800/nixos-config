@@ -53,7 +53,10 @@ in
               };
             };
             lspBuf = {
-              "K" = "hover";
+              "K" = {
+                action = "hover";
+                desc = "Hover";
+              };
               "gd" = {
                 action = "definition";
                 desc = "Go to definition";

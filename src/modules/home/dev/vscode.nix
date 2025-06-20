@@ -327,13 +327,14 @@ in
           # bloat
           "javascript.updateImportsOnFileMove.enabled" = "never";
           "typescript.updateImportsOnFileMove.enabled" = "never";
-          # "typescript.tsserver.log" = "verbose";
+          #"typescript.tsserver.log" = "verbose";
           "typescript.tsserver.maxTsServerMemory" = 4096;
           "typescript.disableAutomaticTypeAcquisition" = true;
           "typescript.tsserver.useSeparateProcess" = true;
           "extensions.allowed" = {
             "*" = true;
             "vscode.ipynb" = false;
+            "vscode.cpp" = false;
             "vscode.builtin-notebook-renderers" = false;
             "vscode.emmet" = false;
             "vscode.extension-editing" = false;

@@ -9,6 +9,7 @@
     # completeopt = [ "menu" "menuone" "noselect" ];
     updatetime = 50; # Faster completion
     exrc = true;
+    secure = true;
 
     number = true;
     relativenumber = true;

@@ -257,6 +257,19 @@
           end
         '';
       }
+        /*
+      {
+        desc = "quickfix mappings";
+        event = "FileType";
+        pattern = "qf";
+        callback.__raw = ''
+          function()
+            vim.keymap.set("n", "K", "<cmd>cprev<cr>zz<C-w>w", { buffer = event.buf, silent = true, noremap = true })
+            vim.keymap.set("n", "J", "<cmd>cnext<cr>zz<C-w>w", { buffer = event.buf, silent = true, noremap = true })
+          end
+        '';
+      }
+        */
       {
         desc = "Close these type of File";
         event = [ "FileType" ];

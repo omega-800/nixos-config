@@ -11,6 +11,10 @@ in
   programs.nixvim = {
     keymaps = keyG "<leader>c" "context" [
       (key "n" "o" "<CMD>TSContextToggle<CR>" "Toggle Treesitter context")
+      (key "n" "n" "<CMD>cnext<CR>" "Next quickfix")
+      (key "n" "p" "<CMD>cprev<CR>" "Previous quickfix")
+      (key "n" "o" "<CMD>copen<CR>" "Open quickfix")
+      (key "n" "c" "<CMD>cclose<CR>" "Close quickfix")
     ];
 
     plugins = {

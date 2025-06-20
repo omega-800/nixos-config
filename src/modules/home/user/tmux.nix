@@ -46,6 +46,8 @@ in
           set -ga update-environment TERM_PROGRAM
 
           set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+          bind N split-window -h -l 3 -b "printf '\e[7;49;${usr.termColors.c1}m\e[0;40;${usr.termColors.c1}m' && echo {200..0} | tr ' ' '\n' && read" \; select-pane -l
         ''
         + (
           if usr.style then

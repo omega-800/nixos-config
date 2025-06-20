@@ -21,6 +21,7 @@ https://github.com/nixcloud/nixcloud-webservices
 
 - nix sops
 - [vault](https://github.com/serokell/vault-secrets)
+- sourcehut
 
 ## general
 

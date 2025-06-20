@@ -31,16 +31,19 @@ in
                 "gql"
                 "html"
               ];
+            disableTsServerFormatter = true;
               settings = # lua
                 ''
                   {
                     filetypes = {
+                    -- nevermind
                       -- "javascript", -- now done by biome
                       -- "javascriptreact", -- now done by biome
                       -- "typescript", -- now done by biome
                       -- "typescriptreact", -- now done by biome
                       -- "json", -- now done by biome
                       -- "jsonc", -- now done by biome
+                    -- nevermind
                       ${optionalString (elem "js" langs) ''
                         "vue",
                       ''}

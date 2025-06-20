@@ -25,6 +25,7 @@ in
       ++ (
         if !usr.minimal then
           [
+            pastel
             yq-go
             qmk
             perl
@@ -43,12 +44,6 @@ in
             qemu
             virt-manager
             ncurses
-            # TODO: put this in a nix-shell
-            # nvm
-            # npm
-            # node
-            # ansible-core
-            # python3
           ]
         else
           [ ]
