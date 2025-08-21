@@ -8,7 +8,13 @@
   ...
 }:
 let
-  inherit (lib) mkOption types mkIf;
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    optionals
+    ;
   cfg = config.u.dev.git;
 in
 {
