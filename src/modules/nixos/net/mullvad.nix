@@ -2,17 +2,14 @@
   lib,
   config,
   pkgs,
-  usr,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.m.net.vpn.mullvad;
 in
 {
-  options.m.net.vpn.mullvad = {
-    enable = mkEnableOption "enables mullvad";
-  };
+  options.m.net.vpn.mullvad.enable = mkEnableOption "mullvad";
 
   config = mkIf cfg.enable {
 

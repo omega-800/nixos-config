@@ -21,7 +21,7 @@
             description = "list of devices to use for the pool";
           };
           # TODO: make opt-out, implement
-          encrypt = lib.mkEnableOption "encrypts pool";
+          encrypt = lib.mkEnableOption "pool encryption";
           keylocation = mkOption {
             type = types.nonEmptyStr;
             default = "file://${config.sops.secrets."hosts/default/disk".path}";

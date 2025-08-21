@@ -5,14 +5,12 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.u.file;
 in
 {
-  options.u.file = {
-    enable = mkEnableOption "enables file packages";
-  };
+  options.u.file.enable = mkEnableOption "file packages";
 
   config = mkIf cfg.enable {
     home.packages =

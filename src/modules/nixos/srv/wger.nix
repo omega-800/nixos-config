@@ -10,7 +10,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.wger.enable = mkEnableOption "Enables wger";
+  options.m.srv.wger.enable = mkEnableOption "wger";
   config = mkIf cfg.enable {
     sops.secrets = {
       "wger/rootpw" = {

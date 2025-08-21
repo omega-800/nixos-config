@@ -17,7 +17,7 @@ let
 in
 {
   options.u.user.dirs = {
-    enable = mkEnableOption "creates directories";
+    enable = mkEnableOption "creating directories";
     extraDirs = mkOption {
       type = types.listOf types.str;
       default = [ ];

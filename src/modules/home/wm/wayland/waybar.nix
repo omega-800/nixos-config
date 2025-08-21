@@ -9,7 +9,7 @@ let
   inherit (lib) mkIf mkEnableOption types;
 in
 {
-  options.u.wm.waybar.enable = mkEnableOption "enables waybar";
+  options.u.wm.waybar.enable = mkEnableOption "waybar";
   config = mkIf cfg.enable {
     programs.waybar = {
       enable = true;

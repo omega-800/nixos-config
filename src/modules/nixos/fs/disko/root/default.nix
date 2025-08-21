@@ -17,7 +17,7 @@ in
       description = "root fs type";
     };
     # FIXME: doesn't work.. grub rescue> disk not found
-    encrypt = lib.mkEnableOption "encrypts root disk";
+    encrypt = lib.mkEnableOption "root disk encryption";
   };
   imports = [
     # FIXME: make this less shit. parts get overridden if parent disk is redefined

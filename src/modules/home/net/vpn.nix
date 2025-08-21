@@ -1,6 +1,6 @@
 { lib, config, ... }:
-with lib;
 let
+  inherit (lib) mkOption mkIf types;
   cfg = config.u.net.vpn;
 in
 {

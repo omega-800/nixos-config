@@ -2,11 +2,10 @@
   usr,
   config,
   lib,
-  pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption mkIf types;
   cfg = config.u.file.lf;
 in
 {

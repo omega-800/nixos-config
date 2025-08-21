@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.dev.android.enable = mkEnableOption "enables android devtools";
+  options.m.dev.android.enable = mkEnableOption "android devtools";
 
   config = mkIf cfg.enable {
     programs.adb.enable = true;

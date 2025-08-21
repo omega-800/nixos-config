@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.sw.miracast.enable = mkEnableOption "enables miracast";
+  options.m.sw.miracast.enable = mkEnableOption "miracast";
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ gnome-network-displays ];

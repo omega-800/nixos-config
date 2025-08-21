@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.grafana.enable = mkEnableOption "Enables grafana";
+  options.m.srv.grafana.enable = mkEnableOption "grafana";
   config = mkIf cfg.enable {
     services.grafana = {
       enable = true;

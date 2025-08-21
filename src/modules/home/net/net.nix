@@ -11,7 +11,7 @@ let
   inherit (lib) mkEnableOption mkIf optionals;
 in
 {
-  options.u.net.enable = mkEnableOption "enables net packages";
+  options.u.net.enable = mkEnableOption "net packages";
 
   config = mkIf cfg.enable {
     home.packages =

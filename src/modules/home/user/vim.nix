@@ -4,8 +4,8 @@
   usr,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption types mkIf;
   cfg = config.u.user.vim;
 in
 {

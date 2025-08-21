@@ -5,8 +5,13 @@
   usr,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkForce
+    ;
   cfg = config.u.user.kitty;
   # nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
   inherit (pkgs) nixGL;

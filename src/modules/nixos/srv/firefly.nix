@@ -11,7 +11,7 @@ in
 {
   # wtf
   # error: attribute '"firefly/appkey"' missing
-  options.m.srv.firefly.enable = mkEnableOption "Enables firefly";
+  options.m.srv.firefly.enable = mkEnableOption "firefly";
   # config = mkIf cfg.enable {
   #   sops.secrets = {
   #     "firefly/appkey" = { };

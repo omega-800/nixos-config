@@ -5,8 +5,8 @@
   lib,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption types mkIf;
   cfg = config.u.file.trash;
 
   trashScript = "${pkgs.writeScript "clear_trash" (builtins.readFile ./clear-trash.sh)}";

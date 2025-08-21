@@ -1,5 +1,7 @@
 { pkgs, lib, ... }:
-with lib;
+let
+  inherit (lib) mkForce;
+in
 {
   u = {
     dev.enable = mkForce false;

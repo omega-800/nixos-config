@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.acme.enable = mkEnableOption "Enables acme";
+  options.m.srv.acme.enable = mkEnableOption "acme";
   config = mkIf cfg.enable {
     sops.secrets = {
       "duckdns/token" = { };

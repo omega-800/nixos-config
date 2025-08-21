@@ -7,18 +7,16 @@
   globals,
   ...
 }:
-with lib;
 with globals.envVars;
 let
+  inherit (lib) mkEnableOption mkIf getName;
   cfg = config.u.dev;
 in
 {
-  options.u.dev = {
-    enable = mkEnableOption "enables dev packages";
-  };
+  options.u.dev.enable = mkEnableOption "dev packages";
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "ciscoPacketTracer8" ];
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.packages =
       with pkgs;
       [ jq ]
@@ -51,7 +49,7 @@ in
       ++ (
         if usr.extraBloat && sys.profile == "pers" then
           [
-            # ciscoPacketTracer8 
+            # ciscoPacketTracer8
           ]
         else
           [ ]

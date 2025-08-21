@@ -17,7 +17,7 @@ let
 in
 {
   options.services.swhkd = {
-    enable = mkEnableOption (lib.mdDoc "simple wayland hotkey daemon");
+    enable = mkEnableOption "simple wayland hotkey daemon";
     package = mkPackageOption pkgs "swhkd" { };
     installManpages = mkOption {
       type = lib.types.bool;

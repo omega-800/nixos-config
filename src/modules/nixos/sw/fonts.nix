@@ -11,7 +11,7 @@ let
   inherit (lib) mkEnableOption mkIf mkMerge;
 in
 {
-  options.m.sw.fonts.enable = mkEnableOption "enables fancyfonts";
+  options.m.sw.fonts.enable = mkEnableOption "fancyfonts";
 
   config = mkMerge [
     (mkIf cfg.enable {

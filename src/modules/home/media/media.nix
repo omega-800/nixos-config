@@ -1,21 +1,17 @@
 {
   usr,
-  sys,
   lib,
   config,
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.u.media;
-  # nixGL = import ../nixGL/nixGL.nix {inherit config pkgs;};
   inherit (pkgs) nixGL;
 in
 {
-  options.u.media = {
-    enable = mkEnableOption "enables media packages";
-  };
+  options.u.media.enable = mkEnableOption "media packages";
 
   config = mkIf cfg.enable {
     home.packages =

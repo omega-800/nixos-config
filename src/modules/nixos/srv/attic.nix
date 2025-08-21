@@ -12,7 +12,7 @@
   in
   {
     imports = [ inputs.attic.nixosModules.atticd ];
-    options.m.srv.attic.enable = mkEnableOption "Enables attic";
+    options.m.srv.attic.enable = mkEnableOption "attic";
     config = mkIf cfg.enable {
       services.atticd = {
         enable = true;

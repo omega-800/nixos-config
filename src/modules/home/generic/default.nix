@@ -7,7 +7,9 @@
   config,
   ...
 }:
-with lib;
+let
+  inherit (lib) mkIf;
+in
 {
   config = mkIf sys.genericLinux {
     #   home.file."system_installer.sh" = {
@@ -33,9 +35,7 @@ with lib;
         xdg-utils
       ])
       ++ (
-        if
-          usr.wmType == "x11"
-        then
+        if usr.wmType == "x11" then
           (with pkgs.xorg; [
             #xorgserver
             xset

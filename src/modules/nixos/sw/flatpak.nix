@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.sw.flatpak.enable = mkEnableOption "enables flatpak";
+  options.m.sw.flatpak.enable = mkEnableOption "flatpak";
 
   config = mkIf cfg.enable {
     services.flatpak.enable = true;

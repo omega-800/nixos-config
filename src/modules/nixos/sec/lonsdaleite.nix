@@ -15,7 +15,7 @@ in
   /*
     imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
 
-    options.m.sec.lon.enable = mkEnableOption "Enables lonsdaleite";
+    options.m.sec.lon.enable = mkEnableOption "lonsdaleite";
 
     config = mkIf cfg.enable {
       lonsdaleite = {

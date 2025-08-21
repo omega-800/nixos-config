@@ -5,10 +5,14 @@
   usr,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkForce
+    ;
   cfg = config.u.user.alacritty;
-  # nixGL = import ../../nixGL/nixGL.nix {inherit config pkgs;};
   inherit (pkgs) nixGL;
   package = nixGL pkgs.alacritty;
 in

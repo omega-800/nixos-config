@@ -6,8 +6,8 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) types mkIf mkOption;
   cfg = config.u.dev.vscode;
 in
 {
@@ -52,32 +52,27 @@ in
           {
             "key" = "a";
             "command" = "explorer.newFile";
-            "when" =
-              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "f";
             "command" = "explorer.newFolder";
-            "when" =
-              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "r";
             "command" = "renameFile";
-            "when" =
-              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "d";
             "command" = "deleteFile";
-            "when" =
-              "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
+            "when" = "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
           }
           {
             "key" = "x";
             "command" = "filesExplorer.cut";
-            "when" =
-              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "y";

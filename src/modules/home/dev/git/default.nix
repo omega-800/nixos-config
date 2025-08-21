@@ -7,8 +7,8 @@
   globals,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkOption types mkIf;
   cfg = config.u.dev.git;
 in
 {

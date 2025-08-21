@@ -12,13 +12,13 @@ let
 in
 {
   options.m.dev.virt = {
-    enable = mkEnableOption "enables virtualization";
-    distrobox.enable = mkEnableOption "enables distrobox";
+    enable = mkEnableOption "virtualization";
+    distrobox.enable = mkEnableOption "distrobox";
   };
 
   config = mkIf cfg.enable {
     environment = {
-      systemPackages = mkIf (cfg.distrobox.enable) (with pkgs; [ distrobox ]);
+      systemPackages = mkIf cfg.distrobox.enable (with pkgs; [ distrobox ]);
 
       persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
         "/nix/persist".directories = [

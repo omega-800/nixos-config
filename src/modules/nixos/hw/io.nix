@@ -14,12 +14,12 @@ let
 in
 {
   options.m.hw.io = {
-    enable = mkEnableOption "enables input";
-    tablet.enable = mkEnableOption "enables touchpad support";
-    touchpad.enable = mkEnableOption "enables touchpad";
-    homeMods.enable = mkDisableOption "enables home modifier keys";
-    vimLayer.enable = mkDisableOption "enables vim layer";
-    swapCaps.enable = mkDisableOption "swaps capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
+    enable = mkEnableOption "input";
+    tablet.enable = mkEnableOption "touchpad support";
+    touchpad.enable = mkEnableOption "touchpad";
+    homeMods.enable = mkDisableOption "home modifier keys";
+    vimLayer.enable = mkDisableOption "vim layer";
+    swapCaps.enable = mkDisableOption "swapping capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = {
     console.keyMap = sys.kbLayout;

@@ -46,7 +46,7 @@ let
 in
 {
   options.m.net.vpn.wg = {
-    enable = mkEnableOption "enables wireguard";
+    enable = mkEnableOption "wireguard";
     ifaces =
       let
         ifaceOpts = types.submodule {
