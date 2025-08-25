@@ -14,7 +14,7 @@ in
   config.programs.nixvim = mkIf enabled {
     plugins = {
       vim-slime = {
-        enable = true;
+        # enable = true;
       };
     };
   };

@@ -20,7 +20,8 @@
       # wm = "sway";
       shell = pkgs.zsh;
       extraBloat = true;
-      theme = "ayu-dark";
+      # theme = "ayu-dark";
+      theme = "black-metal-burzum";
       termColors = {
         c1 = "35";
         c2 = "91";

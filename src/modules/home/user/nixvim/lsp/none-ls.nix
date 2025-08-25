@@ -36,16 +36,14 @@ in
                 ''
                   {
                     filetypes = {
-                    -- nevermind
-                      -- "javascript", -- now done by biome
-                      -- "javascriptreact", -- now done by biome
-                      -- "typescript", -- now done by biome
-                      -- "typescriptreact", -- now done by biome
-                      -- "json", -- now done by biome
-                      -- "jsonc", -- now done by biome
-                    -- nevermind
                       ${optionalString (elem "js" langs) ''
                         "vue",
+                        "javascript", -- now done by biome (nope) 
+                        "javascriptreact", -- now done by biome (nope) 
+                        "typescript", -- now done by biome (nope)
+                        "typescriptreact", -- now done by biome (nope)
+                        "json", -- now done by biome (nope)
+                        "jsonc", -- now done by biome (nope)
                       ''}
                       ${optionalString (elem "css" langs) ''
                         "css",

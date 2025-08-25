@@ -92,7 +92,7 @@ in
       ]);
     plugins = {
       lsp.servers = mkIf plugins.lsp.enable {
-        volar.enable = true;
+        # volar.enable = true;
         jsonls.enable = true;
         ts_ls = {
           inherit filetypes;
@@ -120,7 +120,7 @@ in
         };
       };
       none-ls.sources = mkIf plugins.none-ls.enable {
-        formatting.biome.enable = true;
+        formatting.biome.enable = false;
       };
       dap = {
         adapters = {
