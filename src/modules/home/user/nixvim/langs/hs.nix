@@ -8,7 +8,7 @@ in
 {
   config.programs.nixvim = mkIf enabled {
     plugins = {
-      haskell-scope-highlighting.enable = true;
+      # haskell-scope-highlighting.enable = true;
       lsp.servers = mkIf plugins.lsp.enable {
         hls = {
           enable = true;
