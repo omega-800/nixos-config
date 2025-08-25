@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.sw.steam.enable = mkEnableOption "enables steam";
+  options.m.sw.steam.enable = mkEnableOption "steam";
 
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate =

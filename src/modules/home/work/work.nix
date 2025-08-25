@@ -9,7 +9,7 @@ let
   cfg = config.u.work;
 in
 {
-  options.u.work.enable = mkEnableOption "enables work packages";
+  options.u.work.enable = mkEnableOption "work packages";
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [

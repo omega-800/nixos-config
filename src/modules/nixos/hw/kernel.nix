@@ -47,9 +47,9 @@ in
   # copied into this config
   # imports = if sys.paranoid then [ "${modulesPath}/profiles/hardened.nix" ] else [ ];
   options.m.hw.kernel = {
-    zen = mkEnableOption "enables zen kernel. harden.enable overrides this option to false";
+    zen = mkEnableOption "zen kernel. harden.enable overrides this option to false";
     hardened = {
-      enable = mkEnableOption "hardens kernel";
+      enable = mkEnableOption "hardening kernel";
     };
     swappiness = mkOption {
       type = types.number;

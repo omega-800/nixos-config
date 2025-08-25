@@ -10,7 +10,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.nextcloud.enable = mkEnableOption "Enables nextcloud";
+  options.m.srv.nextcloud.enable = mkEnableOption "nextcloud";
   config = mkIf cfg.enable {
     sops.secrets = {
       "nextcloud/rootpw" = {

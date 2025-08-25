@@ -16,7 +16,7 @@ let
 in
 {
   options.m.fs.dirs = {
-    enable = mkEnableOption "enables creation of directories";
+    enable = mkEnableOption "creation of directories";
     extraDirs = mkOption {
       type = listOf (submodule {
         options = {

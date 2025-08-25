@@ -11,9 +11,9 @@ let
 in
 {
   options.m.hw.audio = {
-    enable = mkEnableOption "enables audio";
-    pipewire = mkEnableOption "enables pipewire, pulseaudio otherwise";
-    bluetooth = mkEnableOption "enables bluetooth";
+    enable = mkEnableOption "audio";
+    pipewire = mkEnableOption "pipewire, pulseaudio otherwise";
+    bluetooth = mkEnableOption "bluetooth";
   };
 
   config = mkIf cfg.enable (mkMerge [

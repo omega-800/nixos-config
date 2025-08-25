@@ -5,12 +5,12 @@
   usr,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.m.dev.docker;
 in
 {
-  options.m.dev.docker.enable = mkEnableOption "enables docker";
+  options.m.dev.docker.enable = mkEnableOption "docker";
 
   config = mkIf cfg.enable {
     virtualisation.docker = {
@@ -20,7 +20,7 @@ in
     };
     users.users.${usr.username}.extraGroups = [ "docker" ];
     environment = {
-      persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+      persistence = mkIf config.m.fs.disko.root.impermanence.enable {
         "/nix/persist".directories = [
           # putting lxd here to not forget that it exists
           "/var/lib/lxd"

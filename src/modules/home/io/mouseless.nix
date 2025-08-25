@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.u.io.mouseless.enable = mkEnableOption "Enables mouse movements through keyboard input";
+  options.u.io.mouseless.enable = mkEnableOption "mouse movements through keyboard input";
   config = mkIf cfg.enable {
     home = {
       packages = [ pkgs.nur.repos.wolfangaukang.mouseless ];

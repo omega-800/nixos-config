@@ -17,9 +17,9 @@ let
 in
 {
   options.m.dev.tools = {
-    enable = mkEnableOption "enables devtools";
-    disable = mkEnableOption "disables devtools completely";
-    zen-browser.enable = mkEnableOption "enables zen-browser";
+    enable = mkEnableOption "devtools";
+    disable = mkEnableOption "disabling devtools completely";
+    zen-browser.enable = mkEnableOption "zen-browser";
   };
 
   config = mkMerge [

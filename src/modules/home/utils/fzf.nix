@@ -1,6 +1,6 @@
 { lib, config, ... }:
-with lib;
 let
+  inherit (lib) mkOption types mkIf;
   cfg = config.u.utils.fzf;
 in
 {

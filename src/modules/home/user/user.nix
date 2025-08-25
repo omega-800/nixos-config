@@ -10,7 +10,7 @@ let
   cfg = config.u.user;
 in
 {
-  options.u.user.enable = mkEnableOption "enables userspace packages";
+  options.u.user.enable = mkEnableOption "userspace packages";
 
   config = mkIf cfg.enable {
     home.packages =

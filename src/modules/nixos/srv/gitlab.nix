@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.gitlab.enable = mkEnableOption "Enables gitlab";
+  options.m.srv.gitlab.enable = mkEnableOption "gitlab";
   # config = mkIf cfg.enable {
   #   sops.secrets = {
   #     "gitlab/rootpw" = { };

@@ -5,14 +5,12 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.u.utils;
 in
 {
-  options.u.utils = {
-    enable = mkEnableOption "enables essential packages";
-  };
+  options.u.utils.enable = mkEnableOption "essential packages";
 
   config = mkIf cfg.enable {
     home.packages =

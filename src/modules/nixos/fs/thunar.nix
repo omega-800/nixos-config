@@ -8,7 +8,7 @@ let
   cfg = config.m.fs.thunar;
 in
 {
-  options.m.fs.thunar.enable = lib.mkEnableOption "enables thunar";
+  options.m.fs.thunar.enable = lib.mkEnableOption "thunar";
   config = lib.mkIf cfg.enable {
     programs = {
       thunar = {

@@ -2,17 +2,14 @@
   lib,
   config,
   pkgs,
-  usr,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.m.net.vpn.openvpn;
 in
 {
-  options.m.net.vpn.openvpn = {
-    enable = mkEnableOption "enables openvpn";
-  };
+  options.m.net.vpn.openvpn.enable = mkEnableOption "openvpn";
 
   config = mkIf cfg.enable {
     /*

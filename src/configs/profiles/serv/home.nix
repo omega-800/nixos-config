@@ -1,10 +1,11 @@
 {
   globals,
   lib,
-  usr,
   ...
 }:
-with lib;
+let
+  inherit (lib) mkDefault;
+in
 {
   imports = [ ];
   u = {

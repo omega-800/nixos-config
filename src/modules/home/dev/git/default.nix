@@ -7,8 +7,14 @@
   globals,
   ...
 }:
-with lib;
 let
+  inherit (lib)
+    mkOption
+    types
+    mkIf
+    mkMerge
+    optionals
+    ;
   cfg = config.u.dev.git;
 in
 {

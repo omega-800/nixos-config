@@ -4,7 +4,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.m.srv.http.enable = mkEnableOption "Enables http server";
+  options.m.srv.http.enable = mkEnableOption "http server";
   config = mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [
       80

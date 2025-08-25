@@ -1,7 +1,9 @@
 { lib, ... }:
-with lib;
+let
+  inherit (lib) mkEnableOption omega;
+in
 {
   options.u.custom = {
-    enable = mkEnableOption "enables custom pkgs";
-  } // lib.omega.dirs.mapFilterDir (n: { enable = mkEnableOption "enables ${n}"; }) (n: v: true) ./.;
+    enable = mkEnableOption "custom pkgs";
+  } // omega.dirs.mapFilterDir (n: { enable = mkEnableOption n; }) (_: _: true) ./.;
 }

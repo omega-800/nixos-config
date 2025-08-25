@@ -11,7 +11,7 @@ let
   inherit (lib) mkEnableOption types mkIf;
 in
 {
-  options.m.dev.mysql.enable = mkEnableOption "enables mysql";
+  options.m.dev.mysql.enable = mkEnableOption "mysql";
 
   config = mkIf cfg.enable {
     services.mysql = {

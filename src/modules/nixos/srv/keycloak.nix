@@ -35,7 +35,7 @@ let
   };
 in
 {
-  options.m.srv.keycloak.enable = mkEnableOption "Enables keycloak";
+  options.m.srv.keycloak.enable = mkEnableOption "keycloak";
   config = mkIf cfg.enable {
     sops.secrets = {
       "keycloak/db" = { };

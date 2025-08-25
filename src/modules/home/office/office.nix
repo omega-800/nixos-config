@@ -12,7 +12,7 @@ let
 in
 {
   options.u.office = {
-    enable = mkEnableOption "enables office packages";
+    enable = mkEnableOption "office packages";
   };
 
   config = mkIf cfg.enable {
