@@ -62,7 +62,7 @@ in
       nameValuePair "borgbackup-job-${name}" {
         unitConfig.OnFailure = "notify-problems@%i.service";
         preStart = lib.mkBefore ''
-          until /run/wrappers/bin/ping little-fella.home.lan -c1 -q >/dev/null; do :; done
+          until ping little-fella.home.lan -c1 -q >/dev/null; do :; done
         '';
       }
     );
