@@ -45,7 +45,7 @@ in
       # extraConfig = ''
       #   allow-loopback-pinentry
       # '';
-      pinentryPackage = pkgs.pinentry-tty;
+      pinentry.package = pkgs.pinentry-tty;
       grabKeyboardAndMouse = true;
     };
     home.packages = with pkgs; [ git-secrets ] ++ (optionals (!usr.minimal) [ lazygit ]);

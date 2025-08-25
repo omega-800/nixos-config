@@ -26,7 +26,7 @@ in
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)
-        (nixGL vieb)
+        # (nixGL vieb)
       ]);
     programs.rtorrent = mkIf usr.extraBloat {
       enable = true;

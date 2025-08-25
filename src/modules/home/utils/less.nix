@@ -16,7 +16,7 @@ in
   config = mkIf cfg.enable {
     programs.less = {
       enable = true;
-      keys = ''
+      config = ''
         s        back-line
         t        forw-line
       '';

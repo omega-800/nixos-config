@@ -31,7 +31,7 @@ in
       dap = {
         adapters = {
           executables = {
-            lldb.command = lib.getExe' pkgs.lldb_17 "lldb-vscode";
+            lldb.command = lib.getExe' pkgs.lldb "lldb-vscode";
             gdb = {
               command = "gdb";
               args = [

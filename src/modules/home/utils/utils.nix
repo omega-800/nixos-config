@@ -41,7 +41,6 @@ in
             bat
             freecad
             vulnix
-            thefuck
             screenkey
             cloc
             gnused

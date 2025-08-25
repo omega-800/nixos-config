@@ -44,9 +44,14 @@ in
       kanata = mkIf (hm || vl || sc) {
         enable = true;
         keyboards.dactyl = {
-          devices = [
-            "/dev/input/by-id/usb-tshort_Dactyl_Manuform_4x6_5_thumb_keys-event-if01"
-            "/dev/input/by-id/usb-tshort_Dactyl_Manuform_4x6_5_thumb_keys-event-kbd"
+
+          devices = map (id: "/dev/input/by-id/${id}") [
+            "usb-tshort_Dactyl_Manuform_4x6_5_thumb_keys-event-if01"
+            "usb-tshort_Dactyl_Manuform_4x6_5_thumb_keys-event-kbd"
+
+            "usb-tshort_Dactyl_Manuform_4x5_5_thumb_keys-event-if01"
+            "usb-tshort_Dactyl_Manuform_4x5_5_thumb_keys-event-kbd"
+            "usb-tshort_Dactyl_Manuform_4x5_5_thumb_keys-if01-event-joystick"
           ];
 
           extraDefCfg = "process-unmapped-keys yes";
@@ -64,10 +69,10 @@ in
             '';
         };
         keyboards.main = {
-          devices = [
-            "/dev/input/by-path/pci-0000:00:1f.3-platform-skl_hda_dsp_generic-event"
-            "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-            "/dev/input/by-path/platform-INT33D5:00-event"
+          devices = map (p: "/dev/input/by-path/${p}") [
+            "pci-0000:00:1f.3-platform-skl_hda_dsp_generic-event"
+            "platform-i8042-serio-0-event-kbd"
+            "platform-INT33D5:00-event"
           ];
 
           extraDefCfg = "process-unmapped-keys yes";

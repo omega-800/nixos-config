@@ -104,7 +104,7 @@ in
               sway.enable = true;
               swaylock = {
                 enable = true;
-                useImage = true;
+                useWallpaper = true;
               };
               firefox = {
                 enable = true;

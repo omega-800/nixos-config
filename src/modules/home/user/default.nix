@@ -9,7 +9,6 @@
     ./user.nix
     ./tmux.nix
     ./vim.nix
-    ./dirs.nix
     ./pass.nix
     ./term
     ./nixvim

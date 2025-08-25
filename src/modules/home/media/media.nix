@@ -44,6 +44,7 @@ in
     programs = mkIf usr.extraBloat {
       ncspot = {
         enable = true;
+        # package = pkgs.ncspot.override { withNcurses = true; };
         settings = {
           # use_nerdfont = true;
           # notify = true;

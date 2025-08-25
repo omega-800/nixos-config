@@ -37,13 +37,13 @@ in
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
           user = "greeter";
         };
       };
     };
 
-    environment.systemPackages = with pkgs; [ greetd.tuigreet ];
+    environment.systemPackages = with pkgs; [ tuigreet ];
     # failed attempt at solution below
     # boot.kernel.sysctl = { "kernel.printk" = "3 3 3 3"; };
     # this is a life saver.
