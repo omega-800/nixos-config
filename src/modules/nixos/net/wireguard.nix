@@ -118,7 +118,7 @@ in
 
     networking.firewall.allowedUDPPorts = map (i: i.value.port) (attrsToList cfg.ifaces);
 
-    sops.secrets = mapAttrs' (n: v: nameValuePair "wg/${n}/privateKey" { }) cfg.ifaces;
+    sops.secrets = mapAttrs' (n: _: nameValuePair "wg/${n}/privateKey" { }) cfg.ifaces;
 
     # prevent autostarting
     systemd.services = flatMapToAttrs (i: [

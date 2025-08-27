@@ -1,29 +1,29 @@
 {
   lib,
   config,
-  pkgs,
+  usr,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.m.net.vpn.openvpn;
+  cfg = config.m.net.vpn.openconnect;
 in
 {
-  options.m.net.vpn.openvpn.enable = mkEnableOption "openvpn";
+  options.m.net.vpn.openconnect.enable = mkEnableOption "openconnect";
 
   config = mkIf cfg.enable {
-    /*
-      services.openvpn.servers = {
-        officeVPN = {
-          config = '' config ${./vpn_work.conf} '';
-          updateResolvConf = true;
+    sops.secrets."school/vpn" = { };
+
+    networking.openconnect = {
+      interfaces = {
+        school = {
+          passwordFile = config.sops.secrets."school/vpn";
+          gateway = "vpn.ost.ch";
+          autoStart = false;
+          user = usr.devEmail;
+          protocol = "anyconnect";
         };
       };
-    */
-
-    environment = {
-      systemPackages = [ pkgs.openvpn ];
-      etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
     };
   };
 }
