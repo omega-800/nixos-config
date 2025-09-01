@@ -3,7 +3,7 @@
   config.c = {
     net.id = 69;
     sys = {
-      profile = "pers";
+      profile = "school";
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;

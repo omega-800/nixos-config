@@ -30,7 +30,7 @@ in
       noptions = "nix eval ${NIXOS_CONFIG}#nixosConfigurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' | sort";
       ndx = ''nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace -b backup";
-      nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --use-remote-sudo -b backup";
+      nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --sudo";
       nps = "nix repl --expr 'import <nixpkgs>{}'";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
