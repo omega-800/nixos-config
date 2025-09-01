@@ -5,8 +5,10 @@
     sys = {
       profile = "pers";
       system = "x86_64-linux";
-      genericLinux = true;
+      genericLinux = false;
       stable = false;
+# FIXME: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhh
+hardened = false;
       flavors = [
         "developer"
         "master"

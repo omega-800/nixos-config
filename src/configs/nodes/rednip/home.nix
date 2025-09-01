@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
+#  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
 }

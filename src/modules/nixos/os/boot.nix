@@ -62,43 +62,66 @@ in
     })
     {
       # Bootloader
-      boot.loader = {
-        #TODO: figure out how syslinux works
-        # Enables the generation of /boot/extlinux/extlinux.conf
-        generic-extlinux-compatible.enable = cfg.mode == "ext";
+      boot = {
+        initrd.kernelModules = mkIf (cfg.mode == "uefi") [ "vfat" 
+# TODO: remove
+        "dm-snapshot"
+        # Kernel modules needed for mounting USB VFAT devices in initrd stage
+        "uas"
+        "usbcore"
+        "usb_storage"
+        "vfat"
+        "nls_cp437"
+        "nls_iso8859_1"
+];
+# TODO: remove
+      initrd.availableKernelModules = [
+        "xhci_pci"
+        "nvme"
+        "usb_storage"
+        "sd_mod"
+        # makes decryption faster? idk
+        "aesni_intel"
+        "cryptd"
+      ];
+	loader = {
+          #TODO: figure out how syslinux works
+          # Enables the generation of /boot/extlinux/extlinux.conf
+          generic-extlinux-compatible.enable = cfg.mode == "ext";
 
-        # Use systemd-boot if uefi
-        systemd-boot = {
-          inherit configurationLimit;
-          enable = cfg.mode == "uefi";
-        };
-        efi = {
-          canTouchEfiVariables = cfg.mode == "uefi";
-          # does nothing if running bios rather than uefi
-          efiSysMountPoint = cfg.efiPath;
-        };
-        # grub.efiInstallAsRemovable = true;
-        # grub.efiSupport = true;
-        grub =
-          let
-            d = config.m.fs.disko;
-          in
-          {
+          # Use systemd-boot if uefi
+          systemd-boot = {
             inherit configurationLimit;
-            enable = cfg.mode == "bios";
-            enableCryptodisk = d.enable && d.root.encrypt;
-            zfsSupport =
-
-              d.enable && omega.misc.poolsContainFs "zfs" d;
-            device = cfg.grubDevice; # does nothing if running uefi rather than bios
-            # otherwise devices get duplicated?
-            devices = lib.optionals config.m.fs.disko.enable (lib.mkForce [ cfg.grubDevice ]);
-            useOSProber = true;
-            # FIXME: enable this again
-            # users = mkIf sys.hardened {
-            #   root.hashedPasswordFile = config.users.users.root.hashedPasswordFile;
-            # };
+            enable = cfg.mode == "uefi";
           };
+          efi = {
+            canTouchEfiVariables = cfg.mode == "uefi";
+            # does nothing if running bios rather than uefi
+            efiSysMountPoint = cfg.efiPath;
+          };
+          # grub.efiInstallAsRemovable = true;
+          # grub.efiSupport = true;
+          grub =
+            let
+              d = config.m.fs.disko;
+            in
+            {
+              inherit configurationLimit;
+              enable = cfg.mode == "bios";
+              enableCryptodisk = d.enable && d.root.encrypt;
+              zfsSupport =
+
+                d.enable && omega.misc.poolsContainFs "zfs" d;
+              device = cfg.grubDevice; # does nothing if running uefi rather than bios
+              # otherwise devices get duplicated?
+              devices = lib.optionals config.m.fs.disko.enable (lib.mkForce [ cfg.grubDevice ]);
+              useOSProber = true;
+              # FIXME: enable this again
+              # users = mkIf sys.hardened {
+              #   root.hashedPasswordFile = config.users.users.root.hashedPasswordFile;
+              # };
+            };
+        };
       };
     }
   ];

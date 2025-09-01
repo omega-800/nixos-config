@@ -5,8 +5,10 @@
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-w520
+    ./hardware-configuration.nix
   ];
   m = {
+/*
     fs.disko = {
       enable = true;
       root = {
@@ -15,7 +17,8 @@
         impermanence.enable = false;
       };
     };
-    os.boot.mode = "bios";
+*/
+    os.boot.mode = "uefi";
   };
   nixpkgs.config = {
     allowUnfreePredicate = _: false;

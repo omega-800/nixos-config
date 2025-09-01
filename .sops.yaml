@@ -1,9 +1,11 @@
 keys:
   - &primary age12u9y6zt83uztxczeykcte4ta60yagye6d89tgrr52jeq5csnpy8qadnlz9
   - &primaryssh age1ueeuvc0mp4g8q78dastadre87cmkvmw559xufsg4kl8xvtw4lvvsrcyqy4
+  - &rednip age129eflkta43sx7zn7jghz4c0ngrd9s237qqedef2re76ryrxkdessh9e8kh
 creation_rules:
   - path_regex: src/secrets/secrets.yaml$
     key_groups:
     - age:
       - *primary
       - *primaryssh
+      - *rednip

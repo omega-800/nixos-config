@@ -26,7 +26,7 @@ in
         # HTML5 Video Playing Tools
         (pkgs.fetchurl {
           url="https://update.greasyfork.org/scripts/30545/HTML5%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%B7%A5%E5%85%B7.user.js";
-          sha256="sha256-/C2IWVNYAAplAUaDhY0bkavdR0UjX0rqtYUDXDOpNE4=";
+          sha256="sha256-LQEaLMsKQKS47MScYcr3ubdmI0VnvqZQq0YxOUrZ4DU=";
         })
         # youtube-adb
         (pkgs.fetchurl {
