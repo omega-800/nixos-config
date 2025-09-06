@@ -7,18 +7,20 @@
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
-# FIXME: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhh
-hardened = false;
+      # FIXME: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhh
+      hardened = false;
       flavors = [
         "developer"
         "master"
       ];
     };
     usr = {
+      devName = "omega";
+      devEmail = "georgiy.shevoroshkin@ost.ch";
       wm = "dwm";
       shell = pkgs.zsh;
       term = "kitty";
-      extraBloat = false;
+      extraBloat = true;
       theme = "thinkpad";
       termColors = {
         c1 = "31";

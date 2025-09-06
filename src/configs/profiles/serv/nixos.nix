@@ -44,7 +44,6 @@ in
       vpn = {
         forti.enable = mkDefault false;
         mullvad.enable = mkDefault false;
-        openvpn.enable = mkDefault false;
         wg.enable = mkDefault true;
       };
     };

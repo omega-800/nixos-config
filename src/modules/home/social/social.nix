@@ -11,7 +11,6 @@ let
     mkEnableOption
     mkIf
     getName
-    mkMerge
     ;
   cfg = config.u.social;
 in
@@ -20,11 +19,6 @@ in
 
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "discord" ];
-    home.packages =
-      with pkgs;
-      mkMerge [
-        [ aerc ]
-        (mkIf (usr.extraBloat && sys.profile == "pers") [ discord ])
-      ];
+    home.packages = mkIf (usr.extraBloat && sys.profile == "pers") [ pkgs.discord ];
   };
 }
