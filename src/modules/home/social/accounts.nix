@@ -3,10 +3,20 @@ let
   inherit (builtins) mapAttrs;
 in
 {
-  programs.aerc = {
-    enable = true;
-    extraConfig.general.unsafe-accounts-conf = true;
+  programs = {
+    # qcal.enable = true;
+    khal = {
+      enable = true;
+      # settings.default.default_calendar = "school";
+    };
+    vdirsyncer.enable = true;
+    aerc = {
+      enable = true;
+      extraConfig.general.unsafe-accounts-conf = true;
+    };
   };
+  services.vdirsyncer.enable = true;
+  # TODO: modularize & filter
   accounts = {
     email = {
       maildirBasePath = globals.envVars.MAILPATH;
@@ -50,12 +60,12 @@ in
               aerc = {
                 enable = true;
                 imapAuth = "xoauth2";
-          # https://gitlab.fachschaften.org/nicolas.lenz/nixos/-/blob/main/home/apps/email.nix
-        imapOauth2Params = {
-          client_id="9e5f94bc-e8a4-4e73-b8be-63364c29d753";
-          scope="offline_access https://outlook.office.com/IMAP.AccessAsUser.All";
-          token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
-        };
+                # https://gitlab.fachschaften.org/nicolas.lenz/nixos/-/blob/main/home/apps/email.nix
+                imapOauth2Params = {
+                  client_id = "9e5f94bc-e8a4-4e73-b8be-63364c29d753";
+                  scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All";
+                  token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+                };
               };
               /*
                 imap = {
@@ -67,6 +77,30 @@ in
               */
             };
           };
+    };
+    calendar = {
+      basePath = globals.envVars.CALPATH;
+      accounts = {
+        # TODO: 
+        omega = {
+          primary = true;
+          remote = {
+            type = "google_calendar";
+            passwordCommand = [ "${config.programs.password-store.package}/bin/pass services/google-aerc" ];
+          };
+        };
+        school = {
+          remote = {
+            type = "http";
+            url = "https://unterricht.ost.ch/icalv1/Calendar/66a6d2f6-dcc9-4928-8982-c51ff7200b61#";
+          };
+          # qcal.enable = true;
+          khal.enable = true;
+          vdirsyncer = {
+            enable = true;
+          };
+        };
+      };
     };
   };
 }
