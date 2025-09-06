@@ -9,8 +9,6 @@ in
       vpn = {
         forti.enable = mkDefault true;
         wg.enable = mkDefault true;
-        # wrong one
-        openvpn.enable = mkDefault false;
         mullvad.enable = mkDefault false;
       };
     };

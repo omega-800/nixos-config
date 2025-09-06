@@ -15,6 +15,8 @@ let
     mkIf
     mkForce
     flatten
+    listToAttrs
+    nameValuePair
     concatStringsSep
     ;
   inherit (lib.omega.cfg) getCfgAttrOfAllHosts filterCfgs;
@@ -25,6 +27,10 @@ let
     network
     toStr
     ;
+  wifis = [
+    "net-home"
+    "net-shared"
+  ];
 in
 {
   options.m.net = {
@@ -46,8 +52,47 @@ in
   };
   config = mkMerge [
     (mkIf cfg.wifi.enable {
-      networking.networkmanager.enable = true;
       users.users.${usr.username}.extraGroups = [ "networkmanager" ];
+      sops.secrets = listToAttrs (map (id: nameValuePair "wifi/${id}" { }) wifis);
+      networking.networkmanager = {
+        enable = true;
+        ensureProfiles = {
+          secrets.entries = map (id: {
+            file = config.sops.secrets."wifi/${id}".path;
+            matchId = id;
+            matchType = "wifi";
+            matchSetting = "wifi-security";
+            key = "psk";
+          }) wifis;
+          profiles = listToAttrs (
+            map (
+              id:
+              nameValuePair id {
+                connection = {
+                  inherit id;
+                  type = "wifi";
+                };
+                ipv4 = {
+                  method = "auto";
+                };
+                ipv6 = {
+                  addr-gen-mode = "stable-privacy";
+                  method = "auto";
+                };
+                proxy = { };
+                wifi = {
+                  mode = "infrastructure";
+                  ssid = id;
+                };
+                wifi-security = {
+                  auth-alg = "open";
+                  key-mgmt = "wpa-psk";
+                };
+              }
+            ) wifis
+          );
+        };
+      };
     })
     (mkIf (!usr.minimal) {
       #services.opensnitch.enable = true;
@@ -57,6 +102,7 @@ in
       users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
         getCfgAttrOfAllHosts "net" "pubkeys"
       );
+      # FIXME: i hate myself
       services.openssh.enable = true;
       programs.ssh.askPassword = mkForce "";
       networking = mkMerge [
@@ -72,10 +118,10 @@ in
             )}
           '';
           nameservers = [
-            # Google
-            "8.8.8.8"
             # Cloudflare
             "1.1.1.1"
+            # Google
+            "8.8.8.8"
             # DNSWatch
             "84.200.69.80"
             # Quad9

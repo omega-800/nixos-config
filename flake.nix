@@ -162,10 +162,10 @@
     };
     rust-overlay.url = "github:oxalica/rust-overlay";
     /*
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+      firefox-addons = {
+        url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+        inputs.nixpkgs.follows = "nixpkgs-unstable";
+      };
     */
     scawm-unstable = {
       url = "github:omega-800/scawm";
@@ -221,6 +221,14 @@
     };
 
     # disko.url = "github:nix-community/disko";
+    openconnect-sso-stable = {
+      url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    openconnect-sso-unstable = {
+      url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     nur-stable = {
       url = "github:nix-community/NUR";
