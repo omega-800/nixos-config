@@ -34,6 +34,8 @@ in
     */
     environment.systemPackages = with pkgs; [
       openconnect
+      
+      networkmanagerapplet
       /*
         (inputs.openconnect-sso.packages.${sys.system}.default.overrideAttrs (
           _: _: { dontCheckRuntimeDeps = true; }
@@ -45,7 +47,7 @@ in
       networkmanager = {
         enable = true;
         plugins = with pkgs; [
-          networkmanager-openconnect
+          (networkmanager-openconnect.override { withGnome = true; })
 
           networkmanager-openvpn
           networkmanager-vpnc
@@ -68,14 +70,16 @@ in
             vpn = {
               service-type = "org.freedesktop.NetworkManager.openconnect";
 
-              autoconnect-flags = "0";
-              certsigns-flags = "4";
-              cookie-flags = "0";
+              cookie-flags = "1";
+
+              # autoconnect-flags = "0";
+              # certsigns-flags = "4";
+              # gwcert-flags = "4";
+              # lasthost-flags = "4";
+              # password-flags = "1";
+
               # enable_csd_trojan = "no";
               # gateway-flags = "4";
-              gwcert-flags = "4";
-              lasthost-flags = "4";
-              password-flags = "1";
               # pem_passphrase_fsid = "no";
               # resolve-flags = "2";
               # stoken_source = "disabled";

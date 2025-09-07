@@ -13,6 +13,7 @@ in
   imports = [
     ./keymaps.nix
     ./oil.nix
+    ./vimwiki.nix
     #./firenvim.nix
   ];
   programs.nixvim = {
