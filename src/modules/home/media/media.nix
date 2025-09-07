@@ -23,6 +23,7 @@ in
             bluez-tools
             (nixGL mpv)
             bk
+            jmtpfs
           ]
         else
           [ ]

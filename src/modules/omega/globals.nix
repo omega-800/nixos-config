@@ -27,6 +27,7 @@
     XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
 
     MAILPATH = "${XDG_DOCUMENTS_DIR}/mail";
+    CALPATH = "${XDG_DOCUMENTS_DIR}/cal";
     MEDIA_DIR = "${XDG_DOCUMENTS_DIR}/media";
     MISC_DIR = "${XDG_DOCUMENTS_DIR}/misc";
     GTK2_RC_FILES = lib.mkForce "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";

@@ -15,7 +15,7 @@
     '';
   };
   config.nixpkgs.overlays = [
-    (final: prev: {
+    (_: prev: {
       nixGL = import ./nixGL.nix {
         inherit config;
         pkgs = prev;
