@@ -45,7 +45,7 @@ in
       );
     xdg.configFile."gdu/gdu.yaml" = {
       enable = true;
-      text = with config.lib.stylix.colors; ''
+      text = (if usr.style then (with config.lib.stylix.colors; ''
         style:
           selected-row:
             text-color: "#${base07}"
@@ -60,6 +60,7 @@ in
           header:
             text-color: "#${base07}"
             background-color: "#${base0D}"
+'') else "") + ''
         delete-in-background: true 
         delete-in-parallel: true 
         no-mouse: true
