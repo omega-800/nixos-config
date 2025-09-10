@@ -2,6 +2,7 @@ keys:
   - &primary age12u9y6zt83uztxczeykcte4ta60yagye6d89tgrr52jeq5csnpy8qadnlz9
   - &primaryssh age1ueeuvc0mp4g8q78dastadre87cmkvmw559xufsg4kl8xvtw4lvvsrcyqy4
   - &rednip age1eckgca4vdjflsg6e7uuwc5y5utwx87s59h882u3y308f8m7qjvgs8x9f8j
+  - &gojira age18n2yr5ejex5cxq9rdrsktwmszaz49w2fjca24s7d03yxju5uh97qjfq587
 creation_rules:
   - path_regex: src/secrets/secrets.yaml$
     key_groups:
@@ -9,3 +10,4 @@ creation_rules:
       - *primary
       - *primaryssh
       - *rednip
+      - *gojira
