@@ -14,6 +14,7 @@
       system = "x86_64-linux";
       genericLinux = false;
       paranoid = lib.mkForce false;
+      stable = lib.mkForce false;
       flavors = [
         "child"
         "hoster"

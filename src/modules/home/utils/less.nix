@@ -1,10 +1,11 @@
 {
   lib,
   config,
+sys,
   ...
 }:
 let
-  inherit (lib) mkOption types mkIf;
+  inherit (lib) mkOption types mkIf mkMerge;
   cfg = config.u.utils.less;
 in
 {
@@ -14,12 +15,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.less = {
+    programs.less = mkMerge [{
       enable = true;
+    }
+    (if (!sys.stable) then {
       config = ''
         s        back-line
         t        forw-line
       '';
-    };
+    } else {})];
   };
 }
