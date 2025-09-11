@@ -31,10 +31,13 @@ in
           PASSWORD_STORE_CLIP_TIME = "60";
           PASSWORD_STORE_GENERATED_LENGTH = "32";
         };
+        # TODO: https://github.com/rjekker/pass-extension-meta
         package = pkgs.pass.withExtensions (
           exts: with exts; [
             pass-checkup
             pass-otp
+            pass-update
+            pass-audit
           ]
         );
       };
