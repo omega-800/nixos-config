@@ -17,8 +17,7 @@
     usr = {
       devName = "omega";
       devEmail = "georgiy.shevoroshkin@ost.ch";
-      # wm = "dwm";
-      wm = "sway";
+      wm = "dwm";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;

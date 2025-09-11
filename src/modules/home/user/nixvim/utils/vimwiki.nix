@@ -1,4 +1,4 @@
-{ globals, ... }:
+{ globals, sys, ... }:
 {
   programs.nixvim.plugins = {
     cmp-vimwiki-tags.enable = true;
