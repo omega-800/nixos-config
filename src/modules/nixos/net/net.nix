@@ -57,13 +57,17 @@ in
       networking.networkmanager = {
         enable = true;
         ensureProfiles = {
-          secrets.entries = map (id: {
-            file = config.sops.secrets."wifi/${id}".path;
-            matchId = id;
-            matchType = "wifi";
-            matchSetting = "wifi-security";
-            key = "psk";
-          }) wifis;
+          secrets.entries =
+            if cfg.wifi.enable then
+              (map (id: {
+                file = config.sops.secrets."wifi/${id}".path;
+                matchId = id;
+                matchType = "wifi";
+                matchSetting = "wifi-security";
+                key = "psk";
+              }) wifis)
+            else
+              [ ];
           profiles = listToAttrs (
             map (
               id:

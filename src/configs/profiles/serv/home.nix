@@ -19,7 +19,7 @@ in
     user = {
       enable = mkDefault true;
       vim.enable = mkDefault true;
-      nixvim.enable = mkDefault true;
+      nixvim.enable = mkDefault false;
       dirs = with globals.envVars; {
         enable = mkDefault true;
         extraDirs = mkDefault [
