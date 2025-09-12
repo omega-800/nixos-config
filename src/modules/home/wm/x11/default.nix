@@ -36,6 +36,7 @@ in
         "start-hidden"
       ];
     };
+    # FIXME: put startup stuff into generic config to use for all wm's (nm-applet etc.)
     xdg.configFile."X11/xinitrc".text = ''
       sxhkd &
       xrandr
@@ -48,6 +49,7 @@ in
       # picom & # is running as systemd service now
       systemctl --user import-environment DISPLAY
       dunst &
+      nm-applet &
       # exec --no-startup-id dunst
       ${if sys.genericLinux then "source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh" else ""}
       ${cfg.initExtra}

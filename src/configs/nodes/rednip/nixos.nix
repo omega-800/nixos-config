@@ -22,15 +22,20 @@
     */
     os.boot.mode = "uefi";
   };
-  /*
   services.xserver = {
-    modules = [ "${config.boot.kernelPackages.nvidia_x11_legacy390}/extensions" ];
+    # modules = [ config.boot.kernelPackages.nvidia_x11_legacy390 ];
     videoDrivers = [
       "nvidia"
       "intel"
     ];
   };
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+  environment.systemPackages = with pkgs; [
+    glxinfo
+    pciutils
+    inxi
+    lshw
+  ];
   hardware = {
     graphics.enable = true;
     intelgpu = {
@@ -40,7 +45,7 @@
     nvidia = {
       open = false;
       nvidiaSettings = true;
-      nvidiaPersistenced = true;
+      # nvidiaPersistenced = true;
       videoAcceleration = true;
       package = config.boot.kernelPackages.nvidiaPackages.legacy_390
       # .overrideAttrs (_: {
@@ -50,7 +55,6 @@
       #   '';
       # })
       ;
-      # package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
       modesetting.enable = true;
       powerManagement = {
         # enable = true;
@@ -72,6 +76,5 @@
     allowBroken = false;
     # permittedInsecurePackages = [ "intel-media-sdk-23.2.2" ];
   };
-  */
   system.stateVersion = "24.11";
 }

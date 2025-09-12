@@ -17,24 +17,9 @@ in
 
   config = mkIf cfg.enable {
     sops.secrets."school/vpn" = { };
-
-    /*
-      programs =
-        flatMapToAttrs
-          (sh: {
-            "${sh}".shellAliases = {
-              "vpn-school-start" = "openconnect-sso --server vpn.ost.ch --user georgiy.shevoroshkin@ost.ch";
-            };
-          })
-          [
-            "zsh"
-            "bash"
-            "fish"
-          ];
-    */
     environment.systemPackages = with pkgs; [
       openconnect
-      
+
       networkmanagerapplet
       /*
         (inputs.openconnect-sso.packages.${sys.system}.default.overrideAttrs (
@@ -49,9 +34,19 @@ in
         plugins = with pkgs; [
           (networkmanager-openconnect.override { withGnome = true; })
 
+          /*
           networkmanager-openvpn
           networkmanager-vpnc
+
+
+                 networkmanager-fortisslvpn
+                 networkmanager-iodine
+                 networkmanager-l2tp
+                 networkmanager-sstp
+                 networkmanager-strongswan
+*/
         ];
+        # settings.main.plugins = "ifupdown,keyfile,secret-agent";
         ensureProfiles = {
           secrets.entries = [
             {
@@ -101,21 +96,6 @@ in
           };
         };
       };
-      /*
-        openconnect = {
-          # package = pkgs.openconnect-sso;
-          interfaces = {
-            school = {
-              # FIXME: clean up this mess
-              passwordFile = config.sops.secrets."school/vpn".path;
-              gateway = "vpn.ost.ch";
-              autoStart = false;
-              user = usr.devEmail;
-              protocol = "anyconnect";
-            };
-          };
-        };
-      */
     };
   };
 }
