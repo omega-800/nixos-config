@@ -12,7 +12,19 @@ in
     vdirsyncer.enable = true;
     aerc = {
       enable = true;
-      extraConfig.general.unsafe-accounts-conf = true;
+      # extraBinds.messages.q = ":quit<Enter>";
+      extraConfig = {
+        general.unsafe-accounts-conf = true;
+        filters = {
+          "text/plain" = "colorize";
+          # "text/calendar" = "calendar";
+          # "message/delivery-status" = "colorize";
+          # "message/rfc822" = "colorize";
+          # "text/html" = "html | colorize";
+          # "text/*" = ''bat -fP --file-name="$AERC_FILENAME"'';
+          # ".headers" = "colorize";
+        };
+      };
     };
   };
   services.vdirsyncer.enable = true;
@@ -81,7 +93,7 @@ in
     calendar = {
       basePath = globals.envVars.CALPATH;
       accounts = {
-        # TODO: 
+        # TODO:
         omega = {
           primary = true;
           remote = {
