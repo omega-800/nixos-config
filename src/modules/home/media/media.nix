@@ -14,6 +14,13 @@ in
   options.u.media.enable = mkEnableOption "media packages";
 
   config = mkIf cfg.enable {
+    xdg = {
+      enable = true;
+      mime.enable = true;
+      mimeApps = {
+        enable = true;
+      };
+    };
     home.packages =
       with pkgs;
       (

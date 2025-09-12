@@ -24,11 +24,23 @@ in
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      # addKeysToAgent = "confirm";
-      forwardAgent = false;
-      hashKnownHosts = true;
       matchBlocks =
-        (listToAttrs (
+        {
+          "*" = {
+            forwardAgent = false;
+            # addKeysToAgent = "confirm";
+            addKeysToAgent = "no";
+            compression = false;
+            serverAliveInterval = 0;
+            serverAliveCountMax = 3;
+            hashKnownHosts = true;
+            userKnownHostsFile = "~/.ssh/known_hosts";
+            controlMaster = "no";
+            controlPath = "~/.ssh/master-%r@%n:%p";
+            controlPersist = "no";
+          };
+        }
+        // (listToAttrs (
           map (c: {
             name = c.net.hostname;
             value = {
