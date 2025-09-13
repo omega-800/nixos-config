@@ -17,8 +17,8 @@ in
 {
   options.u.social.enable = mkEnableOption "social packages";
 
-  config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "discord" ];
-    home.packages = mkIf (usr.extraBloat && sys.profile == "pers") [ pkgs.discord ];
+  config = mkIf (cfg.enable && usr.extraBloat && sys.profile == "pers") {
+    nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
+    home.packages = [ pkgs.discord ];
   };
 }

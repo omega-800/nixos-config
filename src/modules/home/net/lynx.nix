@@ -21,6 +21,7 @@ in
       sessionVariables.LYNX_CFG = "${XDG_CONFIG_HOME}/lynx/lynx.cfg";
       packages = with pkgs; [ lynx ];
     };
+    # FIXME: doesn't get read
     xdg.configFile."lynx/lynx.cfg".text = ''
       STARTFILE:https://lynx.invisible-island.net/
       HELPFILE:https://lynx.invisible-island.net/lynx_help/lynx_help_main.html

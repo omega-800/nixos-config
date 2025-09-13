@@ -52,12 +52,31 @@ in
     programs = mkIf usr.extraBloat {
       ncspot = {
         enable = true;
-        # package = pkgs.ncspot.override { withNcurses = true; };
+        /*
+        package = pkgs.ncspot.override { 
+          # withNcurses = true; 
+          withCover = true;
+          withShareSelection = true;
+        };
+        */
         settings = {
-          # use_nerdfont = true;
-          # notify = true;
-          # repeat = "playlist";
-          # TODO: format, theme
+          use_nerdfont = true;
+          notify = true;
+          repeat = "playlist";
+          keybindings = {
+            "Ctrl+d" = "move down 15";
+            "Ctrl+u" = "move up 15";
+          };
+          statusbar_format = "%artists - %track [%album]";
+          track_format = {
+            left = "%artists - %title";
+            center = "[%album]";
+            right = "%saved %duration";
+          };
+          notification_format = {
+            title = "%title [%album]";
+            body = "%artists";
+          };
         };
       };
       zathura = {

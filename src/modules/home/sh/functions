@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+otp() {
+  cmd="$(history | tail -1 | cut -c8-)"
+  potp="${cmd/pass /pass otp }"
+  sh -c "${potp/\///otp-}"
+}
+
 svnall() {
   for _tmp in $(fd -td '.svn' .); do 
     dir="${_tmp%%.svn*}" 
@@ -42,15 +48,9 @@ mt() {
   done
 }
 
-mht() {
-  mt HDMI1 DP2
-}
-mwst() {
-  mt DP2-2 DP2-3
-}
-mwmt() {
-  mt DP1-2 DP1-3
-}
+mht() { mt HDMI1 DP2; }
+mwst() { mt DP2-2 DP2-3; }
+mwmt() { mt DP1-2 DP1-3; }
 
 fromhex() {
   hex=$1
@@ -77,29 +77,10 @@ rgb_to_hex() {
 }
 
 bri() { echo "$1" > /sys/class/backlight/intel_backlight/brightness; }
-
-upper() {
-    # Usage: upper "string"
-    printf '%s\n' "${1^^}"
-}
-
-lower() {
-    # Usage: lower "string"
-    printf '%s\n' "${1,,}"
-}
-
-reverse_case() {
-    # Usage: reverse_case "string"
-    printf '%s\n' "${1~~}"
-}
-
-strip_all() {
-    printf '%s\n' "${1//$2}"
-}
-
-strip_all() {
-    printf '%s\n' "${1//$2}"
-}
+upper() { printf '%s\n' "${1^^}"; }
+lower() { printf '%s\n' "${1,,}"; }
+reverse_case() { printf '%s\n' "${1~~}"; }
+strip_all() { printf '%s\n' "${1//$2}"; }
 
 urlencode() {
     local LC_ALL=C
@@ -158,12 +139,8 @@ unlink_node_modules() {
   cd "$d"
 }
 
-fuck_you_eclipse() {
-  clean_node_modules && unlink_node_modules
-}
-
+fuck_you_eclipse() { clean_node_modules && unlink_node_modules; }
 cdc() { cd "$(pwd | sed "s/$1/$2/g")"; }
-
 gcap() { git commit -am "$1" && git push; }
 
 newws() {

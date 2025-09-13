@@ -29,7 +29,13 @@
       "intel"
     ];
   };
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+  boot = {
+    # https://discourse.nixos.org/t/psa-for-those-with-hibernation-issues-on-nvidia/61834
+    extraModprobeConfig = ''
+      options nvidia_modeset vblank_sem_control=0
+    '';
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+  };
   environment.systemPackages = with pkgs; [
     glxinfo
     pciutils
@@ -57,6 +63,8 @@
       ;
       modesetting.enable = true;
       powerManagement = {
+        # https://discourse.nixos.org/t/black-screen-after-suspend-hibernate-with-nvidia/54341/22
+        # no workey on 390 :(
         # enable = true;
         finegrained = false;
       };

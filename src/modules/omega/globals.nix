@@ -7,6 +7,9 @@
 }:
 {
   envVars = rec {
+    #  FIXME: 
+    LYNX_CFG = "${XDG_CONFIG_HOME}/lynx/lynx.cfg";
+
     MANPAGER = "less -R --use-color -Dd+r -Du+g -Dk+m -Ds+c";
     HOME = usr.homeDir;
     BROWSER = usr.browser;
@@ -54,9 +57,6 @@
     TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
     QT_QPA_PLATFORMTHEME = "qt5ct";
 
-    #GVIMINIT = ''let $MYGVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/gvimrc" : "$XDG_CONFIG_HOME/nvim/init.gvim" | so $MYGVIMRC'';
-    #VIMINIT = ''let $MYVIMRC = !has("nvim") ? "$XDG_CONFIG_HOME/vim/vimrc" :  "$XDG_CONFIG_HOME/nvim/init.vim" | so $MYVIMRC'';
-
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
     NPM_PREFIX = "${XDG_DATA_HOME}/npm";
     NPM_CACHE = "${XDG_CACHE_HOME}/npm";
@@ -65,9 +65,6 @@
 
     SSH_ASKPASS = "";
     GIT_ASKPASS = "";
-    # uuuuuuuuuuuuuuuuuhhhh wHy Am I gEtTiNg `CoMmAnD nOt FoUnD` eRrOrS
-    # fixed this with `. /etc/set-environment`
-    # and prepending $PATH to the value, duh
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
   };

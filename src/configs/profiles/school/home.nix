@@ -16,6 +16,7 @@ in
   u = {
     work.enable = mkHigherDefault false;
     media.enable = mkHigherDefault true;
+    social.enable = mkHigherDefault true;
     user.dirs = with globals.envVars; {
       extraDirs = mkHigherDefault [
         "${WORKSPACE_DIR}/school"
