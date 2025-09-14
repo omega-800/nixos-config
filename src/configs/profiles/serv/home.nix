@@ -9,17 +9,15 @@ in
 {
   imports = [ ];
   u = {
-    dev.enable = mkDefault true;
-    file.enable = mkDefault true;
+    dev.enable = mkDefault false;
+    file.enable = mkDefault false;
     net = {
-      enable = mkDefault true;
-      firefox.enable = false;
-      vpn.enable = false;
+      enable = mkDefault false;
+      ssh = mkDefault true;
     };
     user = {
-      enable = mkDefault true;
+      enable = mkDefault false;
       vim.enable = mkDefault true;
-      nixvim.enable = mkDefault false;
       dirs = with globals.envVars; {
         enable = mkDefault true;
         extraDirs = mkDefault [
@@ -30,14 +28,11 @@ in
       };
     };
     utils = {
-      enable = mkDefault true;
+      enable = mkDefault false;
       fzf.enable = mkDefault true;
-      clipmenu.enable = false;
-      rofi.enable = false;
-      dunst.enable = false;
-      # swhkd.enable = false;
-      fetch.enable = mkDefault false;
-      flameshot.enable = false;
+      htop.enable = true;
+      less.enable = true;
+      ripgrep.enable = true;
     };
     posix.enable = mkDefault false;
     office.enable = false;

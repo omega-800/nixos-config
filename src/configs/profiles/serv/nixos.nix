@@ -23,8 +23,8 @@ in
       };
       audio.enable = mkDefault false;
       io = {
-        enable = mkDefault false;
-        touchpad.enable = mkDefault false;
+        enable = false;
+        touchpad.enable = false;
       };
       openGL.enable = mkDefault false;
       power = {
@@ -34,8 +34,8 @@ in
       };
     };
     dev = {
-      docker.enable = mkDefault true;
-      virt.enable = mkDefault true;
+      docker.enable = mkDefault false;
+      virt.enable = mkDefault false;
       mysql.enable = mkDefault false;
       tools.disable = mkDefault true;
     };
@@ -44,8 +44,9 @@ in
       vpn = {
         forti.enable = mkDefault false;
         mullvad.enable = mkDefault false;
-        wg.enable = mkDefault true;
+        wg.enable = mkDefault false;
       };
+      wol.enable = true;
     };
     fs = {
       automount.enable = mkDefault false;

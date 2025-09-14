@@ -30,6 +30,7 @@
     XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
 
     MAILPATH = "${XDG_DOCUMENTS_DIR}/mail";
+    CONTACTPATH = "${XDG_DOCUMENTS_DIR}/contacts";
     CALPATH = "${XDG_DOCUMENTS_DIR}/cal";
     MEDIA_DIR = "${XDG_DOCUMENTS_DIR}/media";
     MISC_DIR = "${XDG_DOCUMENTS_DIR}/misc";

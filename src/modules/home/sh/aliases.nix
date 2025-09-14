@@ -1,5 +1,6 @@
 {
   globals,
+  inputs,
   usr,
   lib,
   net,
@@ -15,6 +16,7 @@ let
     listToAttrs
     concatStrings
     ;
+  # inherit (builtins) toJSON unsafeDiscardStringContext;
   inherit (globals.envVars) NIXOS_CONFIG;
   cdAliases = listToAttrs (
     map (v: {
@@ -22,13 +24,30 @@ let
       value = "cd ${concatStrings (replicate (v + 1) "../")}";
     }) (genList (x: x) 20)
   );
+  # nixosConfigurations.rednip._module.specialArgs.lib.omega.attrs.filterLeaves ( k: v: (v == true && k == "enable") || (v == false && k == "disable"))
+  opts =
+    t:
+    "nix eval ${NIXOS_CONFIG}#${t}Configurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' -r | sort";
+  # filterEnabled = lib.omega.attrs.filterLeaves (
+  #   k: v: (v == true && k == "enable") || (v == false && k == "disable")
+  # );
 in
 {
 
+  # home.file = {
+  #   ".config/currentcfg/nixos_enabled.json".text = toJSON (
+  #     filterEnabled inputs.self.nixosConfigurations.${unsafeDiscardStringContext net.hostname}.config
+  #   );
+  #   ".config/currentcfg/home_enabled.json".text = toJSON (
+  #     filterEnabled inputs.self.homeConfigurations.${unsafeDiscardStringContext net.hostname}.config
+  #   );
+  # };
+
   home.shellAliases = mkMerge [
     rec {
-      noptions = "nix eval ${NIXOS_CONFIG}#nixosConfigurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' | sort";
-      ndx = ''nix-shell -p nodejs_22 --run " npx create-directus-extension@latest"'';
+      nopts = opts "nixos";
+      hopts = opts "home";
+      ndx = ''nix-shell -p nodejs_22 --run "npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace -b backup";
       nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --sudo";
       nps = "nix repl --expr 'import <nixpkgs>{}'";

@@ -23,6 +23,7 @@ in
   config = mkIf cfg.enable {
     # TODO: modularize & filter
     accounts = {
+      contact.basePath = globals.envVars.CONTACTPATH;
       email = {
         maildirBasePath = globals.envVars.MAILPATH;
         accounts =
