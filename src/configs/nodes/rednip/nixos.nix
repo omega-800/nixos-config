@@ -21,6 +21,7 @@
         };
     */
     os.boot.mode = "uefi";
+    dev.psql.enable = true;
   };
   services.xserver = {
     # modules = [ config.boot.kernelPackages.nvidia_x11_legacy390 ];

@@ -9,7 +9,7 @@
 }:
 with globals.envVars;
 let
-  inherit (lib) mkEnableOption mkIf getName;
+  inherit (lib) mkEnableOption mkIf getName optionals;
   cfg = config.u.dev;
 in
 {
@@ -17,11 +17,18 @@ in
 
   config = mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
+    programs.pgcli = mkIf (sys.profile == "school") {
+      enable = true;
+      settings.main = {
+        smart_completion = true;
+        vi = true;
+      };
+    };
     home.packages =
       with pkgs;
       [ jq ]
       ++ (
-        if !usr.minimal then
+        optionals (!usr.minimal)
           [
             pastel
             yq-go
@@ -33,27 +40,23 @@ in
             man-pages-posix
             # wikiman
           ]
-        else
-          [ ]
       )
       ++ (
-        if usr.extraBloat then
+        optionals usr.extraBloat
           [
             qemu
             virt-manager
             ncurses
           ]
-        else
-          [ ]
       )
       ++ (
-        if usr.extraBloat && sys.profile == "pers" then
+        optionals (usr.extraBloat && sys.profile == "pers")
           [
             # ciscoPacketTracer8
           ]
-        else
-          [ ]
-      );
+      )
+      ++ (optionals (sys.profile == "school") [ dbeaver-bin ])
+      ;
     home.file = {
       ".config/qmk/qmk.ini".text = ''
         [user]
