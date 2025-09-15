@@ -16,7 +16,6 @@ in
   options.u.dev.enable = mkEnableOption "dev packages";
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     programs.pgcli = mkIf (sys.profile == "school") {
       enable = true;
       settings.main = {
@@ -55,8 +54,9 @@ in
             # ciscoPacketTracer8
           ]
       )
-      ++ (optionals (sys.profile == "school") [ dbeaver-bin ])
+      ++ (optionals (sys.profile == "school") [ dbeaver-bin ciscoPacketTracer8])
       ;
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {
       ".config/qmk/qmk.ini".text = ''
         [user]

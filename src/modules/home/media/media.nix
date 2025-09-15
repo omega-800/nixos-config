@@ -17,8 +17,26 @@ in
     xdg = {
       enable = true;
       mime.enable = true;
+      # echo $XDG_DATA_DIRS | tr -d '\n' | xargs -d : -I % find %/applications -name '*.desktop' | sed -E 's/.*\///g'
       mimeApps = {
         enable = true;
+        defaultApplications = {
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = [ "firefox.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+          "application/pdf" = [
+            "org.pwmt.zathura.desktop"
+            "firefox.desktop"
+          ];
+          "image/png" = [
+            "feh.desktop"
+            "firefox.desktop"
+          ];
+        };
+        associations.removed = {
+          "application/pdf" = [ "chromium-browser.desktop" ];
+          "image/png" = [ "chromium-browser.desktop" ];
+        };
       };
     };
     home.packages =
@@ -53,11 +71,11 @@ in
       ncspot = {
         enable = true;
         /*
-        package = pkgs.ncspot.override { 
-          # withNcurses = true; 
-          withCover = true;
-          withShareSelection = true;
-        };
+          package = pkgs.ncspot.override {
+            # withNcurses = true;
+            withCover = true;
+            withShareSelection = true;
+          };
         */
         settings = {
           use_nerdfont = true;
