@@ -1,6 +1,7 @@
 {
   globals,
   usr,
+  sys,
   lib,
   config,
   pkgs,
@@ -21,13 +22,29 @@ in
     programs.vscode = {
       enable = true;
       mutableExtensionsDir = true;
+      package = pkgs.vscodium;
       profiles.default = {
         enableExtensionUpdateCheck = true;
         enableUpdateCheck = false;
-        extensions = with pkgs.vscode-extensions; [
-          bbenoist.nix
-          vscodevim.vim
-        ];
+        extensions =
+          with pkgs.vscode-extensions;
+          (
+            [
+              bbenoist.nix
+              vscodevim.vim
+            ]
+            ++ (lib.optionals (sys.profile == "school") [
+              coder.coder-remote
+              ms-toolsai.jupyter
+              ms-toolsai.vscode-jupyter-slideshow
+              ms-python.debugpy
+              ms-toolsai.jupyter-renderers
+              ms-toolsai.jupyter-keymap
+              ms-toolsai.vscode-jupyter-cell-tags
+              ms-python.python
+              # jeanp413.open-remote-ssh
+            ])
+          );
         globalSnippets = {
           fixme = {
             body = [ "$LINE_COMMENT FIXME: $0" ];
@@ -52,27 +69,32 @@ in
           {
             "key" = "a";
             "command" = "explorer.newFile";
-            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" =
+              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "f";
             "command" = "explorer.newFolder";
-            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" =
+              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "r";
             "command" = "renameFile";
-            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" =
+              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "d";
             "command" = "deleteFile";
-            "when" = "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
+            "when" =
+              "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus && !treeFindOpen";
           }
           {
             "key" = "x";
             "command" = "filesExplorer.cut";
-            "when" = "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
+            "when" =
+              "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus";
           }
           {
             "key" = "y";

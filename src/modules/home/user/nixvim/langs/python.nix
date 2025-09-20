@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   usr,
@@ -11,6 +12,19 @@ let
   inherit (config.programs.nixvim) plugins;
 in
 {
+  config.home.packages = mkIf enabled (
+    with pkgs;
+    [
+      (pkgs.python3.withPackages (
+        p: with p; [
+          pip
+          jupyter
+          notebook
+          jupytext
+        ]
+      ))
+    ]
+  );
   config.programs.nixvim = mkIf enabled {
     plugins = mkMerge [
       {
@@ -22,6 +36,7 @@ in
           formatting.yapf.enable = true;
         };
         #dap.extensions.dap-python.enable = true;
+        jupytext.enable = true;
         molten = {
           enable = true;
           # package = pkgs.callPackage pkgs.vimUtils.buildVimPlugin {
@@ -61,48 +76,50 @@ in
           };
         };
       }
-      /*(
-        if usr.minimal then
-          { }
-        else
-          {
-            molten.settings.image_provider = "image.nvim";
-            image = {
-              enable = true;
-              settings = {
-                hijack_file_patterns = [
-                  "*.png"
-                  "*.jpg"
-                  "*.jpeg"
-                  "*.gif"
-                  "*.webp"
-                ];
-                window_overlap_clear_ft_ignore = [
-                  "cmp_menu"
-                  "cmp_docs"
-                  ""
-                ];
-                backend =
-                  if usr.term == "kitty" then
-                    "kitty"
-                  else if usr.term == "alacritty" then
-                    "ueberzug"
-                  else
-                    null;
-                integrations = {
-                  markdown = {
-                    enabled = true;
-                    # downloadRemoteImage = true;
-                    filetypes = [
-                      "markdown"
-                      "vimwiki"
-                    ];
+      /*
+        (
+          if usr.minimal then
+            { }
+          else
+            {
+              molten.settings.image_provider = "image.nvim";
+              image = {
+                enable = true;
+                settings = {
+                  hijack_file_patterns = [
+                    "*.png"
+                    "*.jpg"
+                    "*.jpeg"
+                    "*.gif"
+                    "*.webp"
+                  ];
+                  window_overlap_clear_ft_ignore = [
+                    "cmp_menu"
+                    "cmp_docs"
+                    ""
+                  ];
+                  backend =
+                    if usr.term == "kitty" then
+                      "kitty"
+                    else if usr.term == "alacritty" then
+                      "ueberzug"
+                    else
+                      null;
+                  integrations = {
+                    markdown = {
+                      enabled = true;
+                      # downloadRemoteImage = true;
+                      filetypes = [
+                        "markdown"
+                        "vimwiki"
+                      ];
+                    };
                   };
                 };
               };
-            };
-          }
-      )*/
+            }
+        )
+      */
 
     ];
   };

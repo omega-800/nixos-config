@@ -9,7 +9,12 @@
 }:
 with globals.envVars;
 let
-  inherit (lib) mkEnableOption mkIf getName optionals;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    getName
+    optionals
+    ;
   cfg = config.u.dev;
 in
 {
@@ -26,36 +31,27 @@ in
     home.packages =
       with pkgs;
       [ jq ]
-      ++ (
-        optionals (!usr.minimal)
-          [
-            pastel
-            yq-go
-            qmk
-            perl
-            strace
-            gnumake
-            man-pages
-            man-pages-posix
-            # wikiman
-          ]
-      )
-      ++ (
-        optionals usr.extraBloat
-          [
-            qemu
-            virt-manager
-            ncurses
-          ]
-      )
-      ++ (
-        optionals (usr.extraBloat && sys.profile == "pers")
-          [
-            # ciscoPacketTracer8
-          ]
-      )
-      ++ (optionals (sys.profile == "school") [ dbeaver-bin ciscoPacketTracer8])
-      ;
+      ++ (optionals (!usr.minimal) [
+        pastel
+        yq-go
+        qmk
+        perl
+        strace
+        gnumake
+        man-pages
+        man-pages-posix
+        # wikiman
+      ])
+      ++ (optionals usr.extraBloat [
+        qemu
+        virt-manager
+        ncurses
+      ])
+      ++ (optionals (sys.profile == "school") [
+        dbeaver-bin
+        ciscoPacketTracer8
+        slides
+      ]);
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {
       ".config/qmk/qmk.ini".text = ''

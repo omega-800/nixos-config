@@ -18,7 +18,7 @@ in
       enable = true;
       mime.enable = true;
       # echo $XDG_DATA_DIRS | tr -d '\n' | xargs -d : -I % find %/applications -name '*.desktop' | sed -E 's/.*\///g'
-      mimeApps = {
+      mimeApps = rec {
         enable = true;
         defaultApplications = {
           "x-scheme-handler/http" = [ "firefox.desktop" ];
@@ -33,9 +33,12 @@ in
             "firefox.desktop"
           ];
         };
-        associations.removed = {
-          "application/pdf" = [ "chromium-browser.desktop" ];
-          "image/png" = [ "chromium-browser.desktop" ];
+        associations = {
+          removed = {
+            "application/pdf" = [ "chromium-browser.desktop" ];
+            "image/png" = [ "chromium-browser.desktop" ];
+          };
+          added = defaultApplications;
         };
       };
     };

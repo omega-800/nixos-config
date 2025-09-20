@@ -15,5 +15,5 @@ in
     type = types.bool;
     default = config.u.user.enable && !usr.minimal && (usr.term == "st");
   };
-  config = mkIf cfg.enable { home.packages = with pkgs; [ inputs.omega-st ]; };
+  config = mkIf cfg.enable { home.packages = [ pkgs.omega-st ]; };
 }

@@ -21,5 +21,7 @@
     ./ftl.nix
     ./lisp.nix
     ./dart.nix
+    ./typst.nix
+    ./latex.nix
   ];
 }

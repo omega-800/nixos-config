@@ -19,7 +19,8 @@
       devEmail = "georgiy.shevoroshkin@ost.ch";
       wm = "dwm";
       shell = pkgs.zsh;
-      term = "kitty";
+      term = "st";
+      # term = "kitty";
       extraBloat = true;
       theme = "thinkpad";
       termColors = {

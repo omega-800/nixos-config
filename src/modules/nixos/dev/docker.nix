@@ -1,4 +1,5 @@
 {
+  sys,
   lib,
   config,
   pkgs,
@@ -15,7 +16,8 @@ in
   config = mkIf cfg.enable {
     virtualisation.docker = {
       enable = true;
-      enableOnBoot = true;
+      # enableOnBoot = true;
+      enableOnBoot = sys.profile == "serv";
       autoPrune.enable = true;
     };
     users.users.${usr.username}.extraGroups = [ "docker" ];

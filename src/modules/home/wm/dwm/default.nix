@@ -30,8 +30,8 @@ in
       user.st.enable = mkDefault true;
       wm.x11.initExtra = ''
         ${dwm_stats} &
-        #exec dbus-launch dwm
-        exec dwm
+        exec dbus-launch dwm
+        # exec dwm
       '';
     };
 

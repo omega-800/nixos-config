@@ -19,7 +19,7 @@ in
 {
   imports = [ inputs.home-manager.nixosModules.default ];
   options.m.os.users = {
-    # FIXME: implement without locking myself out 
+    # FIXME: implement without locking myself out
     mutable = mkEnableOption "mutable users";
     lockRoot = mkEnableOption "locks root user";
     enableHomeMgr = mkDisableOption "enables home-manager from nixos config";
@@ -33,6 +33,7 @@ in
     users = {
       #FIXME: fml broke my pc again
       # mutableUsers = cfg.mutable;
+      extraGroups.wireshark = mkIf (sys.profile == "school") { };
       users = {
         #FIXME: i fucked uuuup
         root = {
@@ -46,21 +47,21 @@ in
           # i'm confused, past omega. it works on my machine?
           hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
           packages = optionals cfg.enableHomeMgr [ inputs.home-manager.packages.${sys.system}.home-manager ];
-          extraGroups =
-            [
-              "wheel"
-              "video"
-              "audio"
-            ]
-            ++ ifExist [
-              "podman"
-              "adbusers"
-            ];
+          extraGroups = [
+            "wheel"
+            "video"
+            "audio"
+          ]
+          ++ ifExist [
+            "podman"
+            "adbusers"
+          ]
+          ++ (optionals (sys.profile == "school") [ "wireshark" ]);
         };
       };
     };
     home-manager = mkIf cfg.enableHomeMgr {
-      # FIXME: ideally this would be done with 
+      # FIXME: ideally this would be done with
       # mkModules { inherit usr sys; } CONFIGS.homeConfigurations;
       # yields infinite recursion
       # users.${usr.username} = {

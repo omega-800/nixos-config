@@ -42,10 +42,12 @@ in
         { id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp"; } # privacy badger
         {
           id = "dcpihecpambacapedldabdbpakmachpb";
-          updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-ch
-rome/master/updates.xml";
+          updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/updates.xml";
         }
-      ];
+      ]
+      ++ (optionals (sys.profile == "school") [
+        { id = "ohgndokldibnndfnjnagojmheejlengn"; } # citavi
+      ]);
     };
   };
 }

@@ -22,6 +22,11 @@
     */
     os.boot.mode = "uefi";
     dev.psql.enable = true;
+    sw = {
+      flatpak.enable = false;
+      printing.enable = false;
+      miracast.enable = true;
+    };
   };
   services.xserver = {
     # modules = [ config.boot.kernelPackages.nvidia_x11_legacy390 ];
@@ -32,9 +37,11 @@
   };
   boot = {
     # https://discourse.nixos.org/t/psa-for-those-with-hibernation-issues-on-nvidia/61834
-    extraModprobeConfig = ''
-      options nvidia_modeset vblank_sem_control=0
-    '';
+    /*
+      extraModprobeConfig = ''
+        options nvidia_modeset vblank_sem_control=0
+      '';
+    */
     kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
   };
   environment.systemPackages = with pkgs; [

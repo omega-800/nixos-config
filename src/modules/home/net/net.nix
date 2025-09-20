@@ -1,5 +1,6 @@
 {
   usr,
+  sys,
   lib,
   config,
   pkgs,
@@ -20,9 +21,12 @@ in
         # (nixGL brave)
         wireguard-tools
         lsof
-        tshark
-        termshark
         whois
+      ]) ++ (optionals (sys.profile == "school") [
+        wireshark
+        # tshark
+        termshark
+        nettools
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)

@@ -25,7 +25,7 @@
         event = "BufNewFile";
         pattern = "*.${t}";
         command = "0r ${./templates/${t}.${t}}";
-      }) ["md" "html" "sh"]) ++ [
+      }) ["md" "html" "sh" "tex"]) ++ [
       {
         # templates
         event = "BufNewFile";

@@ -98,11 +98,19 @@ in
         };
       };
     })
+    (mkIf (sys.profile == "school") {
+      programs.wireshark = {
+        enable = true;
+        dumpcap.enable = true;
+        usbmon.enable = true;
+      };
+    })
     (mkIf (!usr.minimal) {
       #services.opensnitch.enable = true;
       programs.mtr.enable = true;
     })
     {
+      # FIXME: only for orchestrator hosts
       users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
         getCfgAttrOfAllHosts "net" "pubkeys"
       );
