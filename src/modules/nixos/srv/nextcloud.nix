@@ -1,13 +1,15 @@
 {
-  usr,
   config,
-  lib,
+  usr,
   sys,
+  net,
+  lib,
   ...
 }:
 let
   cfg = config.m.srv.nextcloud;
   inherit (lib) mkEnableOption mkIf;
+  inherit (lib.omega.net.ip4) toStr ipFromCfg;
 in
 {
   options.m.srv.nextcloud.enable = mkEnableOption "nextcloud";
@@ -16,9 +18,17 @@ in
       "nextcloud/rootpw" = {
         mode = "0440";
         owner = config.users.users.nextcloud.name;
+        group = config.users.users.nextcloud.group;
       };
-      "nextcloud/db" = { };
+      "nextcloud/db" = { 
+        owner = config.users.users.nextcloud.name;
+        group = config.users.users.nextcloud.group;
+      };
     };
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
     services.nextcloud = {
       enable = true;
       enableImagemagick = true;
@@ -34,17 +44,18 @@ in
       config = {
         adminpassFile = config.sops.secrets."nextcloud/rootpw".path;
         adminuser = usr.username;
-        dbpassFile = config.sops.secrets."nextcloud/db".path;
         dbtype = "pgsql";
-        dbhost = "localhost:50021";
+        # createLocally means socket auth
+        # dbpassFile = config.sops.secrets."nextcloud/db".path;
+        # dbhost = "localhost:50021";
       };
       database.createLocally = true;
-      # home = "/srv/nextcloud";
-      # hostName = "";
+      home = "/store/nextcloud";
+      hostName =  "localhost";
       # https = true;
       maxUploadSize = "1G";
       notify_push = {
-        enable = true;
+        enable = false;
         # bendDomainToLocalhost = true;
         logLevel = "warn";
       };
@@ -58,7 +69,11 @@ in
         # };
         default_phone_region = sys.region;
         "profile.enabled" = false;
-        # trusted_domains = [ ];
+        trusted_domains = [
+          "nextcloud.${net.hostname}.${net.domain}"
+          "${net.hostname}.${net.domain}"
+          (toStr (ipFromCfg net))
+        ];
       };
     };
   };

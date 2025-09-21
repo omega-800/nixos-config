@@ -44,6 +44,15 @@ in
   # };
 
   home.shellAliases = mkMerge [
+    (if config.u.file.enable then rec {
+      # ll = ''ls -alF'';
+      ll = "exa --icons -a -l -F -h -g -s size --git";
+      tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
+      treed = "${tree} -D";
+      treea = "exa --tree --icons -a -l -F -h -g -s size --git";
+    } else {
+      ll = "ls -alF";
+    })
     rec {
       nopts = opts "nixos";
       hopts = opts "home";
@@ -75,11 +84,6 @@ in
       # cp = ''cp -iv'';
       cp = "cp -i";
       # rm = ''rm -Iv'';
-      # ll = ''ls -alF'';
-      ll = "exa --icons -a -l -F -h -g -s size --git";
-      tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
-      treed = "${tree} -D";
-      treea = "exa --tree --icons -a -l -F -h -g -s size --git";
       la = "ls -A";
       l = "ls -CF";
       lt = "ls --human-readable --size -1 -S --classify";

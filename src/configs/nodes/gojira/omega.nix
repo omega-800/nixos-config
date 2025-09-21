@@ -3,11 +3,11 @@
   config.c = {
     net = {
       id = 12;
-      network = "dynamic";/*[
+      network = [
         10
         0
         0
-      ];*/
+      ];
     };
     sys = {
       profile = "serv";
@@ -16,7 +16,9 @@
       paranoid = lib.mkForce false;
       # FIXME: ah hell where did i fuck up 
       hardened = lib.mkForce false;
-      stable = lib.mkForce true;
+      # FIXME: incompatibilities with some pkgs, i forgot
+      stable = lib.mkForce false;
+      # stable = lib.mkForce true;
       flavors = [
         "hoster"
         "slave"
