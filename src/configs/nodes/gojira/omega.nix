@@ -2,22 +2,24 @@
 {
   config.c = {
     net = {
-      id = 123;
-      network = [
+      id = 12;
+      network = "dynamic";/*[
         10
         0
         0
-      ];
+      ];*/
     };
     sys = {
       profile = "serv";
       system = "x86_64-linux";
       genericLinux = false;
       paranoid = lib.mkForce false;
-      stable = lib.mkForce false;
+      # FIXME: ah hell where did i fuck up 
+      hardened = lib.mkForce false;
+      stable = lib.mkForce true;
       flavors = [
-        "child"
         "hoster"
+        "slave"
       ];
     };
     usr = {
