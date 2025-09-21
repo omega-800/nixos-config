@@ -13,7 +13,7 @@ in
     file.enable = mkDefault false;
     net = {
       enable = mkDefault false;
-      ssh = mkDefault true;
+      ssh.enable = mkDefault true;
     };
     user = {
       enable = mkDefault false;

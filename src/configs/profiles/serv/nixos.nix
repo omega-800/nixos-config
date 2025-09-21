@@ -46,7 +46,7 @@ in
         mullvad.enable = mkDefault false;
         wg.enable = mkDefault false;
       };
-      wol.enable = true;
+      wol.enable = mkDefault false;
     };
     fs = {
       automount.enable = mkDefault false;
