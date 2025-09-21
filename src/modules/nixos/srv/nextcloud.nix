@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   usr,
   sys,
   net,
@@ -16,13 +17,13 @@ in
   config = mkIf cfg.enable {
     sops.secrets = {
       "nextcloud/rootpw" = {
+        inherit (config.users.users.nextcloud) group;
+        owner = config.users.users.nextcloud.name;
         mode = "0440";
-        owner = config.users.users.nextcloud.name;
-        group = config.users.users.nextcloud.group;
       };
-      "nextcloud/db" = { 
+      "nextcloud/db" = {
+        inherit (config.users.users.nextcloud) group;
         owner = config.users.users.nextcloud.name;
-        group = config.users.users.nextcloud.group;
       };
     };
     networking.firewall.allowedTCPPorts = [
@@ -33,8 +34,10 @@ in
       enable = true;
       enableImagemagick = true;
       appstoreEnable = true;
-      # extraApps = { };
-      # extraAppsEnable = true;
+      extraApps = {
+        inherit (pkgs.nextcloud31Packages.apps) mail calendar contacts;
+      };
+      extraAppsEnable = true;
       configureRedis = true;
       autoUpdateApps = {
         enable = false;
@@ -51,12 +54,12 @@ in
       };
       database.createLocally = true;
       home = "/store/nextcloud";
-      hostName =  "localhost";
+      hostName = "localhost";
       # https = true;
       maxUploadSize = "1G";
       notify_push = {
         enable = false;
-        # bendDomainToLocalhost = true;
+        bendDomainToLocalhost = true;
         logLevel = "warn";
       };
       settings = {
