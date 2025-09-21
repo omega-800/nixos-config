@@ -35,7 +35,18 @@ in
       enableImagemagick = true;
       appstoreEnable = true;
       extraApps = {
-        inherit (pkgs.nextcloud31Packages.apps) mail calendar contacts;
+        inherit (pkgs.nextcloud31Packages.apps)
+          # mail
+          deck
+          memories
+          maps
+          calendar
+          contacts
+          cookbook
+          music
+          notes
+          tasks
+          ;
       };
       extraAppsEnable = true;
       configureRedis = true;
