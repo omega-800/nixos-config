@@ -2,6 +2,7 @@
 let
   inherit (import ./num.nix { inherit lib; }) digits pow;
   inherit (import ./str.nix { inherit lib; }) charAt;
+  inherit (import ./cfg.nix { inherit lib; }) mkCfgModules;
   inherit (lib)
     splitString
     flatten
@@ -9,11 +10,22 @@ let
     replicate
     concatStrings
     toHexString
+    pipe
     ;
   inherit (builtins) elemAt;
 in
 {
   ip4 = rec {
+    ipOfHostAsStr =
+      hostname:
+      pipe
+        (lib.evalModules {
+          modules = mkCfgModules hostname;
+        }).config.c.net
+        [
+          ipFromCfg
+          toStr
+        ];
     ipFromCfg = net: ipFromList (net.network ++ [ net.id ] ++ [ net.prefix ]);
     ipFromList = l: ip (elemAt l 0) (elemAt l 1) (elemAt l 2) (elemAt l 3) (elemAt l 4);
     ip = a: b: c: d: prefixLength: {

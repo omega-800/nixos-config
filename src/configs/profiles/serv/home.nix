@@ -9,11 +9,14 @@ in
 {
   imports = [ ];
   u = {
-    dev.enable = mkDefault false;
+    dev = {
+      enable = mkDefault false;
+      git.enable = true;
+    };
     file.enable = mkDefault false;
     net = {
       enable = mkDefault false;
-      ssh = mkDefault true;
+      ssh.enable = mkDefault true;
     };
     user = {
       enable = mkDefault false;

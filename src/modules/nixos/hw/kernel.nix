@@ -60,13 +60,9 @@ in
   config = (
     mkMerge [
       { boot.kernel.sysctl."vm.swappiness" = cfg.swappiness; }
-      (mkIf (cfg.hardened.enable) {
-        boot = {
-          inherit blacklistedKernelModules;
-        };
-      })
       (mkIf cfg.hardened.enable {
         boot = {
+          inherit blacklistedKernelModules;
           kernelParams = [
             #"lockdown=off"
             "lockdown=integrity"
@@ -88,6 +84,8 @@ in
           ];
         };
       })
+      # what
+      # this file is a fever dream
       (mkIf cfg.hardened.enable {
         security = {
           lockKernelModules = true;

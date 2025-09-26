@@ -42,7 +42,7 @@ rec {
     }).config.c
   );
 
-  allHosts = mapHosts (n: v: n);
+  allHosts = mapHosts (n: _: n);
 
   mapHosts =
     fn:

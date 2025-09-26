@@ -132,6 +132,8 @@ in
           nameservers = [
             # Cloudflare
             "1.1.1.1"
+            # pfsense
+            "10.2.2.1"
             # Google
             "8.8.8.8"
             # DNSWatch

@@ -2,7 +2,7 @@
 {
   config.c = {
     net = {
-      id = 123;
+      id = 12;
       network = [
         10
         0
@@ -14,10 +14,14 @@
       system = "x86_64-linux";
       genericLinux = false;
       paranoid = lib.mkForce false;
+      # FIXME: ah hell where did i fuck up 
+      hardened = lib.mkForce false;
+      # FIXME: incompatibilities with some pkgs, i forgot
       stable = lib.mkForce false;
+      # stable = lib.mkForce true;
       flavors = [
-        "child"
         "hoster"
+        "slave"
       ];
     };
     usr = {
