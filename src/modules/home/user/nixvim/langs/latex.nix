@@ -20,7 +20,10 @@ in
         inherit (texlive)
           scheme-basic
           cite
+          courier
+          csquotes
           biblatex
+          biblatex-ieee
           amsmath
           hyperref
           geometry

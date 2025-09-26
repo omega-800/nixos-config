@@ -1,5 +1,4 @@
 {
-  usr,
   lib,
   pkgs,
   ...
@@ -16,6 +15,7 @@
     splitbelow = true;
     splitright = true;
     scrolloff = 8;
+    conceallevel = 0;
 
     autoindent = true;
     expandtab = true;

@@ -1,6 +1,7 @@
 {
   config,
   usr,
+  sys,
   lib,
   pkgs,
   inputs,
@@ -30,7 +31,8 @@ in
               noto-fonts-cjk-sans
               noto-fonts-emoji
               noto-fonts-monochrome-emoji
-            ]);
+            ])
+            ++ (optionals (sys.profile == "school") [ fira-math ]);
           home.file = {
             ".config/currenttheme/image".source = globals.styling.image;
             ".config/currenttheme/theme.conf".text = ''

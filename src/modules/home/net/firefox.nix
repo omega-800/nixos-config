@@ -98,26 +98,13 @@ in
             "Nix Packages" = {
               urls = [
                 {
-                  template = "https://search.nixos.org/packages";
-                  params = [
-                    {
-                      name = "type";
-                      value = "packages";
-                    }
-                    {
-                      name = "channel";
-                      value = "unstable";
-                    }
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
+                  template = "https://search.nixos.org/packages?type=packages&channel=unstable&query={searchTerms}";
                 }
               ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@n" ];
             };
+            /*
             "NixOS install guide" = {
               urls = [
                 {
@@ -126,6 +113,7 @@ in
               ];
               definedAliases = [ "@ni" ];
             };
+            */
             "NixOS wiki" = {
               urls = [
                 {

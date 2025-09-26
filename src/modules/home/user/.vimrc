@@ -19,6 +19,7 @@ if !has('nvim') | set viminfofile=$XDG_STATE_HOME/vim/viminfo | endif
 
 syntax on
 set path=.,,**
+set conceallevel=0
 set guicursor=""
 set nu
 set relativenumber

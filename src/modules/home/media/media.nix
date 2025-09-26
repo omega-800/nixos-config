@@ -32,6 +32,15 @@ in
             "feh.desktop"
             "firefox.desktop"
           ];
+          "image/jpg" = [
+            "feh.desktop"
+            "firefox.desktop"
+          ];
+          "image/svg" = [
+            "feh.desktop"
+            "firefox.desktop"
+            "inkscape.desktop"
+          ];
         };
         associations = {
           removed = {
