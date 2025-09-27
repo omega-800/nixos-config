@@ -90,7 +90,7 @@ in
       profile =
         let
           profiles = listFilterDirs (
-            n: v:
+            n: _:
             !(elem n [
               "default"
               "partials"
@@ -210,14 +210,10 @@ in
         type = str;
         default = "gshevoroshkin@gmail.com";
       };
-      dotfilesDir = mkOption {
-        type = str;
-        default = "~/.dotfiles";
-      };
       theme = mkOption {
         type =
           let
-            themes = listDirs PATHS.THEMES;
+            themes = listNixModuleNames PATHS.THEMES;
           in
           enum themes;
         default = "catppuccin-mocha";

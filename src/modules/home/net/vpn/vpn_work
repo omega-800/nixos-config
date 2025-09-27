@@ -1,6 +1,0 @@
-host = exchange.inteco.ch
-port = 4433
-username = gs2
-set-dns = 0
-pppd-use-peerdns = 0
-trusted-cert = ee51894e32b066bc15045c2fcb6261a0c8946f4b6dd002489b791faaed997ac3

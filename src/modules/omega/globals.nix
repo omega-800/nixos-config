@@ -96,28 +96,17 @@
   };
   styling =
     let
-      themePath = PATHS.THEMES + /${usr.theme};
-      themeYamlPath = themePath + /${usr.theme}.yaml;
-      themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + /polarity.txt));
-      themeImage =
-        if builtins.pathExists (themePath + /${usr.theme}.png) then
-          themePath + /${usr.theme}.png
-        else
-          pkgs.fetchurl {
-            url = builtins.readFile (themePath + /backgroundurl.txt);
-            sha256 = builtins.readFile (themePath + /backgroundsha256.txt);
-          };
-      myLightDMTheme = if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
+      theme = import (PATHS.THEMES + /${usr.theme}.nix);
     in
     {
-      base16Scheme = themeYamlPath;
+      colors = theme.scheme;
       cursor = lib.mkIf (!usr.minimal) {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Ice";
         size = 32;
       };
-      polarity = themePolarity;
-      image = themeImage;
+      polarity = if theme.dark then "dark" else "light";
+      image = pkgs.fetchurl (if (lib.isList theme.bg) then (lib.elemAt theme.bg 0) else theme.bg);
       fonts = rec {
         monospace = {
           name = usr.font;

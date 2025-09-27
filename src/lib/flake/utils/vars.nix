@@ -23,7 +23,7 @@ rec {
     SECRETS = SRC + /secrets;
     PACKAGES = SRC + /pkgs;
     APPS = SRC + /apps;
-    THEMES = SRC + /themes;
+    THEMES = M_OMEGA + /themes;
     CHECKS = SRC + /checks;
   };
   SYSTEMS = [
