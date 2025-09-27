@@ -15,6 +15,7 @@
     "md"
     "nix"
     "lua"
+    "plantuml"
   ];
   home.packages = with pkgs; [ (jetbrains.plugins.addPlugins  jetbrains.idea-ultimate ["ideavim"]) ];
 }
