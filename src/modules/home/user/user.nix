@@ -23,7 +23,7 @@ in
       ]
       ++ (optionals (!usr.minimal) [
         tree-sitter
-        bottles
+        # bottles
       ])
       ++ (optionals usr.extraBloat [
         fortune
