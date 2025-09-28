@@ -15,5 +15,9 @@ in
     type = types.bool;
     default = config.u.user.enable && !usr.minimal && (usr.term == "st");
   };
-  config = mkIf cfg.enable { home.packages = [ pkgs.omega-st ]; };
+  config = mkIf cfg.enable {
+    home.packages = [
+      (pkgs.st.override { patches = [ ./st.diff ]; })
+    ];
+  };
 }
