@@ -51,7 +51,6 @@ in
         dbeaver-bin
         ciscoPacketTracer8
         slides
-        plantuml
       ]);
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {

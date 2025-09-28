@@ -23,5 +23,6 @@
     ./dart.nix
     ./typst.nix
     ./latex.nix
+    ./plantuml.nix
   ];
 }
