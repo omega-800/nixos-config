@@ -34,6 +34,9 @@ in
         (key "n" "v" "<Cmd>vsplit<CR>" "Vertical split")
         (key "n" "h" "<Cmd>split<CR>" "Horizontal split")
       ])
+      ++ (keyG "<leader>m" "misc" [
+        (key "n" "k" "<Cmd>make<CR>" "Make")
+      ])
       ++ (keyG "<leader>v" "visual" [
         (key "n" "a" "gg0vG$" "Select all")
         (key "n" "c" "<Cmd>nohls<CR>" "Clear highlight")

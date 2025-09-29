@@ -21,6 +21,6 @@
   dark = true;
   bg = {
     url = "https://wallpaperbat.com/img/134450517-lenovo-thinkpad-wallpaper-hd-hi-tech.jpg";
-    sha256 = "";
+    sha256 = "sha256-KrOlh78Zojk/FGETYlGH/xr3XDwooC6qRDCZ+mV+BxM=";
   };
 }

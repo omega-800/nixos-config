@@ -2005,11 +2005,11 @@
     "omega-slock": {
       "flake": false,
       "locked": {
-        "lastModified": 1721764691,
-        "narHash": "sha256-qx2tZ3o21MFZLEsOSP/8slvBO6eAut3A6cGri0iL6Jc=",
+        "lastModified": 1759086251,
+        "narHash": "sha256-po+UN8S3pVX4DCIcgYR106uiXlGPrFRD/UfMDNmL9UY=",
         "owner": "omega-800",
         "repo": "slock",
-        "rev": "56e5114cdd30136c2c93a768561c8fa5ea624e26",
+        "rev": "dd7686b69c6c27b63fd8274c0adcc5fc643ee91d",
         "type": "github"
       },
       "original": {

@@ -11,7 +11,6 @@ let
   inherit (config.programs.nixvim) plugins;
 in
 {
-  # config.home = mkIf enabled { packages = [pkgs.plantuml]; };
   config.programs.nixvim = mkIf enabled {
     dependencies.plantuml.enable = true;
     plugins = {
@@ -19,7 +18,7 @@ in
         enable = true;
         settings = {
           executable_script = "plantuml";
-          set_makeprg = true;
+          set_makeprg = 1;
         };
       };
     };
