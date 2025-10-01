@@ -193,18 +193,6 @@
       url = "github:omega-800/dwm";
       flake = false;
     };
-    omega-st = {
-      url = "github:omega-800/st";
-      flake = false;
-    };
-    omega-slock = {
-      url = "github:omega-800/slock";
-      flake = false;
-    };
-    # omega-nixvim = {
-    #   url = "github:omega-800/nixvim";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
       inputs = {

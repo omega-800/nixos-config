@@ -2002,38 +2002,6 @@
         "type": "github"
       }
     },
-    "omega-slock": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1759086251,
-        "narHash": "sha256-po+UN8S3pVX4DCIcgYR106uiXlGPrFRD/UfMDNmL9UY=",
-        "owner": "omega-800",
-        "repo": "slock",
-        "rev": "dd7686b69c6c27b63fd8274c0adcc5fc643ee91d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "omega-800",
-        "repo": "slock",
-        "type": "github"
-      }
-    },
-    "omega-st": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1718389042,
-        "narHash": "sha256-Mt8zxf7Yca5WkdszNMZa0LOYUF3MPMyA1o/L1fPfWRQ=",
-        "owner": "omega-800",
-        "repo": "st",
-        "rev": "f339235f5c99e02c88fd54ac6a2f3827d120480d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "omega-800",
-        "repo": "st",
-        "type": "github"
-      }
-    },
     "openconnect-sso-stable": {
       "inputs": {
         "flake-utils": "flake-utils_6",
@@ -2257,8 +2225,6 @@
         "nur-stable": "nur-stable",
         "nur-unstable": "nur-unstable",
         "omega-dwm": "omega-dwm",
-        "omega-slock": "omega-slock",
-        "omega-st": "omega-st",
         "openconnect-sso-stable": "openconnect-sso-stable",
         "openconnect-sso-unstable": "openconnect-sso-unstable",
         "pre-commit-hooks": "pre-commit-hooks_3",

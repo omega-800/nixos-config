@@ -27,7 +27,27 @@
           {
             inherit pattern;
             event = "FileType";
-            command = "set makeprg=\"${command}\"";
+            command = "nnoremap <leader>mo ${builtins.replaceStrings [ " " ] [ "\\ " ] command}";
+          }
+        )
+        [
+          {
+            pattern = "latex,typst";
+            command = ":!zathura %:r.pdf > /dev/null 2>&1 &<cr><cr>";
+          }
+          {
+            pattern = "plantuml,puml,pu";
+            command = ":!feh %:r.png > /dev/null 2>&1 &<cr><cr>";
+          }
+        ]
+      )
+      ++ (map
+        (
+          { pattern, command }:
+          {
+            inherit pattern;
+            event = "FileType";
+            command = "set makeprg=${builtins.replaceStrings [ " " ] [ "\\ " ] command}";
           }
         )
         [
@@ -38,10 +58,6 @@
           {
             pattern = "typst";
             command = "typst compile %";
-          }
-          {
-            pattern = "plantuml";
-            command = "plantuml %";
           }
           {
             pattern = "c";
@@ -58,6 +74,16 @@
           {
             pattern = "hs";
             command = "ghc";
+          }
+          /*
+            {
+              pattern = "plantuml,puml,pu";
+              command = "plantuml %";
+            }
+          */
+          {
+            pattern = "js,ts";
+            command = "npm run build";
           }
         ]
       )

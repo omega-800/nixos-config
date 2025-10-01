@@ -36,7 +36,7 @@ in
             "feh.desktop"
             "firefox.desktop"
           ];
-          "image/svg" = [
+          "image/svg+xml" = [
             "feh.desktop"
             "firefox.desktop"
             "inkscape.desktop"
