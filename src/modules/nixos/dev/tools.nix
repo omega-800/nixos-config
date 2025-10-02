@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  usr,
   config,
   pkgs,
   ...
@@ -12,14 +13,18 @@ let
     mkEnableOption
     mkMerge
     mkIf
-    type
+    types
     ;
 in
 {
   options.m.dev.tools = {
     enable = mkEnableOption "devtools";
     disable = mkEnableOption "disabling devtools completely";
-    zen-browser.enable = mkEnableOption "zen-browser";
+    zen-browser.enable = mkOption {
+    type = types.bool;
+    default = usr.browser == "zen-browser";
+  };
+
   };
 
   config = mkMerge [

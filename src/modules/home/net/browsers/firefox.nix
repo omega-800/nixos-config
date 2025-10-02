@@ -22,7 +22,7 @@ in
   #TODO: check this one out https://github.com/schizofox/schizofox/tree/main
   options.u.net.firefox.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal;
+    default = (config.u.net.enable && !usr.minimal) || usr.browser == "firefox";
   };
   config = mkIf cfg.enable {
     home.sessionVariables = mkIf (usr.wmType == "wayland") { MOZ_ENABLE_WAYLAND = 1; };

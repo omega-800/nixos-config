@@ -18,7 +18,7 @@ in
 {
   options.u.net.chromium.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal;
+    default = (config.u.net.enable && !usr.minimal) || usr.browser == "chromium";
   };
   config = mkIf cfg.enable {
     home.sessionVariables = mkIf (usr.wmType == "wayland") {

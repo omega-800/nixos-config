@@ -16,7 +16,7 @@ in
 {
   options.u.net.surf.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal;
+    default = (config.u.net.enable && !usr.minimal) || usr.browser == "surf";
   };
   config = mkIf cfg.enable {
     home.packages = [ (pkgs.surf.override { patches = [ ]; }) ];

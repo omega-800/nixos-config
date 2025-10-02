@@ -182,7 +182,7 @@ in
         default = !config.c.usr.minimal;
       };
       browser = mkOption {
-        type = str;
+        type = enum (["echo" "zen-browser"] ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers)));
         # Print the URL instead on servers
         default = if config.c.usr.minimal then "echo" else "firefox";
       };

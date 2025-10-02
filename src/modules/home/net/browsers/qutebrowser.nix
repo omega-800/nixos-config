@@ -22,7 +22,7 @@ in
 {
   options.u.net.qutebrowser.enable = mkOption {
     type = types.bool;
-    default = config.u.net.enable && !usr.minimal;
+    default = (config.u.net.enable && !usr.minimal) || usr.browser == "qutebrowser";
   };
   config = mkIf cfg.enable {
     programs.qutebrowser = {
