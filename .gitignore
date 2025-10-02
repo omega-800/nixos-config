@@ -5,3 +5,4 @@ result
 *.qcow2
 .pre-commit-config.yaml
 .null-ls*
+run-test.sh
