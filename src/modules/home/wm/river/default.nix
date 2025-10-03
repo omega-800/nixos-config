@@ -13,7 +13,7 @@ let
     mkIf
     types
     ;
-  inherit (config.lib.stylix.colors) base00 base0D base03;
+  inherit (globals.styling) colors;
   cfg = config.u.wm.river;
 in
 {
@@ -36,9 +36,9 @@ in
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
-        background-color = "0x${base00}";
-        border-color-focused = "0x${base0D}";
-        border-color-unfocused = "0x${base03}";
+        background-color = "0x${colors.base00}";
+        border-color-focused = "0x${colors.base0D}";
+        border-color-unfocused = "0x${colors.base03}";
         border-width = 2;
         set-repeat = "50 300";
         default-layout = "rivertile";
@@ -105,7 +105,7 @@ in
           "yambar"
           "'${usr.term} -e tmux a'"
           "${globals.envVars.XDG_CONFIG_HOME}/river/bar"
-          "${globals.envVars.XDG_CONFIG_HOME}/river/status"
+          "${pkgs.writeShellScript "river-statu" "${pkgs.dwm_stats} sand ${colors.base06} ${colors.base01} ${colors.base00} ${colors.base0D} ${colors.base00} ${colors.base0E}"}"
         ];
       };
       extraConfig = builtins.readFile ./init;
