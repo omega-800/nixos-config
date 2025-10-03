@@ -24,7 +24,7 @@ in
           mkfifo "$FIFO"
 
           while cat "$FIFO"; do :; done | sandbar \
-          	-font "${fonts.monospace.name}:36" \
+          	-font "${fonts.monospace.name}:size=${builtins.toString fonts.sizes.terminal}" \
           	-active-fg-color "#${colors.base05}" \
           	-active-bg-color "#${colors.base0D}" \
           	-inactive-fg-color "#${colors.base05}" \

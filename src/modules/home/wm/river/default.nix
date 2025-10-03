@@ -101,7 +101,7 @@ in
         spawn = [
           "'nohup ${pkgs.sway-audio-idle-inhibit} &'"
           "'swaybg --image ${config.stylix.image} --mode fill'"
-          "'${pkgs.writeShellScript "notify-bat" ../sway/notify-bat.sh}'"
+          "'${pkgs.notify_bat}'"
           "yambar"
           "'${usr.term} -e tmux a'"
           "${globals.envVars.XDG_CONFIG_HOME}/river/bar"

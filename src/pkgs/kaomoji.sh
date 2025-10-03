@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+
+read -r -d '' db <<'EOF'
 >.<﻿ Upset
 >_>﻿ Looking
 <( ･ｪ-)<}﻿ Bow and Arrow
@@ -353,4 +356,12 @@ V●ᴥ●V﻿ Doggy
 Ｃ:。ミ﻿ Octopus
 ～゜・_・゜～﻿ Raving
 ｡◕‿◕｡﻿ Gleeful
+EOF
 
+selection=$(rofi -im -4 -dmenu $@ <<< $db)
+kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
+if [ -n $WAYLAND_DISPLAY ]; then 
+  wl-copy "$kaomoji"
+else 
+  echo -n "$kaomoji" | xclip -selection clipboard
+fi

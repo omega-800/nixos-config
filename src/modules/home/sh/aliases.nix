@@ -1,6 +1,6 @@
 {
   globals,
-  inputs,
+  pkgs,
   usr,
   lib,
   net,
@@ -28,10 +28,10 @@ let
   opts =
     t:
     "nix eval ${NIXOS_CONFIG}#${t}Configurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' -r | sort";
-  # filterEnabled = lib.omega.attrs.filterLeaves (
-  #   k: v: (v == true && k == "enable") || (v == false && k == "disable")
-  # );
 in
+# filterEnabled = lib.omega.attrs.filterLeaves (
+#   k: v: (v == true && k == "enable") || (v == false && k == "disable")
+# );
 {
 
   # home.file = {
@@ -44,15 +44,20 @@ in
   # };
 
   home.shellAliases = mkMerge [
-    (if config.u.file.enable then rec {
-      # ll = ''ls -alF'';
-      ll = "exa --icons -a -l -F -h -g -s size --git";
-      tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
-      treed = "${tree} -D";
-      treea = "exa --tree --icons -a -l -F -h -g -s size --git";
-    } else {
-      ll = "ls -alF";
-    })
+    (
+      if config.u.file.enable then
+        rec {
+          # ll = ''ls -alF'';
+          ll = "exa --icons -a -l -F -h -g -s size --git";
+          tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
+          treed = "${tree} -D";
+          treea = "exa --tree --icons -a -l -F -h -g -s size --git";
+        }
+      else
+        {
+          ll = "ls -alF";
+        }
+    )
     rec {
       nopts = opts "nixos";
       hopts = opts "home";
@@ -130,11 +135,11 @@ in
       # nyehhehheh
       nano = "vim";
 
-      dcs = "${./scripts/docker_disk_usage.sh}";
-      flog = "${./scripts/filter_log.sh}";
-      ctf = "${./scripts/check_tmp_files.sh}";
-      csw = "${./scripts/check_swap.sh}";
-      sst = "${./scripts/show_stats.sh}";
+      dcs = "${pkgs.docker_disk_usage}";
+      flog = "${pkgs.filter_log}";
+      ctf = "${pkgs.check_tmp_files}";
+      csw = "${pkgs.check_swap}";
+      sst = "${pkgs.show_stats}";
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
     (mkIf config.u.user.nixvim.enable {

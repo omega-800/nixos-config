@@ -1,35 +1,11 @@
 {
-  config,
   inputs,
   sys,
   usr,
   pkgs,
-  net,
-  globals,
   ...
 }:
 let
-  inherit (globals.envVars) NIXOS_CONFIG;
-  runScript = "${pkgs.writeScript "rofi_cmd" (builtins.readFile ../../utils/scripts/rofi-run.sh)}";
-  killScript = "${pkgs.writeScript "rofi_kill" (builtins.readFile ../../utils/scripts/rofi-kill.sh)}";
-  kaomojiScript = "${pkgs.writeShellScript "kaomoji" ''
-    db="${../../utils/scripts/kaomoji.txt}"
-    selection=$(rofi -m -4 -i -dmenu $@ < "$db")
-    kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
-    echo -n "$kaomoji" | xclip -selection clipboard
-  ''}";
-  volumeScript = "${pkgs.writeScript "volume_control" (
-    builtins.readFile ../../utils/scripts/volume.sh
-  )}";
-  backlightScript = "${pkgs.writeScript "brightness_control" (
-    builtins.readFile ../../utils/scripts/backlight.sh
-  )}";
-  screensScript = "${pkgs.writeScript "screens_control" (
-    builtins.readFile ../../utils/scripts/home.sh
-  )}";
-  sxhkdHelperScript = "${pkgs.writeScript "sxhkd_helper" (
-    builtins.readFile ../../utils/scripts/sxhkd_helper.sh
-  )}";
   rcurmon = "rofi -m -4";
 in
 {
@@ -42,19 +18,19 @@ in
       "${modifier}+Return" = "${usr.term}";
       "${modifier} y" = "${pkgs.screenkey}/bin/screenkey &";
       "${modifier}+Alt y" = "pkill -f screenkey";
-      "${modifier}+Ctrl h" = sxhkdHelperScript;
+      "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
       "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
-      "XF86AudioMute" = "${volumeScript} mute";
-      "XF86AudioRaiseVolume" = "${volumeScript} raise";
-      "XF86AudioLowerVolume" = "${volumeScript} lower";
-      "XF86MonBrightnessDown" = "${backlightScript} lower";
-      "XF86MonBrightnessUp" = "${backlightScript} raise";
-      "XF86Display" = "${screensScript}";
+      "XF86AudioMute" = "${pkgs.volume_control} mute";
+      "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
+      "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
+      "XF86MonBrightnessDown" = "${pkgs.brightness_control} lower";
+      "XF86MonBrightnessUp" = "${pkgs.brightness_control} raise";
+      "XF86Display" = "${pkgs.screens_control}";
       "${modifier} o" = {
         name = "open";
         switch = {
@@ -81,9 +57,9 @@ in
         switch = {
           "g p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
           y = ''passmenu'';
-          r = runScript;
-          q = killScript;
-          k = kaomojiScript;
+          r = "${pkgs.rofi_cmd}";
+          q = "${pkgs.rofi_kill}";
+          k = "${pkgs.kaomoji}";
           t = ''rofi-theme-selector'';
           p = ''rofi-pass'';
           o = ''rofi-obsidian'';
@@ -108,9 +84,9 @@ in
           a = ''playerctl loop Playlist'';
           n = ''playerctl loop None'';
           s = ''playerctl shuffle Toggle'';
-          x = ''${volumeScript} mute'';
-          i = ''${volumeScript} raise'';
-          d = ''${volumeScript} lower'';
+          x = ''${pkgs.volume_control} mute'';
+          i = ''${pkgs.volume_control} raise'';
+          d = ''${pkgs.volume_control} lower'';
         };
         switch = {
           "p o" = ''rofi-pulse-select sink'';
@@ -128,9 +104,9 @@ in
           t = ''${rcurmon} -show top -modi top'';
           h = ''${rcurmon} -show ssh'';
 
-          "s d" = ''${backlightScript} lower'';
-          "s i" = ''${backlightScript} raise'';
-          "s r" = ''${screensScript}'';
+          "s d" = ''${pkgs.brightness_control} lower'';
+          "s i" = ''${pkgs.brightness_control} raise'';
+          "s r" = ''${pkgs.screens_control}'';
           # "r s" = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
           # "r h" = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
         };

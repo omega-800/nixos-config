@@ -9,7 +9,7 @@ let
   inherit (lib) mkOption types mkIf;
   cfg = config.u.file.trash;
 
-  trashScript = "${pkgs.writeScript "clear_trash" (builtins.readFile ./clear-trash.sh)}";
+  trashScript = "${pkgs.clear_trash}";
 in
 {
   options.u.file.trash.enable = mkOption {
