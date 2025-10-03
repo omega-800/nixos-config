@@ -105,7 +105,7 @@ in
           "yambar"
           "'${usr.term} -e tmux a'"
           "${globals.envVars.XDG_CONFIG_HOME}/river/bar"
-          "${pkgs.writeShellScript "river-statu" "${pkgs.dwm_stats} sand ${colors.base06} ${colors.base01} ${colors.base00} ${colors.base0D} ${colors.base00} ${colors.base0E}"}"
+          "${pkgs.writeShellScript "river-status" "${pkgs.dwm_stats} sand ${colors.base06} ${colors.base01} ${colors.base00} ${colors.base0D} ${colors.base00} ${colors.base0E}"}"
         ];
       };
       extraConfig = builtins.readFile ./init;
