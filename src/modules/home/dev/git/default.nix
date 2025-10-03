@@ -18,6 +18,7 @@ let
   cfg = config.u.dev.git;
 in
 {
+  imports = [ ./github.nix ];
   options.u.dev.git.enable = mkOption {
     type = types.bool;
     default = config.u.dev.enable;

@@ -20,12 +20,17 @@ in
       enable = true;
       keybindings = {
         toggle_keep_vp = "v";
+        toggle_pause = "b";
+        scroll_left = "h";
+        scroll_right = "l";
+        scroll_up = "k";
+        scroll_down = "j";
         zoom_in = [
-          "k"
+          "K"
           "Up"
         ];
         zoom_out = [
-          "j"
+          "J"
           "Down"
         ];
       };

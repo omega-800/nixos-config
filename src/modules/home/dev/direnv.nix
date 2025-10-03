@@ -43,6 +43,10 @@ in
             ++ (optionals (sys.profile == "pers") [
               "${WORKSPACE_DIR}/code"
             ])
+            ++ (optionals (sys.profile == "school") [
+              "${WORKSPACE_DIR}/school"
+              "${WORKSPACE_DIR}/pers"
+            ])
           );
       };
       nix-direnv.enable = true;

@@ -23,10 +23,11 @@ in
         lsof
         whois
       ]) ++ (optionals (sys.profile == "school") [
-        wireshark
+        # wireshark
         # tshark
         termshark
         nettools
+        traceroute
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)

@@ -48,10 +48,6 @@ in
   */
   config.programs.nixvim = mkIf enabled {
     keymaps = keyG "<leader>z" "latex/typst" [
-      (key "n" "l"
-        ":w<cr> :!pdflatex %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl<cr>"
-        "compile latex"
-      )
       (key "n" "z" ":!zathura %:r.pdf > /dev/null 2>&1 &<cr><cr>" "view pdf")
     ];
     plugins = {
