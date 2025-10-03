@@ -102,7 +102,7 @@ in
         terminal = usr.term;
         startup = [
           { command = "${usr.term} -e tmux a"; }
-          { command = "exec nohup sway-audio-idle-inhibit &"; }
+          { command = "exec nohup ${pkgs.sway-audio-idle-inhibit} &"; }
           { command = "exec ${pkgs.writeShellScript "notify-bat" ./notify-bat.sh}"; }
           {
             command = "exec sleep 1 && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";

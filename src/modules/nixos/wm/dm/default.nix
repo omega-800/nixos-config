@@ -32,7 +32,6 @@ in
     };
   };
   config = mkIf cfg.enable {
-    # Enable Display Manager
     services.greetd = {
       enable = true;
       settings = {
