@@ -1,7 +1,10 @@
 { pkgs, ... }:
 {
   config.c = {
-    net.id = 69;
+    net = {
+      id = 69;
+      pubkeys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzbzskHnyrgboFGE/+ldf1nW5y8Bglzj6/RvepTuJQK omega@rednip"];
+    };
     sys = {
       profile = "school";
       system = "x86_64-linux";
