@@ -36,6 +36,30 @@ rec {
       // args
     ));
 
+  mkScriptBin =
+    arch: path:
+    let
+      inherit (inputs.nixpkgs-unstable.lib)
+        removeSuffix
+        last
+        splitString
+        ;
+      name = removeSuffix ".sh" (last (splitString "/" path));
+    in
+    (mkPkgs false arch false).writeScript name (builtins.readFile path);
+
+  mapScriptsOrModules =
+    fn: dir:
+    with inputs.nixpkgs-unstable.lib;
+    mapFilterDir fn (
+      n: v:
+      !(hasPrefix "_" n)
+      && (
+        (v == "directory" && pathExists "${toString dir}/${n}/default.nix")
+        || (v == "regular" && (hasSuffix ".sh" n || hasSuffix ".nix" n))
+      )
+    ) dir;
+
   mapModules =
     fn: dir:
     with inputs.nixpkgs-unstable.lib;

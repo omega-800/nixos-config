@@ -92,9 +92,7 @@ in
           enable = false;
           keybindings =
             let
-              volumeScript = "${pkgs.writeScript "volume_control" (
-                builtins.readFile ../../utils/scripts/volume.sh
-              )}";
+              volumeScript = "${pkgs.volume_control}";
             in
             {
 

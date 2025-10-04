@@ -32,7 +32,7 @@ rec {
     isStable:
     mapAttrs' (n: v: nameValuePair (rmSuffix "-unstable" (rmSuffix "-stable" n)) v) (
       filterAttrs (
-        n: v:
+        n: _:
         (isStable && (hasSuffix "-stable" n))
         || (!isStable && hasSuffix "-unstable" n)
         || ((!hasSuffix "-stable" n) && (!hasSuffix "-unstable" n))
@@ -51,7 +51,7 @@ rec {
       inherit system;
       config = {
         allowUnfree = true;
-        allowUnfreePredicate = (_: true);
+        allowUnfreePredicate = _: true;
       };
       overlays = mkOverlays isStable system isGenericLinux;
     });

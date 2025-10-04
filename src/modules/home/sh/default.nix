@@ -27,8 +27,8 @@ let
   '';
 
   shellInitExtra = ''
-    source ${./functions};
-    source ${./ssh};
+    source ${pkgs.functions};
+    source ${pkgs.ssh};
 
     export GPG_AGENT_INFO
     export SSH_AUTH_SOCK

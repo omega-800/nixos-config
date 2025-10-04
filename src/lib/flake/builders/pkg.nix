@@ -2,7 +2,8 @@
 let
   inherit (import ../utils { inherit inputs; })
     mkPkgs
-    mapModules
+    mapScriptsOrModules
+    mkScriptBin
     PATHS
     SYSTEMS
     ;
@@ -11,14 +12,20 @@ in
   mapPkgs =
     let
       dir = PATHS.PACKAGES;
+      inherit (inputs.nixpkgs-unstable.lib)
+        hasSuffix
+        ;
     in
     inputs.nixpkgs-unstable.lib.genAttrs SYSTEMS (
       arch:
-      mapModules (
+      mapScriptsOrModules (
         path:
-        (mkPkgs false arch false).callPackage path {
-          # system = arch;
-        }
+        if (hasSuffix ".sh" path) then
+          (mkScriptBin arch path)
+        else
+          ((mkPkgs false arch false).callPackage path {
+            # system = arch;
+          })
       ) dir
     );
 }
