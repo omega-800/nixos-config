@@ -15,14 +15,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.sxhkd = {
-      enable = true;
-      keybindings = {
-        "{super + x,XF86PowerOff}" = "slock";
-        "super + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
-        "super + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
-        "super + shift + r" = ''bash -c "pkill -f sxhkd; sxhkd & dunstify 'sxhkd' 'Reloaded keybindings' -t 500"'';
-      };
-    };
+    services.sxhkd.enable = true;
   };
 }

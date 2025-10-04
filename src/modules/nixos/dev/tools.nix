@@ -21,10 +21,10 @@ in
     enable = mkEnableOption "devtools";
     disable = mkEnableOption "disabling devtools completely";
     zen-browser.enable = mkOption {
-    type = types.bool;
-    default = usr.browser == "zen-browser";
-  };
-
+      description = "enables zen-browser";
+      type = types.bool;
+      default = usr.browser == "zen-browser";
+    };
   };
 
   config = mkMerge [

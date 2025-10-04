@@ -23,7 +23,7 @@ in
         lsof
         whois
       ]) ++ (optionals (sys.profile == "school") [
-        # wireshark
+        wireshark
         # tshark
         termshark
         nettools

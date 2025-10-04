@@ -38,9 +38,15 @@ in
     enable = true;
     autoEnable = true;
     modifier = "Mod4";
+    integrations.sxhkd.bindings = {
+      "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config' -t 500'';
+      "${modifier} + x" = "slock";
+      "XF86PowerOff" = "slock";
+      "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
+      "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
+    };
     bindings = {
       "${modifier}+Return" = "${usr.term}";
-      "${modifier} y" = "${pkgs.screenkey}/bin/screenkey &";
       "${modifier}+Alt y" = "pkill -f screenkey";
       "${modifier}+Ctrl h" = sxhkdHelperScript;
       # flameshot & disown solves the copy issue
@@ -48,7 +54,8 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" =
+        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${volumeScript} mute";
       "XF86AudioRaiseVolume" = "${volumeScript} raise";
       "XF86AudioLowerVolume" = "${volumeScript} lower";
@@ -58,41 +65,43 @@ in
       "${modifier} o" = {
         name = "open";
         switch = {
-          s = ''spotify'';
-          r = ''rofi -m -4 -show drun'';
-          m = ''minecraft-launcher'';
-          o = ''obsidian'';
+          b = ''${usr.browser}'';
           c = ''code'';
-          v = ''${usr.term} -e nvim'';
-          i = ''drawio'';
-          q = ''qutebrowser'';
-          f = ''firefox'';
           d = ''discord'';
           e = ''${usr.term} -e aerc'';
-          n = ''${usr.term} -e ncmpcpp'';
-          x = ''${usr.term} -e lf'';
-          l = ''libreoffice'';
+          f = ''firefox'';
           h = ''homebank'';
-          b = ''brave'';
+          i = ''drawio'';
+          l = ''libreoffice'';
+          m = ''minecraft-launcher'';
+          n = ''${usr.term} -e ncmpcpp'';
+          o = ''obsidian'';
+          q = ''qutebrowser'';
+          r = ''rofi -m -4 -show drun'';
+          s = ''spotify'';
+          v = ''${usr.term} -e nvim'';
+          x = ''${usr.term} -e lf'';
+          y = ''zathura''; # actuall z
+          z = ''${pkgs.screenkey}/bin/screenkey &''; # actually y
         };
       };
       "${modifier} r" = {
         name = "run";
         switch = {
-          "g p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
-          y = ''passmenu'';
-          r = runScript;
-          q = killScript;
-          k = kaomojiScript;
-          t = ''rofi-theme-selector'';
-          p = ''rofi-pass'';
-          o = ''rofi-obsidian'';
-          s = ''rofi-screenshot'';
           c = ''${rcurmon} -show calc -modi calc -no-show-match -no-sort'';
           e = ''${rcurmon} -show emoji'';
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
-          w = ''${rcurmon} -show window'';
+          "g p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
           # "h d" = ''echo -e {'enable="Alt+e" \ndisable="Alt+d" \nstop="Alt+k" \nrestart="Alt+r" \ntail="Alt+t"} | ${rcurmon} -dmenu'';
+          k = kaomojiScript;
+          o = ''rofi-obsidian'';
+          p = ''rofi-pass'';
+          q = killScript;
+          r = runScript;
+          s = ''rofi-screenshot'';
+          t = ''rofi-theme-selector'';
+          w = ''${rcurmon} -show window'';
+          y = ''passmenu'';
         };
       };
       "${modifier} m" = {

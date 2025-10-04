@@ -19,6 +19,7 @@ in
     default = (config.u.net.enable && !usr.minimal) || usr.browser == "surf";
   };
   config = mkIf cfg.enable {
-    home.packages = [ (pkgs.surf.override { patches = [ ]; }) ];
+    # FIXME: libsoup eol
+    # home.packages = [ (pkgs.surf.override { patches = [ ]; }) ];
   };
 }
