@@ -33,8 +33,8 @@ while true; do
 	batteryStats=$(cat /sys/class/power_supply/BAT0/status)
 	batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
 	bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
-	bla=("$(cat /sys/class/backlight/*/actual_brightness)")
-	blm=("$(cat /sys/class/backlight/*/max_brightness)")
+	bla=($(cat /sys/class/backlight/*/actual_brightness))
+	blm=($(cat /sys/class/backlight/*/max_brightness))
 	backlight=$(("${bla[0]}" * 100 / "${blm[0]}"))
 	volume=("$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i", $2/2 }')" "$(pactl get-sink-mute @DEFAULT_SINK@ | sed 's/Mute: //')")
 	muted="A"
