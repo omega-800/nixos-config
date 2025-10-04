@@ -55,6 +55,7 @@ in
           ExecStart = "${pkgs.writeShellScript "backup" ''
             # FIXME: 
             export BORG_PASSPHRASE="" 
+            export BORG_RELOCATED_REPO_ACCESS_IS_OK="yes" 
             export DBUS_SESSION_BUS_ADDRESS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/''${UID}/bus}"
 
             # some helpers and error handling:
