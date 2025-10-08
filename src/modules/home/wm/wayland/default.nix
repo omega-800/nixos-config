@@ -56,6 +56,7 @@ in
       packages =
         with pkgs;
         [
+          sway-audio-idle-inhibit
           xdg-utils
           #xdg-mime
           #xdg-open

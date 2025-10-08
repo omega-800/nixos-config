@@ -1,4 +1,3 @@
-
 {
   usr,
   lib,
@@ -24,9 +23,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.gh= {
-      enable = true; 
-      gitCredentialHelper.enable = true;
+    programs.gh = {
+      enable = true;
+      gitCredentialHelper.enable = false;
       package = pkgs.gitAndTools.gh;
       hosts = {
         # TODO: 

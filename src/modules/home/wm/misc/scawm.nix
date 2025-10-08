@@ -82,23 +82,23 @@ in
       "${modifier} m" = {
         name = "music";
         stay = {
-          q = ''playerctl stop'';
+          a = ''playerctl loop Playlist'';
+          d = ''${pkgs.volume_control} lower'';
+          h = ''playerctl position 5-'';
+          i = ''${pkgs.volume_control} raise'';
           j = ''playerctl previous'';
           k = ''playerctl next'';
           l = ''playerctl position 5+'';
-          h = ''playerctl position 5-'';
-          p = ''playerctl play-pause'';
-          t = ''playerctl loop Track'';
-          a = ''playerctl loop Playlist'';
           n = ''playerctl loop None'';
+          p = ''playerctl play-pause'';
+          q = ''playerctl stop'';
           s = ''playerctl shuffle Toggle'';
+          t = ''playerctl loop Track'';
           x = ''${pkgs.volume_control} mute'';
-          i = ''${pkgs.volume_control} raise'';
-          d = ''${pkgs.volume_control} lower'';
         };
         switch = {
-          "p o" = ''rofi-pulse-select sink'';
-          "p i" = ''rofi-pulse-select source'';
+          "r o" = ''rofi-pulse-select sink'';
+          "r i" = ''rofi-pulse-select source'';
           m = ''rofi-mpd'';
         };
       };

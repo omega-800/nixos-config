@@ -48,7 +48,7 @@ in
         };
         #zprof.enable = true;
         zsh-abbr = {
-          enable = true;
+          enable = !usr.minimal;
           abbreviations = config.home.shellAliases;
         };
         #defaultKeymap = "vicmd";
@@ -108,7 +108,7 @@ in
           path = globals.envVars.HISTFILE;
         };
         oh-my-zsh = {
-          enable = true;
+          enable = !usr.minimal;
           #theme = "robbyrussell";
           plugins =
             [

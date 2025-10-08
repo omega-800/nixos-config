@@ -20,7 +20,6 @@ in
       inkscape
       # keepass
       # veeam -> https://www.veeam.com/de/linux-backup-free.html
-      slides
     ];
   };
 }

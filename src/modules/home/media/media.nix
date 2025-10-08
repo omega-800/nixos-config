@@ -97,7 +97,7 @@ in
             "Ctrl+d" = "move down 15";
             "Ctrl+u" = "move up 15";
           };
-          statusbar_format = "%artists - %track [%album]";
+          statusbar_format = "%artists - %title [%album]";
           track_format = {
             left = "%artists - %title";
             center = "[%album]";

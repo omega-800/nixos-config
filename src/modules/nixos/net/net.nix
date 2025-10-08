@@ -19,7 +19,7 @@ let
     nameValuePair
     concatStringsSep
     ;
-  inherit (lib.omega.cfg) getCfgAttrOfAllHosts filterCfgs;
+  inherit (lib.omega.cfg) getCfgAttrOfMatchingHosts filterCfgs;
   inherit (lib.omega.net.ip4)
     ipFromCfg
     toHostId
@@ -112,7 +112,7 @@ in
     {
       # FIXME: only for orchestrator hosts
       users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
-        getCfgAttrOfAllHosts "net" "pubkeys"
+        getCfgAttrOfMatchingHosts (c: builtins.elem "master" c.sys.flavors) "net" "pubkeys"
       );
       # FIXME: i hate myself
       services.openssh.enable = true;

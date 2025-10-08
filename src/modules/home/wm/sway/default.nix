@@ -48,7 +48,6 @@ in
     default = usr.wm == "sway";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ sway-audio-idle-inhibit ];
     wayland.windowManager.sway = {
       enable = true;
       checkConfig = true;

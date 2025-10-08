@@ -45,12 +45,11 @@ in
       ++ (optionals usr.extraBloat [
         qemu
         virt-manager
-        ncurses
+        slides
       ])
       ++ (optionals (sys.profile == "school") [
         dbeaver-bin
         ciscoPacketTracer8
-        slides
       ]);
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {
