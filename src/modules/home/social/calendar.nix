@@ -19,7 +19,19 @@ in
 
   config = mkIf cfg.enable {
     programs = {
-      khal.enable = true;
+      khal = {
+        enable = true;
+        locale = {
+          dateformat = "%d.%m.%Y";
+          datetimeformat = "%H:%M:%S %a %d %b %Y";
+          longdateformat = "%d.%m.%y";
+          longdatetimeformat = "%H:%M:%S %d.%m.%y";
+          timeformat = "%H:%M:%S";
+          firstweekday = 0;
+          weeknumbers = "left";
+          # default_timezone = "";
+        };
+      };
       vdirsyncer.enable = true;
     };
     services.vdirsyncer.enable = true;

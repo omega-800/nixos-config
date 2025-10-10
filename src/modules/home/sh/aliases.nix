@@ -58,7 +58,9 @@ in
           ll = "ls -alF";
         }
     )
-    rec {
+    {
+      klt = "khal list today";
+      kltm = "khal list tomorrow";
       nopts = opts "nixos";
       hopts = opts "home";
       ndx = ''nix-shell -p nodejs_22 --run "npx create-directus-extension@latest"'';
