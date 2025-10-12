@@ -52,11 +52,11 @@
         )
         [
           {
-            pattern = "latex";
+            pattern = "latex,tex,bbl,bib,sty";
             command = "pdflatex %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl";
           }
           {
-            pattern = "typst";
+            pattern = "typst,typ";
             command = "typst compile %";
           }
           {

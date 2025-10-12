@@ -49,6 +49,7 @@ in
           "xx" = "config-cycle tabs.show always never;; config-cycle statusbar.show always never";
           ",m" = "spawn mpv {url}";
           ",M" = "hint links spawn mpv {hint-url}";
+          ",c" = "spawn --userscript moodle-session-persist";
         };
       };
       settings = {
@@ -57,6 +58,7 @@ in
           default_encoding = "utf-8";
           geolocation = false;
           pdfjs = true;
+          autoplay = false;
           blocking = {
             adblock.lists = [
               "https://easylist.to/easylist/easylist.txt"
@@ -136,6 +138,20 @@ in
           url = "https://update.greasyfork.org/scripts/428243/Don%27t%20track%20me%20Google.user.js";
           sha256 = "sha256-yEjBZprSjHyDRpd+TJ1vUsSYHrwLspQOztpKunBLPig=";
         })
+        (pkgs.writeText "moodle-session-persist.user.js" ''
+          // ==UserScript==
+          // @name        Moodle Session Persist
+          // @include     https://moodle.ost.org/*
+          // @version     1
+          // ==/UserScript==
+
+          const prevKey = localStorage.getItem("ostMoodleSessionKey");
+          const parts = `; $${document.cookie}`.split(`; MoodleSession=`);
+          if (parts.length === 2) 
+            localStorage.setItem("ostMoodleSessionKey", parts.pop().split(';').shift());
+          else if (prevKey)
+            document.cookie = `$${document.cookie}; MoodleSession=$${prevKey};`;
+        '')
       ];
     };
   };
