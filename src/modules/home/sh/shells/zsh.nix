@@ -20,6 +20,7 @@ in
     default = usr.shell.pname == "zsh";
   };
   config = mkIf cfg.enable {
+    home.shell.enableZshIntegratoin = true;
     programs = {
       #bash.initExtra = "exec zsh";
       # oh-my-posh = {

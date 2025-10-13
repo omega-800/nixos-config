@@ -14,5 +14,10 @@ in
     type = types.bool;
     default = usr.shell.pname == "dash";
   };
-  config = mkIf cfg.enable { home.packages = with pkgs; [ dash ]; };
+  config = mkIf cfg.enable { 
+    home = {
+      shell.enableShellIntegration = true;
+      packages = with pkgs; [ dash ]; 
+    };
+  };
 }

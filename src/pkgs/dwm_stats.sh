@@ -20,7 +20,7 @@ while true; do
   net="${netStats[*]}%"
 	nts="$( ([ "$netP" -lt "20" ] && echo "$critical") || ([ "$netP" -lt "60" ] && echo "$warning") || echo "$nrm")"
 
-	cpu="$(grep 'cpu ' /proc/stat | awk '{printf "%i", 100-($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}')"
+	cpu="$(awk '/cpu / {printf "%i", 100-($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}' /proc/stat)"
 	cps="$( ([ "$cpu" -gt "80" ] && echo "$critical") || ([ "$cpu" -gt "60" ] && echo "$warning") || echo "$nrm")"
 
 	memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"
@@ -28,15 +28,15 @@ while true; do
 	mms="$( ([ "$memory" -gt "80" ] && echo "$critical") || ([ "$memory" -gt "60" ] && echo "$warning") || echo "$nrm")"
 
   if [ "$(df | grep home | cut -d' ' -f1)" != "$(df | grep -E '/$' | cut -d' ' -f1)" ]; then
-    homeD="$(df -h | grep home | awk '{printf "%d",$5}')"
+    homeD="$(df -h | awk '/home/ {printf "%d",$5}')"
     if [ "$homeD" != "" ]; then
-      homeDStats="$(df -h | grep home | awk '{printf "%s/%s",$3,$2}')"
+      homeDStats="$(df -h | awk '/home/ {printf "%s/%s",$3,$2}')"
       hms="$( ([ "$homeD" -gt "80" ] && echo "$critical") || ([ "$homeD" -gt "60" ] && echo "$warning") || echo "$nrm")"
     fi
   fi
 
-	rootD="$(df -h | grep "/$" | awk '{printf "%d",$5}')"
-	rootDStats="$(df -h | grep "/$" | awk '{printf "%s/%s",$3,$2}')"
+	rootD="$(df -h | awk '/\/$/ {printf "%d",$5}')"
+	rootDStats="$(df -h | awk '/\/$/ {printf "%s/%s",$3,$2}')"
 	rms="$( ([ "$rootD" -gt "80" ] && echo "$critical") || ([ "$rootD" -gt "60" ] && echo "$warning") || echo "$nrm")"
 
 	time=$(date +"%H:%M")
