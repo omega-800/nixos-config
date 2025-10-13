@@ -16,24 +16,25 @@ in
     with pkgs;
     [
       latexrun
-      (texlive.combine {
-        inherit (texlive)
-          scheme-basic
-          cite
-          courier
-          csquotes
-          biblatex
-          biblatex-ieee
-          amsmath
-          hyperref
-          geometry
-          listings
-          pxfonts
-          babel-german
-          babel-english
-          babel-russian
-          ;
-      })
+      texliveFull
+      # (texlive.combine {
+      #   inherit (texlive)
+      #     scheme-basic
+      #     cite
+      #     courier
+      #     csquotes
+      #     biblatex
+      #     biblatex-ieee
+      #     amsmath
+      #     hyperref
+      #     geometry
+      #     listings
+      #     pxfonts
+      #     babel-german
+      #     babel-english
+      #     babel-russian
+      #     ;
+      # })
     ]
   );
   # config.programs.texlive = mkIf enabled {

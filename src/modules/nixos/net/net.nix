@@ -30,6 +30,7 @@ let
   wifis = [
     "net-home"
     "net-shared"
+    "tilde"
   ];
 in
 {

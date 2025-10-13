@@ -20,6 +20,11 @@
     };
 
     autoCmd =
+      let 
+        latex = "tex,bbl,bib,sty";
+        typst = "typ";
+        plantuml = "plantuml,puml,pu";
+      in 
       # TODO: move to langs/
       (map
         (
@@ -32,11 +37,11 @@
         )
         [
           {
-            pattern = "latex,typst";
+            pattern = latex + "," + typst;
             command = ":!zathura %:r.pdf > /dev/null 2>&1 &<cr><cr>";
           }
           {
-            pattern = "plantuml,puml,pu";
+            pattern = plantuml;
             command = ":!feh %:r.png > /dev/null 2>&1 &<cr><cr>";
           }
         ]
@@ -52,11 +57,11 @@
         )
         [
           {
-            pattern = "latex,tex,bbl,bib,sty";
+            pattern = latex;
             command = "pdflatex %:r.tex && bibtex %:r.aux && pdflatex %:r.tex && pdflatex %:r.tex && rm %:r.aux %:r.log %:r.blg %:r.bbl";
           }
           {
-            pattern = "typst,typ";
+            pattern = typst;
             command = "typst compile %";
           }
           {
@@ -77,7 +82,7 @@
           }
           /*
             {
-              pattern = "plantuml,puml,pu";
+              pattern = plantuml;
               command = "plantuml %";
             }
           */

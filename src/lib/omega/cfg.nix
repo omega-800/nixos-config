@@ -35,8 +35,10 @@ rec {
 
   getCfgAttrOfAllHosts = type: name: map (hostname: (getCfgAttr hostname type name)) allHosts;
 
+  getCfgAttrOfMatchingHosts = fn: type: name: map (c: c.${type}.${name}) (filterCfgs fn);
+
   allCfgs = mapHosts (
-    n: v:
+    n: _:
     (lib.evalModules {
       modules = mkCfgModules n;
     }).config.c
