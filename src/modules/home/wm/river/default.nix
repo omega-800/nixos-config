@@ -44,6 +44,10 @@ in
         default-layout = "rivertile";
         keyboard-layout = "ch";
         set-cursor-warp = "on-output-change";
+        hide-cursor = {
+          timeout = 1000;
+          when-typing = "enabled";
+        };
         input."'*'" = {
           "accel-profile" = "flat";
           "tap" = "enabled";

@@ -1,5 +1,6 @@
 {
   usr,
+  globals,
   config,
   lib,
   pkgs,
@@ -68,6 +69,7 @@ in
           };
         };
         downloads.location = {
+          directory = globals.envVars.XDG_DOWNLOAD_DIR;
           prompt = true;
           remember = true;
           suggestion = "both";

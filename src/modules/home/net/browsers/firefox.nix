@@ -105,14 +105,14 @@ in
               definedAliases = [ "@n" ];
             };
             /*
-            "NixOS install guide" = {
-              urls = [
-                {
-                  template = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
-                }
-              ];
-              definedAliases = [ "@ni" ];
-            };
+              "NixOS install guide" = {
+                urls = [
+                  {
+                    template = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
+                  }
+                ];
+                definedAliases = [ "@ni" ];
+              };
             */
             "NixOS wiki" = {
               urls = [
@@ -129,6 +129,10 @@ in
               icon = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@ng" ];
+            };
+            "hoogle" = {
+              urls = [ { template = "https://hoogle.haskell.org/?hoogle={searchTerms}"; } ];
+              definedAliases = [ "@hg" ];
             };
             "osm" = {
               urls = [
