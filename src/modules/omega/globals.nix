@@ -7,7 +7,7 @@
 }:
 {
   envVars = rec {
-    #  FIXME: 
+    #  FIXME:
     LYNX_CFG = "${XDG_CONFIG_HOME}/lynx/lynx.cfg";
 
     MANPAGER = "less -R --use-color -Dd+r -Du+g -Dk+m -Ds+c";
@@ -107,23 +107,26 @@
       };
       polarity = if theme.dark then "dark" else "light";
       image = pkgs.fetchurl (if (lib.isList theme.bg) then (lib.elemAt theme.bg 0) else theme.bg);
-      fonts = rec {
-        monospace = {
-          name = usr.font;
-          package = usr.fontPkg;
+      fonts =
+        let
+          monospace = {
+            name = usr.font;
+            package = usr.fontPkg;
+          };
+        in
+        {
+          serif = monospace;
+          sansSerif = monospace;
+          emoji = lib.mkIf (!usr.minimal) {
+            name = "Noto Color Emoji";
+            package = pkgs.noto-fonts-emoji-blob-bin;
+          };
+          sizes = {
+            terminal = 18;
+            applications = 12;
+            popups = 12;
+            desktop = 12;
+          };
         };
-        serif = monospace;
-        sansSerif = serif;
-        emoji = lib.mkIf (!usr.minimal) {
-          name = "Noto Color Emoji";
-          package = pkgs.noto-fonts-emoji-blob-bin;
-        };
-        sizes = {
-          terminal = 18;
-          applications = 12;
-          popups = 12;
-          desktop = 12;
-        };
-      };
     };
 }

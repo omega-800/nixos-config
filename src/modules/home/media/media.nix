@@ -18,38 +18,42 @@ in
       enable = true;
       mime.enable = true;
       # echo $XDG_DATA_DIRS | tr -d '\n' | xargs -d : -I % find %/applications -name '*.desktop' | sed -E 's/.*\///g'
-      mimeApps = rec {
-        enable = true;
-        defaultApplications = {
-          "x-scheme-handler/http" = [ "firefox.desktop" ];
-          "x-scheme-handler/https" = [ "firefox.desktop" ];
-          "text/html" = [ "firefox.desktop" ];
-          "application/pdf" = [
-            "org.pwmt.zathura.desktop"
-            "firefox.desktop"
-          ];
-          "image/png" = [
-            "feh.desktop"
-            "firefox.desktop"
-          ];
-          "image/jpg" = [
-            "feh.desktop"
-            "firefox.desktop"
-          ];
-          "image/svg+xml" = [
-            "feh.desktop"
-            "firefox.desktop"
-            "inkscape.desktop"
-          ];
-        };
-        associations = {
-          removed = {
-            "application/pdf" = [ "chromium-browser.desktop" ];
-            "image/png" = [ "chromium-browser.desktop" ];
+      mimeApps =
+        let
+          defaultApplications = {
+            "x-scheme-handler/http" = [ "firefox.desktop" ];
+            "x-scheme-handler/https" = [ "firefox.desktop" ];
+            "text/html" = [ "firefox.desktop" ];
+            "application/pdf" = [
+              "org.pwmt.zathura.desktop"
+              "firefox.desktop"
+            ];
+            "image/png" = [
+              "feh.desktop"
+              "firefox.desktop"
+            ];
+            "image/jpg" = [
+              "feh.desktop"
+              "firefox.desktop"
+            ];
+            "image/svg+xml" = [
+              "feh.desktop"
+              "firefox.desktop"
+              "inkscape.desktop"
+            ];
           };
-          added = defaultApplications;
+        in
+        {
+          enable = true;
+          inherit defaultApplications;
+          associations = {
+            removed = {
+              "application/pdf" = [ "chromium-browser.desktop" ];
+              "image/png" = [ "chromium-browser.desktop" ];
+            };
+            added = defaultApplications;
+          };
         };
-      };
     };
     home.packages =
       with pkgs;

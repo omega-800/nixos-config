@@ -21,6 +21,7 @@ in
     in
     (getPkgsInput cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
+      # FIXME: overlays
       specialArgs = mkArgs cfg;
       modules = [
         (PATHS.NODES + /${hostname}/${CONFIGS.nixosConfiguration}.nix)

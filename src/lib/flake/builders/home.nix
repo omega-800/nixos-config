@@ -9,9 +9,6 @@ let
     mapHostConfigs
     CONFIGS
     ;
-in
-rec {
-
   mkHome =
     hostname:
     let
@@ -26,5 +23,8 @@ rec {
       modules = mkModules cfg CONFIGS.homeConfigurations;
     };
 
+in
+{
+  inherit mkHome;
   mapHomes = mapHostConfigs CONFIGS.homeConfigurations mkHome;
 }

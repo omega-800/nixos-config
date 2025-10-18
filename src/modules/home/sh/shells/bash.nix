@@ -16,7 +16,7 @@ in
     default = usr.shell.pname == "bash";
   };
   config = mkIf cfg.enable {
-    home.shell.enableBashIntegratoin = true;
+    home.shell.enableBashIntegration = true;
     programs.bash = {
       enable = true;
       enableCompletion = true;

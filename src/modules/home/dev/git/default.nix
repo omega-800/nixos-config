@@ -157,11 +157,11 @@ in
         "node_modules"
         "*.out"
       ];
-      hooks = {
-        pre-commit = ./pre-commit;
-        commit-msg = ./commit-msg;
-        prepare-commit-msg = ./prepare-commit-msg;
-      };
+      #hooks = {
+      #  pre-commit = ./pre-commit;
+      #  commit-msg = ./commit-msg;
+      #  prepare-commit-msg = ./prepare-commit-msg;
+      #};
       # TODO:
       # https://github.com/gitattributes/gitattributes/tree/master
       attributes = [ ];

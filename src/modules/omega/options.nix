@@ -26,7 +26,7 @@ let
     package
     submodule
     ;
-  inherit (builtins) length elem;
+  inherit (builtins) length elem attrValues;
 in
 {
   options.c = {
@@ -182,7 +182,13 @@ in
         default = !config.c.usr.minimal;
       };
       browser = mkOption {
-        type = enum (["echo" "zen-browser"] ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers)));
+        type = enum (
+          [
+            "echo"
+            "zen-browser"
+          ]
+          ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers))
+        );
         # Print the URL instead on servers
         default = if config.c.usr.minimal then "echo" else "firefox";
       };
@@ -262,14 +268,9 @@ in
         default = "nvim";
       };
       shell = mkOption {
-        type = enum (
-          with pkgs;
-          [
-            bash
-            zsh
-            dash
-          ]
-        );
+        type = enum (attrValues {
+          inherit (pkgs) bash zsh dash;
+        });
         default = pkgs.bash;
       };
       termColors = mkOption {

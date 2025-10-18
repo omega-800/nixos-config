@@ -1,14 +1,22 @@
 { lib, ... }:
-# FIXME: 
-with builtins;
-with lib;
+let
+  inherit (lib)
+    mapAttrs'
+    nameValuePair
+    hasSuffix
+    removeSuffix
+    filterAttrs
+    mapAttrsToList
+    ;
+  inherit (builtins) readDir;
+in
 rec {
-  mapDir = mapFn: dir: mapFilterDir mapFn (n: v: true) dir;
+  mapDir = mapFn: dir: mapFilterDir mapFn (_: _: true) dir;
 
   mapFilterDir' =
     mapFn: filterFn: dir:
     mapAttrs' (
-      n: v:
+      n: _:
       nameValuePair (
         if (hasSuffix ".sh" n) then
           (removeSuffix ".sh" n)
@@ -22,7 +30,7 @@ rec {
   mapFilterDir =
     mapFn: filterFn: dir:
     mapAttrs' (
-      n: v:
+      n: _:
       nameValuePair (
         if (hasSuffix ".sh" n) then
           (removeSuffix ".sh" n)
@@ -35,17 +43,17 @@ rec {
 
   listFilterNixModuleNames =
     filterFn: dir:
-    mapAttrsToList (n: v: removeSuffix ".nix" n) (
+    mapAttrsToList (n: _: removeSuffix ".nix" n) (
       filterAttrs (n: v: v == "regular" && (hasSuffix ".nix" n) && n != "default.nix" && (filterFn n v)) (
         readDir dir
       )
     );
 
-  listNixModuleNames = dir: listFilterNixModuleNames (n: v: true) dir;
+  listNixModuleNames = dir: listFilterNixModuleNames (_: _: true) dir;
 
   listFilterDirs =
     filterFn: dir:
-    mapAttrsToList (n: v: n) (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
+    mapAttrsToList (n: _: n) (filterAttrs (n: v: v == "directory" && (filterFn n v)) (readDir dir));
 
-  listDirs = dir: listFilterDirs (n: v: true) dir;
+  listDirs = dir: listFilterDirs (_: _: true) dir;
 }

@@ -49,10 +49,7 @@ rec {
     isStable: system: isGenericLinux:
     (import (getPkgsInput isStable) {
       inherit system;
-      config = {
-        allowUnfree = true;
-        allowUnfreePredicate = _: true;
-      };
+      config = { };
       overlays = mkOverlays isStable system isGenericLinux;
     });
 }

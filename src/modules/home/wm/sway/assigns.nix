@@ -11,7 +11,6 @@ let
     { class = "Chromium-browser"; }
     { class = "Brave-browser"; }
   ];
-in rec {
   work = {
     "1" = [
       { class = "Brave-browser"; }
@@ -56,6 +55,7 @@ in rec {
     ];
     "0" = [ ];
   };
+in {
   school = work;
   pers = {
     "1" = terminals;

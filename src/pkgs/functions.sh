@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+nfi() {
+  nix flake init --template "github:omega-800/devshell-templates#$1-lock" "$2"
+}
+
 otp() {
   cmd="$(history | tail -1 | cut -c8-)"
   potp="${cmd/pass /pass otp }"
@@ -126,7 +130,7 @@ stopwatch() {
 }
 
 clean_node_modules() {
-  find . -type f -name "package.json" ! -path "./.conf/*" -a ! -path "./.backup/*" | xargs -I{} bash -c 'sudo rm -rf $(dirname {})/node_modules'
+  find . -type f -name "package.json" ! -path "./.conf/*" -a ! -path "./.backup/*" | xargs -I{} sudo rm -rf "$(dirname {})/node_modules"
   find . -type f -name "package.json" ! -path "*node_modules*" -a ! -path "./.conf/*" | xargs -I{} bash -c '[ ! -d "$(dirname {})/node_modules" ] && npm i --prefix $(dirname {})'
 }
 
@@ -171,7 +175,7 @@ newws_old() {
     [ "$2" = "" ] && cd .. && node checkout.js && rm -rf .git*
 }
 
-note() { vim "$(date +%F)$( [ ! -z "$1" ] && echo "_$1" )".md; }
+note() { vim "$(date +%F)$( [ -n "$1" ] && echo "_$1" )".md; }
 space() { sudo du -hsx "$1"* | sort -rh | head -n 40; }
 rmr() { ls | grep -P "$1" | xargs -d"\n" rm; }
 calc() { awk "BEGIN{print $1}"; }

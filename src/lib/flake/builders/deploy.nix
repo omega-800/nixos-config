@@ -14,7 +14,7 @@ let
   inherit (inputs.nixpkgs-unstable) lib;
 in
 rec {
-  # mapDeployments = _: attrs: 
+  # mapDeployments = _: attrs:
   #   {
   #     nodes = lib.mapAttrs (_: config: {
   #       profiles.${CONFIGS.nixosConfigurations} = {
@@ -40,7 +40,7 @@ rec {
       orchestratorConfig = (mkHost orchestrator).modules.config;
     in
     {
-      nodes = lib.mapAttrs' (n: v: lib.nameValuePair n (mkNode n)) (
+      nodes = lib.mapAttrs' (n: _: lib.nameValuePair n (mkNode n)) (
         lib.filterAttrs (n: v: v == "directory" && !(lib.hasPrefix "_" n)) (builtins.readDir PATHS.NODES)
       );
       profilesOrder = [
@@ -60,7 +60,7 @@ rec {
       defPkgs =
         ((mkPkgs stable system genericLinux).extend (getInput "deploy-rs" stable).overlay).extend
           (
-            self: super: {
+            _: super: {
               deploy-rs = {
                 inherit (mkPkgs stable system genericLinux) deploy-rs;
                 inherit (super.deploy-rs) lib;
@@ -77,18 +77,17 @@ rec {
             n: t:
             lib.nameValuePair t (
               {
-                path = defPkgs.deploy-rs.lib.activate.nixos (
-                  inputs.self.${n}.${hostname}
-                  # // (lib.optionalAttrs (n == CONFIGS.homeConfigurations) { inherit system; })
-                );
+                path = defPkgs.deploy-rs.lib.activate.nixos inputs.self.${n}.${hostname}
+                # // (lib.optionalAttrs (n == CONFIGS.homeConfigurations) { inherit system; })
+                ;
               }
               // (mkDeployCfg cfg inputs.self.${n}.${hostname}.config t)
             )
           )
           (
             lib.filterAttrs
-              # (n: t: builtins.pathExists (PATHS.NODES + /${hostname}/${t}.nix)) 
-              (n: t: (lib.hasAttr n inputs.self) && (lib.hasAttr hostname inputs.self.${n}))
+              # (n: t: builtins.pathExists (PATHS.NODES + /${hostname}/${t}.nix))
+              (n: _: (lib.hasAttr n inputs.self) && (lib.hasAttr hostname inputs.self.${n}))
               CONFIGS
           );
     };

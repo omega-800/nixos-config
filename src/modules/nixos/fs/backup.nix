@@ -11,7 +11,7 @@ let
 in
 {
   services.borgbackup.jobs = {
-    root = rec {
+    root = {
       # TODO:
       encryption.mode = "none";
       environment = {

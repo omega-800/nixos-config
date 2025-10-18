@@ -9,6 +9,7 @@
 let
   cfg = config.u.wm.wayland;
   inherit (lib)
+    optionals
     mkOption
     mkIf
     types
@@ -67,14 +68,12 @@ in
           wf-recorder
         ]
         ++ (
-          if sys.genericLinux then
-            with pkgs;
+          optionals sys.genericLinux 
+            (with pkgs;
             [
               lxqt.lxqt-policykit
               xwayland
-            ]
-          else
-            [ ]
+            ])
         );
     };
     services = {

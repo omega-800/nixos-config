@@ -7,13 +7,14 @@
 }:
 let
   rcurmon = "rofi -m -4";
+  modifier = "Mod4";
 in
 {
   imports = [ inputs.scawm.homeManagerModules.scawm ];
-  scawm = rec {
+  scawm = {
     enable = true;
+    inherit modifier;
     autoEnable = true;
-    modifier = "Mod4";
     integrations.sxhkd.bindings = {
       "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config' -t 500'';
       "${modifier} + x" = "slock";
@@ -30,7 +31,8 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" =
+        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";

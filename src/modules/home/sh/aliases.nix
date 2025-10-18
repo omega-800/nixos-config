@@ -46,10 +46,13 @@ in
   home.shellAliases = mkMerge [
     (
       if config.u.file.enable then
-        rec {
-          # ll = ''ls -alF'';
-          ll = "exa --icons -a -l -F -h -g -s size --git";
+        let
           tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
+        in
+        {
+          # ll = ''ls -alF'';
+          inherit tree;
+          ll = "exa --icons -a -l -F -h -g -s size --git";
           treed = "${tree} -D";
           treea = "exa --tree --icons -a -l -F -h -g -s size --git";
         }

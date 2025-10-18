@@ -28,6 +28,7 @@ in
         termshark
         nettools
         traceroute
+        iperf
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)
