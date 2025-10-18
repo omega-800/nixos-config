@@ -21,11 +21,18 @@ in
   options.u.dev.enable = mkEnableOption "dev packages";
 
   config = mkIf cfg.enable {
-    programs.pgcli = mkIf (sys.profile == "school") {
-      enable = true;
-      settings.main = {
-        smart_completion = true;
-        vi = true;
+    programs = {
+      go = {
+        goBin = GOBIN;
+        goPath = GOPATH;
+      };
+      opencode.enable = usr.extraBloat;
+      pgcli = mkIf (sys.profile == "school") {
+        enable = true;
+        settings.main = {
+          smart_completion = true;
+          vi = true;
+        };
       };
     };
     home.packages =
@@ -88,10 +95,6 @@ in
         init=${NPM_INIT_MODULE}
         tmp=${NPM_TMP}
       '';
-    };
-    programs.go = {
-      goBin = GOBIN;
-      goPath = GOPATH;
     };
   };
 }

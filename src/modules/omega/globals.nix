@@ -68,6 +68,13 @@
     GIT_ASKPASS = "";
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
+
+    # XKB_DEFAULT_LAYOUT = "de";
+    # GTK_IM_MODULE = "fcitx";
+    # QT_IM_MODULE = "fcitx";
+    # SDL_IM_MODULE = "fcitx";
+    # XMODIFIERS = "@im=fcitx";
+    # GLFW_IM_MODULE = "ibus";
   };
   sshConfig = {
     kexAlgorithms = [
@@ -115,6 +122,7 @@
           };
         in
         {
+          inherit monospace;
           serif = monospace;
           sansSerif = monospace;
           emoji = lib.mkIf (!usr.minimal) {

@@ -44,7 +44,7 @@ riverctl spawn-tagmask ${all_but_scratch_tag}
 sticky_tag=$((1 << 11))
 all_but_sticky_tag=$(( $all_tags ^ $sticky_tag ))
 
-riverctl map normal Super S toggle-view-tags $sticky_tag
+riverctl map normal Super T toggle-view-tags $sticky_tag
 riverctl spawn-tagmask ${all_but_sticky_tag}
 
 # modify the normal keybind to always select the sticky tag

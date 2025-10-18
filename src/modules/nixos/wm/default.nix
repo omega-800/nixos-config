@@ -3,6 +3,7 @@
     ./dm
     ./dwm
     ./qtile
+    ./mango
     ./sway
     ./river
     ./wayland

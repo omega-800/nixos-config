@@ -8,5 +8,6 @@
     ./sway
     ./river
     ./misc
+    ./mango
   ];
 }

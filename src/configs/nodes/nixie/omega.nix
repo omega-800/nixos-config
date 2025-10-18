@@ -19,6 +19,7 @@
       ];
     };
     usr = {
+      # wm = "mango";
       wm = "river";
       shell = pkgs.zsh;
       term = "kitty";

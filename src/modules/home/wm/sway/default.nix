@@ -99,14 +99,7 @@ in
         workspaceAutoBackAndForth = true;
         # workspaceLayout = "stacking";
         terminal = usr.term;
-        startup = [
-          { command = "${usr.term} -e tmux a"; }
-          { command = "exec nohup ${pkgs.sway-audio-idle-inhibit} &"; }
-          { command = "exec ${pkgs.notify_bat}"; }
-          {
-            command = "exec sleep 1 && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";
-          }
-        ];
+        startup = map (c: { command = "exec ${c}"; }) config.u.wm.wayland.autoStart;
         seat = {
           "*" = {
             hide_cursor = "when-typing enable";

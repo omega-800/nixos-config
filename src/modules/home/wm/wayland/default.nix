@@ -26,9 +26,26 @@ in
     ./swaylock.nix
     ./gammastep.nix
   ];
-  options.u.wm.wayland.enable = mkOption {
-    type = types.bool;
-    default = usr.wmType == "wayland";
+  options.u.wm.wayland = {
+    enable = mkOption {
+      type = types.bool;
+      default = usr.wmType == "wayland";
+    };
+    autoStart = mkOption {
+      type = types.listOf types.string;
+      default = [
+        "nohup ${pkgs.sway-audio-idle-inhibit} &"
+        "swaybg --image ${config.stylix.image} --mode fill"
+        "${pkgs.notify_bat}"
+        "${usr.term} -e tmux a"
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
+        "wl-clip-persist --clipboard regular --reconnect-tries 0 &"
+        "wl-paste --type text --watch cliphist store &"
+        "echo 'Xft.dpi: 140' | xrdb -merge"
+        "gsettings set org.gnome.desktop.interface text-scaling-factor 1.4"
+        "/usr/lib/xfce-polkit/xfce-polkit &"
+      ];
+    };
   };
   config = mkIf cfg.enable {
     xdg.portal = {
@@ -67,14 +84,13 @@ in
           wl-clipboard
           wf-recorder
         ]
-        ++ (
-          optionals sys.genericLinux 
-            (with pkgs;
-            [
-              lxqt.lxqt-policykit
-              xwayland
-            ])
-        );
+        ++ (optionals sys.genericLinux (
+          with pkgs;
+          [
+            lxqt.lxqt-policykit
+            xwayland
+          ]
+        ));
     };
     services = {
       cliphist = {
