@@ -70,7 +70,7 @@ rec {
       homeMgr = getHomeMgrInput stable;
       pkgsFinal = mkPkgs stable system genericLinux;
       lib = pkgsFinal.lib.extend (
-        final: prev:
+        final: _:
         {
           omega = import (LIBS + /omega) {
             inherit inputs;

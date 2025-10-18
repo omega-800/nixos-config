@@ -12,14 +12,13 @@ let
       inherit (inputs.nixpkgs-unstable) lib;
     })
     rmSuffix
-    rmPrefix
     ;
 in
 rec {
   mkOverlays =
     isStable: system: isGenericLinux:
     [
-      (self: super: inputs.self.packages.${system})
+      (_: _: inputs.self.packages.${system})
       (getInput "nur" isStable).overlays.default
       # (getInput "openconnect-sso" isStable).overlay
     ]
