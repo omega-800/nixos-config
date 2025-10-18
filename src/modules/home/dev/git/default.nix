@@ -52,7 +52,7 @@ in
     home.packages = with pkgs; [ git-secrets ] ++ (optionals (!usr.minimal) [ lazygit ]);
     programs.git = {
       enable = true;
-      package = pkgs.gitFull;
+      package = pkgs.gitAndTools.gitFull;
       userName = usr.devName;
       userEmail = usr.devEmail;
       aliases = {

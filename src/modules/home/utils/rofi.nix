@@ -16,7 +16,6 @@ let
     types
     mkIf
     ;
-  inherit (builtins) attrValues;
 in
 {
   options.u.utils.rofi.enable = mkOption {
@@ -27,24 +26,22 @@ in
   config = mkIf cfg.enable {
     home.file.".config/networkmanager-dmenu/config.ini".text =
       lib.readFile ./networkmanager-dmenu.config.ini;
-    home.packages = attrValues (
-      {
-        inherit (pkgs)
+    home.packages =
+      with pkgs;
+      (
+        [
           rofi-mpd
           rofi-systemd
           rofi-bluetooth
           networkmanager_dmenu
-          ;
-      }
-      // (mkIf usr.extraBloat {
-        inherit (pkgs)
+        ]
+        ++ (optionals usr.extraBloat [
           rofi-vpn
           rofi-screenshot
           rofi-power-menu
           rofi-pulse-select
-          ;
-      })
-    );
+        ])
+      );
     programs.rofi = {
       enable = true;
       package = mkIf (usr.wmType == "wayland") pkgs.rofi-wayland;
