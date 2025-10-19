@@ -14,6 +14,7 @@ let
     mkIf
     getName
     optionals
+mkMerge
     ;
   cfg = config.u.dev;
 in
@@ -21,12 +22,11 @@ in
   options.u.dev.enable = mkEnableOption "dev packages";
 
   config = mkIf cfg.enable {
-    programs = {
+    programs = mkMerge [{
       go = {
         goBin = GOBIN;
         goPath = GOPATH;
       };
-      opencode.enable = usr.extraBloat;
       pgcli = mkIf (sys.profile == "school") {
         enable = true;
         settings.main = {
@@ -34,7 +34,10 @@ in
           vi = true;
         };
       };
-    };
+    }
+(if sys.stable then {} else {
+      opencode.enable = usr.extraBloat;
+})];
     home.packages =
       with pkgs;
       [ jq ]
