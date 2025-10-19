@@ -4,6 +4,7 @@
   ...
 }:
 {
+imports = [./hardware-configuration.nix];
   /*
     sops.secrets = {
       "hosts/default/disk" = { };
@@ -24,7 +25,10 @@
         };
       };
     */
-    os.boot.mode = "bios";
+    os.boot = {
+	mode = "uefi";
+	};
+net.iface="enp9s0";
   };
 
   boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
