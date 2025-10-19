@@ -15,9 +15,9 @@
       genericLinux = false;
       paranoid = lib.mkForce false;
       flavors = [
-        "child"
         "storer"
         "hoster"
+        "slave"
       ];
     };
     usr = {
