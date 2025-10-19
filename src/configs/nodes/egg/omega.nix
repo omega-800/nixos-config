@@ -8,6 +8,7 @@
         0
         0
       ];
+pubkeys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICuOJQevf59BvwPcTiKpm1vYJzuSk1Fm2p82KBEQx4WT omega@egg"];
     };
     sys = {
       profile = "serv";
@@ -15,9 +16,9 @@
       genericLinux = false;
       paranoid = lib.mkForce false;
       flavors = [
-        "child"
         "storer"
         "hoster"
+        "slave"
       ];
     };
     usr = {

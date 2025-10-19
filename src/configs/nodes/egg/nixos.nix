@@ -25,12 +25,10 @@ imports = [./hardware-configuration.nix];
         };
       };
     */
-    os.boot = {
-	mode = "uefi";
-	};
-net.iface="enp9s0";
+    net.iface="enp9s0";
+    os.boot.mode = "uefi";
   };
 
   boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }
