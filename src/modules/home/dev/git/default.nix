@@ -39,8 +39,8 @@ in
       enableZshIntegration = true;
       # TODO:
       enableSshSupport = false;
-      defaultCacheTtl = 30;
-      defaultCacheTtlSsh = 30;
+      defaultCacheTtl = 300;
+      defaultCacheTtlSsh = 300;
       maxCacheTtl = 600;
       maxCacheTtlSsh = 600;
       # extraConfig = ''

@@ -65,6 +65,10 @@ in
       "${modifier} r" = {
         name = "run";
         switch = {
+          "b; i" = "${pkgs.rofi_bookmarks} insert";
+          "b; o" = "${pkgs.rofi_bookmarks} open";
+          "b; c" = "${pkgs.rofi_bookmarks} clip";
+          "b; a" = "${pkgs.rofi_bookmarks}";
           c = ''${rcurmon} -show calc -modi calc -no-show-match -no-sort'';
           e = ''${rcurmon} -show emoji'';
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';

@@ -24,8 +24,11 @@ in
     };
   };
   config = mkIf cfg.enable {
-    home.keyboard = {
-      layout = sys.kbLayout;
+    home = {
+      packages = with pkgs; [ xdotool ];
+      keyboard = {
+        layout = sys.kbLayout;
+      };
     };
     services.unclutter = {
       enable = true;

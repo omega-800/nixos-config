@@ -78,7 +78,7 @@ in
       cal = "cal -m";
       please = "sudo";
       c = "clear";
-      f = "fuck";
+      # f = "fuck";
       cz = "fasd_cd -d";
       greprf = "grep -Rl";
       grepr = "grep -nRHIi";
