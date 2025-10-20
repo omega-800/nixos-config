@@ -235,14 +235,14 @@ in
             "none"
           else if
             (elem config.c.usr.wm [
-              "hyprland"
-              "sway"
-              "river"
+              "dwm"
+              "qtile"
+              "xmonad"
             ])
           then
-            "wayland"
+            "x11"
           else
-            "x11";
+            "wayland";
       };
       term = mkOption {
         type = enum [

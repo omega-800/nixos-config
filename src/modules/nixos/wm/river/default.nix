@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  sys,
   usr,
   ...
 }:
@@ -21,7 +22,7 @@ in
     };
   };
   config = mkIf cfg.enable {
-    programs.river-classic = {
+    programs.${"river" + (if sys.stable then "" else  "-classic")} = {
       enable = true;
     };
   };

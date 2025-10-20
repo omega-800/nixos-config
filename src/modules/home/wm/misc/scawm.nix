@@ -23,7 +23,7 @@ in
       "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
     };
     bindings = {
-      "${modifier}+Return" = "${usr.term}";
+      "${modifier} Return" = "${usr.term}";
       "${modifier}+Alt y" = "pkill -f screenkey";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
@@ -31,8 +31,7 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" =
-        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
@@ -58,7 +57,7 @@ in
           s = ''spotify'';
           v = ''${usr.term} -e nvim'';
           x = ''${usr.term} -e lf'';
-          y = ''zathura''; # actuall z
+          y = ''zathura''; # actually z
           z = ''${pkgs.screenkey}/bin/screenkey &''; # actually y
         };
       };

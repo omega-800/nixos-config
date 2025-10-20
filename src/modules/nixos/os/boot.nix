@@ -111,7 +111,7 @@ in
               enableCryptodisk = d.enable && d.root.encrypt;
               zfsSupport =
 
-                d.enable && omega.misc.poolsContainFs "zfs" d;
+                mkDefault (d.enable && omega.misc.poolsContainFs "zfs" d);
               device = cfg.grubDevice; # does nothing if running uefi rather than bios
               # otherwise devices get duplicated?
               devices = lib.optionals config.m.fs.disko.enable (lib.mkForce [ cfg.grubDevice ]);

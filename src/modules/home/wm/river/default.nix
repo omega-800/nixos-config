@@ -13,6 +13,7 @@ let
     mkIf
     types
     ;
+  inherit (builtins) readFile;
   inherit (globals.styling) colors;
   cfg = config.u.wm.river;
 in
@@ -102,17 +103,12 @@ in
             "Super F11" = "enter-mode normal";
           };
         };
-        spawn = [
-          "'nohup ${pkgs.sway-audio-idle-inhibit} &'"
-          "'swaybg --image ${config.stylix.image} --mode fill'"
-          "'${pkgs.notify_bat}'"
-          "yambar"
-          "'${usr.term} -e tmux a'"
+        spawn = (map (c: "'${c}'") config.u.wm.wayland.autoStart) ++ [
           "${globals.envVars.XDG_CONFIG_HOME}/river/bar"
           "${pkgs.writeShellScript "river-status" "${pkgs.dwm_stats} sand ${colors.base06} ${colors.base01} ${colors.base00} ${colors.base0D} ${colors.base00} ${colors.base0E}"}"
         ];
       };
-      extraConfig = builtins.readFile ./init;
+      extraConfig = readFile ./init;
     };
   };
 }

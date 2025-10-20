@@ -61,6 +61,15 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
+    mango-unstable = {
+      url = "github:DreamMaoMao/mango";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    mango-stable = {
+      url = "github:DreamMaoMao/mango";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     disko-unstable = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -172,6 +181,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager-unstable";
+        mango.follows = "mango-unstable";
       };
     };
     scawm-stable = {
@@ -179,6 +189,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs-stable";
         home-manager.follows = "home-manager-stable";
+        mango.follows = "mango-stable";
       };
     };
     lonsdaleite-unstable = {

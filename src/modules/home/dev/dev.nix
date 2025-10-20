@@ -14,6 +14,7 @@ let
     mkIf
     getName
     optionals
+mkMerge
     ;
   cfg = config.u.dev;
 in
@@ -21,13 +22,22 @@ in
   options.u.dev.enable = mkEnableOption "dev packages";
 
   config = mkIf cfg.enable {
-    programs.pgcli = mkIf (sys.profile == "school") {
-      enable = true;
-      settings.main = {
-        smart_completion = true;
-        vi = true;
+    programs = mkMerge [{
+      go = {
+        goBin = GOBIN;
+        goPath = GOPATH;
       };
-    };
+      pgcli = mkIf (sys.profile == "school") {
+        enable = true;
+        settings.main = {
+          smart_completion = true;
+          vi = true;
+        };
+      };
+    }
+(if sys.stable then {} else {
+      opencode.enable = usr.extraBloat;
+})];
     home.packages =
       with pkgs;
       [ jq ]
@@ -88,10 +98,6 @@ in
         init=${NPM_INIT_MODULE}
         tmp=${NPM_TMP}
       '';
-    };
-    programs.go = {
-      goBin = GOBIN;
-      goPath = GOPATH;
     };
   };
 }
