@@ -190,7 +190,7 @@ in
           ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers))
         );
         # Print the URL instead on servers
-        default = if config.c.usr.minimal then "echo" else "firefox";
+        default = if config.c.usr.minimal then "echo" else "qutebrowser";
       };
       username = mkOption {
         type = str;

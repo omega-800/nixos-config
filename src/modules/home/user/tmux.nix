@@ -39,6 +39,15 @@ in
       extraConfig =
         ''
           ${builtins.readFile ./.tmux.conf}
+          bind o run "${pkgs.writeShellScript "open-github-project" ''
+            cd "$(tmux run "echo #{pane_start_path}")"}
+            url="$(git remote get-url origin)"
+            if [[ "$url" == git@* ]]; then 
+              url="$${url#git@}"
+              url="https://$${url/:/\/}"
+            fi
+            xdg-open "$url" || echo "No remote found"
+          ''}"
           set-environment -g TMUX_PLUGIN_MANAGER_PATH '${globals.envVars.TMUX_PLUGIN_MANAGER_PATH}'
           # needed for yazi
           set -g allow-passthrough on

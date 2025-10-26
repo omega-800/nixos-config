@@ -21,24 +21,24 @@ in
       mimeApps =
         let
           defaultApplications = {
-            "x-scheme-handler/http" = [ "firefox.desktop" ];
-            "x-scheme-handler/https" = [ "firefox.desktop" ];
-            "text/html" = [ "firefox.desktop" ];
+            "x-scheme-handler/http" = [ "${usr.browser}.desktop" ];
+            "x-scheme-handler/https" = [ "${usr.browser}.desktop" ];
+            "text/html" = [ "${usr.browser}.desktop" ];
             "application/pdf" = [
               "org.pwmt.zathura.desktop"
-              "firefox.desktop"
+              "${usr.browser}.desktop"
             ];
             "image/png" = [
               "feh.desktop"
-              "firefox.desktop"
+              "${usr.browser}.desktop"
             ];
             "image/jpg" = [
               "feh.desktop"
-              "firefox.desktop"
+              "${usr.browser}.desktop"
             ];
             "image/svg+xml" = [
               "feh.desktop"
-              "firefox.desktop"
+              "${usr.browser}.desktop"
               "inkscape.desktop"
             ];
           };
@@ -115,7 +115,9 @@ in
       };
       zathura = {
         enable = true;
-        extraConfig = "set selection-clipboard clipboard";
+        extraConfig = ''
+          set selection-clipboard clipboard
+        '';
       };
     };
   };
