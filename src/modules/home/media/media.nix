@@ -115,7 +115,10 @@ in
       };
       zathura = {
         enable = true;
-        extraConfig = "set selection-clipboard clipboard";
+        extraConfig = ''
+          set selection-clipboard clipboard
+          map gf exec firefox\ "$FILE"
+        '';
       };
     };
   };

@@ -119,15 +119,13 @@ in
       fdel = "find . -size 0 -print -delete";
       loc = "locate -A";
       entry = "vim $(date +%y%m%d).txt";
+      ntyp = ''echo "= $(date +%d.%m.%y)" >> "$(date +%y.%m.%d).typ" && vim "$(date +%y.%m.%d).typ"'';
       qmk_left = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-left";
       qmk_right = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-right";
       qmk_cmp = "qmk compile -kb handwired/dactyl_manuform/4x6_omega -km custom";
       k_ch = "setxkbmap -layout ch -variant de";
       k_en = "setxkbmap -layout us";
       tarbak = "tar -czvf $(date +%F)-backup.tgz backup/";
-      genpass = ''
-        strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '
-        '; echo'';
       grep = "grep --color=auto";
       fgrep = "fgrep --color=auto";
       egrep = "egrep --color=auto";
@@ -145,6 +143,10 @@ in
       ctf = "${pkgs.check_tmp_files}";
       csw = "${pkgs.check_swap}";
       sst = "${pkgs.show_stats}";
+
+      vpn-school = ''sudo openconnect --useragent AnyConnect --protocol anyconnect -C "$(sudo cat /run/secrets/vpn/school/cookie)" -u georgiy.shevoroshkin@ost.ch --servercert "$(sudo cat /run/secrets/vpn/school/fingerprint)" vpn2.ost.ch'';
+      vpn-school-start = "sudo systemctl start openconnect-school";
+      vpn-school-stop = "sudo systemctl stop openconnect-school";
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
     (mkIf config.u.user.nixvim.enable {
