@@ -60,6 +60,7 @@ in
       ++ (optionals (sys.profile == "school") [
         dbeaver-bin
         ciscoPacketTracer8
+        rfc
       ]);
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {
