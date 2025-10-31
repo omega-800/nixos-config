@@ -51,19 +51,23 @@ in
         in
         {
           serviceConfig = {
-            ExecStart = mkForce ''
-              ${ocfg.package}/bin/openconnect \
-                ${
-                  (concatStringsSep " " (
-                    mapAttrsToList (
-                      name: value: if (value == true) then name else "--${name} ${value}"
-                    ) icfg.extraOptions
-                  ))
-                } \
-                ${optionalString (icfg.protocol != null) "--protocol ${icfg.protocol}"} \
-                ${optionalString (icfg.user != null) "-u ${icfg.user}"} \
-                ${icfg.gateway}
-            '';
+            ExecStart = mkForce (
+              concatStringsSep " " (
+                [
+                  "/bin/sh -c '${ocfg.package}/bin/openconnect"
+                ]
+                ++ (mapAttrsToList (
+                  name: value: "--${name}" + (optionalString (!(value == true)) " ${value}")
+                ) icfg.extraOptions)
+                ++ [
+                  (optionalString (icfg.protocol != null) "--protocol ${icfg.protocol}")
+                  (optionalString (icfg.user != null) "-u ${icfg.user}")
+                  (optionalString (icfg.certificate != null) "--certificate ${icfg.certificate}")
+                  (optionalString (icfg.privateKey != null) "--sslkey ${icfg.privateKey}")
+                  "${icfg.gateway}'"
+                ]
+              )
+            );
           };
         };
     }) ocfg.interfaces;
