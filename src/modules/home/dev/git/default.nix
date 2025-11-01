@@ -39,10 +39,10 @@ in
       enableZshIntegration = true;
       # TODO:
       enableSshSupport = false;
-      defaultCacheTtl = 300;
-      defaultCacheTtlSsh = 300;
-      maxCacheTtl = 600;
-      maxCacheTtlSsh = 600;
+      defaultCacheTtl = 3600;
+      defaultCacheTtlSsh = 3600;
+      maxCacheTtl = 3600;
+      maxCacheTtlSsh = 3600;
       # extraConfig = ''
       #   allow-loopback-pinentry
       # '';

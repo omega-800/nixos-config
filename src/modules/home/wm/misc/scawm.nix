@@ -23,7 +23,8 @@ in
       "XF86PowerOff" = "slock";
       "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
-      "${modifier} + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
+      "${modifier} + r ; g ; p" =
+        ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
     };
     bindings = {
       "${modifier} Return" = "${usr.term}";
@@ -108,11 +109,13 @@ in
           t = ''playerctl loop Track'';
           x = ''${pkgs.volume_control} mute'';
         };
-        switch = {
+        stay = {
           r = {
             name = "pulseaudio";
-            o = ''rofi-pulse-select sink'';
-            i = ''rofi-pulse-select source'';
+            switch = {
+              o = ''rofi-pulse-select sink'';
+              i = ''rofi-pulse-select source'';
+            };
           };
           m = ''rofi-mpd'';
         };
@@ -128,9 +131,11 @@ in
           h = ''${rcurmon} -show ssh'';
           s = {
             name = "screen";
-            d = ''${pkgs.brightness_control} lower'';
-            i = ''${pkgs.brightness_control} raise'';
-            r = ''${pkgs.screens_control}'';
+            stay = {
+              d = ''${pkgs.brightness_control} lower'';
+              i = ''${pkgs.brightness_control} raise'';
+              r = ''${pkgs.screens_control}'';
+            };
           };
           r =
             let
@@ -138,8 +143,10 @@ in
             in
             {
               name = "rebuild";
-              s = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
-              h = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+              switch = {
+                s = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+                h = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+              };
             };
         };
       };

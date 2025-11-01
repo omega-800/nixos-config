@@ -34,6 +34,7 @@ in
           rofi-systemd
           rofi-bluetooth
           networkmanager_dmenu
+          rofi-pass
         ]
         ++ (optionals usr.extraBloat [
           rofi-vpn
@@ -61,7 +62,6 @@ in
         enable = true;
         stores = [ globals.envVars.PASSWORD_STORE_DIR ];
         inherit (config.programs.password-store) package;
-        #pkgs.pass.withExtensions (exts: with exts; [ pass-checkup pass-otp ]);
       };
       plugins =
 
