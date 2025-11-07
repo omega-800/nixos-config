@@ -19,6 +19,6 @@ in
 
   config = mkIf (cfg.enable && usr.extraBloat) {
     nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
-    home.packages = [ pkgs.discord ];
+    home.packages = with pkgs; [ discord signal-desktop ];
   };
 }

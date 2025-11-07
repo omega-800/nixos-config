@@ -21,7 +21,13 @@ in
           # java.enable = false;
           lsp.servers = mkIf plugins.lsp.enable {
             # java_language_server.enable = true;
-            jdtls.enable = true;
+            jdtls = {
+              enable = true;
+              settings.extra_args = [
+                "-c"
+                "/google_checks.xml"
+              ];
+            };
           };
           none-ls.sources = mkIf plugins.none-ls.enable {
             formatting.google_java_format.enable = true;

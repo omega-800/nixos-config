@@ -16,19 +16,18 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "obsidian" ];
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ /*"obsidian"*/ "masterpdfeditor" ];
     home.packages =
       with pkgs;
       [
-        #wtff this worked yesterday??
-        #pdfslicer
         drawio
         libreoffice
         gimp
+        masterpdfeditor
       ]
       ++ (optionals usr.extraBloat (
         [
-          obsidian
+          # obsidian
           kdePackages.skanpage
           (if (usr.wmType == "x11") then gpick else hyprpicker)
         ]

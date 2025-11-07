@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 nfi() {
-  nix flake new --template "github:omega-800/devshell-templates#$1-lock" "$2"
+  nix flake new --refresh --template "github:omega-800/devshell-templates#$1-lock" "$2"
 }
 
 otp() {
