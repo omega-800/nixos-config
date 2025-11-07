@@ -3,6 +3,8 @@
   sys,
   usr,
   pkgs,
+  net,
+  globals,
   ...
 }:
 let
@@ -21,6 +23,8 @@ in
       "XF86PowerOff" = "slock";
       "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
+      "${modifier} + r ; g ; p" =
+        ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
     };
     bindings = {
       "${modifier} Return" = "${usr.term}";
@@ -31,7 +35,8 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" =
+        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
@@ -64,15 +69,18 @@ in
       "${modifier} r" = {
         name = "run";
         switch = {
-          "b; i" = "${pkgs.rofi_bookmarks} insert";
-          "b; o" = "${pkgs.rofi_bookmarks} open";
-          "b; c" = "${pkgs.rofi_bookmarks} clip";
-          "b; a" = "${pkgs.rofi_bookmarks}";
+          b = {
+            name = "bookmark";
+            switch = {
+              i = "${pkgs.rofi_bookmarks} insert";
+              o = "${pkgs.rofi_bookmarks} open";
+              c = "${pkgs.rofi_bookmarks} clip";
+              a = "${pkgs.rofi_bookmarks}";
+            };
+          };
           c = ''${rcurmon} -show calc -modi calc -no-show-match -no-sort'';
           e = ''${rcurmon} -show emoji'';
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
-          "g p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
-          # "h d" = ''echo -e {'enable="Alt+e" \ndisable="Alt+d" \nstop="Alt+k" \nrestart="Alt+r" \ntail="Alt+t"} | ${rcurmon} -dmenu'';
           k = "${pkgs.kaomoji}";
           o = ''rofi-obsidian'';
           p = ''rofi-pass'';
@@ -101,9 +109,14 @@ in
           t = ''playerctl loop Track'';
           x = ''${pkgs.volume_control} mute'';
         };
-        switch = {
-          "r o" = ''rofi-pulse-select sink'';
-          "r i" = ''rofi-pulse-select source'';
+        stay = {
+          r = {
+            name = "pulseaudio";
+            switch = {
+              o = ''rofi-pulse-select sink'';
+              i = ''rofi-pulse-select source'';
+            };
+          };
           m = ''rofi-mpd'';
         };
       };
@@ -116,12 +129,25 @@ in
           n = ''networkmanager_dmenu'';
           t = ''${rcurmon} -show top -modi top'';
           h = ''${rcurmon} -show ssh'';
-
-          "s d" = ''${pkgs.brightness_control} lower'';
-          "s i" = ''${pkgs.brightness_control} raise'';
-          "s r" = ''${pkgs.screens_control}'';
-          # "r s" = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
-          # "r h" = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+          s = {
+            name = "screen";
+            stay = {
+              d = ''${pkgs.brightness_control} lower'';
+              i = ''${pkgs.brightness_control} raise'';
+              r = ''${pkgs.screens_control}'';
+            };
+          };
+          r =
+            let
+              inherit (globals.envVars) NIXOS_CONFIG;
+            in
+            {
+              name = "rebuild";
+              switch = {
+                s = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+                h = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+              };
+            };
         };
       };
     };

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-nfi() { nix flake new --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
+nfi() { nix flake new --refresh --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
 
 otp() {
   cmd="$(history | tail -1 | cut -c8-)"

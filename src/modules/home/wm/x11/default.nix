@@ -53,6 +53,7 @@ in
       # picom & # is running as systemd service now
       systemctl --user import-environment DISPLAY
       dunst &
+      nm-applet &
       # exec --no-startup-id dunst
       ${pkgs.notify_bat} &
       ${if sys.genericLinux then "source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh" else ""}

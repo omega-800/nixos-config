@@ -148,6 +148,7 @@ in
       vpn-school-cookie = "openconnect-sso -s vpn2.ost.ch --authenticate json";
       vpn-school-start = "sudo systemctl start openconnect-school";
       vpn-school-stop = "sudo systemctl stop openconnect-school";
+      switch-git-to-ssh = ''new_origin="$(git config --get remote.origin.url | sed -E "s/https:\/\/([^\/]*)\/(.*)$/git@\1:\2/")"; git remote rm origin && git remote add origin "$new_origin"'';
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
     (mkIf config.u.user.nixvim.enable {

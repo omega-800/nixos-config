@@ -29,7 +29,7 @@ in
     default = usr.wm == "mango";
   };
 
-  # imports = [ inputs.mango.hmModules.mango ];
+  imports = [ inputs.mango.hmModules.mango ];
 
   config = mkIf cfg.enable {
     wayland.windowManager.mango = {
