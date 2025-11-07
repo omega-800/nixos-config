@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-nfi() {
-  nix flake new --template "github:omega-800/devshell-templates#$1-lock" "$2"
-}
+nfi() { nix flake new --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
 
 otp() {
   cmd="$(history | tail -1 | cut -c8-)"
@@ -56,27 +54,33 @@ mht() { mt HDMI1 DP2; }
 mwst() { mt DP2-2 DP2-3; }
 mwmt() { mt DP1-2 DP1-3; }
 
+hex2dec() { echo $((16#$1)); }
+bin2dec() { echo $((2#$1)); }
+dec2hex() { printf "%x\n" "$1"; }
+dec2bin(){
+    local n bit
+    for (( n=$1 ; n>0 ; n >>= 1 )); do bit="$(( n&1 ))$bit"; done
+    echo "$bit"
+}
+
 fromhex() {
   hex=$1
   if [[ $hex == "#"* ]]; then
     hex=$(echo "$1" | awk '{print substr("$0",2)}')
   fi
   r=$(printf '0x%0.2s' "$hex")
-  g=$(printf '0x%0.2s' $${hex#??})
-  b=$(printf '0x%0.2s' $${hex#????})
+  g=$(printf '0x%0.2s' "${hex#??}")
+  b=$(printf '0x%0.2s' "${hex#????}")
   echo -e "$(printf "%03d" "$(((r<75?0:(r-35)/40)*6*6+(g<75?0:(g-35)/40)*6+(b<75?0:(b-35)/40)+16))")"
 }
 
 hex_to_rgb() {
-    # Usage: hex_to_rgb "#FFFFFF"
-    #        hex_to_rgb "000000"
     : "${1/\#}"
     ((r=16#${_:0:2},g=16#${_:2:2},b=16#${_:4:2}))
     printf '%s\n' "$r $g $b"
 }
 
 rgb_to_hex() {
-    # Usage: rgb_to_hex "r" "g" "b"
     printf '#%02x%02x%02x\n' "$1" "$2" "$3"
 }
 
@@ -87,26 +91,25 @@ reverse_case() { printf '%s\n' "${1~~}"; }
 strip_all() { printf '%s\n' "${1//$2}"; }
 
 urlencode() {
-    local LC_ALL=C
-    for (( i = 0; i < ${#1}; i++ )); do
-        : "${1:i:1}"
-        case "$_" in
-            [a-zA-Z0-9.~_-])
-                printf '%s' "$_"
-            ;;
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
 
-            *)
-                printf '%%%02X' "'$_"
-            ;;
-        esac
-    done
-    printf '\n'
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+     c=${string:$pos:1}
+     case "$c" in
+        [-_.~a-zA-Z0-9] ) o="${c}" ;;
+        * )               printf -v o '%%%02x' "'$c"
+     esac
+     encoded+="${o}"
+  done
+  echo "${encoded}"
 }
 
 urldecode() {
-    # Usage: urldecode "string"
-    : "${1//+/ }"
-    printf '%b\n' "${_//%/\\x}"
+    : "${*//+/ }"
+    echo -e "${_//%/\\x}"
 }
 
 bash_cat() { echo "$(<"$1")"; }
@@ -114,7 +117,7 @@ bash_cat() { echo "$(<"$1")"; }
 countdown() {
     start="$(( $(date '+%s') + $1))"
     while [ "$start" -ge "$(date +%s)" ]; do
-        time="$(( $start - $(date +%s) ))"
+        time="$(( start - $(date +%s) ))"
         printf '%s\r' "$(date -u -d "@$time" +%H:%M:%S)"
         sleep 0.1
     done
@@ -123,7 +126,7 @@ countdown() {
 stopwatch() {
     start=$(date +%s)
     while true; do
-        time="$(( $(date +%s) - $start))"
+        time="$(( $(date +%s) - start))"
         printf '%s\r' "$(date -u -d "@$time" +%H:%M:%S)"
         sleep 0.1
     done

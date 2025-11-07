@@ -62,7 +62,6 @@ in
           [
             bluez
             bluez-tools
-            (nixGL mpv)
             bk
             jmtpfs
           ]
@@ -83,8 +82,25 @@ in
           [ ]
       );
     home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
-    programs = mkIf usr.extraBloat {
-      ncspot = {
+    programs = {
+      mpv = mkIf (!usr.minimal) {
+        enable = true;
+        package = nixGL (
+          pkgs.mpv-unwrapped.wrapper {
+            mpv = pkgs.mpv-unwrapped.override {
+              vapoursynthSupport = true;
+              ffmpeg = pkgs.ffmpeg-full;
+            };
+            scripts = with pkgs.mpvScripts; [
+              uosc
+              sponsorblock
+              autoload
+            ];
+            youtubeSupport = true;
+          }
+        );
+      };
+      ncspot = mkIf usr.extraBloat {
         enable = true;
         /*
           package = pkgs.ncspot.override {
@@ -113,7 +129,7 @@ in
           };
         };
       };
-      zathura = {
+      zathura = mkIf usr.extraBloat {
         enable = true;
         extraConfig = ''
           set selection-clipboard clipboard
