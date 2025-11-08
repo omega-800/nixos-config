@@ -63,7 +63,6 @@ in
           [
             bluez
             bluez-tools
-            (nixGL mpv)
             bk
             jmtpfs
           ]
@@ -85,33 +84,59 @@ in
       );
     home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
 
-    programs.ncspot = mkIf usr.extraBloat {
-      enable = true;
-      /*
-        package = pkgs.ncspot.override {
-          # withNcurses = true;
-          withCover = true;
-          withShareSelection = true;
+    programs = {
+      mpv = mkIf (!usr.minimal) {
+        enable = true;
+        package = nixGL (
+          pkgs.mpv-unwrapped.wrapper {
+            mpv = pkgs.mpv-unwrapped.override {
+              vapoursynthSupport = true;
+              ffmpeg = pkgs.ffmpeg-full;
+            };
+            scripts = with pkgs.mpvScripts; [
+              uosc
+              sponsorblock
+              autoload
+            ];
+            youtubeSupport = true;
+          }
+        );
+      };
+      ncspot = mkIf usr.extraBloat {
+        enable = true;
+        /*
+          package = pkgs.ncspot.override {
+            # withNcurses = true;
+            withCover = true;
+            withShareSelection = true;
+          };
+        */
+        settings = {
+          use_nerdfont = true;
+          notify = true;
+          repeat = "playlist";
+          keybindings = {
+            "Ctrl+d" = "move down 15";
+            "Ctrl+u" = "move up 15";
+          };
+          statusbar_format = "%artists - %title [%album]";
+          track_format = {
+            left = "%artists - %title";
+            center = "[%album]";
+            right = "%saved %duration";
+          };
+          notification_format = {
+            title = "%title [%album]";
+            body = "%artists";
+          };
         };
-      */
-      settings = {
-        use_nerdfont = true;
-        notify = true;
-        repeat = "playlist";
-        keybindings = {
-          "Ctrl+d" = "move down 15";
-          "Ctrl+u" = "move up 15";
-        };
-        statusbar_format = "%artists - %title [%album]";
-        track_format = {
-          left = "%artists - %title";
-          center = "[%album]";
-          right = "%saved %duration";
-        };
-        notification_format = {
-          title = "%title [%album]";
-          body = "%artists";
-        };
+      };
+      zathura = mkIf usr.extraBloat {
+        enable = true;
+        extraConfig = ''
+          set selection-clipboard clipboard
+          map gf exec firefox\ "$FILE"
+        '';
       };
     };
   };

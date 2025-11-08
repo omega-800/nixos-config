@@ -91,7 +91,7 @@ in
           status = {
             branch = true;
             showStash = true;
-            showUntrackedFiles = true;
+            #showUntrackedFiles = true;
           };
           credential =
             #if sys.profile == "pers" && usr.extraBloat then

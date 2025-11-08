@@ -16,7 +16,10 @@
   #FIXME: breaks my insecurities
   # m.sec.enable = lib.mkForce false;
 
-  m.sw.steam.enable = true;
+  m = {
+    sw.steam.enable = true;
+    hw.io.qmk.enable = true;
+  };
 
   nixpkgs.config = {
     allowUnfreePredicate = _: true;
