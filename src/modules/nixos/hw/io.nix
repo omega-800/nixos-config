@@ -21,11 +21,11 @@ in
 {
   options.m.hw.io = {
     enable = mkEnableOption "input";
-    tablet.enable = mkEnableOption "touchpad support";
+    tablet.enable = mkEnableOption "tablet support";
     qmk.enable = mkEnableOption "qmk support";
     touchpad.enable = mkEnableOption "touchpad";
     homeMods.enable = mkDisableOption "home modifier keys";
-    vimLayer.enable = mkDisableOption "vim layer";
+    vimLayer.enable = mkEnableOption "vim layer";
     swapCaps.enable = mkDisableOption "swapping capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = mkMerge [
@@ -85,17 +85,14 @@ in
                 "platform-INT33D5:00-event"
               ])
               ++ (map (p: "/dev/input/by-id/${p}") [
-                "usb-lucky_studio_Dilemma_3X6_E46468A0D32D2C240000000000000000-event-if03"
-                "usb-lucky_studio_Dilemma_3X6_E46468A0D32D2C240000000000000000-event-kbd"
-                "usb-lucky_studio_Dilemma_3X6_E46468A0D32D2C240000000000000000-if03-event-joystick"
-                "usb-lucky_studio_Dilemma_3X6_E46468A0D32D2C240000000000000000-if03-event-kbd"
+                #"usb-lucky_studio_Dilemma_3X6_E46468A0D32D2C240000000000000000-event-kbd"
               ]);
 
             extraDefCfg = "process-unmapped-keys yes";
             config = # lisp
               ''
                 (defsrc
-                  caps bspc u i a s d f g h j k l ;
+                  caps bspc lsft u i a s d f g h j k l ;
                 )
                 (defvar
                   tap-time 150
@@ -115,11 +112,11 @@ in
                     k (tap-hold $tap-time $hold-time k rsft)
                     l (tap-hold $tap-time $hold-time l rmet)
                     ; (tap-hold $tap-time $hold-time ; ralt)
+                    lsft esc
                   ''}
                   ${
                     # FIXME: don't remap sft and ctl
                     optionalString vl ''
-                      lsft esc
                       ;; rsft (layer-switch vim)
                       lctl (tap-hold $tap-time $hold-time spc (layer-while-held vim))
                       g (tap-hold $tap-time $hold-time g (layer-while-held vim))
@@ -166,7 +163,6 @@ in
       hardware.keyboard.qmk.enable = true;
       environment.systemPackages = with pkgs; [ via ];
       services.udev.packages = with pkgs; [ via ];
-
     })
   ];
 }
