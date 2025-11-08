@@ -9,8 +9,9 @@
 let
   inherit (lib)
     mkEnableOption
-    mkIf
+    optionals
     getName
+    mkIf
     ;
   cfg = config.u.social;
 in
@@ -19,6 +20,12 @@ in
 
   config = mkIf (cfg.enable && usr.extraBloat) {
     nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
-    home.packages = with pkgs; [ discord signal-desktop ];
+    home.packages =
+      with pkgs;
+      [
+        discord
+        signal-desktop
+      ]
+      ++ (optionals (sys.profile == "school") [ pkgs.teams-for-linux ]);
   };
 }

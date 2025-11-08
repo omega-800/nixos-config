@@ -46,24 +46,26 @@ in
       "${modifier} o" = {
         name = "open";
         switch = {
-          b = ''${usr.browser}'';
-          c = ''code'';
-          d = ''discord'';
-          e = ''${usr.term} -e aerc'';
-          f = ''firefox'';
-          h = ''homebank'';
-          i = ''drawio'';
-          l = ''libreoffice'';
-          m = ''minecraft-launcher'';
-          n = ''${usr.term} -e ncmpcpp'';
-          o = ''obsidian'';
-          q = ''qutebrowser'';
-          r = ''rofi -m -4 -show drun'';
-          s = ''spotify'';
-          v = ''${usr.term} -e nvim'';
-          x = ''${usr.term} -e lf'';
-          y = ''zathura''; # actually z
-          z = ''${pkgs.screenkey}/bin/screenkey &''; # actually y
+          b = "${usr.browser}";
+          c = "code";
+          d = "discord";
+          e = "${usr.term} -e aerc";
+          f = "firefox";
+          g = if usr.wmType == "x11" then "gpick" else "hyprpicker";
+          h = "homebank";
+          i = "drawio";
+          l = "libreoffice";
+          m = "minecraft-launcher";
+          n = "${usr.term} -e ncmpcpp";
+          o = "obsidian";
+          p = "xournalpp";
+          q = "qutebrowser";
+          r = "rofi -m -4 -show drun";
+          s = "spotify";
+          v = "${usr.term} -e nvim";
+          x = "${usr.term} -e lf";
+          y = "zathura"; # actually z
+          z = "${pkgs.screenkey}/bin/screenkey &"; # actually y
         };
       };
       "${modifier} r" = {
@@ -78,63 +80,63 @@ in
               a = "${pkgs.rofi_bookmarks}";
             };
           };
-          c = ''${rcurmon} -show calc -modi calc -no-show-match -no-sort'';
-          e = ''${rcurmon} -show emoji'';
+          c = "${rcurmon} -show calc -modi calc -no-show-match -no-sort";
+          e = "${rcurmon} -show emoji";
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
           k = "${pkgs.kaomoji}";
-          o = ''rofi-obsidian'';
-          p = ''rofi-pass'';
+          o = "rofi-obsidian";
+          p = "rofi-pass";
           q = "${pkgs.rofi_kill}";
           r = "${pkgs.rofi_cmd}";
-          s = ''rofi-screenshot'';
-          t = ''rofi-theme-selector'';
-          w = ''${rcurmon} -show window'';
-          y = ''passmenu'';
+          s = "rofi-screenshot";
+          t = "rofi-theme-selector";
+          w = "${rcurmon} -show window";
+          y = "passmenu";
         };
       };
       "${modifier} m" = {
         name = "music";
         stay = {
-          a = ''playerctl loop Playlist'';
-          d = ''${pkgs.volume_control} lower'';
-          h = ''playerctl position 5-'';
-          i = ''${pkgs.volume_control} raise'';
-          j = ''playerctl previous'';
-          k = ''playerctl next'';
-          l = ''playerctl position 5+'';
-          n = ''playerctl loop None'';
-          p = ''playerctl play-pause'';
-          q = ''playerctl stop'';
-          s = ''playerctl shuffle Toggle'';
-          t = ''playerctl loop Track'';
-          x = ''${pkgs.volume_control} mute'';
+          a = "playerctl loop Playlist";
+          d = "${pkgs.volume_control} lower";
+          h = "playerctl position 5-";
+          i = "${pkgs.volume_control} raise";
+          j = "playerctl previous";
+          k = "playerctl next";
+          l = "playerctl position 5+";
+          n = "playerctl loop None";
+          p = "playerctl play-pause";
+          q = "playerctl stop";
+          s = "playerctl shuffle Toggle";
+          t = "playerctl loop Track";
+          x = "${pkgs.volume_control} mute";
         };
         stay = {
           r = {
             name = "pulseaudio";
             switch = {
-              o = ''rofi-pulse-select sink'';
-              i = ''rofi-pulse-select source'';
+              o = "rofi-pulse-select sink";
+              i = "rofi-pulse-select source";
             };
           };
-          m = ''rofi-mpd'';
+          m = "rofi-mpd";
         };
       };
       "${modifier} s" = {
         name = "system";
         switch = {
-          b = ''rofi-bluetooth'';
-          v = ''rofi-vpn'';
-          d = ''rofi-systemd'';
-          n = ''networkmanager_dmenu'';
-          t = ''${rcurmon} -show top -modi top'';
-          h = ''${rcurmon} -show ssh'';
+          b = "rofi-bluetooth";
+          v = "rofi-vpn";
+          d = "rofi-systemd";
+          n = "networkmanager_dmenu";
+          t = "${rcurmon} -show top -modi top";
+          h = "${rcurmon} -show ssh";
           s = {
             name = "screen";
             stay = {
-              d = ''${pkgs.brightness_control} lower'';
-              i = ''${pkgs.brightness_control} raise'';
-              r = ''${pkgs.screens_control}'';
+              d = "${pkgs.brightness_control} lower";
+              i = "${pkgs.brightness_control} raise";
+              r = "${pkgs.screens_control}";
             };
           };
           r =

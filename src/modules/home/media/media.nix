@@ -26,6 +26,7 @@ in
             "text/html" = [ "${usr.browser}.desktop" ];
             "application/pdf" = [
               "org.pwmt.zathura.desktop"
+              "com.github.xournalpp.xournalpp.desktop"
               "${usr.browser}.desktop"
             ];
             "image/png" = [
@@ -83,42 +84,34 @@ in
           [ ]
       );
     home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
-    programs = mkIf usr.extraBloat {
-      ncspot = {
-        enable = true;
-        /*
-          package = pkgs.ncspot.override {
-            # withNcurses = true;
-            withCover = true;
-            withShareSelection = true;
-          };
-        */
-        settings = {
-          use_nerdfont = true;
-          notify = true;
-          repeat = "playlist";
-          keybindings = {
-            "Ctrl+d" = "move down 15";
-            "Ctrl+u" = "move up 15";
-          };
-          statusbar_format = "%artists - %title [%album]";
-          track_format = {
-            left = "%artists - %title";
-            center = "[%album]";
-            right = "%saved %duration";
-          };
-          notification_format = {
-            title = "%title [%album]";
-            body = "%artists";
-          };
+
+    programs.ncspot = mkIf usr.extraBloat {
+      enable = true;
+      /*
+        package = pkgs.ncspot.override {
+          # withNcurses = true;
+          withCover = true;
+          withShareSelection = true;
         };
-      };
-      zathura = {
-        enable = true;
-        extraConfig = ''
-          set selection-clipboard clipboard
-          map gf exec firefox\ "$FILE"
-        '';
+      */
+      settings = {
+        use_nerdfont = true;
+        notify = true;
+        repeat = "playlist";
+        keybindings = {
+          "Ctrl+d" = "move down 15";
+          "Ctrl+u" = "move up 15";
+        };
+        statusbar_format = "%artists - %title [%album]";
+        track_format = {
+          left = "%artists - %title";
+          center = "[%album]";
+          right = "%saved %duration";
+        };
+        notification_format = {
+          title = "%title [%album]";
+          body = "%artists";
+        };
       };
     };
   };

@@ -16,14 +16,25 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ /*"obsidian"*/ "masterpdfeditor" ];
+    nixpkgs.config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        # "obsidian"
+      ];
     home.packages =
       with pkgs;
       [
         drawio
         libreoffice
         gimp
-        masterpdfeditor
+        xournalpp
+        /*
+          (pkgs.runCommand
+            "xournalpp"
+            { nativeBuildInputs = [ pkgs.makeWrapper ]; }
+            "makeWrapper ${pkgs.xournalpp}/bin/xournalpp $out/bin/xournalpp --set GDK_SCALE 2 --set GDK_DPI_SCALE 0.5"
+          )
+        */
       ]
       ++ (optionals usr.extraBloat (
         [
@@ -37,5 +48,25 @@ in
           homebank
         ])
       ));
+    # TODO: 
+    home.file.".local/share/xournalpp/ui/xournalpp.css".text = ''
+      toolbar button
+      {
+      	padding: 18px
+      }
+
+      toolbar image 
+      {
+          -gtk-icon-transform: scale(0.5);
+      }
+    '';
+    programs.zathura = {
+      enable = true;
+      extraConfig = ''
+        set selection-clipboard clipboard
+        map gf exec firefox\ "$FILE"
+        map ge exec xournalpp\ "$FILE"
+      '';
+    };
   };
 }
