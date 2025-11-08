@@ -44,7 +44,7 @@ in
             url="$(git remote get-url origin)"
             if [[ "$url" == git@* ]]; then 
               url="$${url#git@}"
-              url="https://$${url/:/\/}"
+              url="https://$${url/://}"
             fi
             xdg-open "$url" || echo "No remote found"
           ''}"
