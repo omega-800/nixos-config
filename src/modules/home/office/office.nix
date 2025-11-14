@@ -66,6 +66,7 @@ in
         set selection-clipboard clipboard
         map gf exec firefox\ "$FILE"
         map ge exec xournalpp\ "$FILE"
+        map gd exec zathura\ "$FILE"
       '';
     };
   };

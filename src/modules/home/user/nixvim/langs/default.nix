@@ -24,5 +24,6 @@
     ./typst.nix
     ./latex.nix
     ./plantuml.nix
+    ./zig.nix
   ];
 }

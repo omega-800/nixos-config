@@ -29,6 +29,8 @@ in
         nettools
         traceroute
         iperf
+        nmap
+        dirb
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)

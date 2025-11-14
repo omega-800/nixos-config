@@ -20,7 +20,7 @@ while true; do
   net="${netStats[*]}%"
 	nts="$( ([ "$netP" -lt "20" ] && echo "$critical") || ([ "$netP" -lt "60" ] && echo "$warning") || echo "$nrm")"
 
-	cpu="$(awk '/cpu / {printf "%i", 100-($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}' /proc/stat)"
+	cpu="$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else printf "%.f", ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 1;grep 'cpu ' /proc/stat))"
 	cps="$( ([ "$cpu" -gt "80" ] && echo "$critical") || ([ "$cpu" -gt "60" ] && echo "$warning") || echo "$nrm")"
 
 	memory="$(free | awk 'NR==2 {printf "%d", $3/$2 * 100.0}')"
@@ -63,7 +63,7 @@ while true; do
 	else
 		xsetroot -name "$(echo -ne "${nts}[N] $net $nrm|$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")| [S] $backlight% |$vls [${muted}] ${volume[0]}% $nrm|$bts [B] $batterySymbol$battery% $nrm| $time | $date " | xargs)"
 	fi
-	sleep 5
+	sleep 10
 done
 
 # netStatus() {
