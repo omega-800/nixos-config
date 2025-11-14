@@ -219,6 +219,14 @@
       };
     };
 
+    nixcord-unstable = {
+      url = "github:kaylorben/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    nixcord-stable = {
+      url = "github:kaylorben/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     # disko.url = "github:nix-community/disko";
     openconnect-sso-stable = {
       url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";

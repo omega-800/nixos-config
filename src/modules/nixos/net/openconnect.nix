@@ -32,6 +32,7 @@ in
     environment.systemPackages = with pkgs; [
       openconnect
       inputs.openconnect-sso.packages.${sys.system}.openconnect-sso
+      networkmanagerapplet
     ];
     networking.openconnect.interfaces.school = {
       autoStart = false;

@@ -16,6 +16,7 @@
     "nix"
     "lua"
     "plantuml"
+    "zig"
   ];
   home.packages = with pkgs; [ (jetbrains.plugins.addPlugins  jetbrains.idea-ultimate ["ideavim"]) ];
 }

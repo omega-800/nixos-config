@@ -44,6 +44,7 @@ in
           "nix"
           "gql"
           "docker"
+          "rust"
         ];
       };
     };
