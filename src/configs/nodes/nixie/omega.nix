@@ -24,8 +24,8 @@
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;
-      theme = "gruvbox-dark-hard";
-      #theme = "atom-dark";
+      #theme = "gruvbox-dark-hard";
+      theme = "weeb";
       termColors = {
         c1 = "36";
         c2 = "35";

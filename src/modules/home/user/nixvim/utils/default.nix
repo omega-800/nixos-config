@@ -7,6 +7,7 @@ let
   inherit (lib.omega.vim) keyG key keyS;
 in
 {
+  # TODO: treesj, mini.surround, tabout.nvim 
   imports = [
     ./keymaps.nix
     ./oil.nix

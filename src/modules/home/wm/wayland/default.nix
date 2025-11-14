@@ -25,6 +25,8 @@ in
     ./swayidle.nix
     ./swaylock.nix
     ./gammastep.nix
+    ./kanshi.nix
+    ./wpaperd.nix
   ];
   options.u.wm.wayland = {
     enable = mkOption {
@@ -32,7 +34,7 @@ in
       default = usr.wmType == "wayland";
     };
     autoStart = mkOption {
-      type = types.listOf types.string;
+      type = types.listOf types.lines;
       default = [
         "nohup ${pkgs.sway-audio-idle-inhibit} &"
         "swaybg --image ${config.stylix.image} --mode fill"
@@ -97,10 +99,6 @@ in
         enable = true;
         allowImages = true;
         systemdTargets = "graphical-session.target";
-      };
-      kanshi = {
-        enable = true;
-        systemdTarget = "graphical-session.target";
       };
       /*
         swhkd = {
