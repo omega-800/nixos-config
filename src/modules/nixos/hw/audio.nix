@@ -52,21 +52,8 @@ in
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
         enable = true;
-        powerOnBoot = !sys.paranoid;
         # enables showing battery charge of devices
-        settings = lib.mkMerge [
-          { General.Experimental = !sys.paranoid; }
-          (lib.mkIf sys.hardened {
-            General = {
-              PairableTimeout = 30;
-              DiscoverableTimeout = 30;
-              MaxControllers = 1;
-              TemporaryTimeout = 0;
-            };
-            Policy.AutoEnable = false;
-          })
-          (lib.mkIf sys.paranoid { Policy.Privacy = "network/on"; })
-        ];
+        settings = lib.mkIf (!sys.paranoid) { General.Experimental = true; };
       };
       # hardware.pulseaudio.enable = true;
       # services.blueman.enable = true;

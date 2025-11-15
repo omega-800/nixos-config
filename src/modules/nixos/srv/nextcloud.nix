@@ -11,20 +11,19 @@ let
   cfg = config.m.srv.nextcloud;
   inherit (lib) mkEnableOption mkIf;
   inherit (lib.omega.net.ip4) toStr ipFromCfg;
+  defsec = {
+    inherit (config.users.users.nextcloud) group;
+    owner = config.users.users.nextcloud.name;
+  };
 in
 {
   options.m.srv.nextcloud.enable = mkEnableOption "nextcloud";
   config = mkIf cfg.enable {
     sops.secrets = {
-      "nextcloud/rootpw" = {
-        inherit (config.users.users.nextcloud) group;
-        owner = config.users.users.nextcloud.name;
+      "nextcloud/rootpw" = defsec // {
         mode = "0440";
       };
-      "nextcloud/db" = {
-        inherit (config.users.users.nextcloud) group;
-        owner = config.users.users.nextcloud.name;
-      };
+      "nextcloud/db" = defsec;
     };
     networking.firewall.allowedTCPPorts = [
       80

@@ -19,4 +19,5 @@ in
       extraDirs = mkDefault [ { path = "/mnt/tmp"; } ];
     };
   };
+  system.stateVersion = mkDefault "25.05";
 }

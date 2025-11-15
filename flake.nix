@@ -157,17 +157,11 @@
     # };
     stylix-unstable = {
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        home-manager.follows = "home-manager-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     stylix-stable = {
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-stable";
-        home-manager.follows = "home-manager-stable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     rust-overlay.url = "github:oxalica/rust-overlay";
     /*

@@ -7,8 +7,8 @@
     net.iface = "enp0s31f6";
     dev.docker.enable = false;
     srv = {
-      nextcloud.enable = true;
-      syncthing.enable = true;
+      nextcloud.enable = false;
+      syncthing.enable = false;
     };
   };
   # boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
