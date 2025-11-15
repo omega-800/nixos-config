@@ -16,83 +16,88 @@ in
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "ahci"
-    "ehci_pci"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-    "cryptd"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
-    fsType = "btrfs";
-    options = [
-      "subvol=@root"
-      "noatime"
-      "compress=zstd"
-    ];
+  boot = {
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
+    initrd = {
+      availableKernelModules = [
+        "xhci_pci"
+        "ahci"
+        "ehci_pci"
+        "usb_storage"
+        "usbhid"
+        "sd_mod"
+        "cryptd"
+      ];
+      kernelModules = [ ];
+      # Mount key before trying to decrypt
+      postDeviceCommands = pkgs.lib.mkBefore ''
+        mkdir -m 0755 -p /key
+        sleep 2 
+        mount -no ro `findfs UUID=${bootUUID}` /key 
+      '';
+      luks.devices =
+        let
+          cryptdev = device: {
+            fallbackToPassword = true;
+            keyFile = "/key/keyfile";
+            inherit device;
+          };
+        in
+        {
+          "cryptroot" = cryptdev "/dev/disk/by-uuid/a74fbd2e-0ea1-405e-9fa7-f56f5a8ac78b";
+          "store1" = cryptdev "/dev/disk/by-uuid/ada46a4d-e69e-4a72-9060-afd900d33efc";
+          "store2" = cryptdev "/dev/disk/by-uuid/63bee8fd-e8ae-45fd-af71-70b947f7f3b5";
+          "store3" = cryptdev "/dev/disk/by-uuid/71cf22b9-2474-4c42-9de1-9347a879d266";
+          "store4" = cryptdev "/dev/disk/by-uuid/3c21de1c-801f-41a1-bb25-6d23ab52e4d9";
+        };
+    };
   };
 
-  # Mount key before trying to decrypt
-  postDeviceCommands = pkgs.lib.mkBefore ''
-    mkdir -m 0755 -p /key
-    sleep 2 
-    mount -no ro `findfs UUID=${bootUUID}` /key 
-  '';
-  boot.initrd.luks.devices =
-    let
-      cryptdev = device: {
-        fallbackToPassword = true;
-        keyFile = "/key/keyfile";
-        inherit device;
-      };
-    in
-    {
-      "cryptroot" = cryptdev "/dev/disk/by-uuid/a74fbd2e-0ea1-405e-9fa7-f56f5a8ac78b";
-      "store1" = cryptdev "/dev/disk/by-uuid/ada46a4d-e69e-4a72-9060-afd900d33efc";
-      "store2" = cryptdev "/dev/disk/by-uuid/63bee8fd-e8ae-45fd-af71-70b947f7f3b5";
-      "store3" = cryptdev "/dev/disk/by-uuid/71cf22b9-2474-4c42-9de1-9347a879d266";
-      "store4" = cryptdev "/dev/disk/by-uuid/3c21de1c-801f-41a1-bb25-6d23ab52e4d9";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
+      fsType = "btrfs";
+      options = [
+        "subvol=@root"
+        "noatime"
+        "compress=zstd"
+      ];
     };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
-    fsType = "btrfs";
-    options = [
-      "subvol=@home"
-      "noatime"
-      "compress=zstd"
-    ];
-  };
+    "/home" = {
+      device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
+      fsType = "btrfs";
+      options = [
+        "subvol=@home"
+        "noatime"
+        "compress=zstd"
+      ];
+    };
 
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
-    fsType = "btrfs";
-    options = [
-      "subvol=@nix"
-      "noatime"
-      "compress=zstd"
-    ];
-  };
+    "/nix" = {
+      device = "/dev/disk/by-uuid/36af08cd-d5a2-46fe-b0f7-0233cfac5991";
+      fsType = "btrfs";
+      options = [
+        "subvol=@nix"
+        "noatime"
+        "compress=zstd"
+      ];
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/${bootUUID}";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/${bootUUID}";
+      fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
+    };
 
-  fileSystems."/store" = {
-    device = "store";
-    fsType = "zfs";
+    "/store" = {
+      device = "store";
+      fsType = "zfs";
+    };
   };
 
   swapDevices = [
