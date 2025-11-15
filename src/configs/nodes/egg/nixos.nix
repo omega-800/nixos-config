@@ -30,7 +30,7 @@
     dev.docker.enable = false;
     srv = {
       nextcloud.enable = true;
-      syncthing.enable = true;
+      # syncthing.enable = true;
     };
   };
 

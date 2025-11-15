@@ -31,11 +31,11 @@ in
       ];
       kernelModules = [ ];
       # Mount key before trying to decrypt
-      postDeviceCommands = pkgs.lib.mkBefore ''
-        mkdir -m 0755 -p /key
-        sleep 2 
-        mount -no ro `findfs UUID=${bootUUID}` /key 
-      '';
+      #postDeviceCommands = pkgs.lib.mkBefore ''
+      #  mkdir -m 0755 -p /key
+      #  sleep 2 
+      #  mount -no ro `findfs UUID=${bootUUID}` /key 
+      #'';
       luks.devices =
         let
           cryptdev = device: {
