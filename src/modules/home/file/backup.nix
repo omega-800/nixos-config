@@ -14,7 +14,7 @@ let
     "*/Cache"
     ".config"
     # ".config/Slack/logs"
-    # ".config/Code/CachedData"
+    ".config/Code/CachedData"
     ".container-diff"
     ".npm/_cacache"
     "*/node_modules"
@@ -23,6 +23,7 @@ let
     "*/.tox"
     "*/venv"
     "*/.venv"
+    "*/.direnv"
   ];
   inherit (lib) concatMapStrings;
 in
