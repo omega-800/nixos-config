@@ -9,6 +9,9 @@ rec {
     {
       config = {
         _module.args = {
+          globals = {
+            inherit PATHS CONFIGS;
+          };
           inherit PATHS CONFIGS;
         };
         c.net.hostname = hostname;
@@ -27,6 +30,8 @@ rec {
 
   filterHosts = fn: map (c: c.net.hostname) (filterCfgs fn);
 
+  cfgsOfFlavor = flavor: filterCfgs (c: builtins.elem flavor c.sys.flavors);
+
   filterCfgsByVal =
     type: name: val:
     filterCfgs (c: c.${type}.${name} == val);
@@ -35,7 +40,9 @@ rec {
 
   getCfgAttrOfAllHosts = type: name: map (hostname: (getCfgAttr hostname type name)) allHosts;
 
-  getCfgAttrOfMatchingHosts = fn: type: name: map (c: c.${type}.${name}) (filterCfgs fn);
+  getCfgAttrOfMatchingHosts =
+    fn: type: name:
+    map (c: c.${type}.${name}) (filterCfgs fn);
 
   allCfgs = mapHosts (
     n: _:

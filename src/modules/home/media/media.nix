@@ -64,7 +64,7 @@ in
             bluez
             bluez-tools
             bk
-            jmtpfs
+            adbfs-rootless
           ]
         else
           [ ]

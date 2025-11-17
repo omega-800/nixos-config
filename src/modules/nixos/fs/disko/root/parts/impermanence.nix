@@ -37,13 +37,14 @@ in
 #       })
 #     items);
 {
-  imports = [ inputs.impermanence.nixosModules.impermanence ];
+  #imports = [ inputs.impermanence.nixosModules.impermanence ];
   options.m.fs.disko.root.impermanence = {
     enable = mkOption {
       type = types.bool;
       default = sys.hardened && config.m.fs.disko.enable;
       description = "if fs should be impermanent";
     };
+
     persistVols = mkOption {
       type = types.listOf types.str;
       default = [

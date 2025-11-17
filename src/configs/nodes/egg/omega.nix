@@ -8,18 +8,19 @@
         0
         0
       ];
-pubkeys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICuOJQevf59BvwPcTiKpm1vYJzuSk1Fm2p82KBEQx4WT omega@egg"];
+      pubkeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICuOJQevf59BvwPcTiKpm1vYJzuSk1Fm2p82KBEQx4WT omega@egg"
+      ];
     };
     sys = {
       profile = "serv";
       system = "x86_64-linux";
       genericLinux = false;
       paranoid = lib.mkForce false;
-# TODO: ssh no workey?
-stable = lib.mkForce false;
+      # TODO: ssh no workey?
+      stable = lib.mkForce false;
       hardened = lib.mkForce false;
       flavors = [
-        "storer"
         "hoster"
         "slave"
       ];

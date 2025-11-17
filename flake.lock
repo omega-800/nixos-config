@@ -1259,11 +1259,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1763227118,
-        "narHash": "sha256-CYLC48b953OdUSTSUHN8QnzFx6dlI4XxxznyG0nAdC8=",
+        "lastModified": 1763412495,
+        "narHash": "sha256-Yn76zhIEXNAwlhTog14XsYO7a1oIDi3jFmhomth5/m0=",
         "owner": "omega-800",
         "repo": "lonsdaleite",
-        "rev": "ceae61e4817d88b999dfd5c800f0c14c7d23f484",
+        "rev": "3fac6ee3054e8e93ffc1c0a0f9a1218e920a0706",
         "type": "github"
       },
       "original": {
@@ -1283,11 +1283,11 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1763227118,
-        "narHash": "sha256-CYLC48b953OdUSTSUHN8QnzFx6dlI4XxxznyG0nAdC8=",
+        "lastModified": 1763412495,
+        "narHash": "sha256-Yn76zhIEXNAwlhTog14XsYO7a1oIDi3jFmhomth5/m0=",
         "owner": "omega-800",
         "repo": "lonsdaleite",
-        "rev": "ceae61e4817d88b999dfd5c800f0c14c7d23f484",
+        "rev": "3fac6ee3054e8e93ffc1c0a0f9a1218e920a0706",
         "type": "github"
       },
       "original": {
