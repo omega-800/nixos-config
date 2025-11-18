@@ -29,7 +29,7 @@ in
 
   config = mkMerge [
     (mkIf (cfg.enable && (!cfg.disable)) {
-      programs.nix-ld.enable = true;
+      # programs.nix-ld.enable = true;
       documentation = {
         enable = true;
         dev.enable = true;
@@ -40,7 +40,10 @@ in
         };
         nixos = {
           enable = true;
-          includeAllModules = true;
+          # FIXME:
+          # okay what in the name of satan himself is happening here.
+          # if this is enabled then i can't reference config.boot.supportedFilesystems and other config values anymore
+          #   includeAllModules = true;
         };
       };
     })

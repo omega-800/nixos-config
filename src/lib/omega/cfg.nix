@@ -57,8 +57,11 @@ rec {
     fn:
     lib.mapAttrsToList fn (
       lib.filterAttrs (
-        n: v: v == "directory" && builtins.pathExists (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
+        # TODO: merge with flake-lib modules.nix
+        n: v:
+        v == "directory"
+        && !(lib.hasPrefix "_" n)
+        && builtins.pathExists (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
       ) (builtins.readDir PATHS.NODES)
     );
-
 }

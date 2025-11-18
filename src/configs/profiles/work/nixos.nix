@@ -39,7 +39,6 @@ in
       docker.enable = mkDefault true;
       virt.enable = mkDefault true;
       tools.enable = mkDefault true;
-      mysql.enable = mkDefault true;
     };
     sw = {
       printing.enable = mkDefault true;

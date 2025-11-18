@@ -37,7 +37,7 @@ in
 #       })
 #     items);
 {
-  imports = [ inputs.impermanence.nixosModules.impermanence ];
+  # imports = [ inputs.impermanence.nixosModules.impermanence ];
   options.m.fs.disko.root.impermanence = {
     enable = mkOption {
       type = types.bool;
