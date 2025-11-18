@@ -57,6 +57,7 @@ in
       userEmail = usr.devEmail;
       aliases = {
         a = "add";
+        b = "branch";
         ci = "commit -m";
         co = "checkout";
         s = "status";
