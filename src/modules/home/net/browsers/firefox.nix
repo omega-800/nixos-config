@@ -148,7 +148,7 @@ in
                   template = "https://www.youtube.com/results?search_query={searchTerms}";
                 }
               ];
-              definedAliases = [ "@y" ];
+              definedAliases = [ "@yt" ];
             };
             "reddit" = {
               urls = [

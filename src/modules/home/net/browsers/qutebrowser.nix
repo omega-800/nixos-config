@@ -117,6 +117,13 @@ in
         };
         window.title_format = "{perc}{current_title}";
       };
+      perDomainSettings = {
+        "nandgame.com".colors.webpage.darkmode.enabled = false;
+        # "outlook.com"
+      };
+      quickmarks = {
+        y = "https://www.youtube.com";
+      };
       greasemonkey = [
         # HTML5 Video Playing Tools
         (pkgs.fetchurl {
