@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   usr,
   ...
@@ -17,5 +18,6 @@ in
       "adbusers"
       "kvm"
     ];
+    environment.defaultPackages = with pkgs; [ universal-android-debloater ];
   };
 }

@@ -115,9 +115,6 @@ in
       users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
         getCfgAttrOfMatchingHosts (c: builtins.elem "master" c.sys.flavors) "net" "pubkeys"
       );
-      # FIXME: i hate myself
-      services.openssh.enable = true;
-      programs.ssh.askPassword = mkForce "";
       networking = mkMerge [
         {
           inherit (net) domain;

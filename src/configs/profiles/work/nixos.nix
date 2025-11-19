@@ -39,13 +39,13 @@ in
       docker.enable = mkDefault true;
       virt.enable = mkDefault true;
       tools.enable = mkDefault true;
+      android.enable = mkDefault true;
     };
     sw = {
       printing.enable = mkDefault true;
       flatpak.enable = mkDefault true;
       fonts.enable = mkDefault true;
       miracast.enable = mkDefault true;
-      android.enable = mkDefault true;
     };
   };
 }
