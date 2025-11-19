@@ -18,7 +18,6 @@
       ];
     };
     usr = {
-      devName = "omega";
       devEmail = "georgiy.shevoroshkin@ost.ch";
       wm = "dwm";
       shell = pkgs.zsh;

@@ -104,25 +104,31 @@ in
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@n" ];
             };
-            /*
-              "NixOS install guide" = {
-                urls = [
-                  {
-                    template = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
-                  }
-                ];
-                definedAliases = [ "@ni" ];
-              };
-            */
             "NixOS wiki" = {
-              urls = [
-                {
-                  template = "https://wiki.nixos.org/index.php?search={searchTerms}";
-                }
-              ];
+              urls = [ { template = "https://wiki.nixos.org/index.php?search={searchTerms}"; } ];
               icon = "https://wiki.nixos.org/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
-              definedAliases = [ "@nw" ];
+              definedAliases = [ "@wn" ];
+            };
+            "arch wiki" = {
+              urls = [ { template = "https://wiki.archlinux.org/?search={searchTerms}"; } ];
+              definedAliases = [ "@wa" ];
+            };
+            "gentoo wiki" = {
+              urls = [ { template = "https://wiki.gentoo.org/?search={searchTerms}"; } ];
+              definedAliases = [ "@wg" ];
+            };
+            "wikipedia" = {
+              urls = [ { template = "https://en.wikipedia.org/wiki/{searchTerms}"; } ];
+              definedAliases = [ "@wk" ];
+            };
+            "urban dictionary" = {
+              urls = [ { template = "https://urbandictionary.com/define.php?term={searchTerms}"; } ];
+              definedAliases = [ "@ud" ];
+            };
+            "stackoverflow" = {
+              urls = [ { template = "https://stackoverflow.com/search?q={searchTerms}"; } ];
+              definedAliases = [ "@so" ];
             };
             "noogle" = {
               urls = [ { template = "https://noogle.dev/q?term={searchTerms}"; } ];
@@ -135,39 +141,31 @@ in
               definedAliases = [ "@hg" ];
             };
             "osm" = {
-              urls = [
-                {
-                  template = "https://www.openstreetmap.org/search?query={searchTerms}";
-                }
-              ];
-              definedAliases = [ "@osm" ];
+              urls = [ { template = "https://www.openstreetmap.org/search?query={searchTerms}"; } ];
+              definedAliases = [ "@om" ];
             };
             "youtube" = {
-              urls = [
-                {
-                  template = "https://www.youtube.com/results?search_query={searchTerms}";
-                }
-              ];
+              urls = [ { template = "https://www.youtube.com/results?search_query={searchTerms}"; } ];
               definedAliases = [ "@yt" ];
             };
+            "youtube music" = {
+              urls = [ { template = "https://music.youtube.com/search?q={searchTerms}"; } ];
+              definedAliases = [ "@ytm" ];
+            };
+            "spotify" = {
+              urls = [ { template = "https://open.spotify.com/search/{searchTerms}"; } ];
+              definedAliases = [ "@sp" ];
+            };
             "reddit" = {
-              urls = [
-                {
-                  template = "https://www.reddit.com/search/?q={searchTerms}";
-                }
-              ];
-              definedAliases = [ "@r" ];
+              urls = [ { template = "https://www.reddit.com/search/?q={searchTerms}"; } ];
+              definedAliases = [ "@rd" ];
             };
             "subreddit" = {
               urls = [ { template = "https://www.reddit.com/r/{searchTerms}/"; } ];
               definedAliases = [ "@rr" ];
             };
             "github" = {
-              urls = [
-                {
-                  template = "https://github.com/search?q={searchTerms}&type=repositories";
-                }
-              ];
+              urls = [ { template = "https://github.com/search?q={searchTerms}&type=repositories"; } ];
               definedAliases = [ "@gh" ];
             };
             "github link" = {
@@ -175,16 +173,11 @@ in
               definedAliases = [ "@ghl" ];
             };
             "github self" = {
-              urls = [
-                {
-                  template = "https://github.com/${usr.devName}/{searchTerms}";
-                }
-              ];
+              urls = [ { template = "https://github.com/${usr.devName}/{searchTerms}"; } ];
               definedAliases = [ "@ghs" ];
             };
-
             "bing".metaData.hidden = true;
-            "google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            "google".metaData.alias = "@gg"; # builtin engines only support specifying one additional alias
           };
         };
 
@@ -200,7 +193,8 @@ in
           "browser.shell.checkDefaultBrowser" = false;
           "browser.shell.defaultBrowserCheckCount" = 1;
           "browser.startup.homepage" = "https://start.duckduckgo.com";
-          "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","urlbar-container","downloads-button","library-button","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
+          "browser.uiCustomization.state" =
+            ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","urlbar-container","downloads-button","library-button","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
           "dom.security.https_only_mode" = true;
           "identity.fxaccounts.enabled" = false;
           "privacy.trackingprotection.enabled" = true;

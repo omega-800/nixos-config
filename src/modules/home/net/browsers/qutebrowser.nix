@@ -11,6 +11,7 @@ let
     nameValuePair
     replaceString
     removePrefix
+    listToAttrs
     filterAttrs
     mapAttrs'
     mkOption
@@ -56,7 +57,6 @@ in
         auto_save.session = true;
         content = {
           default_encoding = "utf-8";
-          geolocation = false;
           pdfjs = true;
           autoplay = false;
           blocking = {
@@ -67,6 +67,12 @@ in
             enabled = true;
             method = "both";
           };
+          cookies.accept = "no-3rdparty";
+          geolocation = false;
+          headers.do_not_track = true;
+          javascript.clipboard = false;
+          notifications.enabled = true;
+          prefers_reduced_motion = true;
         };
         downloads.location = {
           directory = globals.envVars.XDG_DOWNLOAD_DIR;
@@ -118,11 +124,25 @@ in
         window.title_format = "{perc}{current_title}";
       };
       perDomainSettings = {
-        "nandgame.com".colors.webpage.darkmode.enabled = false;
         # "outlook.com"
-      };
+      }
+      // (listToAttrs
+        (name: {
+          inherit name;
+          value.colors.webpage.darkmode.enabled = false;
+        })
+        [
+          "nandgame.com"
+          "academy.ripe.net"
+        ]
+      );
       quickmarks = {
         y = "https://www.youtube.com";
+        osm = "https://www.openstreetmap.org";
+        r = "https://www.reddit.com";
+        g = "https://github.com";
+        gl = "https://gitlab.com";
+        ni = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
       };
       greasemonkey = [
         # HTML5 Video Playing Tools

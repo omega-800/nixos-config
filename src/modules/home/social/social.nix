@@ -20,7 +20,6 @@ in
   options.u.social.enable = mkEnableOption "social packages";
 
   config = mkIf (cfg.enable && usr.extraBloat) {
-    # nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
     home.packages =
       with pkgs;
       [

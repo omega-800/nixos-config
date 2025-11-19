@@ -10,6 +10,7 @@ let
   cfg = config.u.file;
 in
 {
+  # TODO: uniform filemanager everywhere
   options.u.file.enable = mkEnableOption "file packages";
 
   config = mkIf cfg.enable {
