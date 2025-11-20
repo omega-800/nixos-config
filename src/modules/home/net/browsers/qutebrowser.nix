@@ -143,6 +143,7 @@ in
         g = "https://github.com";
         gl = "https://gitlab.com";
         ni = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
+        dm = "https://www.desmos.com/calculator";
       };
       greasemonkey = [
         # HTML5 Video Playing Tools

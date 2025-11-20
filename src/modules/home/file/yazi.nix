@@ -41,7 +41,7 @@ in
       #       on = [ "<Backspace>" ];
       #     }
       #   ];
-      #   manager.keymap = [
+      #   mgr.keymap = [
       #     {
       #       exec = "escape";
       #       on = [ "<Esc>" ];
@@ -64,7 +64,7 @@ in
       };
       settings = {
         log.enabled = false;
-        manager = {
+        mgr = {
           scrolloff = 8;
           show_hidden = true;
           show_symlink = true;
