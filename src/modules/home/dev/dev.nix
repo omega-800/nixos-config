@@ -44,6 +44,10 @@ in
           }
       )
     ];
+    nixpkgs.config = mkIf (sys.profile == "school") {
+      allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
+      permittedInsecurePackages = [ "ciscoPacketTracer8-8.2.2" ];
+    };
     home.packages =
       with pkgs;
       [ jq ]
@@ -68,7 +72,6 @@ in
         ciscoPacketTracer8
         rfc
       ]);
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
     home.file = {
       ".config/qmk/qmk.ini".text = ''
         [user]
