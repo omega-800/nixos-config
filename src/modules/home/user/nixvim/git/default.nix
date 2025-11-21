@@ -20,7 +20,7 @@ in
     plugins = {
       gitlinker = {
         enable = true;
-        callbacks = {
+        settings.callbacks = {
           "github.com" = "get_github_type_url";
           "git.getonline.ch" = "get_gitlab_type_url";
           "gitlab.com" = "get_gitlab_type_url";

@@ -26,7 +26,7 @@ in
     programs.gh = {
       enable = true;
       gitCredentialHelper.enable = false;
-      package = pkgs.gitAndTools.gh;
+      package = pkgs.gh;
       hosts = {
         # TODO: 
         "github.com" = {

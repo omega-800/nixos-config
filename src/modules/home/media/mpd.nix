@@ -16,7 +16,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ mpc-cli ];
+    home.packages = with pkgs; [ mpc ];
     programs.ncmpcpp = {
       enable = true;
       bindings = [

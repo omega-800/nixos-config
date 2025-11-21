@@ -59,13 +59,15 @@ in
       };
       wilder = {
         enable = false;
-        modes = [
-          ":"
-          "/"
-          "?"
-        ];
-        enableCmdlineEnter = true;
-        acceptCompletionAutoSelect = true;
+        settings = {
+          modes = [
+            ":"
+            "/"
+            "?"
+          ];
+          enable_cmdline_enter = true;
+          accept_completion_auto_select = true;
+        };
       };
     };
   };

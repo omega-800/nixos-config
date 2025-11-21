@@ -177,7 +177,7 @@ in
         }
       else
         {
-          diagnostics.virtual_lines.only_current_line = true;
+          diagnostics.settings.virtual_lines.only_current_line = true;
         }
     )
   ];

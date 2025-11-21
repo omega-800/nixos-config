@@ -18,7 +18,7 @@ in
         tinymist.enable = true;
       };
       none-ls.sources = mkIf plugins.none-ls.enable {
-        formatting.typstfmt.enable = true;
+        formatting.typstyle.enable = true;
       };
     };
   };

@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   imports = [
     ./tools.nix
@@ -9,5 +8,4 @@
     ./orchestration.nix
     ./android.nix
   ];
-  environment.systemPackages = [ pkgs.gitAndTools.gitFull ];
 }

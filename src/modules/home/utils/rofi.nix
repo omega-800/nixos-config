@@ -24,8 +24,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.file.".config/networkmanager-dmenu/config.ini".text =
-      lib.readFile ./networkmanager-dmenu.config.ini;
+    home.file.".config/networkmanager-dmenu/config.ini".text = lib.readFile ./networkmanager-dmenu.config.ini;
     home.packages =
       with pkgs;
       (
@@ -45,7 +44,6 @@ in
       );
     programs.rofi = {
       enable = true;
-      package = mkIf (usr.wmType == "wayland") pkgs.rofi-wayland;
       cycle = false;
       extraConfig = {
         modi =

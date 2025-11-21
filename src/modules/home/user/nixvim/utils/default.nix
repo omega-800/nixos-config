@@ -7,7 +7,7 @@ let
   inherit (lib.omega.vim) keyG key keyS;
 in
 {
-  # TODO: treesj, mini.surround, tabout.nvim 
+  # TODO: treesj, mini.surround, tabout.nvim
   imports = [
     ./keymaps.nix
     ./oil.nix
@@ -96,14 +96,16 @@ in
       # indent-blankline.enable = true;
       illuminate = {
         enable = true;
-        underCursor = false;
-        filetypesDenylist = [
-          "Outline"
-          "TelescopePrompt"
-          "alpha"
-          "harpoon"
-          "reason"
-        ];
+        settings = {
+          under_cursor = false;
+          filetypes_denylist = [
+            "Outline"
+            "TelescopePrompt"
+            "alpha"
+            "harpoon"
+            "reason"
+          ];
+        };
       };
       which-key = lib.mkMerge [
         { enable = true; }

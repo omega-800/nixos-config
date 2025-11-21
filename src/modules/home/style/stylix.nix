@@ -29,7 +29,6 @@ in
             ++ (optionals usr.extraBloat [
               noto-fonts
               noto-fonts-cjk-sans
-              noto-fonts-emoji
               noto-fonts-monochrome-emoji
             ])
             ++ (optionals (sys.profile == "school") [ fira-math ]);
