@@ -2,7 +2,12 @@
   programs.nixvim = {
     plugins.startup = {
       enable = true;
-
+      options = {
+        paddings = [
+          1
+          3
+        ];
+      };
       settings = {
         colors = {
           background = "#ffffff";
@@ -63,12 +68,6 @@
             defaultColor = "";
             oldfilesAmount = 0;
           };
-        };
-        options = {
-          paddings = [
-            1
-            3
-          ];
         };
 
         parts = [

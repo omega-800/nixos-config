@@ -21,8 +21,6 @@
     hw.io.qmk.enable = true;
   };
 
-  users.users.omega.openss.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOE1re70UdTTtM6Yv5uANJCThfxssJ3cc7wE8VlTST60 jovyan@jupyter-georgiy-shevoroshkin---8b1620bb" ];
-
   nixpkgs.config = {
     allowUnfreePredicate = _: true;
     allowUnfree = true;
