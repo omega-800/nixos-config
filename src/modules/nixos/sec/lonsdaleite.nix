@@ -30,13 +30,13 @@ in
 
         os = {
           antivirus.enable = true;
-          nixos.enable = true;
+          # nixos.enable = true;
           privilege.enable = true;
           random.enable = true;
           update.enable = true;
         };
         hw.bluetooth.enable = true;
-        fs.usb.enable = true;
+        # fs.usb.enable = true;
         net = {
           ssh.enable = true;
           sshd.enable = true;

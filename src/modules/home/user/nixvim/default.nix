@@ -41,6 +41,8 @@ in
     inputs.nixvim.homeManagerModules.nixvim
   ];
 
+  # eh https://github.com/L3MON4D3/LuaSnip
+
   config = mkIf cfg.enable {
     programs.nixvim = {
       enable = true;
