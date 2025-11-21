@@ -14,7 +14,7 @@
   #   else
   #     {
   #       stylix = {
-  #         inherit (globals.styling) cursor polarity image fonts;
+  #         inherit (globals.styling) cursor polarity image fonts icons;
   #         base16Scheme = globals.styling.colors;
   #         autoEnable = false;
   #         opacity.terminal = 0.85;

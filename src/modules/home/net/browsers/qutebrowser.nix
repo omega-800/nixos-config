@@ -70,7 +70,7 @@ in
           cookies.accept = "no-3rdparty";
           geolocation = false;
           headers.do_not_track = true;
-          javascript.clipboard = false;
+          javascript.clipboard = "none";
           notifications.enabled = true;
           prefers_reduced_motion = true;
         };
@@ -126,16 +126,17 @@ in
       perDomainSettings = {
         # "outlook.com"
       }
-      // (listToAttrs
-        (name: {
-          inherit name;
-          value.colors.webpage.darkmode.enabled = false;
-        })
-        [
-          "nandgame.com"
-          "academy.ripe.net"
-        ]
-      );
+      // (listToAttrs (
+        map
+          (name: {
+            inherit name;
+            value.colors.webpage.darkmode.enabled = false;
+          })
+          [
+            "nandgame.com"
+            "academy.ripe.net"
+          ]
+      ));
       quickmarks = {
         y = "https://www.youtube.com";
         osm = "https://www.openstreetmap.org";
