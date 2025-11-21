@@ -50,6 +50,7 @@ in
             opacity.terminal = 0.85;
             base16Scheme = globals.styling.colors;
             inherit (globals.styling)
+              icons
               cursor
               polarity
               image

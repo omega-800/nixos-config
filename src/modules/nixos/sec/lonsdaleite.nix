@@ -8,18 +8,20 @@
 }:
 let
   cfg = config.m.sec.lon;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkIf;
+  inherit (lib.omega.def) mkDisableOption;
 in
 {
   # TODO: remove unused configs in this repo
 
   imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
 
-  options.m.sec.lon.enable = mkEnableOption "lonsdaleite";
+  options.m.sec.lon.enable = mkDisableOption "lonsdaleite";
 
   # TODO: 
-  config = # mkIf cfg.enable
+  config = mkIf cfg.enable
     {
+
       lonsdaleite = {
         enable = false;
         # FIXME:

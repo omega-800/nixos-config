@@ -106,6 +106,12 @@
       theme = import (PATHS.THEMES + /${usr.theme}.nix);
     in
     {
+      icons = {
+        enable = true;
+        package = pkgs.papirus-icon-theme;
+        light = "Papirus-light";
+        dark = "Papirus-dark";
+      };
       colors = theme.scheme;
       cursor = lib.mkIf (!usr.minimal) {
         package = pkgs.bibata-cursors;
