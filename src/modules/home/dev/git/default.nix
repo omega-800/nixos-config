@@ -49,35 +49,35 @@ in
       pinentry.package = pkgs.pinentry-tty;
       grabKeyboardAndMouse = true;
     };
-    home.packages = with pkgs; [ git-secrets ] ++ (optionals (!usr.minimal) [ lazygit ]);
+    home.packages = with pkgs; [ git-secrets ] ++ (optionals usr.extraBloat [ lazygit ]);
     programs = {
       git = {
         enable = true;
         package = pkgs.gitFull;
+        aliases = {
+          a = "add";
+          b = "branch";
+          ci = "commit -m";
+          co = "checkout";
+          s = "status";
+          ss = "submodule status";
+          su = "submodule update --init --merge --recursive --remote";
+          sl = "stash list";
+          sps = "stash push .";
+          sp = "stash pop";
+          f = "fetch";
+          p = "pull";
+          d = "diff";
+          ps = "push";
+          m = "merge";
+          l = "log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n'";
+          alias = "config --get-regexp ^alias";
+        };
         settings = mkMerge [
           {
             user = {
               name = usr.devName;
               email = usr.devEmail;
-            };
-            aliases = {
-              a = "add";
-              b = "branch";
-              ci = "commit -m";
-              co = "checkout";
-              s = "status";
-              ss = "submodule status";
-              su = "submodule update --init --merge --recursive --remote";
-              sl = "stash list";
-              sps = "stash push .";
-              sp = "stash pop";
-              f = "fetch";
-              p = "pull";
-              d = "diff";
-              ps = "push";
-              m = "merge";
-              l = "log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n'";
-              alias = "config --get-regexp ^alias";
             };
             init.defaultBranch = "main";
             status = {
