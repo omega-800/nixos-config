@@ -35,9 +35,14 @@ in
         update.enable = true;
       };
       # hw.bluetooth.enable = sys.profile != "serv";
-      hw.bluetooth.enable = false;
-      hw.bluetooth.disable = sys.profile == "serv";
-      # fs.usb.enable = true;
+      hw.bluetooth = {
+        enable = false;
+        disable = sys.profile == "serv";
+      };
+      fs.usb = {
+        enable = false;
+        disable = false;
+      };
       net = {
         ssh.enable = true;
         sshd.enable = true;
