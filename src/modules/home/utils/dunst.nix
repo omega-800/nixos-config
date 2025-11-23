@@ -15,13 +15,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.dunst = {
+    services.dunst = with config.lib.stylix.colors.withHashtag; {
       enable = true;
       settings = {
         global = {
           follow = "keyboard";
-          frame_color = "#" + config.lib.stylix.colors.base0E;
-          highlight = "#" + config.lib.stylix.colors.base0D;
+          frame_color = base0E;
+          highlight = base0D;
           origin = "top-center";
           offset = "0x50";
           #    scale = 0;
@@ -54,7 +54,7 @@ in
           stack_duplicates = true;
           hide_duplicate_count = false;
           show_indicators = "yes";
-          enable_recursive_icon_lookup = true;
+          # enable_recursive_icon_lookup = true;
           icon_position = "left";
           sticky_history = "yes";
           history_length = 20;
@@ -88,8 +88,8 @@ in
         };
         urgency_low = {
           #background = "#"+config.lib.stylix.colors.base00;
-          foreground = "#" + config.lib.stylix.colors.base05;
-          highlight = "#" + config.lib.stylix.colors.base0B;
+          foreground = base05;
+          highlight = base0B;
           #frame_color = "#"+config.lib.stylix.colors.base03;
           timeout = 5;
         };
@@ -101,7 +101,7 @@ in
         urgency_critical = {
           #background = "#"+config.lib.stylix.colors.base00;
           #foreground = "#"+config.lib.stylix.colors.base08;        
-          highlight = "#" + config.lib.stylix.colors.base09;
+          highlight = base09;
           #frame_color = "#"+config.lib.stylix.colors.base06;
           timeout = 50;
         };

@@ -27,15 +27,15 @@ stats=($(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf 
 
 muted=" "
 if [ "${stats[1]}" == "off" ] || [ "${stats[1]}" == "yes" ] || (( "${stats[0]}" == 0 ));then
-    icon='volume-x'
-    muted="muted"
+    icon='icon_go-down-skip'
+    muted='muted'
 elif (( ${stats[0]} < 35 ));then
-    icon='volume'
+    icon='icon_go-down'
 elif (( ${stats[0]} < 70 ));then
-    icon='volume-1'
+    icon='icon_go-up'
 else
-    icon='volume-2'
+    icon='icon_go-up-skip'
 fi
 
 # echo ${stats[0]} ${stats[1]} $volume | xargs -l bash -c 
-dunstify "volume $muted" -h "int:value:${stats[0]}" -i "/usr/share/icons/feather/$icon.svg" -t 500
+dunstify "volume $muted" -h "int:value:${stats[0]}" -I "$icon" -t 500

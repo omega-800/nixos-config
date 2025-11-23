@@ -108,9 +108,12 @@
     {
       icons = {
         enable = true;
-        package = pkgs.papirus-icon-theme;
-        light = "Papirus-light";
-        dark = "Papirus-dark";
+        # package = pkgs.papirus-icon-theme;
+        # light = "Papirus-light";
+        # dark = "Papirus-dark";
+        package = pkgs.kdePackages.breeze-icons;
+        light = "breeze";
+        dark = "breeze-dark";
       };
       colors = theme.scheme;
       cursor = lib.mkIf (!usr.minimal) {

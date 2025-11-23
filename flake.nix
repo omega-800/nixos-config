@@ -157,8 +157,8 @@
     # };
     stylix-unstable = {
       # TODO: change
-      url = "github:danth/stylix";
-      # url = "git+file:/home/omega/ws/code/stylix";
+      # url = "github:danth/stylix";
+      url = "git+file:/home/omega/ws/code/stylix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     stylix-stable = {
