@@ -1,6 +1,7 @@
 {
   inputs,
   sys,
+  lib,
   usr,
   pkgs,
   net,
@@ -10,6 +11,7 @@
 let
   rcurmon = "rofi -m -4";
   modifier = "Mod4";
+  inherit (lib.omega.misc) clipCmd;
 in
 {
   imports = [ inputs.scawm.homeManagerModules.scawm ];
@@ -18,12 +20,12 @@ in
     inherit modifier;
     autoEnable = true;
     integrations.sxhkd.bindings = {
-      "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config' -t 500'';
+      "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500'';
       "${modifier} + x" = "slock";
       "XF86PowerOff" = "slock";
       "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
-      "${modifier} + r ; g ; p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
+      "${modifier} + r ; g ; p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
     };
     bindings = {
       "${modifier} Return" = "${usr.term}";
@@ -34,7 +36,8 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" =
+        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
@@ -78,7 +81,7 @@ in
               a = "${pkgs.rofi_bookmarks}";
             };
           };
-          c = "${rcurmon} -show calc -modi calc -no-show-match -no-sort";
+          c = "${pkgs.writeShellScript "rofi-calc-hack" ''${rcurmon} -show calc -modi calc -no-show-match -no-sort -calc-command "${clipCmd "'{result}'"}"''}";
           e = "${rcurmon} -show emoji";
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
           k = "${pkgs.kaomoji}";

@@ -11,10 +11,9 @@ esac
 newval="$(brightnessctl i | grep Current | sed 's/.*(\(.*\)%).*/\1/')"
 
 if (( newval < 30 )); then
-  icon='icon_brightness-low'
+  icon='go-down'
 else
-  icon='icon_brightness-high'
+  icon='go-up'
 fi
 
-dunstify "backlight" -h "int:value:$newval" -h string:x-canonical-private-synchronous:brightness -I "$icon" -t 500 &
-
+dunstify "backlight" -h "int:value:$newval" -h string:x-canonical-private-synchronous:brightness -i "$icon" -t 500 &

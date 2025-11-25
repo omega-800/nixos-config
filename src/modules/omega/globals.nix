@@ -53,7 +53,8 @@
     XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
     ZCOMPDUMP = ''${XDG_CACHE_HOME}/zsh/zcompdump-"$ZSH_VERSION"'';
-    XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
+    # XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
+    XAUTHORITY = "${HOME}/.Xauthority";
     XRESOURCES = "${XDG_CONFIG_HOME}/X11/xresources";
     TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
     QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -111,9 +112,9 @@
         # package = pkgs.papirus-icon-theme;
         # light = "Papirus-light";
         # dark = "Papirus-dark";
-        package = pkgs.kdePackages.breeze-icons;
-        light = "breeze";
-        dark = "breeze-dark";
+        package = pkgs.zafiro-icons;
+        light = "Zafiro-icons-Light";
+        dark = "Zafiro-icons-Dark";
       };
       colors = theme.scheme;
       cursor = lib.mkIf (!usr.minimal) {

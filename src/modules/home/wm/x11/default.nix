@@ -26,9 +26,7 @@ in
   config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [ xdotool ];
-      keyboard = {
-        layout = sys.kbLayout;
-      };
+      keyboard.layout = sys.kbLayout;
     };
     services.unclutter = {
       enable = true;
@@ -52,7 +50,6 @@ in
       ibus-daemon -rxRd
       # picom & # is running as systemd service now
       systemctl --user import-environment DISPLAY
-      dunst &
       nm-applet &
       # exec --no-startup-id dunst
       ${pkgs.notify_bat} &

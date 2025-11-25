@@ -74,6 +74,8 @@ rec {
         {
           omega = import (LIBS + /omega) {
             inherit inputs;
+            # FIXME: hacky
+            inherit (cfg) sys usr net;
             pkgs = pkgsFinal;
             lib = final;
           };

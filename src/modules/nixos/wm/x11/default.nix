@@ -73,9 +73,7 @@ in
         variant = "de";
       };
       excludePackages = [ pkgs.xterm ];
-      displayManager = {
-        startx.enable = true;
-      };
+      displayManager.startx.enable = true;
       xautolock = {
         enable = true;
         enableNotifier = true;
