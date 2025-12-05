@@ -27,6 +27,7 @@ in
         drawio
         libreoffice
         gimp
+        inkscape
         xournalpp
         /*
           (pkgs.runCommand

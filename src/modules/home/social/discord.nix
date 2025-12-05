@@ -18,9 +18,8 @@ in
   config = mkIf cfg.enable {
     # nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
     programs.nixcord = {
-      # enable = true;
+      enable = true;
       vesktop.enable = true;
-      # dorion.enable = true;
       config = {
         frameless = true;
         plugins = {
@@ -37,9 +36,10 @@ in
         };
       };
       dorion = {
+        enable = false;
         blur = "acrylic";
         sysTray = true;
-        openOnStartup = true;
+        openOnStartup = false;
         autoClearCache = true;
         disableHardwareAccel = false;
         rpcServer = true;

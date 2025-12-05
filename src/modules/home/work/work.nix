@@ -17,7 +17,6 @@ in
       mysql80
       postman
       # newman -> postman cli
-      inkscape
       # keepass
       # veeam -> https://www.veeam.com/de/linux-backup-free.html
     ];
