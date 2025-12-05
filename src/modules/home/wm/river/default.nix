@@ -61,6 +61,7 @@ in
           "Super BTN_RIGHT" = "resize-view";
           "Super BTN_MIDDLE" = "toggle-float";
         };
+        map-switch.normal.lid.close = "exec ${pkgs.swaylock}/bin/swaylock -fF";
         map = {
           normal = {
             "Super Return" = "spawn ${usr.term}";

@@ -51,5 +51,6 @@ in
         else
           [ ]
       );
+    programs.nix-index.enable = usr.extraBloat;
   };
 }

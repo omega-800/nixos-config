@@ -30,7 +30,7 @@ in
       os = {
         antivirus.enable = true;
         # nixos.enable = true;
-        privilege.enable = true;
+        # privilege.enable = true;
         random.enable = true;
         update.enable = true;
       };
@@ -44,7 +44,7 @@ in
         disable = false;
       };
       net = {
-        ssh.enable = true;
+        ssh.enable = sys.profile != "school";
         sshd.enable = true;
         macchanger.enable = true;
         firewall.enable = true;
