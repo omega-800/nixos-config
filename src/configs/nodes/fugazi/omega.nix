@@ -18,6 +18,7 @@
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = false;
+      minimal = true;
       theme = "weeb";
       termColors = {
         c1 = "36";

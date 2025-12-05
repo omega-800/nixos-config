@@ -82,7 +82,9 @@ in
         else
           [ ]
       );
-    home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
+    home.file = mkIf (!usr.minimal) {
+".profile".text =  "[ ! -s ~/.config/mpd/pid ] && mpd";
+};
 
     programs = {
       mpv = mkIf (!usr.minimal) {

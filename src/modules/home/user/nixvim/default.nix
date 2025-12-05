@@ -48,8 +48,8 @@ in
       enable = true;
       defaultEditor = true;
       enableMan = true;
-      viAlias = true;
-      vimAlias = true;
+      # viAlias = true;
+      # vimAlias = true;
       editorconfig.enable = true;
       clipboard = {
         register = "unnamedplus";

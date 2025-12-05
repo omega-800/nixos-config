@@ -4,6 +4,7 @@ keys:
   - &rednip age1eckgca4vdjflsg6e7uuwc5y5utwx87s59h882u3y308f8m7qjvgs8x9f8j
   - &gojira age18n2yr5ejex5cxq9rdrsktwmszaz49w2fjca24s7d03yxju5uh97qjfq587
   - &egg age1kdqs3rmqz06cy48yg4fkrvmfavq80qt25u3fscyrwfjrhvwxj40qgl8k3v
+  - &fugazi age16vdeujj2txxz95xlt4n0nmny360z4wv7ef0gdt5z936ju6uc33hs92r8f4
 creation_rules:
   - path_regex: src/secrets/secrets.yaml$
     key_groups:
@@ -13,3 +14,4 @@ creation_rules:
       - *rednip
       - *gojira
       - *egg
+      - *fugazi

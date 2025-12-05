@@ -43,8 +43,8 @@ while true; do
 
 	date=$(date +"%d-%m-%y")
 
-	battery=$(cat /sys/class/power_supply/BAT0/capacity)
-	batteryStats=$(cat /sys/class/power_supply/BAT0/status)
+	battery=$(cat /sys/class/power_supply/*0/capacity)
+	batteryStats=$(cat /sys/class/power_supply/*0/status)
 	batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
 	bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
 

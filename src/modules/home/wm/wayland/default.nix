@@ -35,9 +35,10 @@ in
     };
     autoStart = mkOption {
       type = types.listOf types.lines;
-      default = [
-        "nohup ${pkgs.sway-audio-idle-inhibit} &"
+      default = (optionals (!usr.minimal) [
         "swaybg --image ${config.stylix.image} --mode fill"
+]) ++ [
+        "nohup ${pkgs.sway-audio-idle-inhibit} &"
         "${pkgs.notify_bat}"
         "${usr.term} -e tmux a"
         # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
