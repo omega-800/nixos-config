@@ -1,9 +1,5 @@
 {
-  sys,
-  usr,
   config,
-  pkgs,
-  lib,
   ...
 }:
 let
@@ -78,7 +74,4 @@ in
   "${super}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
 
   "${super}+Shift+r" = "mode resize";
-
-  "XF86PowerOff" = "exec ${pkgs.swaylock}/bin/swaylock -fF";
-  "${super} x" = "exec ${pkgs.swaylock}/bin/swaylock -fF";
 }
