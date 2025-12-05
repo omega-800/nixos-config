@@ -24,8 +24,6 @@ in
       with pkgs;
       [
         signal-desktop
-      ]
-      ++ (optionals (sys.profile == "school") [ pkgs.teams-for-linux ]);
-
+      ];
   };
 }
