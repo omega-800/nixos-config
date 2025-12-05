@@ -21,13 +21,13 @@ in
     autoEnable = true;
     integrations.sxhkd.bindings = {
       "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500'';
-      "${modifier} + x" = "slock";
-      "XF86PowerOff" = "slock";
       "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
       "${modifier} + r ; g ; p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
     };
     bindings = {
+      "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
+      "${modifier} x" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
       "${modifier} Return" = "${usr.term}";
       "${modifier}+Alt y" = "pkill -f screenkey";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
@@ -36,8 +36,7 @@ in
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
-      "Alt v" =
-        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
