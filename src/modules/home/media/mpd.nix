@@ -12,11 +12,15 @@ in
 {
   options.u.media.mpd.enable = mkOption {
     type = types.bool;
-    default = config.u.media.enable;
+    default = config.u.media.enable && (!usr.minimal);
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ mpc ];
+
+    home = {
+      packages = with pkgs; [ mpc ];
+      file.".profile".text = "[ ! -s ~/.config/mpd/pid ] && mpd";
+    };
     programs.ncmpcpp = {
       enable = true;
       bindings = [

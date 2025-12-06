@@ -40,7 +40,7 @@ in
         (optionals (!usr.minimal) [
           "swaybg --image ${config.stylix.image} --mode fill"
         ])
-        ++ (optionals (!(elem "stationary" sys.flavors)) [
+        ++ (optionals (!sys.stationary) [
           "nohup ${pkgs.sway-audio-idle-inhibit} &"
           "${pkgs.notify_bat}"
         ])

@@ -24,11 +24,8 @@ in
     home.packages =
       with pkgs;
       [
-        drawio
         libreoffice
         gimp
-        inkscape
-        xournalpp
         /*
           (pkgs.runCommand
             "xournalpp"
@@ -37,9 +34,14 @@ in
           )
         */
       ]
+      ++ (optionals (!usr.minimal) [
+        inkscape
+        xournalpp
+      ])
       ++ (optionals usr.extraBloat (
         [
           # obsidian
+          drawio
           kdePackages.skanpage
           (if (usr.wmType == "x11") then gpick else hyprpicker)
         ]
@@ -61,14 +63,5 @@ in
           -gtk-icon-transform: scale(0.5);
       }
     '';
-    programs.zathura = {
-      enable = true;
-      extraConfig = ''
-        set selection-clipboard clipboard
-        map gf exec firefox\ "$FILE"
-        map ge exec xournalpp\ "$FILE"
-        map gd exec zathura\ "$FILE"
-      '';
-    };
   };
 }

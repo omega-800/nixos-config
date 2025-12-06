@@ -114,9 +114,15 @@ in
           "grandparent" # hypervisor
           "parent" # runs vm's / containers
           "child" # vm/container
-          "stationary" # FIXME: 
         ]);
         default = [ ];
+      };
+      stationary = mkOption {
+        type = bool;
+        default = builtins.elem config.c.sys.profile [
+          "serv"
+          "gaymer"
+        ];
       };
       stable = mkOption {
         type = bool;

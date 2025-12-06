@@ -19,16 +19,11 @@ in
     home.packages =
       with pkgs;
       [ fastfetch ]
-      ++ (
-        if usr.extraBloat then
-          [
-            owofetch
-            onefetch
-            bunnyfetch
-            ghfetch
-          ]
-        else
-          [ ]
-      );
+      ++ (optionals usr.extraBloat [
+        owofetch
+        onefetch
+        bunnyfetch
+        ghfetch
+      ]);
   };
 }

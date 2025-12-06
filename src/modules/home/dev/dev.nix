@@ -19,7 +19,9 @@ let
   cfg = config.u.dev;
 in
 {
-  options.u.dev.enable = mkEnableOption "dev packages";
+  options.u.dev = {
+    enable = mkEnableOption "dev packages";
+  };
 
   config = mkIf cfg.enable {
     programs = mkMerge [
@@ -53,16 +55,15 @@ in
       [ jq ]
       ++ (optionals (!usr.minimal) [
         pastel
-        yq-go
-        qmk
-        perl
-        strace
-        gnumake
         man-pages
         man-pages-posix
         # wikiman
       ])
       ++ (optionals usr.extraBloat [
+        perl
+        strace
+        yq-go
+        gnumake
         qemu
         virt-manager
         slides

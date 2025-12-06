@@ -17,12 +17,19 @@ in
   config = mkIf cfg.enable {
     home.packages =
       with pkgs;
-      (optionals (!usr.minimal) [
+      [
+        iproute2
+        iputils
+        curl
+        wget
+      ]
+      ++ (optionals (!usr.minimal) [
         # (nixGL brave)
         wireguard-tools
         lsof
         whois
-      ]) ++ (optionals (sys.profile == "school") [
+      ])
+      ++ (optionals (sys.profile == "school") [
         wireshark
         # tshark
         termshark
@@ -36,7 +43,7 @@ in
         (nixGL tor-browser)
         # (nixGL vieb)
       ]);
-    programs.rtorrent = mkIf usr.extraBloat {
+    programs.rtorrent = mkIf (!usr.minimal) {
       enable = true;
     };
   };

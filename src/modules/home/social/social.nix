@@ -19,11 +19,9 @@ in
 {
   options.u.social.enable = mkEnableOption "social packages";
 
-  config = mkIf (cfg.enable && usr.extraBloat) {
-    home.packages =
-      with pkgs;
-      [
-        signal-desktop
-      ];
+  config = mkIf (cfg.enable && (!usr.minimal)) {
+    home.packages = with pkgs; [
+      signal-desktop
+    ];
   };
 }

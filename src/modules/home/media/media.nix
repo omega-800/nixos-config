@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.u.media;
   inherit (pkgs) nixGL;
 in
@@ -58,88 +58,19 @@ in
     };
     home.packages =
       with pkgs;
-      (
-        if !usr.minimal then
-          [
-            bluez
-            bluez-tools
-            bk
-            adbfs-rootless
-          ]
-        else
-          [ ]
-      )
-      ++ (
-        if usr.extraBloat then
-          [
-            (nixGL ani-cli)
-            krita
-            ffmpeg
-            imagemagick
-            pavucontrol
-            schismtracker
-          ]
-        else
-          [ ]
-      );
-    home.file = mkIf (!usr.minimal) {
-".profile".text =  "[ ! -s ~/.config/mpd/pid ] && mpd";
-};
-
-    programs = {
-      mpv = mkIf (!usr.minimal) {
-        enable = true;
-        package = nixGL (
-          pkgs.mpv-unwrapped.wrapper {
-            mpv = pkgs.mpv-unwrapped.override {
-              vapoursynthSupport = true;
-              ffmpeg = pkgs.ffmpeg-full;
-            };
-            scripts = with pkgs.mpvScripts; [
-              uosc
-              sponsorblock
-              autoload
-            ];
-            youtubeSupport = true;
-          }
-        );
-      };
-      ncspot = mkIf usr.extraBloat {
-        enable = true;
-        /*
-          package = pkgs.ncspot.override {
-            # withNcurses = true;
-            withCover = true;
-            withShareSelection = true;
-          };
-        */
-        settings = {
-          use_nerdfont = true;
-          notify = true;
-          repeat = "playlist";
-          keybindings = {
-            "Ctrl+d" = "move down 15";
-            "Ctrl+u" = "move up 15";
-          };
-          statusbar_format = "%artists - %title [%album]";
-          track_format = {
-            left = "%artists - %title";
-            center = "[%album]";
-            right = "%saved %duration";
-          };
-          notification_format = {
-            title = "%title [%album]";
-            body = "%artists";
-          };
-        };
-      };
-      zathura = mkIf usr.extraBloat {
-        enable = true;
-        extraConfig = ''
-          set selection-clipboard clipboard
-          map gf exec firefox\ "$FILE"
-        '';
-      };
-    };
+      (optionals (!usr.minimal) [
+        bluez
+        bluez-tools
+        bk
+        adbfs-rootless
+        pavucontrol
+      ])
+      ++ (optionals usr.extraBloat [
+        (nixGL ani-cli)
+        krita
+        ffmpeg
+        imagemagick
+        schismtracker
+      ]);
   };
 }

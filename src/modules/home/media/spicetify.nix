@@ -3,6 +3,7 @@
   config,
   pkgs,
   inputs,
+  usr,
   ...
 }:
 let
@@ -36,7 +37,7 @@ in
 
   options.u.media.spicetify.enable = mkOption {
     type = types.bool;
-    default = config.u.media.enable;
+    default = config.u.media.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {

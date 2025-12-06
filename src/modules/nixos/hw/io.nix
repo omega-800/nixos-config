@@ -161,7 +161,10 @@ in
     }
     (mkIf cfg.qmk.enable {
       hardware.keyboard.qmk.enable = true;
-      environment.systemPackages = with pkgs; [ via ];
+      environment.systemPackages = with pkgs; [
+        via
+        qmk
+      ];
       services.udev.packages = with pkgs; [ via ];
     })
   ];

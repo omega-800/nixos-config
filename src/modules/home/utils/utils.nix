@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.u.utils;
 in
 {
@@ -16,41 +16,26 @@ in
     home.packages =
       with pkgs;
       [
-        iproute2
-        iputils
-        curl
-        wget
         which
         bc
       ]
-      ++ (
-        if !usr.minimal then
-          [
-            stow
-            xclip
-            xbindkeys
-            brightnessctl
-            bind
-          ]
-        else
-          [ ]
-      )
-      ++ (
-        if usr.extraBloat then
-          [
-            bat
-            freecad
-            vulnix
-            screenkey
-            cloc
-            gnused
-            xdg-ninja
-            translate-shell
-            lynis
-          ]
-        else
-          [ ]
-      );
+      ++ (optionals (!usr.minimal) [
+        xclip
+        xbindkeys
+        bind
+      ])
+      ++ (optionals usr.extraBloat [
+        brightnessctl
+        bat
+        freecad
+        vulnix
+        screenkey
+        cloc
+        gnused
+        xdg-ninja
+        translate-shell
+        lynis
+      ]);
     programs.nix-index.enable = usr.extraBloat;
   };
 }

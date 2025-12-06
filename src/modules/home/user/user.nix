@@ -30,7 +30,6 @@ in
         fortune
         cowsay
         lolcat
-        prismlauncher
         #slic3r
         # needs to be updated, build is failing
         #cura

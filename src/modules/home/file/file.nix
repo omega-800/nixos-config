@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.u.file;
 in
 {
@@ -18,56 +18,49 @@ in
       with pkgs;
       [
         rsync
-        # tree (replaced by eza)
-        eza
-        gdu
       ]
-      ++ (
-        if !usr.minimal then
-          [
-            gzip
-            unzip
-          ]
-        else
-          [ ]
-      )
-      ++ (
-        if usr.extraBloat then
-          [
-            xfce.thunar
-            udiskie
-            udisks
-            sshfs
-            syncthing
-            xz
-          ]
-        else
-          [ ]
-      );
+      ++ (optionals (!usr.minimal) [
+        gdu
+        eza
+        gzip
+        unzip
+      ])
+      ++ (optionals usr.extraBloat [
+        xfce.thunar
+        udiskie
+        udisks
+        sshfs
+        syncthing
+        xz
+      ]);
     xdg.configFile."gdu/gdu.yaml" = {
       enable = true;
-      text = /*(if usr.style then (with config.lib.stylix.colors; ''
-        style:
-          selected-row:
-            text-color: "#${base07}"
-            background-color: "#${base03}"
-          result-row:
-            number-color: "#${base0D}"
-            directory-color: "#${base0E}"
-          footer:
-            text-color: "#${base07}"
-            background-color: "#${base0D}"
-            number-color: "#${base06}"
-          header:
-            text-color: "#${base07}"
-            background-color: "#${base0D}"
-'') else "") + */''
-        delete-in-background: true 
-        delete-in-parallel: true 
-        no-mouse: true
-        sorting:
-          order: "desc"
-      '';
+      text =
+        /*
+          (if usr.style then (with config.lib.stylix.colors; ''
+                  style:
+                    selected-row:
+                      text-color: "#${base07}"
+                      background-color: "#${base03}"
+                    result-row:
+                      number-color: "#${base0D}"
+                      directory-color: "#${base0E}"
+                    footer:
+                      text-color: "#${base07}"
+                      background-color: "#${base0D}"
+                      number-color: "#${base06}"
+                    header:
+                      text-color: "#${base07}"
+                      background-color: "#${base0D}"
+          '') else "") +
+        */
+        ''
+          delete-in-background: true 
+          delete-in-parallel: true 
+          no-mouse: true
+          sorting:
+            order: "desc"
+        '';
     };
   };
 }
