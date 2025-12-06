@@ -6,7 +6,6 @@
   m.sw.steam.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
-    enable32Bit = true;
     nvidia = {
       open = true;
       nvidiaSettings = true;

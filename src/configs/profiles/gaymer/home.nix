@@ -14,7 +14,9 @@ in
     utils.enable = mkDefault true;
     media.enable = mkDefault true;
     social.enable = mkDefault true;
-    user.enable = mkDefault true;
-    nixvim.enable = mkDefault true;
+    user = {
+      enable = mkDefault true;
+      nixvim.enable = mkDefault true;
+    };
   };
 }

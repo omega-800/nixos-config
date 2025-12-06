@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption types mkIf;
+  inherit (lib) mkOption types mkIf optionals;
   cfg = config.u.utils.fetch;
 in
 {
