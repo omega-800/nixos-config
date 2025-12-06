@@ -13,6 +13,7 @@ let
     mkOption
     mkIf
     types
+    elem
     mkDefault
     ;
 in
@@ -35,19 +36,23 @@ in
     };
     autoStart = mkOption {
       type = types.listOf types.lines;
-      default = (optionals (!usr.minimal) [
-        "swaybg --image ${config.stylix.image} --mode fill"
-]) ++ [
-        "nohup ${pkgs.sway-audio-idle-inhibit} &"
-        "${pkgs.notify_bat}"
-        "${usr.term} -e tmux a"
-        # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
-        "wl-clip-persist --clipboard regular --reconnect-tries 0 &"
-        "wl-paste --type text --watch cliphist store &"
-        # "echo 'Xft.dpi: 140' | xrdb -merge"
-        # "gsettings set org.gnome.desktop.interface text-scaling-factor 1.4"
-        # "/usr/lib/xfce-polkit/xfce-polkit &"
-      ];
+      default =
+        (optionals (!usr.minimal) [
+          "swaybg --image ${config.stylix.image} --mode fill"
+        ])
+        ++ (optionals (!(elem "stationary" sys.flavors)) [
+          "nohup ${pkgs.sway-audio-idle-inhibit} &"
+          "${pkgs.notify_bat}"
+        ])
+        ++ [
+          "${usr.term} -e tmux a"
+          # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
+          "wl-clip-persist --clipboard regular --reconnect-tries 0 &"
+          "wl-paste --type text --watch cliphist store &"
+          # "echo 'Xft.dpi: 140' | xrdb -merge"
+          # "gsettings set org.gnome.desktop.interface text-scaling-factor 1.4"
+          # "/usr/lib/xfce-polkit/xfce-polkit &"
+        ];
     };
   };
   config = mkIf cfg.enable {

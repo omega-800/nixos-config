@@ -114,6 +114,7 @@ in
           "grandparent" # hypervisor
           "parent" # runs vm's / containers
           "child" # vm/container
+          "stationary" # FIXME: 
         ]);
         default = [ ];
       };

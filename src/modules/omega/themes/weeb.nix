@@ -10,7 +10,7 @@
     {
       name = "sonny_boy.jpg";
       url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F8417411.jpg&f=1&nofb=1&ipt=030d5c44529e262c449f5d1741d4f769529c923c398390968e5510c8e33930f1";
-      sha256 = "sha256-BsNSv795gC03dpS8o25JL8Zn5eiNAx8MWgxLBsdbOiE=";
+      sha256 = "sha256-p5cV33vJ24PHwGwtaNLELMnslbEi1x2Uoy98gFa52g4=";
     }
     # {
     #   name = "no_6.jpg";
@@ -30,7 +30,7 @@
     {
       name = "given.jpg";
       url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp4681621.jpg&f=1&nofb=1&ipt=78830d8d649263c64d6b2d596642ebcbf757a2b2c1168b5675ce1d9b540b7f17";
-      sha256 = "sha256-qS2g4zRs8KtH17HlUb6cdO4pc5L7wJp/HfmqoHElhME=";
+      sha256 = "sha256-F67lep615nAf1wh39xyDifTi7mhj/FwotQM62hkkc7o=";
     }
     # {
     #   name = "gachiakuta_riyo.jpg";
@@ -60,7 +60,7 @@
     {
       name = "chainsaw_man_makima.jpg";
       url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.cheatsheet.com%2Fwp-content%2Fuploads%2F2022%2F12%2FChainsaw-Man-Episode-10-Preview.jpg&f=1&nofb=1&ipt=713ab356762e6321c9ddc73bbb8680989f2264f8f13c8cbba310e84ff166fa11";
-      sha256 = "sha256-JW7tx0ISHkbbjGhBwAc5gn6iZIyCzQJJME8KtFQmMhw=";
+      sha256 = "sha256-qu3HyRm5VWnwQyvywkaF3F66CiW+HtgGH7CXxPDkGkc=";
     }
     {
       name = "banana_fish.jpg";

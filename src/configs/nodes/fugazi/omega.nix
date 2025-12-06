@@ -11,6 +11,7 @@
       flavors = [
         "developer"
         "master"
+        "stationary"
       ];
     };
     usr = {
@@ -19,7 +20,7 @@
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = false;
-      minimal = true;
+      # minimal = true;
       theme = "weeb";
       termColors = {
         c1 = "36";
