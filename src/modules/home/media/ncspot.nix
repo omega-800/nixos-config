@@ -16,7 +16,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    ncspot = {
+    programs.ncspot = {
       enable = true;
       /*
         package = pkgs.ncspot.override {

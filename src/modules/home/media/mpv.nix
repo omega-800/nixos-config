@@ -17,7 +17,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    mpv = {
+    programs.mpv = {
       enable = true;
       package = nixGL (
         pkgs.mpv-unwrapped.wrapper {
