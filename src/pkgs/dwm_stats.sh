@@ -43,14 +43,18 @@ while true; do
 
 	date=$(date +"%d-%m-%y")
 
-	battery=$(cat /sys/class/power_supply/*0/capacity)
-	batteryStats=$(cat /sys/class/power_supply/*0/status)
-	batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
-	bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
+  if cat /sys/class/power_supply/*0/capacity; then 
+    battery=$(cat /sys/class/power_supply/*0/capacity)
+    batteryStats=$(cat /sys/class/power_supply/*0/status)
+    batterySymbol="$( ([ "$batteryStats" = "Discharging" ] && echo "-") || ([ "$batteryStats" = "Charging" ] && echo "+") || echo "~")"
+    bts="$( ([ "$battery" -lt "30" ] && echo "$critical") || ([ "$battery" -gt "90" ] && echo "$warning") || echo "$nrm")"
+  fi
 
-	bla=($(cat /sys/class/backlight/*/actual_brightness))
-	blm=($(cat /sys/class/backlight/*/max_brightness))
-	backlight=$(("${bla[0]}" * 100 / "${blm[0]}"))
+  if cat /sys/class/backlight/*/actual_brightness; then 
+    bla=($(cat /sys/class/backlight/*/actual_brightness))
+    blm=($(cat /sys/class/backlight/*/max_brightness))
+    backlight=$(("${bla[0]}" * 100 / "${blm[0]}"))
+  fi
 
 	volume=("$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/front-left:/{printf "%i", $2/2 }')" "$(pactl get-sink-mute @DEFAULT_SINK@ | sed 's/Mute: //')")
 	muted="A"
@@ -59,9 +63,9 @@ while true; do
 
   # TODO: refactor
 	if [ "$1" == "sand" ]; then
-		echo "all status $(echo -ne "${nts}[N] $net $nrm|$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")| [S] $backlight% |$vls [${muted}] ${volume[0]}% $nrm|$bts [B] $batterySymbol$battery% $nrm| $time | $date")" >"$FIFO"
+		echo "all status $(echo -ne "${nts}[N] $net $nrm|$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")$([ "$backlight" != "" ] && echo "| [S] $backlight% ")|$vls [${muted}] ${volume[0]}% $nrm$([ "$battery" != "" ] && echo "|$bts [B] $batterySymbol$battery% $nrm")| $time | $date")" >"$FIFO"
 	else
-		xsetroot -name "$(echo -ne "${nts}[N] $net $nrm|$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")| [S] $backlight% |$vls [${muted}] ${volume[0]}% $nrm|$bts [B] $batterySymbol$battery% $nrm| $time | $date " | xargs)"
+    xsetroot -name "$(echo -ne "${nts}[N] $net $nrm|$cps [C] $cpu% $nrm|$mms [M] $memory% ($memoryStats) $nrm|$rms [R] $rootD% ($rootDStats) $nrm$([ "$homeD" != "" ] && echo "|$hms [H] $homeD% ($homeDStats) $nrm")$([ "$backlight" != "" ] && echo "| [S] $backlight% ")|$vls [${muted}] ${volume[0]}% $nrm$([ "$battery" != "" ] && echo "|$bts [B] $batterySymbol$battery% $nrm")| $time | $date " | xargs)"
 	fi
 	sleep 10
 done

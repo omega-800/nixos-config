@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  sys,
   ...
 }:
 let
@@ -11,7 +12,7 @@ let
   cfg = config.u.wm.wayland;
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && (!sys.stationary)) {
     services.swayidle = {
       enable = true;
       events = [
