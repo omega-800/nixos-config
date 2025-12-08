@@ -11,7 +11,7 @@
       domain = "dmz.home.lan";
     };
     sys = {
-      profile = "serv";
+      profile = ["serv"];
       system = "aarch64-linux";
       genericLinux = false;
       #paranoid = true;

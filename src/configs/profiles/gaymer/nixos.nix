@@ -18,6 +18,9 @@ in
       openGL.enable = mkDefault true;
     };
     dev.tools.enable = mkDefault true;
-    sw.fonts.enable = mkDefault true;
+    sw = {
+      fonts.enable = mkDefault true;
+      steam.enable = mkDefault true;
+    };
   };
 }

@@ -98,8 +98,8 @@ in
           ) PATHS.PROFILES;
         in
         mkOption {
-          type = enum profiles;
-          default = "pers";
+          type = listOf (enum profiles);
+          default = ["pers"];
         }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
