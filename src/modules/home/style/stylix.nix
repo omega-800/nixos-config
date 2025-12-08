@@ -30,8 +30,7 @@ in
               noto-fonts
               noto-fonts-cjk-sans
               noto-fonts-monochrome-emoji
-            ])
-            ++ (optionals (sys.profile == "school") [ fira-math ]);
+            ]);
           home.file = {
             ".config/currenttheme/image".source = globals.styling.image;
             ".config/currenttheme/theme.conf".text = ''

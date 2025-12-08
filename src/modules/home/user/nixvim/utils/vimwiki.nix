@@ -40,7 +40,7 @@
                     "${XDG_DOCUMENTS_DIR}/pers/notes"
                     "${XDG_DOCUMENTS_DIR}/pers/diary"
                   ]
-                else if sys.profile == "school" then
+                else if (builtins.elem sys.profile ["school" "gaymer"]) then
                   [
                     "${XDG_DOCUMENTS_DIR}/school/notes"
                     "${XDG_DOCUMENTS_DIR}/school/projects"

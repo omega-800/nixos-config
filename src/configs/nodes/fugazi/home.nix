@@ -1,1 +1,29 @@
-{ }
+{
+  u.user.nixvim.langSupport = [
+    "c"
+    "hs"
+    "java"
+    "md"
+    "nix"
+    "plantuml"
+    "python"
+    "rust"
+    "sh"
+    "sql"
+    "typst"
+    "zig"
+    # "yaml"
+    # "css"
+    # "dart"
+    # "docker"
+    # "erlang"
+    # "ftl"
+    # "go"
+    # "gql"
+    # "js"
+    # "html"
+    # "latex"
+    # "lisp"
+    # "lua"
+  ];
+}

@@ -3,7 +3,12 @@
     ./hardware-configuration.nix
   ];
 
-  m.sw.steam.enable = true;
+  # TODO: multiple profiles + specialisations
+
+  m = {
+    sw.steam.enable = true;
+    dev.docker.enable = true;
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
     nvidia = {

@@ -88,6 +88,7 @@ in
       coolr = "colorscript -r";
       dsa = ''docker stop $(docker ps -a --format "{{.ID}}")'';
       drma = ''docker stop $(docker ps -a --format "{{.ID}}") && docker rm $(docker ps -a --format "{{.ID}}")'';
+      drmav = ''docker volume rm $(docker volume ls --format "{{.Name}}")'';
       # vim = ''nvim'';
       # mv = ''mv -iv'';
       mv = "mv -i";
