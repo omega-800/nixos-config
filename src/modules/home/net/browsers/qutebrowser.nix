@@ -135,6 +135,7 @@ in
           [
             "nandgame.com"
             "academy.ripe.net"
+            "ostch-my.sharepoint.com"
           ]
       ));
       quickmarks = {
