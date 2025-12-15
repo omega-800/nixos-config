@@ -3,6 +3,7 @@
   config,
   lib,
   usr,
+  sys,
   ...
 }:
 let
@@ -13,7 +14,7 @@ in
   imports = [ inputs.nixcord.homeModules.nixcord ];
   options.u.social.discord.enable = mkOption {
     type = types.bool;
-    default = config.u.social.enable && usr.extraBloat;
+    default = config.u.social.enable && (usr.extraBloat || (sys.profile == "gaymer"));
   };
   config = mkIf cfg.enable {
     # nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];

@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   u.user.nixvim.langSupport = [
     "c"
     "hs"
@@ -26,4 +26,5 @@
     # "lisp"
     # "lua"
   ];
+  home.packages = with pkgs; [ superTuxKart superTux ];
 }
