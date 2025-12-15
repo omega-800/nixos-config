@@ -11,6 +11,10 @@ let
   inherit
     ((import (LIBS + /omega) {
       pkgs = inputs.nixpkgs-unstable;
+      # FIXME: hacky
+      sys = { };
+      usr = { };
+      net = { };
       inherit lib;
     }).cfg
     )
@@ -40,7 +44,9 @@ rec {
         {
           config._module.args.pkgs = mkPkgs stable system genericLinux;
         }
-      ] ++ (mkCfgModules hostname) ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
+      ]
+      ++ (mkCfgModules hostname)
+      ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
     }).config.c;
 
   mkModules =

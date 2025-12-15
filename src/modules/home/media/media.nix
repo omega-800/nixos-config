@@ -29,6 +29,9 @@ in
               "com.github.xournalpp.xournalpp.desktop"
               "${usr.browser}.desktop"
             ];
+            "application/x-xopp" = [
+              "com.github.xournalpp.xournalpp.desktop"
+            ];
             "image/png" = [
               "feh.desktop"
               "${usr.browser}.desktop"

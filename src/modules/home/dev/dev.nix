@@ -70,8 +70,21 @@ in
       ])
       ++ (optionals (sys.profile == "school") [
         dbeaver-bin
-        ciscoPacketTracer8
         rfc
+        # sudo firejail --noprofile --net=none packettracer8
+        # sudo ip netns add offline-ns && sudo ip netns exec offline-ns packettracer8
+        # (symlinkJoin (
+        #   let
+        #     name = "packettracer8";
+        #   in
+        #   {
+        #     inherit name;
+        #     paths = [
+        #       (writeShellScriptBin name "firejail --net=none ${ciscoPacketTracer8}/bin/${name}")
+              ciscoPacketTracer8
+        #     ];
+        #   }
+        # ))
       ]);
     home.file = {
       ".config/qmk/qmk.ini".text = ''

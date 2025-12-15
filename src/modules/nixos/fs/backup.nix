@@ -18,7 +18,8 @@ let
   inherit (lib.omega.cfg) cfgsOfFlavor;
 in
 {
-  config = mkIf (!(builtins.elem "storer" sys.flavors)) {
+  config = mkIf (!(builtins.elem "storer" sys.flavors)) 
+    {
     services.borgbackup.jobs = mkMerge (
       map (target: {
         "root-${target.net.hostname}" = {
@@ -40,7 +41,7 @@ in
           user = usr.username;
           paths =
             (
-              if sys.profile == "serv" then
+              if (builtins.elem "serv" sys.profile) then
                 [
                   "/store"
                 ]
@@ -66,7 +67,7 @@ in
       }) (cfgsOfFlavor "storer")
     );
 
-    systemd.services = mkIf (sys.profile != "serv") (
+    systemd.services = mkIf (!(builtins.elem "serv" sys.profile)) (
       {
         "notify-problems@" = {
           enable = true;
