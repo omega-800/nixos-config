@@ -34,6 +34,10 @@ in
 
   services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
   nix = {
+    # TODO: registry = (mapAttrs (_: flake: { inherit flake; }) flakeInputs) // {
+    # https://github.com/NixOS/nixpkgs/pull/388090
+    #   nixpkgs = lib.mkForce { flake = inputs.nixpkgs; };
+    # };
     registry.nixpkgs = {
       flake = inputs.nixpkgs;
       to = {
@@ -90,12 +94,11 @@ in
       extra-platforms = config.boot.binfmt.emulatedSystems;
       # TODO: check if lon causes any problems
       # sandbox = sys.paranoid;
-      experimental-features =
-        [
-          "nix-command"
-          "flakes"
-        ]
-        ++ lib.optional (lib.versionOlder (lib.versions.majorMinor config.nix.package.version) "2.22") "repl-flake";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ]
+      ++ lib.optional (lib.versionOlder (lib.versions.majorMinor config.nix.package.version) "2.22") "repl-flake";
     };
     gc = mkIf (sys.profile != "serv") {
       dates = mkForce "weekly";

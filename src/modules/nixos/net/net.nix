@@ -115,6 +115,7 @@ in
       users.users.${usr.username}.openssh.authorizedKeys.keys = flatten (
         getCfgAttrOfMatchingHosts (c: builtins.elem "master" c.sys.flavors) "net" "pubkeys"
       );
+      environment.variables.SSH_ASKPASS = lib.mkForce "";
       networking = mkMerge [
         {
           inherit (net) domain;
