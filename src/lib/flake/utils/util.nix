@@ -37,7 +37,7 @@ rec {
       stable = getCfgAttr hostname "sys" "stable";
       system = getCfgAttr hostname "sys" "system";
       genericLinux = getCfgAttr hostname "sys" "genericLinux";
-      profileCfg = PROFILES + /${profile}/${CONFIGS.omega}.nix;
+      # profileCfg = PROFILES + /${profile}/${CONFIGS.omega}.nix;
     in
     (lib.evalModules {
       modules = [
@@ -46,7 +46,7 @@ rec {
         }
       ]
       ++ (mkCfgModules hostname)
-      ++ (lib.optionals (lib.pathExists profileCfg) [ profileCfg ]);
+      ++ (lib.filter lib.pathExists (map (p: PROFILES + /${p}/${CONFIGS.omega}.nix) profile));
     }).config.c;
 
   mkModules =
@@ -73,25 +73,23 @@ rec {
     cfg:
     let
       inherit (cfg.sys) stable system genericLinux;
-      homeMgr = getHomeMgrInput stable;
       pkgsFinal = mkPkgs stable system genericLinux;
-      lib = pkgsFinal.lib.extend (
-        final: _:
-        {
-          omega = import (LIBS + /omega) {
-            inherit inputs;
-            # FIXME: hacky
-            inherit (cfg) sys usr net;
-            pkgs = pkgsFinal;
-            lib = final;
-          };
-          # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
-          # templateFile = import ./templating.nix { inherit pkgs; };
-        }
-        // homeMgr.lib
-      );
     in
-    lib;
+    pkgsFinal.lib.extend (
+      final: _:
+      {
+        omega = import (LIBS + /omega) {
+          inherit inputs;
+          # FIXME: hacky
+          inherit (cfg) sys usr net;
+          pkgs = pkgsFinal;
+          lib = final;
+        };
+        # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
+        # templateFile = import ./templating.nix { inherit pkgs; };
+      }
+      // (getHomeMgrInput stable).lib
+    );
 
   mkArgs =
     cfg:
