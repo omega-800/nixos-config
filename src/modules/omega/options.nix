@@ -120,10 +120,10 @@ in
       # FIXME: 
       stationary = mkOption {
         type = bool;
-        default = builtins.elem config.c.sys.profile [
+        default = builtins.any (p: builtins.elem p [
           "serv"
           "gaymer"
-        ];
+        ]) config.c.sys.profile;
       };
       stable = mkOption {
         type = bool;

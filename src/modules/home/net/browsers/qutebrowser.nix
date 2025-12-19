@@ -50,8 +50,28 @@ in
           "xx" = "config-cycle tabs.show always never;; config-cycle statusbar.show always never";
           ",m" = "spawn mpv {url}";
           ",M" = "hint links spawn mpv {hint-url}";
-          ",c" = "spawn --userscript moodle-session-persist";
-        };
+          # generate qr code
+          ",qr" = "jseval open('https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(location.href));";
+          # shorten url
+          # ",su" = "jseval (() => location = 'https://zzb.bz/bookmark/?url='+encodeURIComponent(window.location.href))()";
+          # built with
+          ",bw" = "jseval window.open('http://builtwith.com/?'+location.host)";
+          # show links on webpage
+          # ",sl" = ''jseval (function () { str = ""; anchors = document.getElementsByTagName("a"); var all = []; str += "<table width='100%'>"; var k = 0; var listing = ""; var anchorTexts = ""; var linksAnchors = ""; for (i = 0; i < anchors.length; i++) { var anchorText = anchors[i].textContent; var anchorLink = anchors[i].href; var linkAnchor = ""; if ( anchorLink != "" && all.indexOf(anchorLink) == -1 && anchorText != "" && anchors[i].className != "gb_b") { all.push(anchorLink); listing += anchorLink + "\n"; anchorTexts += anchorText + "\n"; linkAnchor = anchorLink.replace(",", "%2C") + ",	" + anchorText.replace(",", ""); linksAnchors += linkAnchor + "\n"; k = k + 1; if (anchorText === undefined) anchorText = anchors[i].innerText; str += "<tr>"; str += "<td class='id'>" + k + "</td>"; str += "<td><a href=" + anchors[i].href + " target='_blank'>" + anchors[i].href + "</a></td>"; str += "<td>" + anchorText + "</td>"; str += "</tr>\n"; } } str += "</table><br/><br/><table width='100%'><tr><td width='55%'><h2>Links</h2><textarea rows=10 style='width:97%' readonly>"; str += listing; str += "</textarea></td><td width='45%'><h2>Anchors</h2><textarea rows=10 readonly>"; str += anchorTexts; str += "</textarea></td></tr></table><br/><br/><h2>All Data - CSV</h2><textarea rows=10 readonly>"; str += "Links, Anchors\n"; str += linksAnchors; str += "</textarea><br /> <br />"; with (window.open()) { document.write(str); document.close(); } })();'';
+          # show fonts on hover
+          ",ft" =
+            "jseval ((function(d) { var e = d.createElement('script'); e.setAttribute('type', 'text/javascript'); e.setAttribute('charset', 'UTF-8'); e.setAttribute('src', '//www.typesample.com/assets/typesample.js?r=' + Math.random() * 99999999); d.body.appendChild(e) })(document))";
+          # is website down
+          ",id" = "jseval open('https://downforeveryoneorjustme.com/' + location.hostname)";
+          # pagespeed
+          ",ps" = "jseval open('https://developers.google.com/speed/pagespeed/insights/?url='+encodeURI(window.location))";
+        }
+        // (mapAttrs' (
+          n: v:
+          nameValuePair ",d${n}" "jseval x=escape(getSelection());if(!x)void(x=prompt('Term: '));if(x)void(open('${
+            replaceString "{searchTerms}" "'+escape(x)+'" v
+          }'))"
+        ) config.programs.qutebrowser.searchEngines);
       };
       settings = {
         auto_save.session = true;
@@ -146,6 +166,7 @@ in
         gl = "https://gitlab.com";
         ni = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
         dm = "https://www.desmos.com/calculator";
+        "4c" = "https://4chan.org";
       };
       greasemonkey = [
         # HTML5 Video Playing Tools
