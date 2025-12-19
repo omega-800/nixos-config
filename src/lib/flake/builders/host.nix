@@ -13,19 +13,20 @@ let
     hostname:
     let
       cfg = mkCfg hostname;
-      defProfile = builtins.elemAt cfg.sys.profile 0;
-      rest = sublist 1 (builtins.length cfg.sys.profile) cfg.sys.profile;
-      mkSpecCfg = profile: mkMerge [cfg { sys = { inherit profile; }; }];
+      # defProfile = builtins.elemAt cfg.sys.profile 0;
+      # rest = sublist 1 (builtins.length cfg.sys.profile) cfg.sys.profile;
+      # what the actual fuck did i do here
+      # mkSpecCfg = profile: mkMerge [cfg { sys = { inherit profile; }; }];
     in
     (getPkgsInput cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
       # FIXME: overlays
       specialArgs = mkArgs cfg;
       modules =
-        (mkModules (mkSpecCfg defProfile) CONFIGS.nixosConfigurations)
-        ++ (map (profile: {
+        (mkModules cfg CONFIGS.nixosConfigurations)
+        /*++ (map (profile: {
           specialisation.${profile}.imports = mkModules (mkSpecCfg profile) CONFIGS.nixosConfigurations;
-        }) rest);
+        }) rest)*/;
       # mkModules cfg CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 in

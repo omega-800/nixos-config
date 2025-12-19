@@ -45,7 +45,8 @@ in
           updateUrl = "https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/updates.xml";
         }
       ]
-      ++ (optionals (sys.profile == "school") [
+      # TODO: specialisations
+      ++ (optionals (builtins.elem "school" sys.profile) [
         { id = "ohgndokldibnndfnjnagojmheejlengn"; } # citavi
       ]);
     };

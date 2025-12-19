@@ -33,7 +33,7 @@ in
               bbenoist.nix
               vscodevim.vim
             ]
-            ++ (lib.optionals (sys.profile == "school") [
+            ++ (lib.optionals (builtins.elem "school" sys.profile) [
               coder.coder-remote
               ms-toolsai.jupyter
               ms-toolsai.vscode-jupyter-slideshow

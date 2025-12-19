@@ -37,13 +37,14 @@ in
             [
               NIXOS_CONFIG
             ]
-            ++ (optionals (sys.profile == "work") [
+            # TODO: specialisations
+            ++ (optionals (builtins.elem "work" sys.profile) [
               "${WORKSPACE_DIR}/work/webview"
             ])
-            ++ (optionals (sys.profile == "pers") [
+            ++ (optionals (builtins.elem "work" sys.profile) [
               "${WORKSPACE_DIR}/code"
             ])
-            ++ (optionals (sys.profile == "school") [
+            ++ (optionals (builtins.elem "school" sys.profile) [
               "${WORKSPACE_DIR}/school"
               "${WORKSPACE_DIR}/pers"
             ])

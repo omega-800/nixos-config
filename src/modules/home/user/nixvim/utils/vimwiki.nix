@@ -35,12 +35,13 @@
               })
               (
                 with globals.envVars;
-                if sys.profile == "pers" then
+                # TODO: specialisations
+                if (builtins.elem "pers" sys.profile) then
                   [
                     "${XDG_DOCUMENTS_DIR}/pers/notes"
                     "${XDG_DOCUMENTS_DIR}/pers/diary"
                   ]
-                else if (builtins.elem sys.profile ["school" "gaymer"]) then
+                else if (builtins.elem "school" sys.profile) then
                   [
                     "${XDG_DOCUMENTS_DIR}/school/notes"
                     "${XDG_DOCUMENTS_DIR}/school/projects"

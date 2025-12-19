@@ -10,13 +10,17 @@
 let
   inherit (pkgs) nixGL;
   inherit (lib)
+    filterAttrs
+    attrValues
+    mkMerge
     mkOption
     mkIf
     types
     ;
   inherit (builtins) readFile;
   cfg = config.u.wm.sway;
-  assigns = (import ./assigns.nix).${sys.profile};
+  # TODO: specialisations
+  assigns = mkMerge (attrValues (filterAttrs (n: _: builtins.elem n sys.profile) (import ./assigns.nix)));
   bars = import ./bars.nix {
     inherit
       config
@@ -58,7 +62,8 @@ in
       extraConfig =
         (readFile ./win-rules)
         + (
-          if sys.profile == "work" || sys.profile == "pers" then
+          # TODO: specialisations
+          if builtins.any (p: builtins.elem p ["work" "pers"]) sys.profile then
             ''
               output eDP-1 pos 0 0 res 1920x1080
               output DP-8 pos 1920 0 res 1920x1080

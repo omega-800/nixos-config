@@ -63,11 +63,11 @@ rec {
     [
       { nixpkgs.overlays = mkOverlays stable system genericLinux; }
       (PROFILES + /default/${type}.nix)
-      (PROFILES + /${profile}/${type}.nix)
+      # (PROFILES + /${profile}/${type}.nix)
       (NODES + /${hostname}/${type}.nix)
       # (inputs.nixpkgs-unstable.lib.filterAttrs
       #   (n: v: !builtins.elem n [ "system" "hostname" ]) attrs)
-    ];
+    ] ++ (map (p: (PROFILES + /${p}/${type}.nix)) profile);
 
   mkLib =
     cfg:

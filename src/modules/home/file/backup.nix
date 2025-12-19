@@ -30,7 +30,7 @@ let
   inherit (lib.omega.cfg) cfgsOfFlavor;
 in
 {
-  config = mkIf (sys.profile != "serv") {
+  config = mkIf (!(builtins.elem "serv" sys.profile)) {
     systemd.user = mkMerge (
       map (
         target:
