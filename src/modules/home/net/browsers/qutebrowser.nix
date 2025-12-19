@@ -69,7 +69,7 @@ in
         // (mapAttrs' (
           n: v:
           nameValuePair ",d${n}" "jseval x=escape(getSelection());if(!x)void(x=prompt('Term: '));if(x)void(open('${
-            replaceString "{searchTerms}" "'+escape(x)+'" v
+            replaceString "{}" "'+escape(x)+'" v
           }'))"
         ) config.programs.qutebrowser.searchEngines);
       };
