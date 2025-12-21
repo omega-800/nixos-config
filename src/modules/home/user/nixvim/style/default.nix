@@ -24,7 +24,10 @@ in
         (key "n" "p" "<CMD>tabprevious<CR>" "Go to the previous tab")
       ]);
     plugins = {
-      todo-comments.enable = true;
+      todo-comments = {
+        enable = true;
+        keymaps.todoTelescope.key = "<leader>ft";
+      };
       rainbow-delimiters.enable = true;
       nvim-autopairs = {
         enable = true;

@@ -1,5 +1,7 @@
 {
-  python3,
+  notmuch, 
+  offlineimap,
+  python2,
   fetchFromGitHub,
   lib,
 }:
@@ -7,25 +9,27 @@ let
   pname = "dodo";
   version = "1.0.0";
   owner = "akissinger";
+  pp = python2.pkgs;
 in
-python3.pkgs.buildPythonApplication {
+pp.buildPythonApplication {
   inherit pname version;
+
   pyproject = true;
+  build-system = [ pp.setuptools ];
+
+  propagatedBuildInputs =  [ notmuch offlineimap ] ++ (with pp; [ pyqt6 pyqt6-webengine bleach ]);
 
   src = fetchFromGitHub {
     inherit owner;
     repo = pname;
     rev = "a710d0a3fe78d5bf4b3d07ea087712d3581e5a85";
-    fetchSubmodules = false;
-    sha256 = "sha256-gk/9PVIRw9OQrdCSS+LcniXDYNcHUQUxZ2XGQCwpHaI=";
+    sha256 = "sha256-IylZCG/7egGA7IBfSIMwmSbJVRv5cMWEtiIyds720Sw=";
   };
 
   meta = {
     homepage = "https://github.com/${owner}/${pname}";
     description = "A graphical, hackable email client based on notmuch";
-    licenses = with lib.licenses; [
-      gpl3
-    ];
+    licenses = [ lib.licenses.gpl3 ];
     platforms = lib.platforms.unix;
     maintainers = [
       {

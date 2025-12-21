@@ -60,6 +60,8 @@ in
         # wikiman
       ])
       ++ (optionals usr.extraBloat [
+        asciinema
+        asciinema-agg
         perl
         strace
         yq-go

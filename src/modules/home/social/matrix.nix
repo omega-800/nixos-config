@@ -24,11 +24,11 @@ in
         enable = true;
         settings = {
           default_profile = "personal";
-          profiles.personal.user_id = "@omega-800:matrix.com";
+          profiles.personal.user_id = "@omega-800:matrix.org";
           settings = {
             notifications.enabled = true;
-            image_preview.protocol = mkIf (usr.term == "kitty") {
-              type = "kitty";
+            image_preview.protocol = {
+              type = if (usr.term == "kitty") then "kitty" else "halfblocks";
               size = {
                 height = 10;
                 width = 66;
