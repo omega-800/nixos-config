@@ -29,7 +29,7 @@ in
         go.env = {
           inherit GOBIN GOPATH;
         };
-        pgcli = mkIf (sys.profile == "school") {
+        pgcli = mkIf (builtins.elem "school" sys.profile) {
           enable = true;
           settings.main = {
             smart_completion = true;
@@ -46,7 +46,7 @@ in
           }
       )
     ];
-    nixpkgs.config = mkIf (sys.profile == "school") {
+    nixpkgs.config = mkIf (builtins.elem "school" sys.profile) {
       allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
       permittedInsecurePackages = [ "ciscoPacketTracer8-8.2.2" ];
     };
@@ -70,9 +70,12 @@ in
         virt-manager
         slides
       ])
-      ++ (optionals (sys.profile == "school") [
+      ++ (optionals (builtins.elem "school" sys.profile) [
         dbeaver-bin
         rfc
+        # cisco is such a pain in the ass
+        # https://www.netacad.com/resources/lab-downloads?courseLang=en-US
+        # nix-prefetch-url --type sha256 file:///path/to/CiscoPacketTracer822_amd64_signed.deb
         # sudo firejail --noprofile --net=none packettracer8
         # sudo ip netns add offline-ns && sudo ip netns exec offline-ns packettracer8
         # (symlinkJoin (

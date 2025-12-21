@@ -45,7 +45,8 @@ in
           kdePackages.skanpage
           (if (usr.wmType == "x11") then gpick else hyprpicker)
         ]
-        ++ (optionals (sys.profile == "pers") [
+        # TODO: specialisations
+        ++ (optionals (builtins.elem "pers" sys.profile) [
           cointop
           valentina
           homebank

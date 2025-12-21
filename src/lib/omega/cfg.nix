@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, sys, ... }:
 let
   inherit (import ../flake/utils/vars.nix) PATHS CONFIGS;
 in
@@ -24,6 +24,20 @@ rec {
     (lib.evalModules {
       modules = mkCfgModules hostname;
     }).config.c.${type}.${name};
+
+  mkSpecialisation =
+    type: config:
+    if (builtins.elem type sys.profile) then
+      (
+        if ((builtins.elemAt sys.profile 0) == type) then
+          config
+        else
+          {
+            specialisation.${type}.configuration = config;
+          }
+      )
+    else
+      { };
 
   #TODO: flake.checks.isOnlyOrchestrator && flake.checks.hasOrchestrator
   getOrchestrator = builtins.elemAt (filterHosts (c: builtins.elem "master" c.sys.flavors)) 0;

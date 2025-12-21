@@ -29,7 +29,8 @@ in
         lsof
         whois
       ])
-      ++ (optionals (sys.profile == "school") [
+      # TODO: specialisations
+      ++ (optionals (builtins.elem "school" sys.profile) [
         wireshark
         # tshark
         termshark

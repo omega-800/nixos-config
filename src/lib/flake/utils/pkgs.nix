@@ -29,10 +29,10 @@ rec {
 
   mkInputs =
     isStable:
-    mapAttrs' (n: v: nameValuePair (rmSuffix "-unstable" (rmSuffix "-stable" n)) v) (
+    mapAttrs' (n: nameValuePair (rmSuffix "-unstable" (rmSuffix "-stable" n))) (
       filterAttrs (
         n: _:
-        (isStable && (hasSuffix "-stable" n))
+        (isStable && hasSuffix "-stable" n)
         || (!isStable && hasSuffix "-unstable" n)
         || ((!hasSuffix "-stable" n) && (!hasSuffix "-unstable" n))
       ) inputs
@@ -40,9 +40,9 @@ rec {
 
   getInput = name: isStable: inputs."${name}-${if isStable then "" else "un"}stable";
 
-  getPkgsInput = isStable: getInput "nixpkgs" isStable;
+  getPkgsInput = getInput "nixpkgs";
 
-  getHomeMgrInput = isStable: getInput "home-manager" isStable;
+  getHomeMgrInput = getInput "home-manager";
 
   mkPkgs =
     isStable: system: isGenericLinux:

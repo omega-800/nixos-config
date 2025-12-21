@@ -19,7 +19,8 @@ let
     nameValuePair
     concatStringsSep
     ;
-  inherit (lib.omega.cfg) getCfgAttrOfMatchingHosts filterCfgs;
+  inherit (builtins) elem;
+  inherit (lib.omega.cfg) mkSpecialisation getCfgAttrOfMatchingHosts filterCfgs;
   inherit (lib.omega.net.ip4)
     ipFromCfg
     toHostId
@@ -38,12 +39,12 @@ in
     wifi.enable = mkOption {
       description = "enables wifi";
       type = types.bool;
-      default = sys.profile != "serv";
+      default = !(elem "serv" sys.profile);
     };
     wol.enable = mkOption {
       description = "enables wake on lan";
       type = types.bool;
-      default = sys.profile == "serv";
+      default = elem "serv" sys.profile;
     };
     iface = mkOption {
       description = "primary interface";
@@ -99,7 +100,7 @@ in
         };
       };
     })
-    (mkIf (sys.profile == "school") {
+    (mkSpecialisation "school" {
       programs.wireshark = {
         enable = true;
         dumpcap.enable = true;

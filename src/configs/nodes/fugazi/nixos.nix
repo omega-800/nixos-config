@@ -3,27 +3,6 @@
     ./hardware-configuration.nix
   ];
 
-  # TODO: multiple profiles + specialisations
-
-  programs.wireshark = {
-    enable = true;
-    dumpcap.enable = true;
-    usbmon.enable = true;
-  };
-  users = {
-    extraGroups.wireshark = { };
-    users.omega.extraGroups = [
-      "wireshark"
-      "docker"
-    ];
-  };
-  m = {
-    sw.steam.enable = true;
-    dev.docker.enable = true;
-  };
-
-  # TODO: end
-
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
     nvidia = {

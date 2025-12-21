@@ -15,7 +15,7 @@ let
     ;
   cfg = config.m.os.boot;
   configurationLimit =
-    if sys.profile == "serv" then
+    if (builtins.elem "serv" sys.profile) then
       5
     else if cfg.mode == "ext" then
       2

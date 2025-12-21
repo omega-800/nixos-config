@@ -8,6 +8,7 @@
 }:
 let
   inherit (lib)
+    stringToCharacters
     nameValuePair
     replaceString
     removePrefix
@@ -20,6 +21,20 @@ let
     mkIf
     ;
   cfg = config.u.net.qutebrowser;
+  userscripts = {
+    "dig" = ''
+      TEMP_FILE="$(mktemp --suffix .html)"
+      dig "$QUTE_URL" > "$TEMP_FILE"
+    '';
+    "nslookup" = ''
+      TEMP_FILE="$(mktemp --suffix .html)"
+      nslookup "$QUTE_URL" > "$TEMP_FILE"
+    '';
+    "qr" = ''
+      TEMP_FILE="$(mktemp --suffix .png)"
+      ${pkgs.qrencode}/bin/qrencode -t PNG -o "$TEMP_FILE" -s 10 "$QUTE_URL"
+    '';
+  };
 in
 {
   options.u.net.qutebrowser.enable = mkOption {
@@ -27,6 +42,18 @@ in
     default = (config.u.net.enable && !usr.minimal) || usr.browser == "qutebrowser";
   };
   config = mkIf cfg.enable {
+    xdg.configFile = mapAttrs' (
+      n: v:
+      nameValuePair "qutebrowser/userscripts/${n}" {
+        executable = true;
+        text = ''
+          #!/bin/sh
+
+          ${v}
+          echo "open -t file://$TEMP_FILE" >> "$QUTE_FIFO"
+        '';
+      }
+    ) userscripts;
     programs.qutebrowser = {
       enable = true;
       package = pkgs.nixGL pkgs.qutebrowser;
@@ -44,14 +71,41 @@ in
             ) config.programs.firefox.profiles.${usr.username}.search.engines
           );
       keyBindings = {
-        normal = {
-          "xs" = "config-cycle statusbar.show always never";
-          "xt" = "config-cycle tabs.show always never";
-          "xx" = "config-cycle tabs.show always never;; config-cycle statusbar.show always never";
-          ",m" = "spawn mpv {url}";
-          ",M" = "hint links spawn mpv {hint-url}";
-          ",c" = "spawn --userscript moodle-session-persist";
-        };
+        normal =
+          {
+            "xs" = "config-cycle statusbar.show always never";
+            "xt" = "config-cycle tabs.show always never";
+            "xx" = "config-cycle tabs.show always never;; config-cycle statusbar.show always never";
+            "zp" = "spawn --userscript qute-pass";
+            "zm" = "spawn --userscript dmenu_qutebrowser";
+            "zf" = "spawn --userscript openfeeds";
+            "zr" = "spawn --userscript readability";
+            ",m" = "spawn mpv {url}";
+            ",M" = "hint links spawn mpv {hint-url}";
+            # generate qr code
+            ",qr" = "jseval open('https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(location.href));";
+            # shorten url
+            # ",su" = "jseval (() => location = 'https://zzb.bz/bookmark/?url='+encodeURIComponent(window.location.href))()";
+            # built with
+            ",bw" = "jseval window.open('http://builtwith.com/?'+location.host)";
+            # show links on webpage
+            # ",sl" = ''jseval (function () { str = ""; anchors = document.getElementsByTagName("a"); var all = []; str += "<table width='100%'>"; var k = 0; var listing = ""; var anchorTexts = ""; var linksAnchors = ""; for (i = 0; i < anchors.length; i++) { var anchorText = anchors[i].textContent; var anchorLink = anchors[i].href; var linkAnchor = ""; if ( anchorLink != "" && all.indexOf(anchorLink) == -1 && anchorText != "" && anchors[i].className != "gb_b") { all.push(anchorLink); listing += anchorLink + "\n"; anchorTexts += anchorText + "\n"; linkAnchor = anchorLink.replace(",", "%2C") + ",	" + anchorText.replace(",", ""); linksAnchors += linkAnchor + "\n"; k = k + 1; if (anchorText === undefined) anchorText = anchors[i].innerText; str += "<tr>"; str += "<td class='id'>" + k + "</td>"; str += "<td><a href=" + anchors[i].href + " target='_blank'>" + anchors[i].href + "</a></td>"; str += "<td>" + anchorText + "</td>"; str += "</tr>\n"; } } str += "</table><br/><br/><table width='100%'><tr><td width='55%'><h2>Links</h2><textarea rows=10 style='width:97%' readonly>"; str += listing; str += "</textarea></td><td width='45%'><h2>Anchors</h2><textarea rows=10 readonly>"; str += anchorTexts; str += "</textarea></td></tr></table><br/><br/><h2>All Data - CSV</h2><textarea rows=10 readonly>"; str += "Links, Anchors\n"; str += linksAnchors; str += "</textarea><br /> <br />"; with (window.open()) { document.write(str); document.close(); } })();'';
+            # show fonts on hover
+            ",ft" = "jseval ((function(d) { var e = d.createElement('script'); e.setAttribute('type', 'text/javascript'); e.setAttribute('charset', 'UTF-8'); e.setAttribute('src', '//www.typesample.com/assets/typesample.js?r=' + Math.random() * 99999999); d.body.appendChild(e) })(document))";
+            # is website down
+            ",id" = "jseval open('https://downforeveryoneorjustme.com/' + location.hostname)";
+            # pagespeed
+            ",ps" = "jseval open('https://developers.google.com/speed/pagespeed/insights/?url='+encodeURI(window.location))";
+          }
+          // (mapAttrs' (
+            n: v:
+            nameValuePair "e${n}" "jseval x=escape(getSelection());if(!x)void(x=prompt('Term: '));if(x)void(open('${
+              replaceString "{}" "'+escape(x)+'" v
+            }'))"
+          ) config.programs.qutebrowser.searchEngines)
+          // (mapAttrs' (
+            n: _: nameValuePair "z${elemAt (stringToCharacters n) 0}" "spawn --userscript ${n}"
+          ) userscripts);
       };
       settings = {
         auto_save.session = true;
@@ -123,21 +177,22 @@ in
         };
         window.title_format = "{perc}{current_title}";
       };
-      perDomainSettings = {
-        # "outlook.com"
-      }
-      // (listToAttrs (
-        map
-          (name: {
-            inherit name;
-            value.colors.webpage.darkmode.enabled = false;
-          })
-          [
-            "nandgame.com"
-            "academy.ripe.net"
-            "ostch-my.sharepoint.com"
-          ]
-      ));
+      perDomainSettings =
+        {
+          # "outlook.com"
+        }
+        // (listToAttrs (
+          map
+            (name: {
+              inherit name;
+              value.colors.webpage.darkmode.enabled = false;
+            })
+            [
+              "nandgame.com"
+              "academy.ripe.net"
+              "ostch-my.sharepoint.com"
+            ]
+        ));
       quickmarks = {
         y = "https://www.youtube.com";
         osm = "https://www.openstreetmap.org";
@@ -146,6 +201,7 @@ in
         gl = "https://gitlab.com";
         ni = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
         dm = "https://www.desmos.com/calculator";
+        "4c" = "https://4chan.org";
       };
       greasemonkey = [
         # HTML5 Video Playing Tools

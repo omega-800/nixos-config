@@ -86,7 +86,7 @@ in
               #showUntrackedFiles = true;
             };
             credential =
-              #if sys.profile == "pers" && usr.extraBloat then
+              #if builtins.elem "pers" sys.profile && usr.extraBloat then
               #  {
               #    # kms
               #    credentialStore = "secretservice";

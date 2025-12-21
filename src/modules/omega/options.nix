@@ -53,7 +53,7 @@ in
           x: (isString x && x == "dynamic") || (length x == 3)
         );
         default =
-          if config.c.sys.profile == "serv" then
+          if (elem "serv" config.c.sys.profile) then
             [
               10
               0
@@ -65,7 +65,7 @@ in
       prefix = mkOption {
         description = "network prefix length";
         type = nullOr (ints.between 1 32);
-        default = if config.c.sys.profile == "serv" then 24 else null;
+        default = if (elem "serv" config.c.sys.profile) then 24 else null;
       };
       domain = mkOption {
         description = "domain";
@@ -98,8 +98,8 @@ in
           ) PATHS.PROFILES;
         in
         mkOption {
-          type = enum profiles;
-          default = "pers";
+          type = listOf (enum profiles);
+          default = ["pers"];
         }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
@@ -117,16 +117,17 @@ in
         ]);
         default = [ ];
       };
+      # FIXME: 
       stationary = mkOption {
         type = bool;
-        default = builtins.elem config.c.sys.profile [
+        default = builtins.any (p: builtins.elem p [
           "serv"
           "gaymer"
-        ];
+        ]) config.c.sys.profile;
       };
       stable = mkOption {
         type = bool;
-        default = config.c.sys.profile == "serv";
+        default = elem "serv" config.c.sys.profile;
       };
       system = mkOption {
         type = str;
@@ -180,7 +181,7 @@ in
       };
       monitorMeDaddy = mkOption {
         type = bool;
-        default = config.c.sys.profile == "serv";
+        default = elem "serv" config.c.sys.profile;
       };
     };
     usr = {
