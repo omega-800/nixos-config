@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types;
+  inherit (lib) mkOption mkIf types mkMerge;
   cfg = config.u.file.yazi;
 in
 {
@@ -22,44 +22,27 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      # keymap = {
-      #   input.keymap = [
-      #     {
-      #       exec = "close";
-      #       on = [ "<C-q>" ];
-      #     }
-      #     {
-      #       exec = "close --submit";
-      #       on = [ "<Enter>" ];
-      #     }
-      #     {
-      #       exec = "escape";
-      #       on = [ "<Esc>" ];
-      #     }
-      #     {
-      #       exec = "backspace";
-      #       on = [ "<Backspace>" ];
-      #     }
-      #   ];
-      #   mgr.keymap = [
-      #     {
-      #       exec = "escape";
-      #       on = [ "<Esc>" ];
-      #     }
-      #     {
-      #       exec = "quit";
-      #       on = [ "q" ];
-      #     }
-      #     {
-      #       exec = "close";
-      #       on = [ "<C-q>" ];
-      #     }
-      #   ];
-      # };
+      keymap = mkMerge [
+        (import ./yazi-keymap.nix)
+        {
+          mgr.keymap = [
+            {
+              on = [ "<C-x>" ];
+              run = ''shell -- xournalpp "$0"'';
+            }
+          ];
+        }
+      ];
       theme = {
         status = {
-          separator_open = "";
-          separator_close = "";
+          sep_left = {
+            open = "";
+            close = "";
+          };
+          sep_right = {
+            open = "";
+            close = "";
+          };
         };
       };
       settings = {

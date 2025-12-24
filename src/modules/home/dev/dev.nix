@@ -70,7 +70,9 @@ in
         virt-manager
         slides
       ])
+      # TODO: migrate to school submodule
       ++ (optionals (builtins.elem "school" sys.profile) [
+        anki
         dbeaver-bin
         rfc
         # cisco is such a pain in the ass
