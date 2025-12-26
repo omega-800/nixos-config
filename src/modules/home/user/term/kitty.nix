@@ -41,6 +41,7 @@ in
         cursor_shape = "block";
         cursor_shape_unfocused = "hollow";
         cursor_blink_interval = 1;
+        cursor_trail = 1;
         cursor_stop_blinking_after = 60;
         confirm_os_window_close = 0;
         sync_to_monitor = false;
