@@ -20,6 +20,7 @@ in
       enable = true;
       settings = {
         General = with config.lib.stylix.colors; {
+          disabledGrimWarning = true;
           disabledTrayIcon = true;
           showStartupLaunchMessage = false;
           savePath = globals.envVars.SCREENSHOTS_DIR;

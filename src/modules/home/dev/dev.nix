@@ -60,6 +60,8 @@ in
         # wikiman
       ])
       ++ (optionals usr.extraBloat [
+        asciinema
+        asciinema-agg
         perl
         strace
         yq-go
@@ -68,7 +70,9 @@ in
         virt-manager
         slides
       ])
+      # TODO: migrate to school submodule
       ++ (optionals (builtins.elem "school" sys.profile) [
+        anki
         dbeaver-bin
         rfc
         # cisco is such a pain in the ass

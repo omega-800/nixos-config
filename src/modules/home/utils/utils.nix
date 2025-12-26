@@ -23,6 +23,7 @@ in
         xclip
         xbindkeys
         bind
+        pdfgrep
       ])
       ++ (optionals usr.extraBloat [
         brightnessctl
