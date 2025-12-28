@@ -4,6 +4,7 @@
     ./dwm
     ./qtile
     ./mango
+    ./hyprland
     ./sway
     ./river
     ./wayland
