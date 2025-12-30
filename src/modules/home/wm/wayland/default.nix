@@ -37,6 +37,7 @@ in
     autoStart = mkOption {
       type = types.listOf types.lines;
       default =
+        # TODO : only if one image
         (optionals (!usr.minimal) [
           "swaybg --image ${config.stylix.image} --mode fill"
         ])
@@ -60,6 +61,11 @@ in
       enable = true;
       config = {
         common.default = [ "gtk" ];
+        hyprland.default = [
+          "*"
+          "hyprland"
+          "wlr"
+        ];
         sway = {
           "org.freedesktop.impl.portal.Screencast" = "wlr";
           "org.freedesktop.impl.portal.Screenshot" = "wlr";
@@ -69,6 +75,7 @@ in
         xdg-desktop-portal-gnome
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-hyprland
       ];
     };
     home = {

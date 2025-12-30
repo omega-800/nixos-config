@@ -9,5 +9,6 @@
     ./river
     ./misc
     ./mango
+    ./hyprland
   ];
 }
