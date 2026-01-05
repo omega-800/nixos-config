@@ -2,6 +2,19 @@
 
 nfi() { nix flake new --refresh --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
 nsp() { nix-instantiate --eval-only --expr "(import <nixpkgs> {}).$1.outPath"; }
+spc2usc() {
+  rnmrec () {
+    rename -a "$1" "$2" ./**/*
+    while [ $? != 0 ]; do 
+      rename -a "$1" "$2" ./**/*
+    done
+  }
+  # rnmrec '++' 'ue'
+  # rnmrec +$'\243' 'Ue'
+  # rnmrec +$'\302' 'oe'
+  rnmrec ' ' '_'
+}
+
 
 otp() {
   cmd="$(history | tail -1 | cut -c8-)"

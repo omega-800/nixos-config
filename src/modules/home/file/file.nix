@@ -23,7 +23,8 @@ in
         gdu
         eza
         gzip
-        unzip
+        # unzip
+        p7zip
       ])
       ++ (optionals usr.extraBloat [
         xfce.thunar

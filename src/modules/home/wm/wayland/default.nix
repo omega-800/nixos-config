@@ -37,6 +37,7 @@ in
     autoStart = mkOption {
       type = types.listOf types.lines;
       default =
+        # TODO : only if one image
         (optionals (!usr.minimal) [
           "swaybg --image ${config.stylix.image} --mode fill"
         ])
@@ -84,13 +85,18 @@ in
           default = [ "gtk" "wlr" "gnome" ];
           "org.freedesktop.portal.ScreenCast" = "wlr";
           "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-          "org.freedesktop.impl.portal.Screenshot" = "wlr";
         };
+        hyprland.default = [
+          "*"
+          "hyprland"
+          "wlr"
+        ];
       };
       extraPortals = with pkgs; [
         xdg-desktop-portal-gnome
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-hyprland
       ];
     };
     home = {

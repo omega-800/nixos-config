@@ -45,9 +45,6 @@ in
     environment.systemPackages = with pkgs; [ tuigreet ];
     # failed attempt at solution below
     # boot.kernel.sysctl = { "kernel.printk" = "3 3 3 3"; };
-    # this is a life saver.
-    # literally no documentation about this anywhere.
-    # might be good to write about this...
     # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
     systemd.services.greetd.serviceConfig = {
       Type = "idle";
