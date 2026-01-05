@@ -23,6 +23,7 @@ in
         sops
       ]
       ++ (optionals (!usr.minimal) [
+        fahrplan
         tree-sitter
         # bottles
       ])

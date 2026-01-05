@@ -1,5 +1,7 @@
 { pkgs, ... }: {
-  u.user.nixvim.langSupport = [
+  u = {
+    media.spicetify.enable = true;
+    user.nixvim.langSupport = [
     "c"
     "hs"
     "java"
@@ -26,5 +28,6 @@
     # "lisp"
     # "lua"
   ];
+  };
   home.packages = with pkgs; [ superTuxKart superTux ];
 }

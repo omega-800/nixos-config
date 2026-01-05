@@ -37,6 +37,10 @@ in
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
+        csd-filter-remove.app-id = [
+          "org.pwmt.zathura"
+          "firefox"
+        ];
         background-color = "0x${colors.base00}";
         border-color-focused = "0x${colors.base0D}";
         border-color-unfocused = "0x${colors.base03}";

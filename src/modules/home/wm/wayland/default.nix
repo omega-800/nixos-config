@@ -56,12 +56,34 @@ in
     };
   };
   config = mkIf cfg.enable {
+    # https://github.com/riverwm/river/wiki/Home/74c4da7d3a6fe55856baaa5d8261b95cf568cd85#how-do-i-disable-gtk-decorations-eg-title-bar
+    gtk.gtk3.extraCss = ''
+      /* No (default) titlebar on wayland */
+      headerbar.titlebar.default-decoration {
+        background: transparent;
+        padding: 0;
+        margin: 0 0 -17px 0;
+        border: 0;
+        min-height: 0;
+        font-size: 0;
+        box-shadow: none;
+      }
+
+      /* rm -rf window shadows */
+      window.csd,             /* gtk4? */
+      window.csd decoration { /* gtk3 */
+        box-shadow: none;
+      }
+    '';
+
     xdg.portal = {
       enable = true;
+      # xdgOpenUsePortal = true;
       config = {
-        common.default = [ "gtk" ];
-        sway = {
-          "org.freedesktop.impl.portal.Screencast" = "wlr";
+        common = {
+          default = [ "gtk" "wlr" "gnome" ];
+          "org.freedesktop.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
           "org.freedesktop.impl.portal.Screenshot" = "wlr";
         };
       };
@@ -84,9 +106,6 @@ in
         [
           sway-audio-idle-inhibit
           xdg-utils
-          #xdg-mime
-          #xdg-open
-          #xdg-settings
           grim
           slurp
           wl-clipboard
@@ -106,38 +125,6 @@ in
         allowImages = true;
         systemdTargets = "graphical-session.target";
       };
-      /*
-        swhkd = {
-          # still can't get it to work
-          enable = false;
-          keybindings =
-            let
-              volumeScript = "${pkgs.volume_control}";
-            in
-            {
-
-              "super + shift + s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
-              "super + ctrl + shift + s" = "flameshot screen";
-              "super + alt + shift + s" = "flameshot full";
-              "super + enter " = usr.term;
-              "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
-              "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
-              "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
-            };
-        };
-      */
     };
-    # systemd.user.services.swhkd = {
-    #   Service.Type = "simple";
-    #   Unit.Description = "simple wayland hotkey daemon";
-    #   Install.WantedBy = [ "default.target" ];
-    #   Service.ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
-    #     #!/usr/bin/env bash
-    #     #${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent
-    #     lxqt-policykit-agent
-    #     pkill -f swhks
-    #     swhks & pkexec swhkd;
-    #   ''}";
-    # };
   };
 }

@@ -24,15 +24,32 @@ in
       default = usr.wmType == "wayland";
     };
   };
-  # imports = [ ./swhkd.nix ];
   config = mkIf cfg.enable {
-    # services.swhkd = {
+
+    # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    # xdg.portal = {
     #   enable = true;
-    #   swhkdrc = ''
-    #     super + shift + s 
-    #       flameshot gui
-    #   '';
+    #   extraPortals = with pkgs; [
+    #     xdg-desktop-portal-gnome
+    #     xdg-desktop-portal-gtk
+    #     xdg-desktop-portal-wlr
+    #   ];
+    #   xdgOpenUsePortal = true;
+    #   wlr.enable = true;
     # };
+
+    # https://github.com/NixOS/nixpkgs/issues/91218
+    # services.dbus.packages = with pkgs; [
+    #   xdg-desktop-portal-wlr
+    # ];
+    # environment.variables = {
+    #   XDG_DESKTOP_PORTAL_DIR = pkgs.symlinkJoin {
+    #     name = "xdg-portals";
+    #     paths = [ pkgs.xdg-desktop-portal-wlr ];
+    #   } + "/share/xdg-desktop-portal/portals";
+    # };
+    # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhh
+
     environment.systemPackages = with pkgs; [
       # why do i need this again?
       wayland
@@ -41,6 +58,5 @@ in
       # can you tell that i know what i'm doing
       # lxqt.lxqt-policykit
     ];
-    # environment.pathsToLink = [ "${pkgs.xorg.libxcb}/lib/" ];
   };
 }
