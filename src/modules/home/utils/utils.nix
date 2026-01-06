@@ -36,6 +36,7 @@ in
         xdg-ninja
         translate-shell
         lynis
+        (if sys.wmType == "x11" then simplescreenrecorder else kooha)
       ]);
     programs.nix-index.enable = usr.extraBloat;
   };
