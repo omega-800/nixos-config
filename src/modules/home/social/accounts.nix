@@ -42,6 +42,10 @@ in
                     Georgiy Chirokikh Shevoroshkin
                   '';
                 };
+                # dodo
+                notmuch.enable = true;
+                offlineimap.enable = true;
+                # dodo
               }
             )
             {

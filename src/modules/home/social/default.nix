@@ -6,5 +6,6 @@
     ./mail.nix
     ./matrix.nix
     ./discord.nix
+    ./dodo.nix
   ];
 }

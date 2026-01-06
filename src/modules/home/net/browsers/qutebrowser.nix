@@ -191,7 +191,19 @@ in
               "nandgame.com"
               "academy.ripe.net"
               "ostch-my.sharepoint.com"
+              "gaia.cs.umass.edu"
             ]
+        )) // (listToAttrs (map 
+          (name: {
+            inherit name;
+            value.content.register_protocol_handler = false;
+          })
+          [
+            "gmail.com"
+            "mail.google.com"
+            "mail.proton.me"
+            "outlook.office.com"
+          ]
         ));
       quickmarks = {
         y = "https://www.youtube.com";
