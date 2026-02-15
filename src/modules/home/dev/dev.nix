@@ -47,8 +47,8 @@ in
       )
     ];
     nixpkgs.config = mkIf (builtins.elem "school" sys.profile) {
-      allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
-      permittedInsecurePackages = [ "ciscoPacketTracer8-8.2.2" ];
+      # allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
+      # permittedInsecurePackages = [ "ciscoPacketTracer8-8.2.2" ];
     };
     home.packages =
       with pkgs;
@@ -88,7 +88,7 @@ in
         #     inherit name;
         #     paths = [
         #       (writeShellScriptBin name "firejail --net=none ${ciscoPacketTracer8}/bin/${name}")
-              ciscoPacketTracer8
+              # ciscoPacketTracer8
         #     ];
         #   }
         # ))

@@ -19,20 +19,21 @@ in
   config = mkIf cfg.enable {
     programs.mpv = {
       enable = true;
-      package = nixGL (
-        pkgs.mpv-unwrapped.wrapper {
-          mpv = pkgs.mpv-unwrapped.override {
-            vapoursynthSupport = true;
-            ffmpeg = pkgs.ffmpeg-full;
-          };
-          scripts = with pkgs.mpvScripts; [
-            uosc
-            sponsorblock
-            autoload
-          ];
-          youtubeSupport = true;
-        }
-      );
+      # TODO: 
+      # package = nixGL (
+      #   pkgs.mpv-unwrapped.wrapper {
+      #     mpv = pkgs.mpv-unwrapped.override {
+      #       vapoursynthSupport = true;
+      #       ffmpeg = pkgs.ffmpeg-full;
+      #     };
+      #     scripts = with pkgs.mpvScripts; [
+      #       uosc
+      #       sponsorblock
+      #       autoload
+      #     ];
+      #     youtubeSupport = true;
+      #   }
+      # );
     };
   };
 }
