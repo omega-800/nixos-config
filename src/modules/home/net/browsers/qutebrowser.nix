@@ -34,6 +34,15 @@ let
       TEMP_FILE="$(mktemp --suffix .png)"
       ${pkgs.qrencode}/bin/qrencode -t PNG -o "$TEMP_FILE" -s 10 "$QUTE_URL"
     '';
+    "linkdl" = ''
+      for link in "$(awk -F'"' '/<a / {for (i=1; i<=NF; i++) if ($i ~ /href=/) print $(i+1)}' "$QUTE_HTML")"; do 
+        if [[ "$link" == http* ]]; then 
+          curl -O "$link"
+        else
+          curl -O "$QUTE_URL$link"
+        fi
+      done
+    '';
   };
 in
 {
@@ -89,7 +98,7 @@ in
             # built with
             ",bw" = "jseval window.open('http://builtwith.com/?'+location.host)";
             # show links on webpage
-            # ",sl" = ''jseval (function () { str = ""; anchors = document.getElementsByTagName("a"); var all = []; str += "<table width='100%'>"; var k = 0; var listing = ""; var anchorTexts = ""; var linksAnchors = ""; for (i = 0; i < anchors.length; i++) { var anchorText = anchors[i].textContent; var anchorLink = anchors[i].href; var linkAnchor = ""; if ( anchorLink != "" && all.indexOf(anchorLink) == -1 && anchorText != "" && anchors[i].className != "gb_b") { all.push(anchorLink); listing += anchorLink + "\n"; anchorTexts += anchorText + "\n"; linkAnchor = anchorLink.replace(",", "%2C") + ",	" + anchorText.replace(",", ""); linksAnchors += linkAnchor + "\n"; k = k + 1; if (anchorText === undefined) anchorText = anchors[i].innerText; str += "<tr>"; str += "<td class='id'>" + k + "</td>"; str += "<td><a href=" + anchors[i].href + " target='_blank'>" + anchors[i].href + "</a></td>"; str += "<td>" + anchorText + "</td>"; str += "</tr>\n"; } } str += "</table><br/><br/><table width='100%'><tr><td width='55%'><h2>Links</h2><textarea rows=10 style='width:97%' readonly>"; str += listing; str += "</textarea></td><td width='45%'><h2>Anchors</h2><textarea rows=10 readonly>"; str += anchorTexts; str += "</textarea></td></tr></table><br/><br/><h2>All Data - CSV</h2><textarea rows=10 readonly>"; str += "Links, Anchors\n"; str += linksAnchors; str += "</textarea><br /> <br />"; with (window.open()) { document.write(str); document.close(); } })();'';
+            ",sl" = ''(function(){ var lks = document.querySelectorAll('a[href]'); var out = ""; lks.forEach((lk) => out += lk.href + '\n'); if(out){ var ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); alert('Links copied to clipboard:\n\n' + out); } catch (err) { alert('Failed to copy links: ' + err + '\n\n' + out); } document.body.removeChild(ta); } else { alert('No links found.'); } })();'';
             # show fonts on hover
             ",ft" = "jseval ((function(d) { var e = d.createElement('script'); e.setAttribute('type', 'text/javascript'); e.setAttribute('charset', 'UTF-8'); e.setAttribute('src', '//www.typesample.com/assets/typesample.js?r=' + Math.random() * 99999999); d.body.appendChild(e) })(document))";
             # is website down
@@ -124,7 +133,7 @@ in
           cookies.accept = "no-3rdparty";
           geolocation = false;
           headers.do_not_track = true;
-          javascript.clipboard = "none";
+          # javascript.clipboard = "none";
           notifications.enabled = true;
           prefers_reduced_motion = true;
         };
