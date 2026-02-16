@@ -184,6 +184,10 @@ in
               urls = [ { template = "https://thepiratebay.org/search.php?q={searchTerms}"; } ];
               definedAliases = [ "@pb" ];
             };
+            "annas archive" = {
+              urls = [ { template = "https://annas-archive.li/search?q={searchTerms}"; } ];
+              definedAliases = [ "@aa" ];
+            };
             "bing".metaData.hidden = true;
             "google".metaData.alias = "@gg"; # builtin engines only support specifying one additional alias
           };

@@ -46,6 +46,7 @@ in
           "${pkgs.notify_bat}"
         ])
         ++ [
+          "nm-applet &"
           "${usr.term} -e tmux a"
           # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
           "wl-clip-persist --clipboard regular --reconnect-tries 0 &"

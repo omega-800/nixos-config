@@ -16,24 +16,24 @@ in
     default = config.u.media.enable && (!usr.minimal);
   };
 
-  # TODO: 
-  # config = mkIf cfg.enable {
-  #   programs.mpv = {
-  #     enable = true;
-  #     package = nixGL (
-  #       pkgs.mpv-unwrapped.wrapper {
-  #         mpv = pkgs.mpv-unwrapped.override {
-  #           vapoursynthSupport = true;
-  #           ffmpeg = pkgs.ffmpeg-full;
-  #         };
-  #         scripts = with pkgs.mpvScripts; [
-  #           uosc
-  #           sponsorblock
-  #           autoload
-  #         ];
-  #         youtubeSupport = true;
-  #       }
-  #     );
-  #   };
-  # };
+  config = mkIf cfg.enable {
+    programs.mpv = {
+      enable = true;
+      # TODO: 
+      # package = nixGL (
+      #   pkgs.mpv-unwrapped.wrapper {
+      #     mpv = pkgs.mpv-unwrapped.override {
+      #       vapoursynthSupport = true;
+      #       ffmpeg = pkgs.ffmpeg-full;
+      #     };
+      #     scripts = with pkgs.mpvScripts; [
+      #       uosc
+      #       sponsorblock
+      #       autoload
+      #     ];
+      #     youtubeSupport = true;
+      #   }
+      # );
+    };
+  };
 }

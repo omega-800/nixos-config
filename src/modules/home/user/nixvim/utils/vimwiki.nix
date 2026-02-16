@@ -1,4 +1,9 @@
-{ globals, sys, ... }:
+{
+  globals,
+  sys,
+  lib,
+  ...
+}:
 {
   programs.nixvim = {
     # kinda frustrating, ngl
@@ -34,20 +39,21 @@
                 syntax = "markdown";
               })
               (
-                with globals.envVars;
                 # TODO: specialisations
-                if (builtins.elem "pers" sys.profile) then
+                (lib.optionals
+                  (builtins.any (lib.flip builtins.elem sys.profile) [
+                    "pers"
+                    "gaymer"
+                  ])
                   [
-                    "${XDG_DOCUMENTS_DIR}/pers/notes"
-                    "${XDG_DOCUMENTS_DIR}/pers/diary"
+                    "${globals.envVars.XDG_DOCUMENTS_DIR}/pers/notes"
+                    "${globals.envVars.XDG_DOCUMENTS_DIR}/pers/diary"
                   ]
-                else if (builtins.elem "school" sys.profile) then
-                  [
-                    "${XDG_DOCUMENTS_DIR}/school/notes"
-                    "${XDG_DOCUMENTS_DIR}/school/projects"
-                  ]
-                else
-                  [ ]
+                )
+                ++ (lib.optionals (builtins.elem "school" sys.profile) [
+                  "${globals.envVars.XDG_DOCUMENTS_DIR}/school/notes"
+                  "${globals.envVars.XDG_DOCUMENTS_DIR}/school/projects"
+                ])
               );
         };
       };
