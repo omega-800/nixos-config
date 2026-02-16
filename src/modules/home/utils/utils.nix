@@ -1,5 +1,6 @@
 {
   usr,
+  sys,
   lib,
   config,
   pkgs,
@@ -36,7 +37,7 @@ in
         xdg-ninja
         translate-shell
         lynis
-        (if sys.wmType == "x11" then simplescreenrecorder else kooha)
+        (if usr.wmType == "x11" then simplescreenrecorder else kooha)
       ]);
     programs.nix-index.enable = usr.extraBloat;
   };

@@ -63,6 +63,10 @@ in
           // v
         )
         {
+          oss-gl = {
+            hostname = "gitlab.com";
+            identityFile = "~/.ssh/gitlab";
+          };
           Apollo = {
             hostname = "apollo.inteco.ch";
             port = 6699;
