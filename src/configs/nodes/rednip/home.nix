@@ -17,6 +17,7 @@
     "lua"
     "plantuml"
     "zig"
+    "idris"
   ];
   # TODO: 
   # home.packages = with pkgs; [ (jetbrains.plugins.addPlugins  jetbrains.idea ["ideavim"]) ];

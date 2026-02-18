@@ -6,6 +6,7 @@
     ./erlang.nix
     ./go.nix
     ./gql.nix
+    ./idris.nix
     ./hs.nix
     ./html.nix
     ./java.nix
