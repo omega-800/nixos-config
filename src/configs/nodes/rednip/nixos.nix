@@ -62,7 +62,26 @@
       nvidiaSettings = true;
       # nvidiaPersistenced = true;
       videoAcceleration = true;
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_390
+      package =
+        # config.boot.kernelPackages.nvidiaPackages.legacy_390
+        # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+        config.boot.kernelPackages.nvidiaPackages.mkDriver {
+          version = "535.274.02";
+          sha256_64bit = "sha256-O071TwaZHm3/94aN3nl/rZpFH+5o1SZ9+Hyivo5/KTs=";
+          sha256_aarch64 = "sha256-PgHcrqGf4E+ttnpho+N8SKsMQxnZn29fffHXGbeAxRw=";
+          openSha256 = "sha256-4KRHuTxlU0GT/cWf/j3aR7VqWpOez1ssS8zj/pYytes=";
+          settingsSha256 = "sha256-BXQMXKybl9mmsp+Y+ht1RjZqnn/H3hZfyGcKIGurxrI=";
+          persistencedSha256 = "sha256-/ZvAsvTjjiM/U3gn0DbxUguC3VvHbopyQ3u6+RYkzKk=";
+        }
+
+      # (import (builtins.fetchGit {
+      #   name = "nixos-unstable-25.11-nvidia";
+      #   url = "https://github.com/nixos/nixpkgs/";
+      #   ref = "refs/head/nixos-unstable";
+      #   rev = "0b758f8d8e7983c6bc5e53f9796a571e01848d03";
+      # }))
+
       # .overrideAttrs (_: {
       #   postFixup = ''
       #     mv $out/lib/tls/* $out/lib
