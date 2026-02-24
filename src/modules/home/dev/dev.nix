@@ -76,6 +76,7 @@ in
         anki
         dbeaver-bin
         rfc
+        wolfram-notebook
         # cisco is such a pain in the ass
         # https://www.netacad.com/resources/lab-downloads?courseLang=en-US
         # nix-prefetch-url --type sha256 file:///path/to/CiscoPacketTracer822_amd64_signed.deb

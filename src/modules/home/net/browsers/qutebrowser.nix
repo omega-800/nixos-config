@@ -100,7 +100,7 @@ in
             # show links on webpage
             ",sl" = ''jseval (()=>{ var lks = document.querySelectorAll('a[href]'); var out = ""; lks.forEach((lk) => out += lk.href + '\\n'); if(out){ var ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); alert('Links copied to clipboard:\\n\\n' + out); } catch (err) { alert('Failed to copy links: ' + err + '\\n\\n' + out); } document.body.removeChild(ta); } else { alert('No links found.'); } })();'';
             # show fonts on hover
-            ",ft" = "jseval ((function(d) { var e = d.createElement('script'); e.setAttribute('type', 'text/javascript'); e.setAttribute('charset', 'UTF-8'); e.setAttribute('src', '//www.typesample.com/assets/typesample.js?r=' + Math.random() * 99999999); d.body.appendChild(e) })(document))";
+            ",ft" = "jseval (((d)=>{ var e = d.createElement('script'); e.setAttribute('type', 'text/javascript'); e.setAttribute('charset', 'UTF-8'); e.setAttribute('src', '//www.typesample.com/assets/typesample.js?r=' + Math.random() * 99999999); d.body.appendChild(e) })(document))";
             # is website down
             ",id" = "jseval open('https://downforeveryoneorjustme.com/' + location.hostname)";
             # pagespeed
