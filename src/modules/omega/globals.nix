@@ -29,9 +29,10 @@
     XDG_PUBLICSHARE_DIR = "${MISC_DIR}/share";
     XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
 
-    XDG_CURRENT_DESKTOP = usr.wm;
-    XDG_SESSION_DESKTOP = usr.wm;
-    XDG_SESSION_TYPE = usr.wmType;
+    # FIXME: only wayland?
+    # XDG_CURRENT_DESKTOP = usr.wm;
+    # XDG_SESSION_DESKTOP = usr.wm;
+    # XDG_SESSION_TYPE = usr.wmType;
 
     MAILPATH = "${XDG_DOCUMENTS_DIR}/mail";
     CONTACTPATH = "${XDG_DOCUMENTS_DIR}/contacts";

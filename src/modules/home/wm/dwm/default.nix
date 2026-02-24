@@ -22,9 +22,6 @@ in
     default = usr.wm == "dwm";
   };
   config = mkIf cfg.enable {
-    xresources.properties = {
-      "*term" = usr.term;
-    };
     u = {
       user.st.enable = mkDefault true;
       wm.x11.initExtra = ''
