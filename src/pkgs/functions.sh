@@ -326,3 +326,10 @@ flogold() {
 
     sort <<< "$output" | uniq -c | sort -n | sed "s@^[[:space:]]\+\([0-9]\+\)@$(tput setaf 1)\1$(tput sgr0)@g"
 }
+
+
+
+vpn-school() {
+  read -r host cookie fingerprint <<< "$(openconnect-sso -s vpn2.ost.ch --authenticate json | awk -F'[:, "]+' '/host/ {h=$3 ":" $4} /cookie/ {c=$3} /fingerprint/ {f=$3} END {print h, c, f}')"
+  sudo openconnect --useragent AnyConnect --protocol anyconnect -C "$cookie" -u georgiy.shevoroshkin@ost.ch --servercert "$fingerprint" "$host"
+}

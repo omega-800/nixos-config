@@ -112,6 +112,13 @@ in
             "flakes"
           ]
           ++ lib.optional (lib.versionOlder (lib.versions.majorMinor config.nix.package.version) "2.22") "repl-flake";
+
+          # FIXME: lon
+          trusted-users = lib.mkForce [
+            "root"
+            "@wheel"
+            usr.username
+          ];
         };
         daemonCPUSchedPolicy = lib.mkDefault "batch";
         daemonIOSchedClass = lib.mkDefault "idle";

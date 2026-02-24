@@ -146,7 +146,7 @@ in
       csw = "${pkgs.check_swap}";
       sst = "${pkgs.show_stats}";
 
-      vpn-school = ''sudo openconnect --useragent AnyConnect --protocol anyconnect -C "$(sudo cat /run/secrets/vpn/school/cookie)" -u georgiy.shevoroshkin@ost.ch --servercert "$(sudo cat /run/secrets/vpn/school/fingerprint)" vpn2.ost.ch'';
+      # vpn-school = ''sudo openconnect --useragent AnyConnect --protocol anyconnect -C "$(sudo cat /run/secrets/vpn/school/cookie)" -u georgiy.shevoroshkin@ost.ch --servercert "$(sudo cat /run/secrets/vpn/school/fingerprint)" vpn2.ost.ch'';
       vpn-school-cookie = "openconnect-sso -s vpn2.ost.ch --authenticate json";
       vpn-school-start = "sudo systemctl start openconnect-school";
       vpn-school-stop = "sudo systemctl stop openconnect-school";
