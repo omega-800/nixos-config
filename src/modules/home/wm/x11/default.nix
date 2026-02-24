@@ -28,6 +28,9 @@ in
       packages = with pkgs; [ xdotool ];
       keyboard.layout = sys.kbLayout;
     };
+    xresources.properties = {
+      "*term" = usr.term;
+    };
     services.unclutter = {
       enable = true;
       threshold = 5;
