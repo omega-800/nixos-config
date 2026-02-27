@@ -148,6 +148,10 @@ in
               urls = [ { template = "https://www.openstreetmap.org/search?query={searchTerms}"; } ];
               definedAliases = [ "@om" ];
             };
+            "rfc" = {
+              urls = [ { template = "https://www.rfc-editor.org/rfc/rfc{searchTerms}"; } ];
+              definedAliases = [ "@rfc" ];
+            };
             "youtube" = {
               urls = [ { template = "https://www.youtube.com/results?search_query={searchTerms}"; } ];
               definedAliases = [ "@yt" ];

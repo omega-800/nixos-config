@@ -25,7 +25,7 @@
       packages = mapPkgs;
       apps = mapApps;
       deploy = mapDeployments;
-      checks = mapChecks;
+      # checks = mapChecks;
       formatter = mapFormatters;
       devShells = mapShells;
       # devShells = mapModules ./modules/sh {

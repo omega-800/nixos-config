@@ -16,6 +16,7 @@ in
   };
 
   config = mkIf cfg.enable {
+    # TODO: --offset +0+0
     programs.feh = {
       enable = true;
       keybindings = {
