@@ -37,9 +37,10 @@ in
                   enable = true;
                   aerc.enable = true;
                   signature.showSignature = "append";
+                  # FIXME: 
                   # dodo
-                  notmuch.enable = true;
-                  offlineimap.enable = true;
+                  # notmuch.enable = true;
+                  # offlineimap.enable = true;
                   # dodo
                 }
               ]

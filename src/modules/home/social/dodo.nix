@@ -20,7 +20,9 @@ in
 {
   options.u.social.mail.dodo.enable = mkOption {
     type = types.bool;
-    default = config.u.social.mail.enable && usr.extraBloat;
+    default = false;
+    # FIXME: 
+    # default = config.u.social.mail.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {

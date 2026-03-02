@@ -121,13 +121,13 @@ in
           # "*color12" = base0D;
           # "*color13" = base0E;
           # "*color14" = base0C;
-          "*color8" =  base03;
-          "*color9" =  base09;
-          "*color10" = base01;
-          "*color11" = base02;
-          "*color12" = base04;
-          "*color13" = base06;
-          "*color14" = base0F;
+          "*color8" =  lib.mkForce base03;
+          "*color9" =  lib.mkForce base09;
+          "*color10" = lib.mkForce base01;
+          "*color11" = lib.mkForce base02;
+          "*color12" = lib.mkForce base04;
+          "*color13" = lib.mkForce base06;
+          "*color14" = lib.mkForce base0F;
 
           "*color15" = base07;
           "*color16" = base09;
