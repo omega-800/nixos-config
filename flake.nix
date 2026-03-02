@@ -44,6 +44,15 @@
       };
     };
 
+    nix-jetbrains-plugins-unstable = {
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:nix-community/nix-jetbrains-plugins";
+    };
+    nix-jetbrains-plugins-stable = {
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:nix-community/nix-jetbrains-plugins";
+    };
+
     # döes nöt nörk :(
     # simplex = {
     #   url = "github:simplex-chat/simplex-chat";

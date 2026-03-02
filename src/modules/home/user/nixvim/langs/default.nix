@@ -9,6 +9,7 @@
     ./idris.nix
     ./hs.nix
     ./html.nix
+    ./http.nix
     ./java.nix
     ./js.nix
     ./lua.nix
