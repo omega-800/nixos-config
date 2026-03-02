@@ -37,10 +37,10 @@ in
                   enable = true;
                   aerc.enable = true;
                   signature.showSignature = "append";
-                  # FIXME: 
                   # dodo
-                  # notmuch.enable = true;
-                  # offlineimap.enable = true;
+                  # FIXME: fucks aerc up if no config present
+                  notmuch.enable = config.u.social.mail.dodo.enable;
+                  offlineimap.enable = config.u.social.mail.dodo.enable;
                   # dodo
                 }
               ]
