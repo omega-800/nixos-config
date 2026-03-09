@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# TODO: grep && increment
+ueb() { printf "#set enum(numbering: \"a)\")\n#let corr = text.with(fill: red)\n= Übungsserie %s" "$1" >> "uebungsserie$1.typ" && vim "uebungsserie$1.typ"; }
+wueb() { typst watch "uebungsserie$1.typ"; }
+
 nfi() { nix flake new --refresh --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
 nsp() { nix-instantiate --eval-only --expr "(import <nixpkgs> {}).$1.outPath"; }
 spc2usc() {
