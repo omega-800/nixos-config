@@ -43,6 +43,8 @@ in
   #   );
   # };
 
+  # TODO: replace "&&" with "and" for nushell
+
   home.shellAliases = mkMerge [
     (
       if config.u.file.enable then

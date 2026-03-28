@@ -22,7 +22,6 @@
         };
     */
     os.boot.mode = "uefi";
-    dev.psql.enable = true;
     sw = {
       flatpak.enable = false;
       printing.enable = false;

@@ -28,33 +28,19 @@ in
       ])
       ++ (optionals usr.extraBloat [
         xfce.thunar
-        udiskie
-        udisks
-        sshfs
-        syncthing
+        # udiskie
+        # udisks
+        # sshfs
+        # syncthing
         xz
+
+        nix-tree
+        nix-du
+        graphviz
       ]);
     xdg.configFile."gdu/gdu.yaml" = {
       enable = true;
       text =
-        /*
-          (if usr.style then (with config.lib.stylix.colors; ''
-                  style:
-                    selected-row:
-                      text-color: "#${base07}"
-                      background-color: "#${base03}"
-                    result-row:
-                      number-color: "#${base0D}"
-                      directory-color: "#${base0E}"
-                    footer:
-                      text-color: "#${base07}"
-                      background-color: "#${base0D}"
-                      number-color: "#${base06}"
-                    header:
-                      text-color: "#${base07}"
-                      background-color: "#${base0D}"
-          '') else "") +
-        */
         ''
           delete-in-background: true 
           delete-in-parallel: true 

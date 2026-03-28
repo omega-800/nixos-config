@@ -41,9 +41,10 @@ in
           "org.pwmt.zathura"
           "firefox"
         ];
-        background-color = "0x${colors.base00}";
-        border-color-focused = "0x${colors.base0D}";
-        border-color-unfocused = "0x${colors.base03}";
+        # TODO: check if interfering with stylix
+        # background-color = "0x${colors.base00}";
+        # border-color-focused = "0x${colors.base0D}";
+        # border-color-unfocused = "0x${colors.base03}";
         border-width = 2;
         set-repeat = "50 300";
         default-layout = "rivertile";

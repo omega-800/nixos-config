@@ -276,8 +276,9 @@ in
         default = "nvim";
       };
       shell = mkOption {
+        # TODO: switch to string
         type = enum (attrValues {
-          inherit (pkgs) bash zsh dash;
+          inherit (pkgs) bash zsh dash nushell;
         });
         default = pkgs.bash;
       };

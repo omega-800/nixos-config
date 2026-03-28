@@ -3,10 +3,12 @@
   config.c = {
     net = {
       id = 69;
-      pubkeys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzbzskHnyrgboFGE/+ldf1nW5y8Bglzj6/RvepTuJQK omega@rednip"];
+      pubkeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzbzskHnyrgboFGE/+ldf1nW5y8Bglzj6/RvepTuJQK omega@rednip"
+      ];
     };
     sys = {
-      profile = ["school"];
+      profile = [ "school" ];
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
@@ -19,8 +21,9 @@
     };
     usr = {
       devEmail = "georgiy.shevoroshkin@ost.ch";
-      wm = "dwm";
+      wm = "river";
       shell = pkgs.zsh;
+      # shell = pkgs.nushell;
       term = "st";
       # term = "kitty";
       extraBloat = true;
