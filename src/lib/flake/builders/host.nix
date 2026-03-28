@@ -22,11 +22,13 @@ let
       inherit (cfg.sys) system;
       # FIXME: overlays
       specialArgs = mkArgs cfg;
-      modules =
-        (mkModules cfg CONFIGS.nixosConfigurations)
-        /*++ (map (profile: {
+      modules = (mkModules cfg CONFIGS.nixosConfigurations)
+      /*
+        ++ (map (profile: {
           specialisation.${profile}.imports = mkModules (mkSpecCfg profile) CONFIGS.nixosConfigurations;
-        }) rest)*/;
+        }) rest)
+      */
+      ;
       # mkModules cfg CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
 in

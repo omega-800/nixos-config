@@ -71,6 +71,7 @@ in
       ndx = ''nix-shell -p nodejs_22 --run "npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace -b backup";
       nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --sudo";
+      repl-fast = "nixos-rebuild repl --flake ${NIXOS_CONFIG}#${net.hostname}";
       nps = "nix repl --expr 'import <nixpkgs>{}'";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";

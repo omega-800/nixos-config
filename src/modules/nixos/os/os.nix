@@ -31,14 +31,7 @@ in
       #system-manager.allowAnyDistro = sys.genericLinux;
       environment = {
         systemPackages =
-          let
-            repl-fast = pkgs.writeShellScriptBin "repl-fast" ''
-              source /etc/set-environment
-              nix repl "${toString ./repl.nix}" "$@"
-            '';
-          in
           [
-            repl-fast
             pkgs.vim
             pkgs.curl
             pkgs.gitMinimal

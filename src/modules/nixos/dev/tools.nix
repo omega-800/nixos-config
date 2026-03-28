@@ -48,7 +48,7 @@ in
       };
     })
     (mkIf cfg.zen-browser.enable {
-      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.system}".default ];
+      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default ];
     })
     (mkIf (cfg.disable && (!cfg.enable)) {
       documentation = {

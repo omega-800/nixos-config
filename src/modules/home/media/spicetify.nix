@@ -9,7 +9,7 @@
 let
   inherit (lib) mkIf types mkOption;
   cfg = config.u.media.spicetify;
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 
   customColorScheme = with config.lib.stylix.colors; {
     text = base07;
