@@ -19,7 +19,8 @@ in
         enable = true;
         settings = {
           executable_script = "plantuml";
-          set_makeprg = true;
+          # set_makeprg = true;
+          set_makeprg = 1;
         };
       };
     };

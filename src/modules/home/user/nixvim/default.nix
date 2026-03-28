@@ -38,7 +38,7 @@ in
     ./autocmd
     ./dap
     ./langs
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
   ];
 
   # eh https://github.com/L3MON4D3/LuaSnip

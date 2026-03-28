@@ -59,7 +59,7 @@ in
   };
   config = mkIf cfg.enable {
     # https://github.com/riverwm/river/wiki/Home/74c4da7d3a6fe55856baaa5d8261b95cf568cd85#how-do-i-disable-gtk-decorations-eg-title-bar
-    gtk.gtk3.extraCss = ''
+    stylix.targets.gtk.extraCss = ''
       /* No (default) titlebar on wayland */
       headerbar.titlebar.default-decoration {
         background: transparent;

@@ -47,7 +47,7 @@ rec {
   mkPkgs =
     isStable: system: isGenericLinux:
     (import (getPkgsInput isStable) {
-      inherit system;
+       inherit system;
       config = { };
       overlays = mkOverlays isStable system isGenericLinux;
     });

@@ -68,9 +68,9 @@ in
         ++ (optionals usr.extraBloat (
           with pkgs;
           [
-            rofi-emoji
-            rofi-top
-            rofi-file-browser
+            # rofi-emoji
+            # rofi-top
+            # rofi-file-browser
           ]
         ));
       terminal = "${pkgs.${usr.term}}/bin/${usr.term}";

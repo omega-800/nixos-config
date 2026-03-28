@@ -22,7 +22,7 @@ in
       none-ls.sources = mkIf plugins.none-ls.enable {
         formatting.nixfmt = {
           enable = true;
-          package = pkgs.nixfmt-rfc-style;
+          package = pkgs.nixfmt;
         };
         code_actions.statix.enable = true;
         diagnostics = {

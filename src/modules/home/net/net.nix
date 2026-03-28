@@ -33,7 +33,7 @@ in
       ++ (optionals (builtins.elem "school" sys.profile) [
         wireshark
         # tshark
-        termshark
+        # termshark
         nettools
         traceroute
         iperf

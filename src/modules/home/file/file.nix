@@ -27,7 +27,7 @@ in
         p7zip
       ])
       ++ (optionals usr.extraBloat [
-        xfce.thunar
+        thunar
         # udiskie
         # udisks
         # sshfs

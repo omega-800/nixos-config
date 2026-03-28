@@ -3,7 +3,6 @@
   #  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
   u.user.nixvim.langSupport = [
     "typst"
-    "latex"
     "java"
     "yaml"
     "python"

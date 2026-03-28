@@ -23,7 +23,7 @@ in
         {
           enable = true;
           nixvimInjections = true;
-          folding = false;
+          folding.enable = false;
           grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
         }
         (if sys.stable then { } else { settings.indent.enable = true; })

@@ -13,7 +13,7 @@ in
     enable = mkOption {
       description = "enables yazi";
       type = types.bool;
-      default = config.u.file.enable && !usr.minimal;
+      default = config.u.file.enable && !usr.minimal && usr.wmType == "wayland";
     };
   };
 
@@ -22,6 +22,7 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+      shellWrapperName = "y";
       keymap = mkMerge [
         (import ./yazi-keymap.nix)
         {
@@ -40,6 +41,20 @@ in
             close = "";
           };
           sep_right = {
+            open = "";
+            close = "";
+          };
+        };
+        indicator.padding = {
+            open = "";
+            close = "";
+          };
+        tabs = {
+          sep_inner = {
+            open = "";
+            close = "";
+          };
+          sep_outer = {
             open = "";
             close = "";
           };

@@ -15,6 +15,8 @@ let
       cfg = mkCfg hostname;
       inherit (cfg.sys) stable system genericLinux;
     in
+    # lmao somebody was frustrated here. what was this all about
+
     # ok so calling mkArgs does not work because it causes infinite recursion of usr attr set?? bc mkConfig's usr is being passed to mkArgs as well as writeCfgToScript???? but usr isn't even used in writeCfgToScript????????? i am brain hurty
     #extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
     (getHomeMgrInput stable).lib.homeManagerConfiguration {

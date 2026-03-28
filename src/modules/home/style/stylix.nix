@@ -13,7 +13,7 @@ let
 in
 {
   # FIXME: colors wrong after stylix update
-  imports = if usr.style then [ inputs.stylix.homeManagerModules.stylix ] else [ ];
+  imports = if usr.style then [ inputs.stylix.homeModules.stylix ] else [ ];
   config =
     if !usr.style then
       { }
