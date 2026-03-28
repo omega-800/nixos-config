@@ -8,7 +8,7 @@ in
 {
   imports = [
     ./lualine.nix
-    ./startup.nix
+    ./alpha.nix
     ./bufferline.nix
   ];
   programs.nixvim = {

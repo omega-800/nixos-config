@@ -18,8 +18,7 @@ let
   inherit (lib.omega.cfg) cfgsOfFlavor;
 in
 {
-  config = mkIf (!(builtins.elem "storer" sys.flavors)) 
-    {
+  config = mkIf (!(builtins.elem "storer" sys.flavors)) {
     services.borgbackup.jobs = mkMerge (
       map (target: {
         "root-${target.net.hostname}" = {
@@ -68,6 +67,7 @@ in
     );
 
     systemd.services = mkIf (!(builtins.elem "serv" sys.profile)) (
+      # FIXME: 
       {
         "notify-problems@" = {
           enable = true;
@@ -83,9 +83,10 @@ in
         name: _:
         nameValuePair "borgbackup-job-${name}" {
           unitConfig.OnFailure = "notify-problems@%i.service";
-          preStart = lib.mkBefore ''
-            until ${lib.getExe' pkgs.toybox "ping"} little-fella.home.lan -c1 -q >/dev/null; do :; done
-          '';
+          # TODO: un-hardcode little-fella
+          # preStart = lib.mkBefore ''
+          #   until ${lib.getExe' pkgs.toybox "ping"} little-fella.home.lan -c1 -q >/dev/null; do :; done
+          # '';
         }
       )
     );
