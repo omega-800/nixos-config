@@ -222,6 +222,7 @@ in
         gl = "https://gitlab.com";
         ni = "https://nixos.org/manual/nixos/stable/index.html#ch-installation";
         dm = "https://www.desmos.com/calculator";
+        wh = "https://web.whatsapp.com";
         "4c" = "https://4chan.org";
       };
       greasemonkey = [

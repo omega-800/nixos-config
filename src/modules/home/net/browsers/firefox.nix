@@ -144,6 +144,10 @@ in
               urls = [ { template = "https://hoogle.haskell.org/?hoogle={searchTerms}"; } ];
               definedAliases = [ "@hg" ];
             };
+            "wolfram alpha" = {
+              urls = [ { template = "https://www.wolframalpha.com/input?i={searchTerms}"; } ];
+              definedAliases = [ "@wf" ];
+            };
             "osm" = {
               urls = [ { template = "https://www.openstreetmap.org/search?query={searchTerms}"; } ];
               definedAliases = [ "@om" ];
@@ -193,7 +197,7 @@ in
               definedAliases = [ "@aa" ];
             };
             "bing".metaData.hidden = true;
-            "google".metaData.alias = "@gg"; # builtin engines only support specifying one additional alias
+            "google".metaData.alias = "@gg"; 
           };
         };
 

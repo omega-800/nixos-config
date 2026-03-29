@@ -49,8 +49,8 @@ in
         modi =
           "drun,run,ssh,window,combi,keys,filebrowser,calc"
           # huh
-          + (optionalString (usr.wmType != "wayland") ",windowcd")
-          + (optionalString usr.extraBloat ",emoji,top,file-browser-extended");
+          + (optionalString (usr.wmType != "wayland") ",windowcd");
+          # + (optionalString usr.extraBloat ",emoji,top,file-browser-extended");
         kb-primary-paste = "Control+V,Shift+Insert";
         kb-secondary-paste = "Control+v,Insert";
       };

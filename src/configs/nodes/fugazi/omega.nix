@@ -23,7 +23,7 @@
       wm = "river";
       shell = pkgs.zsh;
       term = "kitty";
-      extraBloat = false;
+      extraBloat = true;
       minimal = false;
       theme = "gruvbox-dark-hard";
       termColors = {
