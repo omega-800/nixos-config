@@ -36,7 +36,16 @@ in
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
+          # TODO: fix & config colors
+          # command = ''
+          #   ${pkgs.tuigreet}/bin/tuigreet --cmd ${cmd} \
+          #     --time --time-format '%H:%M | %A - %B | %F' \
+          #     --asterisk --asterisks-char '%&*#?=$@' \
+          #     --theme 'border=magenta;text=blue;prompt=blue;time=magenta;action=magenta;button=blue;container=black;input=red' \
+          #     --window-padding 4 --container-padding 4 --prompt-padding 4 \ 
+          #     --issue 
+          # '';
+          command = "${pkgs.tuigreet}/bin/tuigreet --cmd ${cmd} --time --time-format '%H:%M | %a | %h | %F'";
           user = "greeter";
         };
       };

@@ -99,7 +99,7 @@ in
         in
         mkOption {
           type = listOf (enum profiles);
-          default = ["pers"];
+          default = [ "pers" ];
         }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
@@ -117,13 +117,16 @@ in
         ]);
         default = [ ];
       };
-      # FIXME: 
+      # FIXME:
       stationary = mkOption {
         type = bool;
-        default = builtins.any (p: builtins.elem p [
-          "serv"
-          "gaymer"
-        ]) config.c.sys.profile;
+        default = builtins.any (
+          p:
+          builtins.elem p [
+            "serv"
+            "gaymer"
+          ]
+        ) config.c.sys.profile;
       };
       stable = mkOption {
         type = bool;
@@ -258,7 +261,13 @@ in
           "kitty"
           "st"
         ];
-        default = "alacritty";
+        default =
+          if (!config.c.usr.extraBloat || config.c.usr.minimal) then
+            "st"
+          else if config.c.usr.wmType == "wayland" then
+            "kitty"
+          else
+            "alacritty";
       }; # Default terminal command
       font = mkOption {
         type = str;
@@ -278,7 +287,12 @@ in
       shell = mkOption {
         # TODO: switch to string
         type = enum (attrValues {
-          inherit (pkgs) bash zsh dash nushell;
+          inherit (pkgs)
+            bash
+            zsh
+            dash
+            nushell
+            ;
         });
         default = pkgs.bash;
       };
