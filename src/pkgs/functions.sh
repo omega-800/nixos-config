@@ -4,6 +4,10 @@
 ueb() { printf "#set enum(numbering: \"a)\")\n#let corr = text.with(fill: red)\n= Übungsserie %s" "$1" >> "uebungsserie$1.typ" && vim "uebungsserie$1.typ"; }
 wueb() { typst watch "uebungsserie$1.typ"; }
 
+# vimt() {
+  # (trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT; nvim "$1" & zathura "${1/.typ/.pdf}" & typst watch "$1")
+# }
+
 nfi() { nix flake new --refresh --template "github:omega-800/devshell-templates#$1-lock" "$2"; }
 nsp() { nix-instantiate --eval-only --expr "(import <nixpkgs> {}).$1.outPath"; }
 spc2usc() {

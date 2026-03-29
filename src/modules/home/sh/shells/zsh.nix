@@ -58,6 +58,7 @@ in
           with usr.termColors;
           let
             retC = a: b: "%(?.%{\\e[${a};${b};${c1}m%}.%{\\e[${a};${b};${c2}m%})";
+            # TODO: $SHLVL inside prompt
           in
           ''
             ${config.u.sh.shellInitExtra}
