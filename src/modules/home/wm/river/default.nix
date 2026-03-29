@@ -37,14 +37,12 @@ in
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
-        csd-filter-remove.app-id = [
-          "org.pwmt.zathura"
-          "firefox"
-        ];
-        # TODO: check if interfering with stylix
-        # background-color = "0x${colors.base00}";
-        # border-color-focused = "0x${colors.base0D}";
-        # border-color-unfocused = "0x${colors.base03}";
+        rule-add."-app-id" = {
+          "'firefox'" = "ssd";
+          "'org.pwmt.zathura'" = "ssd";
+          "'com.github.xournalpp.xournalpp'" = "ssd";
+        };
+
         border-width = 2;
         set-repeat = "50 300";
         default-layout = "rivertile";

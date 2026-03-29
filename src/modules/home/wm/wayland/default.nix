@@ -58,17 +58,17 @@ in
     };
   };
   config = mkIf cfg.enable {
+
+    # also: gsettings?
+    # org.gnome.desktop.wm.preferences button-layout ""
+    # TODO: move to stylix
     # https://github.com/riverwm/river/wiki/Home/74c4da7d3a6fe55856baaa5d8261b95cf568cd85#how-do-i-disable-gtk-decorations-eg-title-bar
+    # https://codeberg.org/river/wiki-classic#how-do-i-disable-gtk-decorations-e-g-title-bar
     stylix.targets.gtk.extraCss = ''
-      /* No (default) titlebar on wayland */
-      headerbar.titlebar.default-decoration {
-        background: transparent;
-        padding: 0;
-        margin: 0 0 -17px 0;
-        border: 0;
-        min-height: 0;
-        font-size: 0;
-        box-shadow: none;
+      headerbar.default-decoration {
+        /* You may need to tweak these values depending on your GTK theme */
+        margin-bottom: 50px;
+        margin-top: -100px;
       }
 
       /* rm -rf window shadows */
@@ -77,13 +77,19 @@ in
         box-shadow: none;
       }
     '';
+    # gtk.gtk3.extraConfig.gtk-dialogs-use-header = false;
+    # gtk.gtk4.extraConfig.gtk-dialogs-use-header = false;
 
     xdg.portal = {
       enable = true;
       # xdgOpenUsePortal = true;
       config = {
         common = {
-          default = [ "gtk" "wlr" "gnome" ];
+          default = [
+            "gtk"
+            "wlr"
+            "gnome"
+          ];
           "org.freedesktop.portal.ScreenCast" = "wlr";
           "org.freedesktop.impl.portal.ScreenCast" = "wlr";
         };
