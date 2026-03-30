@@ -44,7 +44,9 @@ in
       browserpass.enable = true;
     };
     services.pass-secret-service = {
-      enable = true;
+      # FIXME:
+      # enable = true;
+      enable = !config.programs.niri.enable;
       storePath = globals.envVars.PASSWORD_STORE_DIR;
     };
   };

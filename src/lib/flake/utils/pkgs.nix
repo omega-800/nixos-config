@@ -24,8 +24,11 @@ rec {
     ]
     ++ (optionals (!isStable) [
       inputs.rust-overlay.overlays.default
+      inputs.niri.overlays.niri
     ])
-    ++ (optionals isGenericLinux [ (getInput "nixgl" isStable).overlay ]);
+    ++ (optionals isGenericLinux [ 
+      (getInput "nixgl" isStable).overlay 
+    ]);
 
   mkInputs =
     isStable:

@@ -10,5 +10,6 @@
     ./misc
     ./mango
     ./hyprland
+    ./niri
   ];
 }

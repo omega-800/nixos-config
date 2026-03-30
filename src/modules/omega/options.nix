@@ -99,7 +99,7 @@ in
         in
         mkOption {
           type = listOf (enum profiles);
-          default = ["pers"];
+          default = [ "pers" ];
         }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
@@ -117,13 +117,16 @@ in
         ]);
         default = [ ];
       };
-      # FIXME: 
+      # FIXME:
       stationary = mkOption {
         type = bool;
-        default = builtins.any (p: builtins.elem p [
-          "serv"
-          "gaymer"
-        ]) config.c.sys.profile;
+        default = builtins.any (
+          p:
+          builtins.elem p [
+            "serv"
+            "gaymer"
+          ]
+        ) config.c.sys.profile;
       };
       stable = mkOption {
         type = bool;
@@ -233,11 +236,21 @@ in
         default = "catppuccin-mocha";
       };
       wm = mkOption {
-        type = str;
+        type = str
+        #   enum (
+        #   builtins.filter (n: n != "x11" && n != "misc" && n != "wayland") (
+        #     listNixModuleNames (PATHS.M_HOME + /wm)
+        #   )
+        # )
+        ;
         default = if config.c.usr.minimal then "none" else "dwm";
       };
       wmType = mkOption {
-        type = str;
+        type = enum [
+          "none"
+          "x11"
+          "wayland"
+        ];
         default =
           if config.c.usr.minimal then
             "none"
@@ -253,11 +266,7 @@ in
             "wayland";
       };
       term = mkOption {
-        type = enum [
-          "alacritty"
-          "kitty"
-          "st"
-        ];
+        type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
         default = "alacritty";
       }; # Default terminal command
       font = mkOption {
@@ -278,7 +287,12 @@ in
       shell = mkOption {
         # TODO: switch to string
         type = enum (attrValues {
-          inherit (pkgs) bash zsh dash nushell;
+          inherit (pkgs)
+            bash
+            zsh
+            dash
+            nushell
+            ;
         });
         default = pkgs.bash;
       };

@@ -9,5 +9,6 @@
     ./river
     ./wayland
     ./x11
+    ./niri
   ];
 }
