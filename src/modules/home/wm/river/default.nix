@@ -37,10 +37,15 @@ in
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
+        # lswt
+        # rule-add."-app-id"."*" = "ssd";
         rule-add."-app-id" = {
           "'firefox'" = "ssd";
           "'org.pwmt.zathura'" = "ssd";
           "'com.github.xournalpp.xournalpp'" = "ssd";
+          "'chromium-browser'" = "ssd";
+          "'org.pulseaudio.pavucontrol'" = "ssd";
+          "'gimp'" = "ssd";
         };
 
         border-width = 2;

@@ -13,7 +13,6 @@ let
     mkForce
     ;
   cfg = config.u.user.kitty;
-  # nixGL = import ../../nixGL/nixGL.nix { inherit config pkgs; };
   inherit (pkgs) nixGL;
   package = nixGL pkgs.kitty;
 in
@@ -27,7 +26,7 @@ in
     programs.kitty = {
       enable = true;
       inherit package;
-      font.size = mkForce 12;
+      font.size = mkForce 10;
       shellIntegration = {
         mode = "no-sudo no-rc no-cursor";
         enableZshIntegration = true;
