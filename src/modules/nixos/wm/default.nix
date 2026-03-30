@@ -9,5 +9,7 @@
     ./river
     ./wayland
     ./x11
+    # FIXME: y u building
+    # ./niri
   ];
 }

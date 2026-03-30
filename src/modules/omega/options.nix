@@ -236,11 +236,22 @@ in
         default = "catppuccin-mocha";
       };
       wm = mkOption {
-        type = str;
+        type = str
+        # TODO: mapModules filter pred 
+        #   enum (
+        #   builtins.filter (n: n != "x11" && n != "misc" && n != "wayland") (
+        #     listNixModuleNames (PATHS.M_HOME + /wm)
+        #   )
+        # )
+        ;
         default = if config.c.usr.minimal then "none" else "dwm";
       };
       wmType = mkOption {
-        type = str;
+        type = enum [
+          "none"
+          "x11"
+          "wayland"
+        ];
         default =
           if config.c.usr.minimal then
             "none"
@@ -256,11 +267,7 @@ in
             "wayland";
       };
       term = mkOption {
-        type = enum [
-          "alacritty"
-          "kitty"
-          "st"
-        ];
+        type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
         default =
           if (!config.c.usr.extraBloat || config.c.usr.minimal) then
             "st"

@@ -27,7 +27,10 @@ in
       inherit package;
       # huh what is this
       # installVimSyntax = true;
-      settings = {};
+      settings = {
+        # https://github.com/sahaj-b/ghostty-cursor-shaders/blob/main/cursor_warp.glsl
+        custom-shader = "${./cursor_warp.glsl}";
+      };
     };
   };
 }

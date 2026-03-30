@@ -14,6 +14,8 @@
       This needs to be set to the right nixGL package on non-NixOS systems.
     '';
   };
+
+  # TODO: put into flake overlays in pkgs.nix
   config.nixpkgs.overlays = [
     (_: prev: {
       nixGL = import ./nixGL.nix {

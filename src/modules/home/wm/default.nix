@@ -10,5 +10,7 @@
     ./misc
     ./mango
     ./hyprland
+    # FIXME: y u building
+    # ./niri
   ];
 }
