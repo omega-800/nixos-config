@@ -12,17 +12,17 @@ let
 in
 {
   config = mkIf enabled {
-    home.packages = with pkgs; [
-      fira-math
-      typst
-    ];
+    # home.packages = with pkgs; [ typst ];
     programs.nixvim = {
       plugins = {
         lsp.servers = mkIf plugins.lsp.enable {
           tinymist.enable = true;
         };
         none-ls.sources = mkIf plugins.none-ls.enable {
-          formatting.typstyle.enable = true;
+          formatting.typstyle = {
+            enable = true;
+            settings.extra_args = [ "--wrap-text" ];
+          };
         };
       };
     };
