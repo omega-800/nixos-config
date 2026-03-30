@@ -32,6 +32,8 @@
     wildignore = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx";
     path = ".,,**";
 
+    textwidth = 80;
+    wrap = false;
     colorcolumn = "120";
     cursorline = true;
     cursorcolumn = true;
