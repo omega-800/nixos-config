@@ -26,13 +26,31 @@ in
         scroll_right = "l";
         scroll_up = "k";
         scroll_down = "j";
+        zoom_fit = "s";
+        save_image = "S";
+        reload_plus = "Period";
+        reload_minus = "Comma";
+        next_img = [
+          "n"
+          "Right"
+          "space"
+          "J"
+        ];
+        prev_img = [
+          "p"
+          "Left"
+          "BackSpace"
+          "J"
+        ];
         zoom_in = [
-          "K"
           "Up"
+          "KeypadPlus"
+          "Plus"
         ];
         zoom_out = [
-          "J"
           "Down"
+          "KeypadMinus"
+          "Minus"
         ];
       };
     };

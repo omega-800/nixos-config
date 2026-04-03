@@ -64,6 +64,7 @@ in
         }
     )
     {
+      yq = "yq -Pojson";
       klt = "khal list today";
       kltm = "khal list tomorrow";
       nopts = opts "nixos";

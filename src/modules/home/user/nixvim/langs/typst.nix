@@ -5,14 +5,14 @@
   ...
 }:
 let
-  inherit (lib) mkIf optionals;
+  inherit (lib) mkIf;
   inherit (builtins) elem;
   enabled = elem "typst" config.u.user.nixvim.langSupport;
   inherit (config.programs.nixvim) plugins;
 in
 {
   config = mkIf enabled {
-    # home.packages = with pkgs; [ typst ];
+    home.packages = with pkgs; [ typst ];
     programs.nixvim = {
       plugins = {
         lsp.servers = mkIf plugins.lsp.enable {
@@ -21,7 +21,8 @@ in
         none-ls.sources = mkIf plugins.none-ls.enable {
           formatting.typstyle = {
             enable = true;
-            settings.extra_args = [ "--wrap-text" ];
+            # laggy :(
+            # settings.extra_args = [ "--wrap-text" ];
           };
         };
       };

@@ -34,7 +34,7 @@
 
     textwidth = 80;
     wrap = false;
-    colorcolumn = "120";
+    colorcolumn = "80,120";
     cursorline = true;
     cursorcolumn = true;
     autoread = true;

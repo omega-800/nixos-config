@@ -31,6 +31,7 @@ in
       default = usr.wm != "none";
     };
   };
+  # TODO: lemurs?
   config = mkIf cfg.enable {
     services.greetd = {
       enable = true;

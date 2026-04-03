@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types mkMerge;
+  inherit (lib)
+    mkOption
+    mkIf
+    types
+    mkMerge
+    ;
   cfg = config.u.file.yazi;
 in
 {
@@ -46,9 +51,9 @@ in
           };
         };
         indicator.padding = {
-            open = "";
-            close = "";
-          };
+          open = "▐";
+          close = "";
+        };
         tabs = {
           sep_inner = {
             open = "";
