@@ -21,9 +21,9 @@ in
     autoEnable = true;
     integrations.sxhkd.bindings = {
       "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500'';
-      "${modifier} + s ; x ; h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
-      "${modifier} + s ; k ; {c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
-      "${modifier} + r ; g ; p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
+      "${modifier}+s;x;h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
+      "${modifier}+s;k;{c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
+      "${modifier}+r;g;p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
     };
     bindings = {
       "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
@@ -89,7 +89,8 @@ in
           q = "${pkgs.rofi_kill}";
           r = "${pkgs.rofi_cmd}";
           s = "rofi-screenshot";
-          t = "rofi-theme-selector";
+          # t = "rofi-theme-selector";
+          t = "${pkgs.rofi_timer}";
           w = "${rcurmon} -show window";
           y = "passmenu";
         };

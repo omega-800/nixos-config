@@ -27,6 +27,10 @@ in
     default = usr.wm == "niri";
   };
   config = mkIf cfg.enable {
+    services.swhkd = {
+      enable = true;
+      inherit (config.services.sxhkd) keybindings;
+    };
     programs.niri = {
       enable = true;
       package = pkgs.niri-unstable;

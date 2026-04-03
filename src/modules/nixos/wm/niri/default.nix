@@ -25,6 +25,7 @@ in
   };
   config = mkIf cfg.enable {
     niri-flake.cache.enable = true;
+    services.swhkd.enable = true;
     programs.niri = {
       enable = true;
       package = pkgs.niri-unstable;
