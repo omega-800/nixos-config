@@ -9,7 +9,6 @@
     ./less.nix
     ./ripgrep.nix
     ./rofi.nix
-    ./sxhkd.nix
     ./utils.nix
   ];
 }

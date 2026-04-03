@@ -12,7 +12,9 @@ let
   cfg = config.u.wm.x11;
 in
 {
-  imports = [ ./autorandr.nix ];
+  imports = [
+    ./autorandr.nix
+  ];
   options.u.wm.x11 = {
     enable = mkOption {
       type = types.bool;
@@ -31,15 +33,18 @@ in
     xresources.properties = {
       "*term" = usr.term;
     };
-    services.unclutter = {
-      enable = true;
-      threshold = 5;
-      timeout = 2;
-      extraOptions = [
-        "ignore-scrolling"
-        "fork"
-        "start-hidden"
-      ];
+    services = {
+      sxhkd.enable = true;
+      unclutter = {
+        enable = true;
+        threshold = 5;
+        timeout = 2;
+        extraOptions = [
+          "ignore-scrolling"
+          "fork"
+          "start-hidden"
+        ];
+      };
     };
     # FIXME: put startup stuff into generic config to use for all wm's (nm-applet etc.)
     xdg.configFile."X11/xinitrc".text = ''
