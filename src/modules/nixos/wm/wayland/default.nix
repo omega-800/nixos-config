@@ -17,6 +17,7 @@ let
     ;
 in
 {
+  imports = [ ./swhkd.nix ];
   options.m.wm.wayland = {
     enable = mkOption {
       description = "enables wayland";
