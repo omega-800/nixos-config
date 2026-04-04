@@ -32,29 +32,17 @@ in
     };
   };
   config = mkIf cfg.enable {
-    services.greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --time-format '%I:%M %p | %a • %h | %F' --cmd ${cmd}";
-          user = "greeter";
-        };
-      };
-    };
+    users.users.${usr.username}.extraGroups = [ "seat" ];
 
-    environment.systemPackages = with pkgs; [ tuigreet ];
-    # failed attempt at solution below
-    # boot.kernel.sysctl = { "kernel.printk" = "3 3 3 3"; };
-    # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
-    systemd.services.greetd.serviceConfig = {
-      Type = "idle";
-      StandardInput = "tty";
-      StandardOutput = "tty";
-      StandardError = "journal"; # Without this errors will spam on screen
-      # Without these bootlogs will spam on screen
-      TTYReset = true;
-      TTYVHangup = true;
-      TTYVTDisallocate = true;
+    environment.etc."lemurs/wayland/${cmd}".text = ''
+      #!/bin/sh
+
+      exec ${cmd}
+    '';
+
+    services.displayManager.lemurs = {
+      enable = true;
+      # settings = { };
     };
   };
 }

@@ -27,16 +27,15 @@ in
     default = usr.wm == "niri";
   };
   config = mkIf cfg.enable {
-    services.swhkd = {
-      enable = true;
-      inherit (config.services.sxhkd) keybindings;
-    };
+    services.swhkd.enable = true;
     programs.niri = {
       enable = true;
       package = pkgs.niri-unstable;
       settings = {
         spawn-at-startup = [
           { command = [ "noctalia-shell" ]; }
+          # TODO: move to swhkd
+          # { command = [ "swhks & pkexec swhkd" ]; }
         ]
         ++ (map (c: { command = [ c ]; }) config.u.wm.wayland.autoStart);
         workspaces = mk9 (n: {
@@ -139,8 +138,8 @@ in
               "Mod+Return".action.spawn = "kitty";
             }
             // (mk9 (n: {
-              "Mod+${toString n}".action = focus-workspace (toString (10 - n));
-              "Mod+Shift+${toString n}".action.move-column-to-workspace = toString (10 - n);
+              "Mod+${toString n}".action = focus-workspace (toString n);
+              "Mod+Shift+${toString n}".action.move-column-to-workspace = toString n;
             }))
           );
       };
