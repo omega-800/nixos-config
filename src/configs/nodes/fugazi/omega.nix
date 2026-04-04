@@ -25,7 +25,7 @@
       term = "kitty";
       extraBloat = true;
       minimal = false;
-      theme = "weeb";
+      theme = "gruvbox-dark-hard";
       termColors = {
         c1 = "36";
         c2 = "35";

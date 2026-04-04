@@ -24,10 +24,11 @@
       wm = "river";
       shell = pkgs.zsh;
       # shell = pkgs.nushell;
-      term = "st";
-      # term = "kitty";
+      # term = "st";
+      term = "kitty";
       extraBloat = true;
-      theme = "thinkpad";
+      # theme = "thinkpad";
+      theme = "gruvbox-dark-hard";
       termColors = {
         c1 = "31";
         c2 = "95";

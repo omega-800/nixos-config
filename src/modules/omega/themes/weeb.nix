@@ -8,6 +8,11 @@
       sha256 = "sha256-pQpdHWRDbI7iryJSdoopmAz/PprYb1dNO7Ytn+gptSc=";
     }
     {
+      name = "luffy.jpg";
+      url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.sweezy-wallpapers.com%2Fwallpapers%2Fdab033dd-31bb-4c2a-b716-9887fef11e17%2Fone-piece-monkey-d-luffy-art-desktop-wallpaper.jpg&f=1&nofb=1&ipt=9524e9585951e61c5f59087223c176b956eea4f542ddb83c8ed449aca084277d";
+      sha256 = "sha256-XQj2XyoCucwuyEwdCvi+eRJNKyTM5Hew7IzWNT/5LQw=";
+    }
+    {
       name = "sonny_boy.jpg";
       url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F8417411.jpg&f=1&nofb=1&ipt=030d5c44529e262c449f5d1741d4f769529c923c398390968e5510c8e33930f1";
       sha256 = "sha256-p5cV33vJ24PHwGwtaNLELMnslbEi1x2Uoy98gFa52g4=";

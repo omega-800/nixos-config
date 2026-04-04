@@ -31,6 +31,7 @@ in
       default = usr.wm != "none";
     };
   };
+  # TODO: lemurs?
   config = mkIf cfg.enable {
     users.users.${usr.username}.extraGroups = [ "seat" ];
 

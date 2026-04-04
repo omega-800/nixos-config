@@ -237,6 +237,7 @@ in
       };
       wm = mkOption {
         type = str
+        # TODO: mapModules filter pred 
         #   enum (
         #   builtins.filter (n: n != "x11" && n != "misc" && n != "wayland") (
         #     listNixModuleNames (PATHS.M_HOME + /wm)
@@ -267,7 +268,13 @@ in
       };
       term = mkOption {
         type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
-        default = "alacritty";
+        default =
+          if (!config.c.usr.extraBloat || config.c.usr.minimal) then
+            "st"
+          else if config.c.usr.wmType == "wayland" then
+            "kitty"
+          else
+            "alacritty";
       }; # Default terminal command
       font = mkOption {
         type = str;

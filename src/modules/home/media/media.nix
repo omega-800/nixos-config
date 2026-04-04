@@ -68,7 +68,7 @@ in
         pavucontrol
       ])
       ++ (optionals usr.extraBloat [
-        # (nixGL ani-cli)
+        (nixGL ani-cli)
         # schismtracker
         bk
         krita

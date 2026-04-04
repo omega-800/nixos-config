@@ -30,12 +30,16 @@ in
     {
       #system-manager.allowAnyDistro = sys.genericLinux;
       environment = {
-        systemPackages =
-          [
-            pkgs.vim
-            pkgs.curl
-            pkgs.gitMinimal
-          ];
+        etc."issue".text = ''
+
+          [1;35m ~ welcome back ~ [0m
+
+        '';
+        systemPackages = [
+          pkgs.vim
+          pkgs.curl
+          pkgs.gitMinimal
+        ];
       };
 
       services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
