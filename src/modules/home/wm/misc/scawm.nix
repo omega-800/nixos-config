@@ -112,7 +112,7 @@ in
           t = "playerctl loop Track";
           x = "${pkgs.volume_control} mute";
         };
-        stay = {
+        switch = {
           r = {
             name = "pulseaudio";
             switch = {
