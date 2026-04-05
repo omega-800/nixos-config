@@ -29,13 +29,26 @@ in
     swapCaps.enable = mkDisableOption "swapping capslock with backspace; defaults are important, everybody that doesn't think like me should be reinstitutionalized";
   };
   config = mkMerge [
+    (mkIf (cfg.enable && cfg.tablet.enable) {
+      boot = {
+        kernelModules = [ "uinput" ];
+        blacklistedKernelModules = [
+          "wacom"
+          "hid_uclogic"
+        ];
+      };
+      hardware = {
+        opentabletdriver = {
+          enable = true;
+          # TODO: blacklistedKernelModules
+          daemon.enable = true;
+        };
+        uinput.enable = true;
+      };
+      # services.udev.extraRules = "";
+    })
     {
       console.keyMap = sys.kbLayout;
-      hardware.opentabletdriver = mkIf (cfg.enable && cfg.tablet.enable) {
-        enable = true;
-        # TODO: blacklistedKernelModules
-        daemon.enable = true;
-      };
       services = mkIf cfg.enable {
         /*
           keyd = mkIf (!cfg.swapCaps.disable) {

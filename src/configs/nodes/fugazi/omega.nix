@@ -16,16 +16,17 @@
       flavors = [
         "developer"
         "master"
+        "builder"
       ];
     };
     usr = {
       # wm = "mango";
-      wm = "niri";
+      wm = "river";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;
       minimal = false;
-      theme = "gruvbox-dark-hard";
+      theme = "weeb";
       termColors = {
         c1 = "36";
         c2 = "35";

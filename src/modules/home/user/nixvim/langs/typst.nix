@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  sys,
   pkgs,
   ...
 }:
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf optionals;
   inherit (builtins) elem;
   enabled = elem "typst" config.u.user.nixvim.langSupport;
   inherit (config.programs.nixvim) plugins;
@@ -22,7 +23,7 @@ in
           formatting.typstyle = {
             enable = true;
             # laggy :(
-            # settings.extra_args = [ "--wrap-text" ];
+            settings.extra_args = optionals (elem "builder" sys.flavors) [ "--wrap-text" ];
           };
         };
       };

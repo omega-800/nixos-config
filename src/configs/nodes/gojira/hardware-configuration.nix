@@ -48,13 +48,13 @@
     ];
   };
 
-  fileSystems."/store" = {
-    device = "${
-      lib.omega.cfg.getCfgAttr "little-fella" "usr" "username"
-    }@${lib.omega.net.ip4.ipOfHostAsStr "little-fella"}:/store/gojira";
-    fsType = "nfs";
-  };
-  boot.supportedFilesystems = [ "nfs" ];
+  # fileSystems."/store" = {
+  #   device = "${
+  #     lib.omega.cfg.getCfgAttr "little-fella" "usr" "username"
+  #   }@${lib.omega.net.ip4.ipOfHostAsStr "little-fella"}:/store/gojira";
+  #   fsType = "nfs";
+  # };
+  # boot.supportedFilesystems = [ "nfs" ];
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/819829be-ed1b-4ec0-a236-02bf0b4729b9"; }

@@ -8,7 +8,7 @@
     net.vpn = {
       forti.enable = true;
       wg.enable = true;
-      mullvad.enable = true;
+      mullvad.enable = false;
     };
     fs.thunar.enable = true;
     dev = {

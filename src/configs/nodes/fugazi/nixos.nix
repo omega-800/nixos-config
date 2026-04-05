@@ -4,6 +4,16 @@
     ./hardware-configuration.nix
   ];
 
+  m.hw.io = {
+    enable = true;
+    tablet.enable = true;
+  };
+  # TODO: change
+  services.udev.extraRules = ''
+    KERNEL=="hid*", ATTRS{idVendor}=="256c", MODE="0666"
+    KERNEL=="input", ATTRS{idVendor}=="256c", MODE="0666"
+  '';
+
   # TODO: implement for all
   programs.firejail.enable = true;
   # TODO: figure out why this doesn't do jack

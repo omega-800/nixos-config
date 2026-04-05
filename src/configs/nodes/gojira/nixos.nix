@@ -4,7 +4,7 @@
 
   m = {
     os.boot.mode = "uefi";
-    net.iface = "enp0s31f6";
+    # net.iface = "enp0s31f6";
     dev.docker.enable = false;
     srv = {
       nextcloud.enable = false;

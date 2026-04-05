@@ -14,7 +14,7 @@ let
     types
     ;
   cfg = config.u.wm.niri;
-  mk9 = f: lib.mergeAttrsList (lib.genList (n: f (n + 1)) 9);
+  mk9 = f: lib.mergeAttrsList (lib.genList (n: f (toString (n + 1))) 9);
 in
 {
   imports = [
@@ -34,12 +34,10 @@ in
       settings = {
         spawn-at-startup = [
           { command = [ "noctalia-shell" ]; }
-          # TODO: move to swhkd
-          # { command = [ "swhks & pkexec swhkd" ]; }
         ]
         ++ (map (c: { command = [ c ]; }) config.u.wm.wayland.autoStart);
         workspaces = mk9 (n: {
-          ${toString n} = { };
+          ${n} = { };
         });
         prefer-no-csd = true;
         hotkey-overlay.skip-at-startup = true;
@@ -138,8 +136,8 @@ in
               "Mod+Return".action.spawn = "kitty";
             }
             // (mk9 (n: {
-              "Mod+${toString n}".action = focus-workspace (toString n);
-              "Mod+Shift+${toString n}".action.move-column-to-workspace = toString n;
+              "Mod+${n}".action = focus-workspace n;
+              "Mod+Shift+${n}".action.move-column-to-workspace = n;
             }))
           );
       };

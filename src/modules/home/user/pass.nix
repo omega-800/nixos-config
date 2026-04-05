@@ -45,8 +45,8 @@ in
     };
     services.pass-secret-service = {
       # FIXME:
-      enable = true;
-      # enable = !config.programs.niri.enable;
+      # enable = true;
+      enable = !config.programs.niri.enable;
       storePath = globals.envVars.PASSWORD_STORE_DIR;
     };
   };
