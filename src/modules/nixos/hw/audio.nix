@@ -28,10 +28,10 @@ in
         }
     ))
     {
-      environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
+      # environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
-      security.rtkit.enable = cfg.pipewire;
+      # security.rtkit.enable = cfg.pipewire;
 
       services = {
         pipewire =
@@ -41,7 +41,33 @@ in
               alsa.enable = true;
               alsa.support32Bit = true;
               pulse.enable = true;
-              jack.enable = true;
+              jack.enable = false;
+              wireplumber = {
+                enable = true;
+                extraConfig = {
+                  "20-bluez" = {
+                    "monitor.bluez.properties" = {
+                      "bluez5.roles" = [
+                        "a2dp_sink"
+                        "a2dp_source"
+                        "hfp_hf"
+                        "hfp_ag"
+                      ];
+                      "bluez5.codecs" = [ "sbc" ];
+                    };
+                  };
+                };
+                configPackages = [
+                  (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-bluez.conf" ''
+                    monitor.bluez.properties = {
+                      bluez5.roles = [ a2dp_sink a2dp_source bap_sink bap_source hsp_hs hsp_ag hfp_hf hfp_ag ]
+                      bluez5.codecs = [ sbc sbc_xq aac ]
+                      bluez5.enable-sbc-xq = true
+                      bluez5.hfphsp-backend = "native"
+                    }
+                  '')
+                ];
+              };
             }
           else
             {
@@ -52,28 +78,54 @@ in
     (mkIf cfg.bluetooth {
       hardware.bluetooth = {
         enable = true;
+        settings = {
+          General = {
+            ControllerMode = "dual";
+            Experimental = true;
+            FastConnectable = true;
+          };
+          Policy = {
+            AutoEnable = true;
+          };
+
+          #   General = {
+          #   Enable = "Source,Sink,Media,Socket,Headset";
+          # };
+        };
         # enables showing battery charge of devices
-        settings = lib.mkIf (!sys.paranoid) { General.Experimental = true; };
+        # settings = lib.mkIf (!sys.paranoid) { General.Experimental = true; };
+      };
+      services.pulseaudio = {
+        package = pkgs.pulseaudioFull;
+        configFile = pkgs.writeText "default.pa" ''
+          load-module module-bluetooth-policy
+          load-module module-bluetooth-discover
+          ## module fails to load with 
+          ##   module-bluez5-device.c: Failed to get device path from module arguments
+          ##   module.c: Failed to load module "module-bluez5-device" (argument: ""): initialization failed.
+          # load-module module-bluez5-device
+          # load-module module-bluez5-discover
+        '';
       };
       # hardware.pulseaudio.enable = true;
       # services.blueman.enable = true;
       # enables using headset buttons to control media player
-      systemd.user.services.mpris-proxy = lib.mkIf (!sys.paranoid) {
-        description = "Mpris proxy";
-        after = [
-          "network.target"
-          "sound.target"
-        ];
-        wantedBy = [ "default.target" ];
-        serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-      };
+      # systemd.user.services.mpris-proxy = lib.mkIf (!sys.paranoid) {
+      #   description = "Mpris proxy";
+      #   after = [
+      #     "network.target"
+      #     "sound.target"
+      #   ];
+      #   wantedBy = [ "default.target" ];
+      #   serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+      # };
 
-      environment.persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
-        "/nix/persist".directories = [
-          "/var/lib/bluetooth"
-          "/etc/bluetooth"
-        ];
-      };
+      # environment.persistence = lib.mkIf config.m.fs.disko.root.impermanence.enable {
+      #   "/nix/persist".directories = [
+      #     "/var/lib/bluetooth"
+      #     "/etc/bluetooth"
+      #   ];
+      # };
     })
     # (mkIf (!cfg.bluetooth && sys.hardened) {
     #   hardware.bluetooth.enable = false;

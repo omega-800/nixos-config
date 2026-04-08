@@ -51,6 +51,7 @@ let
     "9" = [
       { class = "Spotify"; }
       { title = "ncmpcpp"; }
+      # TOOD: pwvucontrol
       { class = "pavucontrol"; }
     ];
     "0" = [ ];
@@ -82,6 +83,7 @@ in {
     "9" = [
       { class = "Spotify"; }
       { title = "ncmpcpp"; }
+      # TOOD: pwvucontrol
       { class = "pavucontrol"; }
     ];
     "0" = [ ];

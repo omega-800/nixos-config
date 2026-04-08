@@ -1,23 +1,66 @@
-{ lib, ... }:
+{
+  lib,
+  pkgs,
+  usr,
+  ...
+}:
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  m.hw.io = {
-    enable = true;
-    tablet.enable = true;
+  m.hw = {
+    audio.pipewire = false;
+    io = {
+      enable = true;
+      tablet.enable = true;
+    };
   };
+
   # TODO: change
+  # KERNEL=="hid*", ATTRS{idVendor}=="256c", MODE="0666"
+  # KERNEL=="input", ATTRS{idVendor}=="256c", MODE="0666"
   services.udev.extraRules = ''
-    KERNEL=="hid*", ATTRS{idVendor}=="256c", MODE="0666"
-    KERNEL=="input", ATTRS{idVendor}=="256c", MODE="0666"
+        # this is so fucking sketchy
+        KERNEL=="*", MODE="0777"
+
+        # KERNEL=="*", ATTRS{idVendor}=="256c", MODE="0777", GROUP="input"
+        # KERNEL=="uinput", MODE="0777", GROUP="input"
+
+    # ensure uinput device is accessible
+    # KERNEL=="uinput", MODE="0660", GROUP="input"
+
+    # Huion H320M vendor id 256c — set device node to input group
+    # ATTRS{idVendor}=="256c", MODE="0660", GROUP="input"
   '';
+  # systemd.user.services.opentabletdriver = {
+  # serviceConfig = {
+  # User = "otd";
+  # Group = "input";
+  # ProtectSystem = "no";
+  # ProtectHome = "no";
+  # PrivateDevices = false;
+  # DeviceAllow = "/dev/uinput rwm";
+  #     };
+  #
+  #   };
+  # users.users.${usr.username}.extraGroups = [ "input" ];
+  # users = {
+  #   groups.otd = {};
+  #   extraUsers.otd = { isSystemUser = true; group = "otd"; extraGroups = [ "input" ]; };
+  # };
+
+  # ACTION!="add|remove|bind", GOTO="huion_switcher_end"
+  # ATTRS{idVendor}=="256c", IMPORT{program}="${lib.getExe pkgs.huion-switcher} %S%p"
+  # ATTRS{idVendor}=="256c", ENV{HID_UNIQ}=="", ENV{HUION_FIRMWARE_ID}!="", ENV{HID_UNIQ}="$env{HUION_FIRMWARE_ID}"
+  # ATTRS{idVendor}=="256c", ENV{UNIQ}=="", ENV{HUION_FIRMWARE_ID}!="", ENV{UNIQ}="$env{HUION_FIRMWARE_ID}"
+  # LABEL="huion_switcher_end"
 
   # TODO: implement for all
   programs.firejail.enable = true;
-  # TODO: figure out why this doesn't do jack
   boot = {
+    kernelModules = [ "btusb" ];
+    # TODO: figure out why this doesn't do jack
     kernelParams = [ "kernel.unprivileged_userns_clone=1" ];
     # huh
     kernel.sysctl."kernel.unprivileged_userns_clone" = lib.mkForce "1";
@@ -50,7 +93,8 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
-    bluetooth.settings.General.ControllerMode = "bredr";
+    enableAllFirmware = true;
+    # bluetooth.settings.General.ControllerMode = "bredr";
     nvidia = {
       open = false;
       nvidiaSettings = true;

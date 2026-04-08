@@ -32,16 +32,11 @@ in
     (mkIf (cfg.enable && cfg.tablet.enable) {
       boot = {
         kernelModules = [ "uinput" ];
-        blacklistedKernelModules = [
-          "wacom"
-          "hid_uclogic"
-        ];
       };
       hardware = {
         opentabletdriver = {
           enable = true;
-          # TODO: blacklistedKernelModules
-          daemon.enable = true;
+          # daemon.enable = false;
         };
         uinput.enable = true;
       };

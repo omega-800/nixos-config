@@ -65,7 +65,7 @@ in
         bluez
         bluez-tools
         adbfs-rootless
-        pavucontrol
+        pwvucontrol
       ])
       ++ (optionals usr.extraBloat [
         (nixGL ani-cli)

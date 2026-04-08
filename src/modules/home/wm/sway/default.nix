@@ -140,7 +140,7 @@ in
         floating = {
           border = 2;
           criteria = [
-            # am i stupid or should this not enforce floating behavior?
+            # TOOD: pwvucontrol
             { class = "Pavucontrol"; }
             { class = "Gpick"; }
           ];

@@ -44,6 +44,7 @@ in
           "'org.pwmt.zathura'" = "ssd";
           "'com.github.xournalpp.xournalpp'" = "ssd";
           "'chromium-browser'" = "ssd";
+          # TOOD: pwvucontrol
           "'org.pulseaudio.pavucontrol'" = "ssd";
           "'gimp'" = "ssd";
         };

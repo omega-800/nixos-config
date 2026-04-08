@@ -28,8 +28,8 @@ in
         scroll_down = "j";
         zoom_fit = "s";
         save_image = "S";
-        reload_plus = "Period";
-        reload_minus = "Comma";
+        reload_plus = "period";
+        reload_minus = "comma";
         next_img = [
           "n"
           "Right"
@@ -44,13 +44,13 @@ in
         ];
         zoom_in = [
           "Up"
-          "KeypadPlus"
-          "Plus"
+          "KP_Add"
+          "plus"
         ];
         zoom_out = [
           "Down"
-          "KeypadMinus"
-          "Minus"
+          "KP_Subtract"
+          "minus"
         ];
       };
     };
