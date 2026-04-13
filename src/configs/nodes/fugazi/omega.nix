@@ -21,7 +21,7 @@
     };
     usr = {
       # wm = "mango";
-      wm = "river";
+      wm = "niri";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;

@@ -10,6 +10,11 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-w520
     ./hardware-configuration.nix
   ];
+# pactl set-card-profile alsa_card.pci-0000_00_1b.0 output:analog-stereo
+  # TODO: pipewire-pulse.conf
+# context.properties = {
+#     default.card.profile = "output:analog-stereo"
+# }
   m = {
     /*
         fs.disko = {
