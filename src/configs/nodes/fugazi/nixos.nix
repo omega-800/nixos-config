@@ -59,7 +59,6 @@
   # TODO: implement for all
   programs.firejail.enable = true;
   boot = {
-    kernelModules = [ "btusb" ];
     # TODO: figure out why this doesn't do jack
     kernelParams = [ "kernel.unprivileged_userns_clone=1" ];
     # huh
