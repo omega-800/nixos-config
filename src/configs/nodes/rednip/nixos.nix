@@ -10,6 +10,18 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-w520
     ./hardware-configuration.nix
   ];
+
+  # hardware = {
+  #   enableAllFirmware = true;
+  #   enableRedistributableFirmware = true;
+  #   bluetooth.powerOnBoot = lib.mkForce true;
+  # };
+
+# pactl set-card-profile alsa_card.pci-0000_00_1b.0 output:analog-stereo
+  # TODO: pipewire-pulse.conf
+# context.properties = {
+#     default.card.profile = "output:analog-stereo"
+# }
   m = {
     /*
         fs.disko = {
@@ -27,9 +39,9 @@
       printing.enable = false;
       miracast.enable = true;
     };
+    hw.audio.pipewire = true;
   };
   services.xserver = {
-    # modules = [ config.boot.kernelPackages.nvidia_x11_legacy390 ];
     videoDrivers = [
       "nvidia"
       "intel"
@@ -73,13 +85,6 @@
           settingsSha256 = "sha256-BXQMXKybl9mmsp+Y+ht1RjZqnn/H3hZfyGcKIGurxrI=";
           persistencedSha256 = "sha256-/ZvAsvTjjiM/U3gn0DbxUguC3VvHbopyQ3u6+RYkzKk=";
         }
-
-      # (import (builtins.fetchGit {
-      #   name = "nixos-unstable-25.11-nvidia";
-      #   url = "https://github.com/nixos/nixpkgs/";
-      #   ref = "refs/head/nixos-unstable";
-      #   rev = "0b758f8d8e7983c6bc5e53f9796a571e01848d03";
-      # }))
 
       # .overrideAttrs (_: {
       #   postFixup = ''
