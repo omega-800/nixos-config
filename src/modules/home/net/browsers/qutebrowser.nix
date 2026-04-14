@@ -217,6 +217,7 @@ in
       quickmarks = {
         y = "https://www.youtube.com";
         osm = "https://www.openstreetmap.org";
+        rwg = "https://www.ridewithgps.com/routes/new";
         r = "https://www.reddit.com";
         g = "https://github.com";
         gl = "https://gitlab.com";

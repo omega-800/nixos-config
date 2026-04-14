@@ -31,7 +31,7 @@ in
       # environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
 
       # rtkit is optional but recommended
-      # security.rtkit.enable = cfg.pipewire;
+      security.rtkit.enable = true;
 
       services = {
         pipewire =

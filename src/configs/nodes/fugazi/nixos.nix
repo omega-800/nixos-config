@@ -10,7 +10,7 @@
   ];
 
   m.hw = {
-    audio.pipewire = false;
+    # audio.pipewire = false;
     io = {
       enable = true;
       tablet.enable = true;
@@ -94,7 +94,6 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
     enableAllFirmware = true;
-    # bluetooth.settings.General.ControllerMode = "bredr";
     nvidia = {
       open = false;
       nvidiaSettings = true;
