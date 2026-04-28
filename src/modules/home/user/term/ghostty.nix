@@ -28,6 +28,12 @@ in
       # huh what is this
       # installVimSyntax = true;
       settings = {
+        window-decoration = false;
+        keybind = [
+          "ctrl+plus=increase_font_size:5"
+          "ctrl+-=decrease_font_size:5"
+          "ctrl+0=reset_font_size"
+        ];
         # https://github.com/sahaj-b/ghostty-cursor-shaders/blob/main/cursor_warp.glsl
         custom-shader = "${./cursor_warp.glsl}";
       };

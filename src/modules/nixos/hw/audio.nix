@@ -28,7 +28,7 @@ in
         }
     )
     {
-      security.rtkit.enable = cfg.pipewire;
+      security.rtkit.enable = true;
 
       services = {
         pipewire =
