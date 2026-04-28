@@ -114,7 +114,7 @@ in
                       # scan-rand-mac-address = "no";
                       # cloned-mac-address = "random";
                     };
-                    # "802-11-wireless-security".psk = "$PSK_${lib.toUpper id}";
+                    "802-11-wireless-security".psk = "$PSK_${lib.toUpper id}";
                     wifi-security = {
                       auth-alg = "open";
                       key-mgmt = "wpa-psk";

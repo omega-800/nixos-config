@@ -2,6 +2,7 @@
 {
   #  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
   u.user.nixvim.langSupport = [
+    "c"
     "typst"
     "java"
     "yaml"
