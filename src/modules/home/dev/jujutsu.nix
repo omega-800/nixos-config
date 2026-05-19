@@ -15,8 +15,22 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.jujutsu = {
-      enable = true;
+    programs = {
+      jujutsu = {
+        enable = true;
+        settings = {
+          ui.default-command = "log";
+          user = {
+            name = usr.devName;
+            email = usr.devEmail;
+          };
+          init.defaultBranch = "main";
+        };
+      };
+      delta = {
+        enable = true;
+        enableJujutsuIntegration = true;
+      };
     };
   };
 }

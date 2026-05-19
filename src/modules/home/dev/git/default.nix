@@ -166,14 +166,18 @@ in
         attributes = [ ];
       };
 
-      diff-so-fancy = {
+      delta = {
         enable = true;
         enableGitIntegration = true;
-        settings = {
-          changeHunkIndicators = true;
-          markEmptyLines = true;
-        };
       };
+      # diff-so-fancy = {
+      #   enable = true;
+      #   enableGitIntegration = true;
+      #   settings = {
+      #     changeHunkIndicators = true;
+      #     markEmptyLines = true;
+      #   };
+      # };
     };
   };
 }

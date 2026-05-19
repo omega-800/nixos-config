@@ -2,7 +2,6 @@
   inputs,
   config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -13,6 +12,7 @@
 
 boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 nix.settings.extra-platforms = [ "aarch64-linux" "arm-linux" ];
+  networking.extraHosts = "127.0.0.1 nextcloud.lan";
 
   # hardware = {
   #   enableAllFirmware = true;

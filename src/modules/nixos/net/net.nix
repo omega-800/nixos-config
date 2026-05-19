@@ -111,7 +111,7 @@ in
                     wifi = {
                       mode = "infrastructure";
                       ssid = id;
-                      # scan-rand-mac-address = "no";
+                      scan-rand-mac-address = "no";
                       # cloned-mac-address = "random";
                     };
                     "802-11-wireless-security".psk = "$PSK_${lib.toUpper id}";
@@ -187,7 +187,6 @@ in
           inherit (net) domain;
           hostName = net.hostname;
           extraHosts = ''
-            127.0.0.1 local.sendy.inteco.ch
             ${concatStringsSep "\n" (
               map (c: "${(ipFromCfg c.net).address} ${c.net.hostname}.${c.net.domain}") (
                 filterCfgs (c: c.net.network != "dynamic")
