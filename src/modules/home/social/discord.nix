@@ -29,7 +29,7 @@ in
             enable = true;
             anonymiseByDefault = true;
           };
-          ctrlEnterSend.enable = true;
+          # ctrlEnterSend.enable = true;
           ignoreActivities = {
             enable = true;
             ignorePlaying = true;

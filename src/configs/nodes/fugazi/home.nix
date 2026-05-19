@@ -34,7 +34,7 @@
     ];
   };
   home.packages = with pkgs; [
-    superTuxKart
-    superTux
+    supertuxkart
+    supertux
   ];
 }

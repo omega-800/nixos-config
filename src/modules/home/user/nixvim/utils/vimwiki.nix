@@ -27,7 +27,6 @@
       let g:vimwiki_table_auto_fmt=0
     '';
     plugins = {
-      cmp-vimwiki-tags.enable = true;
       vimwiki = {
         enable = true;
         settings = {
