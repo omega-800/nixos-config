@@ -25,7 +25,7 @@ in
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
           forwardAgent = false;
           # addKeysToAgent = "confirm";
@@ -64,6 +64,10 @@ in
           // v
         )
         {
+          gh = {
+            hostname = "github.com";
+            identityFile = "~/.ssh/id_ed25519";
+          };
           oss-gl = {
             hostname = "gitlab.com";
             identityFile = "~/.ssh/gitlab";
