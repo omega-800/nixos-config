@@ -2,6 +2,7 @@
   lib,
   sys,
   pkgs,
+  config,
   ...
 }:
 let
@@ -24,7 +25,12 @@ in
           enable = true;
           nixvimInjections = true;
           folding.enable = false;
-          grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+          # grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+          # FIXME: TODO: 
+          grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
+            bash
+            nix
+          ];
         }
         (if sys.stable then { } else { settings.indent.enable = true; })
       ];
