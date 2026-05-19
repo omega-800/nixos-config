@@ -28,6 +28,7 @@ in
     home.sessionVariables = mkIf (usr.wmType == "wayland") { MOZ_ENABLE_WAYLAND = 1; };
     programs.firefox = {
       enable = true;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
       #package = pkgs.librewolf;
       #package = pkgs.firefox-devedition-unwrapped;
       policies = {

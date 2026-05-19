@@ -17,6 +17,11 @@
     };
   };
 
+  # FIXME: 2aa8ca3
+  m.sw.steam.enable = lib.mkForce false;
+
+  networking.extraHosts = "127.0.0.1 nextcloud.lan";
+
   # TODO: change
   # KERNEL=="hid*", ATTRS{idVendor}=="256c", MODE="0666"
   # KERNEL=="input", ATTRS{idVendor}=="256c", MODE="0666"

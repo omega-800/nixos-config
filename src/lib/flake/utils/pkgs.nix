@@ -20,7 +20,6 @@ rec {
     [
       (_: _: inputs.self.packages.${system})
       (getInput "nur" isStable).overlays.default
-      # (getInput "openconnect-sso" isStable).overlay
     ]
     ++ (optionals (!isStable) [
       inputs.rust-overlay.overlays.default

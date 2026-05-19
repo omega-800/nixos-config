@@ -41,6 +41,7 @@ in
           pkgs.gitMinimal
         ];
       };
+      sops.secrets."nixaccesstokens".mode = "0440";
 
       services = lib.mkIf (!sys.stable) { gnome.gnome-keyring.enable = true; };
       nix = {
@@ -65,11 +66,14 @@ in
           # "repl=${toString ./.}/repl.nix"
           # "/nix/var/nix/profiles/per-user/root/channels"
         ];
-        #extraOptions = "experimental-features = nix-command flakes";
+        extraOptions = ''
+          !include ${config.sops.secrets.nixaccesstokens.path}
+        '';
         settings = {
           keep-outputs = elem "developer" sys.flavors; # Nice for developers
           keep-derivations = elem "developer" sys.flavors; # Idem
           substitute = "true";
+          access-tokens = [ ];
           extra-substituters = [
             "https://cache.nixos.org"
             "https://crane.cachix.org"

@@ -23,6 +23,7 @@ in
           u.wm.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
         })
         {
+          gtk.gtk4.theme = null; # config.gtk.theme;
           fonts.fontconfig.enable = true;
           home = {
             packages =
@@ -82,7 +83,6 @@ in
                 enable = true;
               };
               waybar.enable = true;
-              wezterm.enable = true;
               # xresources.enable = true; TODO: disable?
               dunst.enable = true;
               fzf.enable = true;
