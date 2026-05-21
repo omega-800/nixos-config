@@ -44,7 +44,8 @@ in
           antivirus.enable = true;
           # nixos.enable = true;
           # privilege.enable = true;
-          random.enable = true;
+          # FIXME: segfault
+          random.enable = false;
           update.enable = true;
         };
         # hw.bluetooth.enable = sys.profile != "serv";
