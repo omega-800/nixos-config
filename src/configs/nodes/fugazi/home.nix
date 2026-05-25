@@ -18,6 +18,8 @@
       "typst"
       "zig"
       "http"
+      # "tidal"
+      "strudel"
       # "yaml"
       # "css"
       # "dart"

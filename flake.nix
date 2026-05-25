@@ -226,6 +226,14 @@
       url = "github:omega-800/dwm";
       flake = false;
     };
+nvim-strudel-unstable = {
+  url = "github:Goshujinsama/nvim-strudel";
+  inputs.nixpkgs.follows = "nixpkgs-unstable";
+};
+nvim-strudel-stable = {
+  url = "github:Goshujinsama/nvim-strudel";
+  inputs.nixpkgs.follows = "nixpkgs-stable";
+};
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
       inputs = {
