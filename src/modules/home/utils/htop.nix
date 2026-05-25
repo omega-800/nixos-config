@@ -47,6 +47,7 @@ in
             (bar "AllCPUs2")
             (bar "Memory")
             (bar "Swap")
+            (bar "GPU")
             (text "Zram")
           ]
         )
@@ -57,6 +58,8 @@ in
             (text "LoadAverage")
             (text "Uptime")
             (text "Systemd")
+            (text "Net")
+            (text "Dsk")
           ]
         );
     };

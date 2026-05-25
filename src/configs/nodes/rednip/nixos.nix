@@ -103,12 +103,20 @@ nix.settings.extra-platforms = [ "aarch64-linux" "arm-linux" ];
         # enable = true;
         finegrained = false;
       };
-      prime = {
-        sync.enable = true;
-        allowExternalGpu = true;
-        intelBusId = "PCI:0@0:2:0";
-        nvidiaBusId = "PCI:1@0:0:0";
-      };
+      # prime = {
+      #   sync.enable = true;
+      #   allowExternalGpu = true;
+      #   intelBusId = "PCI:0@0:2:0";
+      #   nvidiaBusId = "PCI:1@0:0:0";
+      # };
+      # dbus-implementation : dbus -> broker
+      # services.dbus.implementation = "dbus";
+forceFullCompositionPipeline = true;
+      # lshw -C display
+      # lspci | grep -i vga
+      # lsmod | grep -i nvidia
+      # dmesg | grep -i firmware
+      # wlr-randr
     };
   };
   nixpkgs.config = {

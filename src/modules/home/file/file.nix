@@ -37,6 +37,7 @@ in
         nix-tree
         nix-du
         graphviz
+        nix-sweep
       ]);
     xdg.configFile."gdu/gdu.yaml" = {
       enable = true;

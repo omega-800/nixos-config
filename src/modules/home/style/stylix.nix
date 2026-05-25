@@ -65,7 +65,9 @@ in
               kde.enable = true;
               yazi.enable = true;
               kitty.enable = true;
-              gtk.enable = true;
+              # FIXME: recompilation
+              gtk.enable = false;
+              gtksourceview.enable = false;
               rofi.enable = true;
               feh.enable = true;
               sxiv.enable = false;

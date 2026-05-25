@@ -68,10 +68,6 @@ in
   config = mkIf cfg.enable {
     services.xserver = {
       enable = true;
-      xkb = {
-        layout = "ch";
-        variant = "de";
-      };
       excludePackages = [ pkgs.xterm ];
       displayManager.startx.enable = true;
       xautolock = {

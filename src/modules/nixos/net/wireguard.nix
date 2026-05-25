@@ -98,7 +98,7 @@ in
       map
         (sh: {
           "${sh}".shellAliases =
-            flatMapToAttrs (
+            (flatMapToAttrs 
               (action: [
                 {
                   "wg-${i.name}-${action}" = "sudo systemctl ${action} wg-quick-${i.name}.service";
@@ -114,8 +114,8 @@ in
                 uexec = "sudo -E ip netns exec ${i.name} sudo -E -u \\#$(id -u) -g \\#$(id -g)";
               in
               {
-                "wg-ns-${i.name}" = uexec;
-                "wg-sh-${i.name}" = "${uexec} $SHELL";
+                "wg-${i.name}-ns" = uexec;
+                "wg-${i.name}-sh" = "${uexec} $SHELL";
               }
             );
         })

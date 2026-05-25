@@ -64,6 +64,8 @@ in
         }
     )
     {
+      nix-build = "nix-build --no-out-link";
+      nix-stray-roots = "nix-store --gc --print-roots | grep -vE '(/proc|/nix/var|/run/\\w+-system/\\{memory|\\{temp)'";
       yq = "yq -Pojson";
       klt = "khal list today";
       kltm = "khal list tomorrow";
