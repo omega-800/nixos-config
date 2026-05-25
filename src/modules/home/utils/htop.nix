@@ -58,6 +58,7 @@ in
             (text "LoadAverage")
             (text "Uptime")
             (text "Systemd")
+            # TODO: figure out correct names
             (text "Net")
             (text "Dsk")
           ]

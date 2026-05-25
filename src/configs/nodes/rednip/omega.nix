@@ -21,7 +21,7 @@
     };
     usr = {
       devEmail = "georgiy.shevoroshkin@ost.ch";
-      wm = "niri";
+      wm = "river";
       shell = pkgs.zsh;
       # shell = pkgs.nushell;
       # term = "st";

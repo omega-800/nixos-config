@@ -18,6 +18,7 @@
           base16Scheme = globals.styling.colors;
           opacity.terminal = 0.85;
           targets = {
+            gtksourceview.enable = false;
             grub = {
               enable = true;
               useWallpaper = true;
