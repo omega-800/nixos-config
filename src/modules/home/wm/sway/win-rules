@@ -45,6 +45,7 @@ for_window {
 	[title="(?:Open|Save) (?:File|Folder|As)" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $popup
 	[title="^(File|Folder)\s*Already Exists\s*—\s*" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $popup
 	[title="Confirm to replace files" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $popup
+  # TOOD: pwvucontrol
 	[app_id="pavucontrol"] $popup
 	[class="gpick"] $popup
 	[app_id="qtalarm"] $popup

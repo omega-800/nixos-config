@@ -8,21 +8,34 @@ let
     mapHostConfigs
     CONFIGS
     ;
-in
-rec {
-
+  inherit (inputs.nixpkgs-unstable.lib) mkMerge sublist;
   mkHost =
     hostname:
     let
       cfg = mkCfg hostname;
+      # defProfile = builtins.elemAt cfg.sys.profile 0;
+      # rest = sublist 1 (builtins.length cfg.sys.profile) cfg.sys.profile;
+      # what the actual fuck did i do here
+      # mkSpecCfg = profile: mkMerge [cfg { sys = { inherit profile; }; }];
     in
     (getPkgsInput cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
+      # FIXME: overlays
       specialArgs = mkArgs cfg;
-      modules = mkModules cfg CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
+      modules = (mkModules cfg CONFIGS.nixosConfigurations)
+      /*
+        ++ (map (profile: {
+          specialisation.${profile}.imports = mkModules (mkSpecCfg profile) CONFIGS.nixosConfigurations;
+        }) rest)
+      */
+      ;
+      # mkModules cfg CONFIGS.nixosConfigurations; # ++ (map (service: ../../sys/srv/${service}.nix) cfg.sys.services);
     };
+in
+{
+  inherit mkHost;
 
-  mapHosts = (mapHostConfigs CONFIGS.nixosConfigurations mkHost)
+  mapHosts = mapHostConfigs CONFIGS.nixosConfigurations mkHost
   # // (mapAttrs' (n: v: nameValuePair "${n}-iso" v)
   #   (mapHostConfigs dir CONFIGS.nixosConfigurations
   #     (path: mkIso path attrs)))

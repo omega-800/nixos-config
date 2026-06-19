@@ -9,7 +9,6 @@
 }:
 let
   cfg = config.u.wm.dwm;
-  dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh;
   inherit (lib)
     mkOption
     mkIf
@@ -23,13 +22,10 @@ in
     default = usr.wm == "dwm";
   };
   config = mkIf cfg.enable {
-    xresources.properties = {
-      "*term" = usr.term;
-    };
     u = {
       user.st.enable = mkDefault true;
       wm.x11.initExtra = ''
-        ${dwm_stats} &
+        ${pkgs.dwm_stats} &
         exec dbus-launch dwm
         # exec dwm
       '';

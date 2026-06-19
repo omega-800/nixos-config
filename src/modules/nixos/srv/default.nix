@@ -9,8 +9,9 @@
     ./http.nix
     ./keycloak.nix
     ./nextcloud.nix
-    ./syncthing.nix
+    ./postfix.nix
     ./prometheus.nix
+    ./syncthing.nix
     ./wiki-js.nix
   ];
 }

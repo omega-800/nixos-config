@@ -2,12 +2,13 @@
   imports = [
     ./dm
     ./dwm
-    ./hyprland
     ./qtile
+    ./mango
+    ./hyprland
     ./sway
     ./river
     ./wayland
     ./x11
-    ./xmonad
+    ./niri
   ];
 }

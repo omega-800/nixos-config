@@ -1,41 +1,34 @@
 {
-  lib,
-  pkgs,
-  inputs,
   usr,
+  inputs,
   globals,
   ...
 }:
 {
-  #imports = if usr.style then [ inputs.stylix.nixosModules.stylix ] else [ ];
+  imports =  [ inputs.stylix.nixosModules.stylix ];
   config =
     if !usr.style then
       { }
     else
       {
-        # stylix = {
-        #   inherit (globals.styling) base16Scheme cursor polarity image fonts;
-        #   autoEnable = false;
-        #   opacity.terminal = 0.85;
-        #   targets = {
-        #     # lightdm.enable = true;
-        #     console.enable = true;
-        #     # feh.enable = true;
-        #     gnome.enable = false;
-        #     # gtk.enable = true;
-        #     # nixos-icons.enable = true;
-        #     chromium.enable = false;
-        #     nixvim.enable = true;
-        #     grub = {
-        #       enable = true;
-        #       # useImage = true;
-        #     };
-        #     # plymouth = {
-        #     #   enable = true;
-        #     #   logo = globals.styling.image;
-        #     #   logoAnimated = true;
-        #     # };
-        #   };
-        # };
+        stylix = {
+          inherit (globals.styling) cursor polarity image fonts icons;
+          enable = true;
+          autoEnable = true;
+          base16Scheme = globals.styling.colors;
+          opacity.terminal = 0.85;
+          targets = {
+            gtksourceview.enable = false;
+            grub = {
+              enable = true;
+              useWallpaper = true;
+            };
+            plymouth = {
+              enable = true;
+              logo = globals.styling.image;
+              logoAnimated = true;
+            };
+          };
+        };
       };
 }

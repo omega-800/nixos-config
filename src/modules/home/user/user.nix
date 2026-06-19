@@ -1,5 +1,6 @@
 {
   usr,
+  sys,
   lib,
   config,
   pkgs,
@@ -22,14 +23,14 @@ in
         sops
       ]
       ++ (optionals (!usr.minimal) [
+        fahrplan
         tree-sitter
-        bottles
+        # bottles
       ])
       ++ (optionals usr.extraBloat [
         fortune
         cowsay
         lolcat
-        prismlauncher
         #slic3r
         # needs to be updated, build is failing
         #cura

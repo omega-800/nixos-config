@@ -20,18 +20,18 @@ in
       enable = true;
       settings = {
         General = with config.lib.stylix.colors; {
+          disabledGrimWarning = true;
           disabledTrayIcon = true;
           showStartupLaunchMessage = false;
           savePath = globals.envVars.SCREENSHOTS_DIR;
           uiColor = "#${base0E}";
           contrastUiColor = "#${base0D}";
           drawColor = "#${base0B}";
-          # does this prevent copying?
-          # nope
           autoCloseIdleDaemon = true;
           allowMultipleGuiInstances = true;
           savePathFixed = true;
           filenamePattern = "%F_%H-%M";
+          useGrimAdapter = usr.wmType == "wayland";
         };
       };
     };

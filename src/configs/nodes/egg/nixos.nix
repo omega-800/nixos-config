@@ -4,6 +4,7 @@
   ...
 }:
 {
+  imports = [ ./hardware-configuration.nix ];
   /*
     sops.secrets = {
       "hosts/default/disk" = { };
@@ -24,9 +25,15 @@
         };
       };
     */
-    os.boot.mode = "bios";
+    net.iface = "enp9s0";
+    os.boot.mode = "uefi";
+    dev.docker.enable = false;
+    srv = {
+      nextcloud.enable = true;
+      # syncthing.enable = true;
+    };
   };
 
   boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }

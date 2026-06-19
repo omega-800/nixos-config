@@ -3,12 +3,13 @@
   config,
   pkgs,
   inputs,
+  usr,
   ...
 }:
 let
   inherit (lib) mkIf types mkOption;
   cfg = config.u.media.spicetify;
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 
   customColorScheme = with config.lib.stylix.colors; {
     text = base07;
@@ -36,7 +37,7 @@ in
 
   options.u.media.spicetify.enable = mkOption {
     type = types.bool;
-    default = config.u.media.enable;
+    default = config.u.media.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {

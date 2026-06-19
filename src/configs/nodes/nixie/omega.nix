@@ -8,7 +8,7 @@
       ];
     };
     sys = {
-      profile = "pers";
+      profile = ["pers"];
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
@@ -19,12 +19,13 @@
       ];
     };
     usr = {
-      wm = "sway";
+      # wm = "mango";
+      wm = "river";
       shell = pkgs.zsh;
       term = "kitty";
       extraBloat = true;
-      theme = "gruvbox-dark-hard";
-      #theme = "atom-dark";
+      #theme = "gruvbox-dark-hard";
+      theme = "weeb";
       termColors = {
         c1 = "36";
         c2 = "35";

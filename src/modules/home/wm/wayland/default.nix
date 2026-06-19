@@ -9,9 +9,11 @@
 let
   cfg = config.u.wm.wayland;
   inherit (lib)
+    optionals
     mkOption
     mkIf
     types
+    elem
     mkDefault
     ;
 in
@@ -24,25 +26,84 @@ in
     ./swayidle.nix
     ./swaylock.nix
     ./gammastep.nix
+    ./kanshi.nix
+    ./wpaperd.nix
   ];
-  options.u.wm.wayland.enable = mkOption {
-    type = types.bool;
-    default = usr.wmType == "wayland";
+  options.u.wm.wayland = {
+    enable = mkOption {
+      type = types.bool;
+      default = usr.wmType == "wayland";
+    };
+    autoStart = mkOption {
+      type = types.listOf types.lines;
+      default =
+        # TODO : only if one image
+        (optionals (!usr.minimal) [
+          "swaybg --image ${config.stylix.image} --mode fill"
+        ])
+        ++ (optionals (!sys.stationary) [
+          "${pkgs.sway-audio-idle-inhibit} &"
+          "${pkgs.notify_bat}"
+        ])
+        ++ [
+          "nm-applet &"
+          "${usr.term} -e tmux a"
+          # "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots"
+          "wl-clip-persist --clipboard regular --reconnect-tries 0 &"
+          "wl-paste --type text --watch cliphist store &"
+          # "echo 'Xft.dpi: 140' | xrdb -merge"
+          # "gsettings set org.gnome.desktop.interface text-scaling-factor 1.4"
+          # "/usr/lib/xfce-polkit/xfce-polkit &"
+        ];
+    };
   };
   config = mkIf cfg.enable {
+
+    # also: gsettings?
+    # org.gnome.desktop.wm.preferences button-layout ""
+    # TODO: move to stylix
+    # https://github.com/riverwm/river/wiki/Home/74c4da7d3a6fe55856baaa5d8261b95cf568cd85#how-do-i-disable-gtk-decorations-eg-title-bar
+    # https://codeberg.org/river/wiki-classic#how-do-i-disable-gtk-decorations-e-g-title-bar
+    stylix.targets.gtk.extraCss = ''
+      headerbar.default-decoration {
+        /* You may need to tweak these values depending on your GTK theme */
+        margin-bottom: 50px;
+        margin-top: -100px;
+      }
+
+      /* rm -rf window shadows */
+      window.csd,             /* gtk4? */
+      window.csd decoration { /* gtk3 */
+        box-shadow: none;
+      }
+    '';
+    # gtk.gtk3.extraConfig.gtk-dialogs-use-header = false;
+    # gtk.gtk4.extraConfig.gtk-dialogs-use-header = false;
+
     xdg.portal = {
       enable = true;
+      # xdgOpenUsePortal = true;
       config = {
-        common.default = [ "gtk" ];
-        sway = {
-          "org.freedesktop.impl.portal.Screencast" = "wlr";
-          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        common = {
+          default = [
+            "gtk"
+            "wlr"
+            "gnome"
+          ];
+          "org.freedesktop.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
         };
+        hyprland.default = [
+          "*"
+          "hyprland"
+          "wlr"
+        ];
       };
       extraPortals = with pkgs; [
         xdg-desktop-portal-gnome
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-hyprland
       ];
     };
     home = {
@@ -56,25 +117,20 @@ in
       packages =
         with pkgs;
         [
+          sway-audio-idle-inhibit
           xdg-utils
-          #xdg-mime
-          #xdg-open
-          #xdg-settings
           grim
           slurp
           wl-clipboard
           wf-recorder
         ]
-        ++ (
-          if sys.genericLinux then
-            with pkgs;
-            [
-              lxqt.lxqt-policykit
-              xwayland
-            ]
-          else
-            [ ]
-        );
+        ++ (optionals sys.genericLinux (
+          with pkgs;
+          [
+            lxqt.lxqt-policykit
+            xwayland
+          ]
+        ));
     };
     services = {
       cliphist = {
@@ -82,44 +138,6 @@ in
         allowImages = true;
         systemdTargets = "graphical-session.target";
       };
-      kanshi = {
-        enable = true;
-        systemdTarget = "graphical-session.target";
-      };
-      /*
-        swhkd = {
-          # still can't get it to work
-          enable = false;
-          keybindings =
-            let
-              volumeScript = "${pkgs.writeScript "volume_control" (
-                builtins.readFile ../../utils/scripts/volume.sh
-              )}";
-            in
-            {
-
-              "super + shift + s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
-              "super + ctrl + shift + s" = "flameshot screen";
-              "super + alt + shift + s" = "flameshot full";
-              "super + enter " = usr.term;
-              "{super + a ; m,XF86AudioMute}" = "${volumeScript} mute";
-              "{XF86AudioRaiseVolume,super + a : i}" = "${volumeScript} raise";
-              "{XF86AudioLowerVolume,super + a : d}" = "${volumeScript} lower";
-            };
-        };
-      */
     };
-    # systemd.user.services.swhkd = {
-    #   Service.Type = "simple";
-    #   Unit.Description = "simple wayland hotkey daemon";
-    #   Install.WantedBy = [ "default.target" ];
-    #   Service.ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
-    #     #!/usr/bin/env bash
-    #     #${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent
-    #     lxqt-policykit-agent
-    #     pkill -f swhks
-    #     swhks & pkexec swhkd;
-    #   ''}";
-    # };
   };
 }

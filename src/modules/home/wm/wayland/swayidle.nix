@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  sys,
   ...
 }:
 let
@@ -11,26 +12,20 @@ let
   cfg = config.u.wm.wayland;
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && (!sys.stationary)) {
     services.swayidle = {
       enable = true;
-      events = [
-        {
-          event = "before-sleep";
-          command = "${pkgs.swaylock}/bin/swaylock -fF";
-        }
-        {
-          event = "lock";
-          command = "lock";
-        }
-      ];
+      events = {
+        before-sleep = "${pkgs.swaylock}/bin/swaylock -fF";
+        lock = "lock";
+      };
       timeouts = [
         {
-          timeout = 120;
+          timeout = 240;
           command = "${pkgs.swaylock}/bin/swaylock -fF";
         }
         {
-          timeout = 300;
+          timeout = 360;
           command = "${pkgs.systemd}/bin/systemctl suspend";
         }
       ];

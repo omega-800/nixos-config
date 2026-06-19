@@ -8,55 +8,79 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.omega.attrs) flatMapToAttrs;
+  inherit (lib)
+    concatStringsSep
+    mkEnableOption
+    mapAttrsToList
+    optionalString
+    mapAttrs'
+    mkForce
+    mkIf
+    ;
   cfg = config.m.net.vpn.openconnect;
+  ocfg = config.networking.openconnect;
 in
 {
   options.m.net.vpn.openconnect.enable = mkEnableOption "openconnect";
 
   config = mkIf cfg.enable {
-    sops.secrets."school/vpn" = { };
+    sops.secrets = {
+      "vpn/school/password" = { };
+      "vpn/school/fingerprint" = { };
+      "vpn/school/cookie" = { };
+    };
     environment.systemPackages = with pkgs; [
       openconnect
-
+      # FIXME: 2aa8ca3 poetry2nix broke
+      # inputs.openconnect-sso.packages.${sys.system}.openconnect-sso
       networkmanagerapplet
-      /*
-        (inputs.openconnect-sso.packages.${sys.system}.default.overrideAttrs (
-          _: _: { dontCheckRuntimeDeps = true; }
-        ))
-      */
     ];
+    networking.openconnect.interfaces.school = {
+      autoStart = false;
+      gateway = "vpn2.ost.ch";
+      protocol = "anyconnect";
+      user = "georgiy.shevoroshkin@ost.ch";
+      extraOptions = {
+        cookie = ''"$(cat ${config.sops.secrets."vpn/school/cookie".path})"'';
+        servercert = ''"$(cat ${config.sops.secrets."vpn/school/fingerprint".path})"'';
+      };
+    };
+    systemd.services = mapAttrs' (name: _: {
+      name = "openconnect-${name}";
+      value =
+        let
+          icfg = ocfg.interfaces.${name};
+        in
+        {
+          serviceConfig = {
+            ExecStart = mkForce (
+              concatStringsSep " " (
+                [
+                  "/bin/sh -c '${ocfg.package}/bin/openconnect"
+                ]
+                ++ (mapAttrsToList (
+                  name: value: "--${name}" + (optionalString (!(value == true)) " ${value}")
+                ) icfg.extraOptions)
+                ++ [
+                  (optionalString (icfg.protocol != null) "--protocol ${icfg.protocol}")
+                  (optionalString (icfg.user != null) "-u ${icfg.user}")
+                  (optionalString (icfg.certificate != null) "--certificate ${icfg.certificate}")
+                  (optionalString (icfg.privateKey != null) "--sslkey ${icfg.privateKey}")
+                  "${icfg.gateway}'"
+                ]
+              )
+            );
+          };
+        };
+    }) ocfg.interfaces;
 
     networking = {
       networkmanager = {
         enable = true;
         plugins = with pkgs; [
           (networkmanager-openconnect.override { withGnome = true; })
-
-          /*
-          networkmanager-openvpn
-          networkmanager-vpnc
-
-
-                 networkmanager-fortisslvpn
-                 networkmanager-iodine
-                 networkmanager-l2tp
-                 networkmanager-sstp
-                 networkmanager-strongswan
-*/
         ];
-        # settings.main.plugins = "ifupdown,keyfile,secret-agent";
         ensureProfiles = {
-          secrets.entries = [
-            {
-              file = config.sops.secrets."school/vpn".path;
-              matchId = "school";
-              matchType = "vpn";
-              matchSetting = "vpn-secrets";
-              key = "password";
-            }
-          ];
           profiles.school = {
             connection = {
               id = "school";
@@ -67,7 +91,7 @@ in
 
               cookie-flags = "1";
 
-              # autoconnect-flags = "0";
+              autoconnect-flags = "0";
               # certsigns-flags = "4";
               # gwcert-flags = "4";
               # lasthost-flags = "4";
@@ -87,12 +111,12 @@ in
               username = "georgiy.shevoroshkin@ost.ch";
               authtype = "password";
             };
-            vpn-secrets = {
-              gateway = "vpn.ost.ch";
-              gwcert = "";
-              cookie = "";
-              resolve = "";
-            };
+            # vpn-secrets = {
+            #   gateway = "vpn.ost.ch";
+            #   gwcert = "";
+            #   cookie = "";
+            #   resolve = "";
+            # };
           };
         };
       };

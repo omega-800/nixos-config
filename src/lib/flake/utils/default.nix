@@ -6,6 +6,8 @@
     mapModulesByArch
     mapHostConfigs
     hasHostConfig
+    mapScriptsOrModules
+    mkScriptBin
     ;
   inherit (import ./pkgs.nix { inherit inputs; })
     mkOverlays

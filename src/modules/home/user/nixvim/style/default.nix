@@ -8,7 +8,7 @@ in
 {
   imports = [
     ./lualine.nix
-    ./startup.nix
+    ./alpha.nix
     ./bufferline.nix
   ];
   programs.nixvim = {
@@ -24,7 +24,10 @@ in
         (key "n" "p" "<CMD>tabprevious<CR>" "Go to the previous tab")
       ]);
     plugins = {
-      todo-comments.enable = true;
+      todo-comments = {
+        enable = true;
+        keymaps.todoTelescope.key = "<leader>ft";
+      };
       rainbow-delimiters.enable = true;
       nvim-autopairs = {
         enable = true;
@@ -59,13 +62,15 @@ in
       };
       wilder = {
         enable = false;
-        modes = [
-          ":"
-          "/"
-          "?"
-        ];
-        enableCmdlineEnter = true;
-        acceptCompletionAutoSelect = true;
+        settings = {
+          modes = [
+            ":"
+            "/"
+            "?"
+          ];
+          enable_cmdline_enter = true;
+          accept_completion_auto_select = true;
+        };
       };
     };
   };

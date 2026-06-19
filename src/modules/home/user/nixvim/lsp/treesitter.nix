@@ -2,6 +2,7 @@
   lib,
   sys,
   pkgs,
+  config,
   ...
 }:
 let
@@ -23,8 +24,109 @@ in
         {
           enable = true;
           nixvimInjections = true;
-          folding = false;
-          grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+          folding.enable = false;
+          # grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+          # FIXME: TODO:
+          grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
+            angular
+            asm
+            awk
+            bash
+            bibtex
+            c
+            c-sharp
+            caddy
+            clojure
+            cmake
+            comment
+            commonlisp
+            cpp
+            css
+            csv
+            dart
+            diff
+            dockerfile
+            dot
+            elixir
+            elm
+            erlang
+            fish
+            fsharp
+            git-config
+            git-rebase
+            gitcommit
+            gitignore
+            gleam
+            glsl
+            go
+            gomod
+            gosum
+            gotmpl
+            gpg
+            graphql
+            groovy
+            haskell
+            helm
+            html
+            http
+            idris
+            ini
+            java
+            javadoc
+            javascript
+            jinja
+            jq
+            jsdoc
+            json
+            julia
+            just
+            kdl
+            kotlin
+            latex
+            llvm
+            lua
+            luadoc
+            make
+            markdown
+            nasm
+            nginx
+            nim
+            nix
+            nu
+            ocaml
+            odin
+            pascal
+            passwd
+            perl
+            php
+            python
+            regex
+            robots-txt
+            ruby
+            rust
+            scala
+            scheme
+            scss
+            sql
+            ssh-config
+            strace
+            svelte
+            swift
+            templ
+            terraform
+            tmux
+            toml
+            tsv
+            turtle
+            typst
+            vim
+            vue
+            xml
+            xresources
+            yaml
+            zig
+            zsh
+          ];
         }
         (if sys.stable then { } else { settings.indent.enable = true; })
       ];
@@ -34,49 +136,51 @@ in
       };
       treesitter-textobjects = {
         enable = false;
-        select = {
-          enable = true;
-          lookahead = true;
-          keymaps = {
-            "aa" = "@parameter.outer";
-            "ia" = "@parameter.inner";
-            "af" = "@function.outer";
-            "if" = "@function.inner";
-            "ac" = "@class.outer";
-            "ic" = "@class.inner";
-            "ii" = "@conditional.inner";
-            "ai" = "@conditional.outer";
-            "il" = "@loop.inner";
-            "al" = "@loop.outer";
-            "at" = "@comment.outer";
+        settings = {
+          select = {
+            enable = true;
+            lookahead = true;
+            keymaps = {
+              "aa" = "@parameter.outer";
+              "ia" = "@parameter.inner";
+              "af" = "@function.outer";
+              "if" = "@function.inner";
+              "ac" = "@class.outer";
+              "ic" = "@class.inner";
+              "ii" = "@conditional.inner";
+              "ai" = "@conditional.outer";
+              "il" = "@loop.inner";
+              "al" = "@loop.outer";
+              "at" = "@comment.outer";
+            };
           };
-        };
-        move = {
-          enable = true;
-          gotoNextStart = {
-            "]m" = "@function.outer";
-            "]]" = "@class.outer";
+          move = {
+            enable = true;
+            gotoNextStart = {
+              "]m" = "@function.outer";
+              "]]" = "@class.outer";
+            };
+            gotoNextEnd = {
+              "]M" = "@function.outer";
+              "][" = "@class.outer";
+            };
+            gotoPreviousStart = {
+              "[m" = "@function.outer";
+              "[[" = "@class.outer";
+            };
+            gotoPreviousEnd = {
+              "[M" = "@function.outer";
+              "[]" = "@class.outer";
+            };
           };
-          gotoNextEnd = {
-            "]M" = "@function.outer";
-            "][" = "@class.outer";
-          };
-          gotoPreviousStart = {
-            "[m" = "@function.outer";
-            "[[" = "@class.outer";
-          };
-          gotoPreviousEnd = {
-            "[M" = "@function.outer";
-            "[]" = "@class.outer";
-          };
-        };
-        swap = {
-          enable = true;
-          swapNext = {
-            "<leader>a" = "@parameters.inner";
-          };
-          swapPrevious = {
-            "<leader>A" = "@parameter.outer";
+          swap = {
+            enable = true;
+            swapNext = {
+              "<leader>a" = "@parameters.inner";
+            };
+            swapPrevious = {
+              "<leader>A" = "@parameter.outer";
+            };
           };
         };
       };

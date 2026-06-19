@@ -11,7 +11,7 @@ in
 {
   options.u.file.lf.enable = mkOption {
     type = types.bool;
-    default = config.u.file.enable && !usr.minimal;
+    default = config.u.file.enable && !usr.minimal && usr.wmType == "x11";
   };
 
   config = mkIf cfg.enable {

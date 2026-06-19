@@ -9,9 +9,6 @@ let
     CONFIGS
     PATHS
     ;
-in
-rec {
-
   mkDroid =
     hostname:
     let
@@ -31,6 +28,8 @@ rec {
       ];
       inherit extraSpecialArgs;
     };
-
+in
+{
+  inherit mkDroid;
   mapDroids = mapHostConfigs CONFIGS.nixOnDroidConfigurations mkDroid;
 }

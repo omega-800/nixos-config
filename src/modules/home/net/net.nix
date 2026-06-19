@@ -17,22 +17,34 @@ in
   config = mkIf cfg.enable {
     home.packages =
       with pkgs;
-      (optionals (!usr.minimal) [
+      [
+        iproute2
+        iputils
+        curl
+        wget
+      ]
+      ++ (optionals (!usr.minimal) [
         # (nixGL brave)
         wireguard-tools
         lsof
         whois
-      ]) ++ (optionals (sys.profile == "school") [
+      ])
+      # TODO: specialisations
+      ++ (optionals (builtins.elem "school" sys.profile) [
         wireshark
         # tshark
-        termshark
+        # termshark
         nettools
+        traceroute
+        iperf
+        nmap
+        dirb
       ])
       ++ (optionals usr.extraBloat [
         (nixGL tor-browser)
         # (nixGL vieb)
       ]);
-    programs.rtorrent = mkIf usr.extraBloat {
+    programs.rtorrent = mkIf (!usr.minimal) {
       enable = true;
     };
   };

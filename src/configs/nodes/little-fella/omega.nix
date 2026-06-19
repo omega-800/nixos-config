@@ -3,9 +3,13 @@
   config.c = {
     net.id = 49;
     sys = {
-      profile = "serv";
+      profile = ["serv"];
       system = "x86_64-linux";
       genericLinux = false;
+      flavors = [
+        "storer"
+        "slave"
+      ];
     };
     usr = {
       shell = pkgs.zsh;

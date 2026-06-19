@@ -2,26 +2,32 @@
   imports = [
     ./c.nix
     ./css.nix
+    ./dart.nix
     ./docker.nix
     ./erlang.nix
+    ./ftl.nix
     ./go.nix
     ./gql.nix
     ./hs.nix
     ./html.nix
+    ./http.nix
+    ./idris.nix
     ./java.nix
     ./js.nix
+    ./latex.nix
+    ./lisp.nix
     ./lua.nix
     ./md.nix
     ./nix.nix
+    ./ocaml.nix
+    ./plantuml.nix
     ./python.nix
     ./rust.nix
     ./sh.nix
+    ./strudel.nix
     ./sql.nix
-    ./yaml.nix
-    ./ftl.nix
-    ./lisp.nix
-    ./dart.nix
     ./typst.nix
-    ./latex.nix
+    ./yaml.nix
+    ./zig.nix
   ];
 }

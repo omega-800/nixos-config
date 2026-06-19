@@ -20,6 +20,7 @@ in
     default = usr.shell.pname == "zsh";
   };
   config = mkIf cfg.enable {
+    home.shell.enableZshIntegration = true;
     programs = {
       #bash.initExtra = "exec zsh";
       # oh-my-posh = {
@@ -48,7 +49,7 @@ in
         };
         #zprof.enable = true;
         zsh-abbr = {
-          enable = true;
+          enable = !usr.minimal;
           abbreviations = config.home.shellAliases;
         };
         #defaultKeymap = "vicmd";
@@ -57,6 +58,7 @@ in
           with usr.termColors;
           let
             retC = a: b: "%(?.%{\\e[${a};${b};${c1}m%}.%{\\e[${a};${b};${c2}m%})";
+            # TODO: $SHLVL inside prompt
           in
           ''
             ${config.u.sh.shellInitExtra}
@@ -108,7 +110,7 @@ in
           path = globals.envVars.HISTFILE;
         };
         oh-my-zsh = {
-          enable = true;
+          enable = !usr.minimal;
           #theme = "robbyrussell";
           plugins =
             [

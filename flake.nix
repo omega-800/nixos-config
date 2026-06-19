@@ -25,7 +25,7 @@
       packages = mapPkgs;
       apps = mapApps;
       deploy = mapDeployments;
-      checks = mapChecks;
+      # checks = mapChecks;
       formatter = mapFormatters;
       devShells = mapShells;
       # devShells = mapModules ./modules/sh {
@@ -44,6 +44,15 @@
       };
     };
 
+    nix-jetbrains-plugins-unstable = {
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:nix-community/nix-jetbrains-plugins";
+    };
+    nix-jetbrains-plugins-stable = {
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:nix-community/nix-jetbrains-plugins";
+    };
+
     # döes nöt nörk :(
     # simplex = {
     #   url = "github:simplex-chat/simplex-chat";
@@ -59,6 +68,15 @@
     };
     home-manager-stable = {
       url = "github:nix-community/home-manager/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
+    mango-unstable = {
+      url = "github:DreamMaoMao/mango";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    mango-stable = {
+      url = "github:DreamMaoMao/mango";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     disko-unstable = {
@@ -131,6 +149,23 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs-stable.follows = "nixpkgs-stable";
+      };
+    };
+    # quickshell = {
+    #   url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # hyprland.url =
     #   "github:hyprwm/Hyprland/cba1ade848feac44b2eda677503900639581c3f4?submodules=1";
     # hyprland-plugins = {
@@ -147,18 +182,14 @@
     #   flake = false;
     # };
     stylix-unstable = {
+      # TODO: change
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        home-manager.follows = "home-manager-unstable";
-      };
+      # url = "git+file:/home/omega/ws/code/stylix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     stylix-stable = {
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-stable";
-        home-manager.follows = "home-manager-stable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     rust-overlay.url = "github:oxalica/rust-overlay";
     /*
@@ -172,6 +203,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager-unstable";
+        mango.follows = "mango-unstable";
       };
     };
     scawm-stable = {
@@ -179,6 +211,7 @@
       inputs = {
         nixpkgs.follows = "nixpkgs-stable";
         home-manager.follows = "home-manager-stable";
+        mango.follows = "mango-stable";
       };
     };
     lonsdaleite-unstable = {
@@ -193,18 +226,14 @@
       url = "github:omega-800/dwm";
       flake = false;
     };
-    omega-st = {
-      url = "github:omega-800/st";
-      flake = false;
-    };
-    omega-slock = {
-      url = "github:omega-800/slock";
-      flake = false;
-    };
-    # omega-nixvim = {
-    #   url = "github:omega-800/nixvim";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+nvim-strudel-unstable = {
+  url = "github:Goshujinsama/nvim-strudel";
+  inputs.nixpkgs.follows = "nixpkgs-unstable";
+};
+nvim-strudel-stable = {
+  url = "github:Goshujinsama/nvim-strudel";
+  inputs.nixpkgs.follows = "nixpkgs-stable";
+};
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
       inputs = {
@@ -220,9 +249,18 @@
       };
     };
 
+    nixcord-unstable = {
+      url = "github:kaylorben/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    nixcord-stable = {
+      url = "github:kaylorben/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     # disko.url = "github:nix-community/disko";
     openconnect-sso-stable = {
       url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";
+      #url = "github:moinakb001/openconnect-sso";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     openconnect-sso-unstable = {

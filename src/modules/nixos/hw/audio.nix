@@ -17,21 +17,18 @@ in
   };
 
   config = mkIf cfg.enable (mkMerge [
-    (mkIf (!cfg.pipewire) (
+    (
       if sys.stable then
         {
-          hardware.pulseaudio.enable = true;
+          hardware.pulseaudio.enable = !cfg.pipewire;
         }
       else
         {
-          services.pulseaudio.enable = true;
+          services.pulseaudio.enable = !cfg.pipewire;
         }
-    ))
+    )
     {
-      environment.systemPackages = [ pkgs.pulseaudio ]; # even if pulseaudio is disables bc of pactl
-
-      # rtkit is optional but recommended
-      security.rtkit.enable = cfg.pipewire;
+      security.rtkit.enable = true;
 
       services = {
         pipewire =
@@ -41,7 +38,28 @@ in
               alsa.enable = true;
               alsa.support32Bit = true;
               pulse.enable = true;
-              jack.enable = true;
+              jack.enable = false;
+              wireplumber = {
+                enable = true;
+                extraConfig = {
+                  "20-bluez" = {
+                    "monitor.bluez.properties" = {
+                      "bluez5.enable-sbc-xq" = true;
+                      "bluez5.enable-msbc" = true;
+                      "bluez5.enable-hw-volume" = true;
+                      "bluez5.roles" = [
+                        "a2dp_sink"
+                        "a2dp_source"
+                      ];
+                    };
+                    "11-bluetooth-policy" = {
+                      "wireplumber.settings" = {
+                        "bluetooth.autoswitch-to-headset-profile" = false;
+                      };
+                    };
+                  };
+                };
+              };
             }
           else
             {
@@ -50,26 +68,44 @@ in
       };
     }
     (mkIf cfg.bluetooth {
+
+      # desperation
+      environment.systemPackages = with pkgs; [
+        bluez-tools
+
+        pavucontrol
+        pulseaudio
+      ];
+      # boot.kernelModules = [
+      #   "btusb"
+      #   "btintel"
+      # ];
       hardware.bluetooth = {
         enable = true;
-        powerOnBoot = !sys.paranoid;
-        # enables showing battery charge of devices
-        settings = lib.mkMerge [
-          { General.Experimental = !sys.paranoid; }
-          (lib.mkIf sys.hardened {
-            General = {
-              PairableTimeout = 30;
-              DiscoverableTimeout = 30;
-              MaxControllers = 1;
-              TemporaryTimeout = 0;
-            };
-            Policy.AutoEnable = false;
-          })
-          (lib.mkIf sys.paranoid { Policy.Privacy = "network/on"; })
-        ];
+        settings = {
+          General = {
+            ControllerMode = "dual";
+            Experimental = !sys.paranoid;
+            FastConnectable = true;
+            # Enable = "Source,Sink,Media,Socket,Headset";
+          };
+          Policy = {
+            AutoEnable = true;
+          };
+        };
       };
-      # hardware.pulseaudio.enable = true;
-      # services.blueman.enable = true;
+      services.pulseaudio = {
+        package = pkgs.pulseaudioFull;
+        configFile = pkgs.writeText "default.pa" ''
+          load-module module-bluetooth-policy
+          load-module module-bluetooth-discover
+          ## module fails to load with 
+          ##   module-bluez5-device.c: Failed to get device path from module arguments
+          ##   module.c: Failed to load module "module-bluez5-device" (argument: ""): initialization failed.
+          # load-module module-bluez5-device
+          # load-module module-bluez5-discover
+        '';
+      };
       # enables using headset buttons to control media player
       systemd.user.services.mpris-proxy = lib.mkIf (!sys.paranoid) {
         description = "Mpris proxy";

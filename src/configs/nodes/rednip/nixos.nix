@@ -9,6 +9,24 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-w520
     ./hardware-configuration.nix
   ];
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  nix.settings.extra-platforms = [
+    "aarch64-linux"
+    "arm-linux"
+  ];
+
+  # hardware = {
+  #   enableAllFirmware = true;
+  #   enableRedistributableFirmware = true;
+  #   bluetooth.powerOnBoot = lib.mkForce true;
+  # };
+
+  # pactl set-card-profile alsa_card.pci-0000_00_1b.0 output:analog-stereo
+  # TODO: pipewire-pulse.conf
+  # context.properties = {
+  #     default.card.profile = "output:analog-stereo"
+  # }
   m = {
     /*
         fs.disko = {
@@ -21,19 +39,23 @@
         };
     */
     os.boot.mode = "uefi";
-    dev.psql.enable = true;
     sw = {
       flatpak.enable = false;
       printing.enable = false;
       miracast.enable = true;
     };
+    hw.audio.pipewire = true;
   };
   services.xserver = {
-    # modules = [ config.boot.kernelPackages.nvidia_x11_legacy390 ];
     videoDrivers = [
+      "modesetting"
       "nvidia"
       "intel"
     ];
+    # deviceSection = ''
+    #   Option "DRI" "2"
+    #   Option "TearFree" "true"
+    # '';
   };
   boot = {
     # https://discourse.nixos.org/t/psa-for-those-with-hibernation-issues-on-nvidia/61834
@@ -42,16 +64,36 @@
         options nvidia_modeset vblank_sem_control=0
       '';
     */
+    # kernelParams = [
+    # "nvidia-drm.modeset=1"
+    # "acpi_osi=Windows"
+    # ];
     kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+    initrd.kernelModules = [ "nvidia" ];
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   };
-  environment.systemPackages = with pkgs; [
-    glxinfo
-    pciutils
-    inxi
-    lshw
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      mesa-demos
+      pciutils
+      inxi
+      lshw
+      wlr-randr
+      wdisplays
+    ];
+    sessionVariables = {
+      NVIDIA_DRIVER_CAPABILITIES = "graphics,utility";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
+  };
   hardware = {
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        # intel-media-sdk
+        vpl-gpu-rt
+      ];
+    };
     intelgpu = {
       loadInInitrd = true;
       driver = "i915";
@@ -62,6 +104,17 @@
       # nvidiaPersistenced = true;
       videoAcceleration = true;
       package = config.boot.kernelPackages.nvidiaPackages.legacy_390
+      # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+      # config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      #   version = "535.274.02";
+      #   sha256_64bit = "sha256-O071TwaZHm3/94aN3nl/rZpFH+5o1SZ9+Hyivo5/KTs=";
+      #   sha256_aarch64 = "sha256-PgHcrqGf4E+ttnpho+N8SKsMQxnZn29fffHXGbeAxRw=";
+      #   openSha256 = "sha256-4KRHuTxlU0GT/cWf/j3aR7VqWpOez1ssS8zj/pYytes=";
+      #   settingsSha256 = "sha256-BXQMXKybl9mmsp+Y+ht1RjZqnn/H3hZfyGcKIGurxrI=";
+      #   persistencedSha256 = "sha256-/ZvAsvTjjiM/U3gn0DbxUguC3VvHbopyQ3u6+RYkzKk=";
+      # }
+
       # .overrideAttrs (_: {
       #   postFixup = ''
       #     mv $out/lib/tls/* $out/lib
@@ -82,6 +135,14 @@
         intelBusId = "PCI:0@0:2:0";
         nvidiaBusId = "PCI:1@0:0:0";
       };
+      # dbus-implementation : dbus -> broker
+      # services.dbus.implementation = "dbus";
+      forceFullCompositionPipeline = true;
+      # lshw -C display
+      # lspci | grep -i vga
+      # lsmod | grep -i nvidia
+      # dmesg | grep -i firmware
+      # wlr-randr
     };
   };
   nixpkgs.config = {
@@ -90,7 +151,7 @@
     allowUnfree = true;
     nvidia.acceptLicense = true;
     allowBroken = false;
-    # permittedInsecurePackages = [ "intel-media-sdk-23.2.2" ];
+    permittedInsecurePackages = [ "intel-media-sdk-23.2.2" ];
   };
   system.stateVersion = "24.11";
 }

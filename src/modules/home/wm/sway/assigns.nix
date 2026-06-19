@@ -11,7 +11,6 @@ let
     { class = "Chromium-browser"; }
     { class = "Brave-browser"; }
   ];
-in rec {
   work = {
     "1" = [
       { class = "Brave-browser"; }
@@ -52,10 +51,12 @@ in rec {
     "9" = [
       { class = "Spotify"; }
       { title = "ncmpcpp"; }
+      # TOOD: pwvucontrol
       { class = "pavucontrol"; }
     ];
     "0" = [ ];
   };
+in {
   school = work;
   pers = {
     "1" = terminals;
@@ -82,6 +83,7 @@ in rec {
     "9" = [
       { class = "Spotify"; }
       { title = "ncmpcpp"; }
+      # TOOD: pwvucontrol
       { class = "pavucontrol"; }
     ];
     "0" = [ ];

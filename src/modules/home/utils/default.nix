@@ -1,15 +1,14 @@
 {
   imports = [
-    ./utils.nix
-    ./sxhkd.nix
-    ./dunst.nix
-    ./rofi.nix
-    ./fzf.nix
-    ./fetch.nix
     ./clipmenu.nix
+    ./dunst.nix
+    ./fetch.nix
     ./flameshot.nix
-    ./ripgrep.nix
+    ./fzf.nix
     ./htop.nix
     ./less.nix
+    ./ripgrep.nix
+    ./rofi.nix
+    ./utils.nix
   ];
 }

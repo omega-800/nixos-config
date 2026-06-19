@@ -4,6 +4,7 @@
   sys,
   globals,
   lib,
+  PATHS,
   config,
   ...
 }:
@@ -67,11 +68,11 @@ in
     inherit (sys) font;
     colors =
       let
-        theme = omega.templ.fromYAML ../themes/${usr.theme}/${usr.theme}.yaml;
+        theme = (import PATHS.THEMES).scheme;
       in
       (omega.attrs.filterMapAttrNames
         (
-          n: v:
+          n: _:
           !builtins.elem n [
             "scheme"
             "author"

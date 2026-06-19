@@ -1,18 +1,21 @@
 { lib, ... }:
+let 
+  inherit (lib) mkOption mkOverride types;
+in 
 {
   mkDisableOption =
     description:
-    lib.mkOption {
+    mkOption {
       inherit description;
-      type = lib.types.bool;
+      type = types.bool;
       default = true;
     };
-  mkHighDefault = val: lib.mkOverride 900 val;
-  mkHigherDefault = val: lib.mkOverride 800 val;
-  mkHighererDefault = val: lib.mkOverride 700 val;
-  mkLowMid = val: lib.mkOverride 600 val;
-  mkMid = val: lib.mkOverride 500 val;
-  mkHighMid = val: lib.mkOverride 400 val;
-  mkHigherMid = val: lib.mkOverride 300 val;
-  mkHighererMid = val: lib.mkOverride 200 val;
+  mkHighDefault = mkOverride 900;
+  mkHigherDefault = mkOverride 800;
+  mkHighererDefault = mkOverride 700;
+  mkLowMid = mkOverride 600;
+  mkMid = mkOverride 500;
+  mkHighMid = mkOverride 400;
+  mkHigherMid = mkOverride 300;
+  mkHighererMid = mkOverride 200;
 }

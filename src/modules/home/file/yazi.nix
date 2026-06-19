@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types;
+  inherit (lib)
+    mkOption
+    mkIf
+    types
+    mkMerge
+    ;
   cfg = config.u.file.yazi;
 in
 {
@@ -13,7 +18,7 @@ in
     enable = mkOption {
       description = "enables yazi";
       type = types.bool;
-      default = config.u.file.enable && !usr.minimal;
+      default = config.u.file.enable && !usr.minimal && usr.wmType == "wayland";
     };
   };
 
@@ -22,49 +27,47 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      # keymap = {
-      #   input.keymap = [
-      #     {
-      #       exec = "close";
-      #       on = [ "<C-q>" ];
-      #     }
-      #     {
-      #       exec = "close --submit";
-      #       on = [ "<Enter>" ];
-      #     }
-      #     {
-      #       exec = "escape";
-      #       on = [ "<Esc>" ];
-      #     }
-      #     {
-      #       exec = "backspace";
-      #       on = [ "<Backspace>" ];
-      #     }
-      #   ];
-      #   manager.keymap = [
-      #     {
-      #       exec = "escape";
-      #       on = [ "<Esc>" ];
-      #     }
-      #     {
-      #       exec = "quit";
-      #       on = [ "q" ];
-      #     }
-      #     {
-      #       exec = "close";
-      #       on = [ "<C-q>" ];
-      #     }
-      #   ];
-      # };
+      shellWrapperName = "y";
+      keymap = mkMerge [
+        (import ./yazi-keymap.nix)
+        {
+          mgr.keymap = [
+            {
+              on = [ "<C-x>" ];
+              run = ''shell -- xournalpp "$0"'';
+            }
+          ];
+        }
+      ];
       theme = {
         status = {
-          separator_open = "";
-          separator_close = "";
+          sep_left = {
+            open = "";
+            close = "";
+          };
+          sep_right = {
+            open = "";
+            close = "";
+          };
+        };
+        indicator.padding = {
+          open = "▐";
+          close = "";
+        };
+        tabs = {
+          sep_inner = {
+            open = "";
+            close = "";
+          };
+          sep_outer = {
+            open = "";
+            close = "";
+          };
         };
       };
       settings = {
         log.enabled = false;
-        manager = {
+        mgr = {
           scrolloff = 8;
           show_hidden = true;
           show_symlink = true;

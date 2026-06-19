@@ -7,12 +7,10 @@
 }:
 let
   cfg = config.u.wm.qtile;
-  dwm_stats = pkgs.writeShellScript "dwm_stats" ./dwm_stats.sh;
   inherit (lib)
     mkOption
     mkIf
     types
-    mkDefault
     ;
 in
 {

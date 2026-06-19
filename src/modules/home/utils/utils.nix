@@ -1,12 +1,13 @@
 {
   usr,
+  sys,
   lib,
   config,
   pkgs,
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf optionals;
   cfg = config.u.utils;
 in
 {
@@ -16,40 +17,29 @@ in
     home.packages =
       with pkgs;
       [
-        iproute2
-        iputils
-        curl
-        wget
         which
         bc
       ]
-      ++ (
-        if !usr.minimal then
-          [
-            stow
-            xclip
-            xbindkeys
-            brightnessctl
-            bind
-          ]
-        else
-          [ ]
-      )
-      ++ (
-        if usr.extraBloat then
-          [
-            bat
-            freecad
-            vulnix
-            screenkey
-            cloc
-            gnused
-            xdg-ninja
-            translate-shell
-            lynis
-          ]
-        else
-          [ ]
-      );
+      ++ (optionals (!usr.minimal) [
+        xclip
+        xbindkeys
+        bind
+        pdfgrep
+        translate-shell
+      ])
+      ++ (optionals usr.extraBloat [
+        # bat
+        # freecad
+        # vulnix
+        # xdg-ninja
+        # lynis
+        brightnessctl
+        screenkey
+        cloc
+        gnused
+        tealdeer
+        (if usr.wmType == "x11" then simplescreenrecorder else kooha)
+      ]);
+    programs.nix-index.enable = usr.extraBloat;
   };
 }

@@ -18,7 +18,7 @@ in
         src = PATHS.ROOT;
         hooks = {
           nixpkgs-fmt.enable = false;
-          nixfmt-rfc-style.enable = true;
+          nixfmt.enable = true;
         };
       };
     }

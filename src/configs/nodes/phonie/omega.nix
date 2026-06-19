@@ -2,7 +2,7 @@
 {
   config.c = {
     sys = {
-      profile = "serv";
+      profile = ["serv"];
       system = "aarch64-linux";
       genericLinux = false;
       stable = false;

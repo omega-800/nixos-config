@@ -5,6 +5,6 @@ let
 in
 {
   mapFormatters = genAttrs SYSTEMS (
-    system: inputs.nixpkgs-unstable.legacyPackages.${system}.nixfmt-rfc-style
+    system: inputs.nixpkgs-unstable.legacyPackages.${system}.nixfmt
   );
 }

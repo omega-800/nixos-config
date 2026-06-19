@@ -3,22 +3,25 @@
   usr,
   lib,
   config,
+  inputs,
   pkgs,
   ...
 }:
 let
   inherit (lib)
     mkEnableOption
-    mkIf
+    optionals
     getName
+    mkIf
     ;
   cfg = config.u.social;
 in
 {
   options.u.social.enable = mkEnableOption "social packages";
 
-  config = mkIf (cfg.enable && usr.extraBloat && sys.profile == "pers") {
-    nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
-    home.packages = [ pkgs.discord ];
+  config = mkIf (cfg.enable && (!usr.minimal)) {
+    home.packages = with pkgs; [
+      signal-desktop
+    ];
   };
 }

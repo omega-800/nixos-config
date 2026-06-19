@@ -18,8 +18,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vscode" ];
-    programs.vscode = {
+    programs.vscodium = {
       enable = true;
       mutableExtensionsDir = true;
       package = pkgs.vscodium;
@@ -33,15 +32,15 @@ in
               bbenoist.nix
               vscodevim.vim
             ]
-            ++ (lib.optionals (sys.profile == "school") [
+            ++ (lib.optionals (builtins.elem "school" sys.profile) [
               coder.coder-remote
-              ms-toolsai.jupyter
-              ms-toolsai.vscode-jupyter-slideshow
-              ms-python.debugpy
-              ms-toolsai.jupyter-renderers
-              ms-toolsai.jupyter-keymap
-              ms-toolsai.vscode-jupyter-cell-tags
-              ms-python.python
+              # ms-toolsai.jupyter
+              # ms-toolsai.vscode-jupyter-slideshow
+              # ms-python.debugpy
+              # ms-toolsai.jupyter-renderers
+              # ms-toolsai.jupyter-keymap
+              # ms-toolsai.vscode-jupyter-cell-tags
+              # ms-python.python
               # jeanp413.open-remote-ssh
             ])
           );

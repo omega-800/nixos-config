@@ -8,31 +8,63 @@
 }:
 let
   cfg = config.m.sec.lon;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkIf mkDefault mkMerge;
+  inherit (lib.omega.def) mkDisableOption;
+  inherit (lib.omega.cfg) mkSpecialisation;
 in
 {
-  # will have to fix impermanence first
-  /*
-    imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
+  # TODO: remove unused configs in this repo
 
-    options.m.sec.lon.enable = mkEnableOption "lonsdaleite";
+  imports = [ inputs.lonsdaleite.nixosModules.lonsdaleite ];
 
-    config = mkIf cfg.enable {
+  options.m.sec.lon.enable = mkDisableOption "lonsdaleite";
+
+  config = mkIf cfg.enable (mkMerge [
+    (
+      (mkSpecialisation "serv" {
+        lonsdaleite = {
+          decapitated = true;
+          hw.bluetooth.disable = true;
+        };
+      })
+      // (mkSpecialisation "school" {
+        lonsdaleite.net.ssh.enable = false;
+      })
+    )
+    {
       lonsdaleite = {
         enable = false;
         # FIXME:
-        paranoia =
-          if sys.profile == "serv" then
-            2
-          else if sys.profile == "pers" then
-            1
-          else
-            0;
-        decapitated = sys.profile == "serv";
+        paranoia = # if sys.profile == "serv" then 2 else
+          1;
+        decapitated = mkDefault false;
         trustedUser = usr.username;
 
-        os.systemd.enable = true;
+        os = {
+          antivirus.enable = true;
+          # nixos.enable = true;
+          # privilege.enable = true;
+          # FIXME: segfault
+          random.enable = false;
+          update.enable = true;
+        };
+        # hw.bluetooth.enable = sys.profile != "serv";
+        hw.bluetooth = {
+          enable = false;
+          disable = mkDefault false;
+        };
+        fs.usb = {
+          enable = false;
+          disable = false;
+        };
+        net = {
+          ssh.enable = mkDefault true;
+          sshd.enable = true;
+          macchanger.enable = true;
+          firewall.enable = true;
+        };
+        sw.disable.enable = true;
       };
-    };
-  */
+    }
+  ]);
 }

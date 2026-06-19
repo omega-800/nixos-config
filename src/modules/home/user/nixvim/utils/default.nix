@@ -1,19 +1,18 @@
 {
-  globals,
   lib,
   sys,
-  pkgs,
-  usr,
   ...
 }:
 let
   inherit (lib.omega.vim) keyG key keyS;
 in
 {
+  # TODO: treesj, mini.surround, tabout.nvim
   imports = [
     ./keymaps.nix
     ./oil.nix
     ./vimwiki.nix
+    ./telescope.nix
     #./firenvim.nix
   ];
   programs.nixvim = {
@@ -22,31 +21,8 @@ in
       ++ (keyG "<leader>u" "undo" [
         (keyS "n" "t" "<cmd>UndotreeToggle<CR>" "Undotree")
       ])
-      ++ (keyG "<leader>f" "find/file" [
-        (key "n" "F" "<cmd>Telescope find_files hidden=true<cr>" "Find files Hidden Also")
-        (key "n" "d" "<cmd>Telescope diagnostics theme=ivy<cr>" "Search Diagnostics")
-        (key "n" "n" "<cmd>Telescope notify<cr>" "Notifications Search")
-        (key "n" "k" "<cmd>Telescope keymaps theme=dropdown<cr>" "Search Keymaps")
-        (key "n" "s" "<cmd>Telescope builtin<cr>" "Search Telescope")
-        (key "n" "g" "<cmd>Telescope live_grep<cr>" "Search Live Grep")
-        (key "n" "H" "<cmd>Telescope help_tags<cr>" "Search Help Tags")
-        (key "n" "b" "<cmd>Telescope buffers<cr>" "Search Buffers")
-        (key "n" "c" "<cmd>Telescope commands<cr>" "Search Commands")
-        (key "n" "m" "<cmd>Telescope marks<cr>" "Search in Media Mode")
-        (key "n" "o" "<cmd>Telescope vim_options<cr>" "Search Vim Options")
-        (key "n" "q" "<cmd>Telescope quickfix<cr>" "Search Quickfix")
-        (key "n" "l" "<cmd>Telescope loclist<cr>" "Search Location List")
-        (key "n" "p" "<cmd>Telescope projects<cr>" "Search Projects")
-        (key "n" "P" "<cmd>Telescope colorscheme<cr>" "Search ColorScheme with previews")
-        (key "n" "u" "<cmd>Telescope undo<cr>" "Search undo")
-        (key "n" "/" "<cmd>Telescope current_buffer_fuzzy_find<cr>" "Fuzzy Buffer Search")
-        (key "n" "t" "<CMD>TodoTelescope<CR>" "Search TODO's")
-      ])
       ++ [
         (key "t" "<esc>" "<C-\\><C-n>" "Escape terminal mode")
-        (key "n" "<leader>go" "<cmd>Telescope git_status<cr>" "Open changed file")
-        (key "n" "<leader>gb" "<cmd>Telescope git_branches<cr>" "Checkout branch")
-        (key "n" "<leader>gc" "<cmd>Telescope git_commits<cr>" "Checkout commit")
         {
           mode = "n";
           key = "<leader>ha";
@@ -94,44 +70,6 @@ in
       #     watermark = "";
       #   };
       # };
-      telescope = {
-        enable = true;
-        keymaps = {
-          "<leader>fr" = "live_grep";
-          "<leader>ff" = "find_files";
-          "<leader>fo" = "oldfiles";
-          "<leader>fg" = {
-            action = "git_files";
-            options.desc = "Telescope Git Files";
-          };
-        };
-        extensions = {
-          fzf-native.enable = true;
-          undo.enable = true;
-        };
-        settings = {
-          pickers = {
-            colorscheme.enable_preview = true;
-          };
-          defaults.mappings = {
-            n = {
-              q = {
-                __raw = "require('telescope.actions').close";
-              };
-              s = {
-                __raw = "require('telescope.actions').select_horizontal";
-              };
-              v = {
-                __raw = "require('telescope.actions').select_vertical";
-              };
-            };
-          };
-        };
-      };
-      harpoon = {
-        enable = true;
-        enableTelescope = true;
-      };
       fidget = {
         enable = true;
         settings.progress = {
@@ -147,15 +85,6 @@ in
           focusOnToggle = true;
         };
       };
-      floaterm = {
-        enable = true;
-        settings = {
-          keymaps_toggle = "<leader>,";
-          width = 0.8;
-          height = 0.8;
-          title = "";
-        };
-      };
       comment = {
         enable = true;
         settings = {
@@ -167,14 +96,16 @@ in
       # indent-blankline.enable = true;
       illuminate = {
         enable = true;
-        underCursor = false;
-        filetypesDenylist = [
-          "Outline"
-          "TelescopePrompt"
-          "alpha"
-          "harpoon"
-          "reason"
-        ];
+        settings = {
+          under_cursor = false;
+          filetypes_denylist = [
+            "Outline"
+            "TelescopePrompt"
+            "alpha"
+            "harpoon"
+            "reason"
+          ];
+        };
       };
       which-key = lib.mkMerge [
         { enable = true; }
@@ -201,6 +132,19 @@ in
             }
         )
       ];
+      harpoon = {
+        enable = false;
+        enableTelescope = true;
+      };
+      floaterm = {
+        enable = false;
+        settings = {
+          keymaps_toggle = "<leader>,";
+          width = 0.8;
+          height = 0.8;
+          title = "";
+        };
+      };
       /*
         hardtime = lib.mkIf (!sys.stable) {
           enable = false;

@@ -9,7 +9,14 @@ let
     mapFilterDir'
     ;
   inherit (import ./pkgs.nix { inherit inputs; }) mkPkgs;
-  inherit (inputs.nixpkgs-unstable.lib) hasPrefix pathExists;
+  inherit (inputs.nixpkgs-unstable.lib)
+    removeSuffix
+    last
+    splitString
+    hasSuffix
+    hasPrefix
+    pathExists
+    ;
 in
 rec {
   #TODO: rename
@@ -26,19 +33,38 @@ rec {
     );
 
   importModule =
-    path: arch: args:
+    path: system: args:
     (import path (
-      rec {
-        system = arch;
-        pkgs = mkPkgs false arch false;
+      let
+        pkgs = mkPkgs false system false;
+      in
+      {
+        inherit system pkgs;
         inherit (pkgs) lib;
       }
       // args
     ));
 
+  mkScriptBin =
+    arch: path:
+    let
+      name = removeSuffix ".sh" (last (splitString "/" path));
+    in
+    (mkPkgs false arch false).writeScript name (builtins.readFile path);
+
+  mapScriptsOrModules =
+    fn: dir:
+    mapFilterDir fn (
+      n: v:
+      !(hasPrefix "_" n)
+      && (
+        (v == "directory" && pathExists "${toString dir}/${n}/default.nix")
+        || (v == "regular" && (hasSuffix ".sh" n || hasSuffix ".nix" n))
+      )
+    ) dir;
+
   mapModules =
     fn: dir:
-    with inputs.nixpkgs-unstable.lib;
     mapFilterDir fn (
       n: v:
       !(hasPrefix "_" n)

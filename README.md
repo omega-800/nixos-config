@@ -9,8 +9,11 @@ Me too, here are some resources to make the learning experience more fun and the
 - [homepage](https://nixos.org/)
 - [nix-pills](https://nixos.org/guides/nix-pills/)
 - [nix.dev](https://nix.dev/manual/nix/2.23/introduction)
+- [nix dsl](https://noogle.dev)
 - commands: `man nix`
 - repl: `man nix3-repl`
+- [vimjoyer (youtube)](https://www.youtube.com/@vimjoyer)
+- [librephoenix (youtube)](https://www.youtube.com/@librephoenix)
 
 ### nixPkgs
 
@@ -48,14 +51,13 @@ This frosty amalgamation of files allows for reproducible environment builds wit
 src
 ├── apps                (custom apps)
 ├── pkgs                (custom packages)
-├── formatter  # TODO   (custom formatter)
 ├── shells              (devShells)
-├── checks              (tests)
 ├── modules             (config modules)
+│   ├── omega           (custom options + variables for global use)
 │   ├── home            (home-manager)
 │   ├── droid           (nix-on-droid)
 │   ├── nixos           (nixos)
-│   └── system # TODO   (system-manager)
+│   └── system          (system-manager)
 ├── configs             (configurations)
 │   ├── nodes           (host profiles)
 │   └── profiles        (hosts)
@@ -64,7 +66,6 @@ src
 │   └── omega           (my lib)
 ├── themes              (themes for modules)
 ├── secrets             (please don't look)
-└── hooks      # TODO   (git hooks)
 ```
 
 The important files (where your customization happens) are:
@@ -93,6 +94,8 @@ nix repl
 :lf .
 # show options for the home-manager module of host
 homeConfigurations.${hostname}.options
+# show options for my custom home-manager options to activate pre-configured modules
+homeConfigurations.${hostname}.options.u
 # :q for quitting the repl
 :q
 ```
@@ -103,7 +106,7 @@ Defaults for my work machine, duh.
 
 ##### pers/\*
 
-Defaults for my personal desktop(s?).
+Defaults for my personal desktops.
 
 ##### serv/\*
 
@@ -116,7 +119,7 @@ Specific hosts with their own configs.
 ##### config.nix
 
 In this file the previously mentioned options are set, and defaults get overridden.
-**IMPORTANT:** sys.{hostname,system} _MUST_ be set!
+**IMPORTANT:** sys.system _MUST_ be set!
 
 ##### home.nix
 
@@ -137,7 +140,3 @@ If this file is present, then a systemConfigs flake output is created for generi
 ##### droid.nix
 
 If this file is present, then a nixOnDroidConfigurations flake output is created for android devices using the nix package manager with nix-on-droid.
-
-## omega's cool help functions
-
-`SUPER+SHIFT+H`: list sxhkd shortcuts, select to copy

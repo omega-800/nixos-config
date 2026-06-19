@@ -38,16 +38,25 @@ in
     ./autocmd
     ./dap
     ./langs
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
   ];
 
+  # eh https://github.com/L3MON4D3/LuaSnip
+
   config = mkIf cfg.enable {
+    # FIXME: 2aa8ca3
+    nixpkgs.config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "wezterm.nvim"
+      ];
+
     programs.nixvim = {
       enable = true;
       defaultEditor = true;
       enableMan = true;
-      viAlias = true;
-      vimAlias = true;
+      # viAlias = true;
+      # vimAlias = true;
       editorconfig.enable = true;
       clipboard = {
         register = "unnamedplus";

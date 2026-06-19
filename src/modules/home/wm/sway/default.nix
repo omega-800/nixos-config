@@ -10,13 +10,17 @@
 let
   inherit (pkgs) nixGL;
   inherit (lib)
+    filterAttrs
+    attrValues
+    mkMerge
     mkOption
     mkIf
     types
     ;
   inherit (builtins) readFile;
   cfg = config.u.wm.sway;
-  assigns = (import ./assigns.nix).${sys.profile};
+  # TODO: specialisations
+  assigns = mkMerge (attrValues (filterAttrs (n: _: builtins.elem n sys.profile) (import ./assigns.nix)));
   bars = import ./bars.nix {
     inherit
       config
@@ -48,7 +52,6 @@ in
     default = usr.wm == "sway";
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ sway-audio-idle-inhibit ];
     wayland.windowManager.sway = {
       enable = true;
       checkConfig = true;
@@ -59,7 +62,8 @@ in
       extraConfig =
         (readFile ./win-rules)
         + (
-          if sys.profile == "work" || sys.profile == "pers" then
+          # TODO: specialisations
+          if builtins.any (p: builtins.elem p ["work" "pers"]) sys.profile then
             ''
               output eDP-1 pos 0 0 res 1920x1080
               output DP-8 pos 1920 0 res 1920x1080
@@ -100,14 +104,7 @@ in
         workspaceAutoBackAndForth = true;
         # workspaceLayout = "stacking";
         terminal = usr.term;
-        startup = [
-          { command = "${usr.term} -e tmux a"; }
-          { command = "exec nohup sway-audio-idle-inhibit &"; }
-          { command = "exec ${pkgs.writeShellScript "notify-bat" ./notify-bat.sh}"; }
-          {
-            command = "exec sleep 1 && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP";
-          }
-        ];
+        startup = map (c: { command = "exec ${c}"; }) config.u.wm.wayland.autoStart;
         seat = {
           "*" = {
             hide_cursor = "when-typing enable";
@@ -143,7 +140,7 @@ in
         floating = {
           border = 2;
           criteria = [
-            # am i stupid or should this not enforce floating behavior?
+            # TOOD: pwvucontrol
             { class = "Pavucontrol"; }
             { class = "Gpick"; }
           ];

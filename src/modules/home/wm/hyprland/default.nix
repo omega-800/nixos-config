@@ -33,245 +33,94 @@ in
       ];
       xwayland.enable = true;
       systemd.enable = true;
-      extraConfig = ''
-        ${builtins.readFile ./config/modules/general.conf}
-        ${builtins.readFile ./config/modules/io.conf}
-        ${builtins.readFile ./config/modules/keys.conf}
-        ${builtins.readFile ./config/modules/style.conf}
-        ${builtins.readFile ./config/modules/rules.conf}
-      '';
-    };
-
-    home.packages = with pkgs; [
-      killall
-      pinentry-gnome3
-      polkit_gnome
-      wlr-randr
-      wtype
-      ydotool
-      wl-clipboard
-      hyprland-protocols
-      hyprpicker
-      fnott
-      fuzzel
-      keepmenu
-      wev
-      grim
-      slurp
-      libsForQt5.qt5.qtwayland
-      qt6.qtwayland
-      xdg-utils
-      xdg-desktop-portal
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
-      wlsunset
-      pamixer
-      tesseract4
-    ];
-    services.hypridle = {
-      enable = true;
       settings = {
-        general = {
-          lock_cmd = lock_cmd;
-          before_sleep_cmd = lock_cmd;
+        "windowrulev2" = "suppressevent maximize, class:.*";
+        gestures = {
+          workspace_swipe = true;
         };
-        listener = [
-          {
-            timeout = 180; # 3mins
-            on-timeout = lock_cmd;
-          }
-          {
-            timeout = 240; # 4mins
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-          {
-            timeout = 540; # 9mins
-            on-timeout = suspend_cmd;
-          }
+        input = {
+          kb_layout = "ch";
+          kb_variant = "de";
+          repeat_delay = 300;
+          repeat_rate = 50;
+          follow_mouse = 0;
+          touchpad = {
+            natural_scroll = true;
+            disable_while_typing = true;
+            clickfinger_behavior = true;
+            scroll_factor = 0.5;
+          };
+        };
+        exec-once = config.u.wm.wayland.autoStart;
+        bind = [
+          "$mod, left, movefocus, l"
+          "$mod, right, movefocus, r"
+          "$mod, up, movefocus, u"
+          "$mod, down, movefocus, d"
+
+          "$mod, H, movefocus, l"
+          "$mod, L, movefocus, r"
+          "$mod, K, movefocus, u"
+          "$mod, J, movefocus, d"
+
+          "ALT,R,submap,resize"
+
+          "$mod, 1, workspace, 1"
+          "$mod, 2, workspace, 2"
+          "$mod, 3, workspace, 3"
+          "$mod, 4, workspace, 4"
+          "$mod, 5, workspace, 5"
+          "$mod, 6, workspace, 6"
+          "$mod, 7, workspace, 7"
+          "$mod, 8, workspace, 8"
+          "$mod, 9, workspace, 9"
+          "$mod, 0, workspace, 10"
+
+          "$mod SHIFT, 1, movetoworkspace, 1"
+          "$mod SHIFT, 2, movetoworkspace, 2"
+          "$mod SHIFT, 3, movetoworkspace, 3"
+          "$mod SHIFT, 4, movetoworkspace, 4"
+          "$mod SHIFT, 5, movetoworkspace, 5"
+          "$mod SHIFT, 6, movetoworkspace, 6"
+          "$mod SHIFT, 7, movetoworkspace, 7"
+          "$mod SHIFT, 8, movetoworkspace, 8"
+          "$mod SHIFT, 9, movetoworkspace, 9"
+          "$mod SHIFT, 0, movetoworkspace, 10"
+
+          "$mod, M, togglespecialworkspace, magic"
+          "$mod SHIFT, M, movetoworkspace, special:magic"
+
+          "$mod, mouse_down, workspace, e+1"
+          "$mod, mouse_up, workspace, e-1"
+        ];
+        binde = [
+          "$mod Control_L,L,resizeactive,10 1"
+          "$mod Control_L,H,resizeactive,-10 0"
+          "$mod Control_L,K,resizeactive,0 -10"
+          "$mod Control_L,J,resizeactive,0 10"
+        ];
+        bindm = [
+          "$mod, mouse:272, movewindow"
+          "$mod, mouse:273, resizewindow"
         ];
       };
-    };
-    programs = {
-      hyprlock = {
-        enable = true;
-        extraConfig = builtins.replaceStrings [ "~/.config/hypr/hyplock/status.sh" ] [
-          "${lib.writeShellScript "hyprlockstatus" builtins.readFile ./config/hyprlock/status.sh}"
-        ] (builtins.readFile ./config/hyprlock.conf);
-      };
+      submaps = {
+        resize = {
+          settings = {
+            binde = [
+              ",right,resizeactive,10 0"
+              ",left,resizeactive,-10 0"
+              ",up,resizeactive,0 -10"
+              ",down,resizeactive,0 10"
 
-      waybar = {
-        enable = true;
-        settings = {
-          mainBar = {
-            layer = "top";
-            position = "top";
-            height = 35;
-            margin = "7 7 3 7";
-            spacing = 2;
-
-            modules-left = [
-              "custom/os"
-              "custom/hyprprofile"
-              "battery"
-              "backlight"
-              "keyboard-state"
-              "pulseaudio"
-              "cpu"
-              "memory"
+              ",L,resizeactive,10 0"
+              ",H,resizeactive,-10 0"
+              ",K,resizeactive,0 -10"
+              ",J,resizeactive,0 10"
             ];
-            modules-center = [ "hyprland/workspaces" ];
-            modules-right = [
-              "idle_inhibitor"
-              "tray"
-              "clock"
+            bind = [
+              ",escape,submap,reset"
             ];
-
-            "custom/os" = {
-              "format" = " {} ";
-              "exec" = ''echo "" '';
-              "interval" = "once";
-            };
-            "custom/hyprprofile" = {
-              "format" = "   {}";
-              "exec" = "cat ~/.hyprprofile";
-              "interval" = 3;
-              "on-click" = "hyprprofile-dmenu";
-            };
-            "keyboard-state" = {
-              "numlock" = true;
-              "format" = " {icon} ";
-              "format-icons" = {
-                "locked" = "󰎠";
-                "unlocked" = "󱧓";
-              };
-            };
-            "hyprland/workspaces" = {
-              "format" = "{icon}";
-              "format-icons" = {
-                "1" = "󱚌";
-                "2" = "󰖟";
-                "3" = "";
-                "4" = "󰎄";
-                "5" = "󰋩";
-                "6" = "";
-                "7" = "󰄖";
-                "8" = "󰑴";
-                "9" = "󱎓";
-                "scratch_term" = "_";
-                "scratch_ranger" = "_󰴉";
-                "scratch_musikcube" = "_";
-                "scratch_btm" = "_";
-                "scratch_pavucontrol" = "_󰍰";
-              };
-              "on-click" = "activate";
-              "on-scroll-up" = "hyprctl dispatch workspace e+1";
-              "on-scroll-down" = "hyprctl dispatch workspace e-1";
-              #"all-outputs" = true;
-              #"active-only" = true;
-              "ignore-workspaces" = [
-                "scratch"
-                "-"
-              ];
-              #"show-special" = false;
-              #"persistent-workspaces" = {
-              #    # this block doesn't seem to work for whatever reason
-              #    "eDP-1" = [1 2 3 4 5 6 7 8 9];
-              #    "DP-1" = [1 2 3 4 5 6 7 8 9];
-              #    "HDMI-A-1" = [1 2 3 4 5 6 7 8 9];
-              #    "1" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "2" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "3" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "4" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "5" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "6" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "7" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "8" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #    "9" = ["eDP-1" "DP-1" "HDMI-A-1"];
-              #};
-            };
-
-            "idle_inhibitor" = {
-              format = "{icon}";
-              format-icons = {
-                activated = "󰅶";
-                deactivated = "󰾪";
-              };
-            };
-            tray = {
-              #"icon-size" = 21;
-              "spacing" = 10;
-            };
-            clock = {
-              "interval" = 1;
-              "format" = "{:%a %Y-%m-%d %I:%M:%S %p}";
-              "timezone" = sys.timezone;
-              "tooltip-format" = ''
-                <big>{:%Y %B}</big>
-                <tt><small>{calendar}</small></tt>'';
-            };
-            cpu = {
-              "format" = "{usage}% ";
-            };
-            memory = {
-              "format" = "{}% ";
-            };
-            backlight = {
-              "format" = "{percent}% {icon}";
-              "format-icons" = [
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-              ];
-            };
-            battery = {
-              "states" = {
-                "good" = 95;
-                "warning" = 30;
-                "critical" = 15;
-              };
-              "format" = "{capacity}% {icon}";
-              "format-charging" = "{capacity}% ";
-              "format-plugged" = "{capacity}% ";
-              #"format-good" = ""; # An empty format will hide the module
-              #"format-full" = "";
-              "format-icons" = [
-                ""
-                ""
-                ""
-                ""
-                ""
-              ];
-            };
-            pulseaudio = {
-              "scroll-step" = 1;
-              "format" = "{volume}% {icon}  {format_source}";
-              "format-bluetooth" = "{volume}% {icon}  {format_source}";
-              "format-bluetooth-muted" = "󰸈 {icon}  {format_source}";
-              "format-muted" = "󰸈 {format_source}";
-              "format-source" = "{volume}% ";
-              "format-source-muted" = " ";
-              "format-icons" = {
-                "headphone" = "";
-                "hands-free" = "";
-                "headset" = "";
-                "phone" = "";
-                "portable" = "";
-                "car" = "";
-                "default" = [
-                  ""
-                  ""
-                  ""
-                ];
-              };
-              "on-click" = "pypr toggle pavucontrol && hyprctl dispatch bringactivetotop";
-            };
           };
         };
       };

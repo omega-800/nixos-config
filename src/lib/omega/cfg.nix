@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, sys, ... }:
 let
   inherit (import ../flake/utils/vars.nix) PATHS CONFIGS;
 in
@@ -9,6 +9,9 @@ rec {
     {
       config = {
         _module.args = {
+          globals = {
+            inherit PATHS CONFIGS;
+          };
           inherit PATHS CONFIGS;
         };
         c.net.hostname = hostname;
@@ -22,10 +25,26 @@ rec {
       modules = mkCfgModules hostname;
     }).config.c.${type}.${name};
 
+  mkSpecialisation =
+    type: config:
+    if (builtins.elem type sys.profile) then
+      (
+        if ((builtins.elemAt sys.profile 0) == type) then
+          config
+        else
+          {
+            specialisation.${type}.configuration = config;
+          }
+      )
+    else
+      { };
+
   #TODO: flake.checks.isOnlyOrchestrator && flake.checks.hasOrchestrator
   getOrchestrator = builtins.elemAt (filterHosts (c: builtins.elem "master" c.sys.flavors)) 0;
 
   filterHosts = fn: map (c: c.net.hostname) (filterCfgs fn);
+
+  cfgsOfFlavor = flavor: filterCfgs (c: builtins.elem flavor c.sys.flavors);
 
   filterCfgsByVal =
     type: name: val:
@@ -35,8 +54,12 @@ rec {
 
   getCfgAttrOfAllHosts = type: name: map (hostname: (getCfgAttr hostname type name)) allHosts;
 
+  getCfgAttrOfMatchingHosts =
+    fn: type: name:
+    map (c: c.${type}.${name}) (filterCfgs fn);
+
   allCfgs = mapHosts (
-    n: v:
+    n: _:
     (lib.evalModules {
       modules = mkCfgModules n;
     }).config.c
@@ -48,8 +71,11 @@ rec {
     fn:
     lib.mapAttrsToList fn (
       lib.filterAttrs (
-        n: v: v == "directory" && builtins.pathExists (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
+        # TODO: merge with flake-lib modules.nix
+        n: v:
+        v == "directory"
+        && !(lib.hasPrefix "_" n)
+        && builtins.pathExists (PATHS.NODES + /${n}/${CONFIGS.omega}.nix)
       ) (builtins.readDir PATHS.NODES)
     );
-
 }

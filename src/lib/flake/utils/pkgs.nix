@@ -12,28 +12,29 @@ let
       inherit (inputs.nixpkgs-unstable) lib;
     })
     rmSuffix
-    rmPrefix
     ;
 in
 rec {
   mkOverlays =
     isStable: system: isGenericLinux:
     [
-      (self: super: inputs.self.packages.${system})
+      (_: _: inputs.self.packages.${system})
       (getInput "nur" isStable).overlays.default
-      # (getInput "openconnect-sso" isStable).overlay
     ]
     ++ (optionals (!isStable) [
       inputs.rust-overlay.overlays.default
+      inputs.niri.overlays.niri
     ])
-    ++ (optionals isGenericLinux [ (getInput "nixgl" isStable).overlay ]);
+    ++ (optionals isGenericLinux [ 
+      (getInput "nixgl" isStable).overlay 
+    ]);
 
   mkInputs =
     isStable:
-    mapAttrs' (n: v: nameValuePair (rmSuffix "-unstable" (rmSuffix "-stable" n)) v) (
+    mapAttrs' (n: nameValuePair (rmSuffix "-unstable" (rmSuffix "-stable" n))) (
       filterAttrs (
-        n: v:
-        (isStable && (hasSuffix "-stable" n))
+        n: _:
+        (isStable && hasSuffix "-stable" n)
         || (!isStable && hasSuffix "-unstable" n)
         || ((!hasSuffix "-stable" n) && (!hasSuffix "-unstable" n))
       ) inputs
@@ -41,18 +42,15 @@ rec {
 
   getInput = name: isStable: inputs."${name}-${if isStable then "" else "un"}stable";
 
-  getPkgsInput = isStable: getInput "nixpkgs" isStable;
+  getPkgsInput = getInput "nixpkgs";
 
-  getHomeMgrInput = isStable: getInput "home-manager" isStable;
+  getHomeMgrInput = getInput "home-manager";
 
   mkPkgs =
     isStable: system: isGenericLinux:
     (import (getPkgsInput isStable) {
       inherit system;
-      config = {
-        allowUnfree = true;
-        allowUnfreePredicate = (_: true);
-      };
+      config = { };
       overlays = mkOverlays isStable system isGenericLinux;
     });
 }

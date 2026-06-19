@@ -1,5 +1,4 @@
 {
-  usr,
   lib,
   pkgs,
   ...
@@ -16,6 +15,7 @@
     splitbelow = true;
     splitright = true;
     scrolloff = 8;
+    conceallevel = 0;
 
     autoindent = true;
     expandtab = true;
@@ -32,7 +32,9 @@
     wildignore = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx";
     path = ".,,**";
 
-    colorcolumn = "120";
+    textwidth = 80;
+    wrap = false;
+    colorcolumn = "80,120";
     cursorline = true;
     cursorcolumn = true;
     autoread = true;

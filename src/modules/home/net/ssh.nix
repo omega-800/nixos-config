@@ -24,7 +24,8 @@ in
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      matchBlocks = {
+      enableDefaultConfig = false;
+      settings = {
         "*" = {
           forwardAgent = false;
           # addKeysToAgent = "confirm";
@@ -63,49 +64,13 @@ in
           // v
         )
         {
-          Apollo = {
-            hostname = "apollo.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            extraOptions.HostkeyAlgorithms = "ssh-rsa";
+          gh = {
+            hostname = "github.com";
+            identityFile = "~/.ssh/id_ed25519";
           };
-          Pluto = {
-            hostname = "ns1.inteco.ch";
-            port = 6699;
-            user = "root";
-          };
-          Zeus = {
-            hostname = "zeus.inteco.ch";
-            port = 6699;
-            user = "root";
-          };
-          Morpheus = {
-            hostname = "morpheus.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            extraOptions.Ciphers = "aes256-cbc";
-          };
-          SB = {
-            hostname = "scherer-buehler.ch";
-            port = 6699;
-            user = "inteco";
-            #extraOptions.HostkeyAlgorithms = "ssh-rsa";
-          };
-          Ares = {
-            hostname = "ares.inteco.ch";
-            port = 6699;
-            user = "inteco";
-            extraOptions.Ciphers = "aes256-cbc";
-          };
-          Dionysos = {
-            hostname = "172.16.200.121";
-            port = 22;
-            user = "inteco";
-          };
-          Wegas = {
-            hostname = "172.16.200.40";
-            port = 22;
-            user = "inteco";
+          oss-gl = {
+            hostname = "gitlab.com";
+            identityFile = "~/.ssh/gitlab";
           };
           AADL = {
             hostname = "coder-vscode.coder.infs.ch--georgiyshevoroshkin--AADL.main";

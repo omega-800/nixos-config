@@ -1,7 +1,5 @@
 {
-  inputs,
   config,
-  sys,
   lib,
   pkgs,
   usr,
@@ -13,9 +11,9 @@ let
     mkOption
     types
     mkIf
-    mkMerge
     ;
   qtileEnvironment = pkgs.python3.withPackages (
+    # what, this seems wrong, what did i do here
     _: with pkgs.python3Packages; [
       qtile
       qtile-extras

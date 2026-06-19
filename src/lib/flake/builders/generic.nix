@@ -8,8 +8,6 @@ let
     mapHostConfigs
     CONFIGS
     ;
-in
-rec {
   mkGeneric =
     hostname:
     let
@@ -20,6 +18,8 @@ rec {
       #specialArgs = mkArgs cfg;
       modules = mkModules cfg CONFIGS.systemConfigs;
     };
-
+in
+{
+  inherit mkGeneric;
   mapGenerics = mapHostConfigs CONFIGS.systemConfigs mkGeneric;
 }

@@ -26,7 +26,7 @@ let
     package
     submodule
     ;
-  inherit (builtins) length elem;
+  inherit (builtins) length elem attrValues;
 in
 {
   options.c = {
@@ -53,7 +53,7 @@ in
           x: (isString x && x == "dynamic") || (length x == 3)
         );
         default =
-          if config.c.sys.profile == "serv" then
+          if (elem "serv" config.c.sys.profile) then
             [
               10
               0
@@ -65,7 +65,7 @@ in
       prefix = mkOption {
         description = "network prefix length";
         type = nullOr (ints.between 1 32);
-        default = if config.c.sys.profile == "serv" then 24 else null;
+        default = if (elem "serv" config.c.sys.profile) then 24 else null;
       };
       domain = mkOption {
         description = "domain";
@@ -90,7 +90,7 @@ in
       profile =
         let
           profiles = listFilterDirs (
-            n: v:
+            n: _:
             !(elem n [
               "default"
               "partials"
@@ -98,8 +98,8 @@ in
           ) PATHS.PROFILES;
         in
         mkOption {
-          type = enum profiles;
-          default = "pers";
+          type = listOf (enum profiles);
+          default = [ "pers" ];
         }; # select a profile defined from my profiles directory
       #TODO: implement
       flavors = mkOption {
@@ -117,9 +117,20 @@ in
         ]);
         default = [ ];
       };
+      # FIXME:
+      stationary = mkOption {
+        type = bool;
+        default = builtins.any (
+          p:
+          builtins.elem p [
+            "serv"
+            "gaymer"
+          ]
+        ) config.c.sys.profile;
+      };
       stable = mkOption {
         type = bool;
-        default = config.c.sys.profile == "serv";
+        default = elem "serv" config.c.sys.profile;
       };
       system = mkOption {
         type = str;
@@ -173,7 +184,7 @@ in
       };
       monitorMeDaddy = mkOption {
         type = bool;
-        default = config.c.sys.profile == "serv";
+        default = elem "serv" config.c.sys.profile;
       };
     };
     usr = {
@@ -182,9 +193,15 @@ in
         default = !config.c.usr.minimal;
       };
       browser = mkOption {
-        type = str;
+        type = enum (
+          [
+            "echo"
+            "zen-browser"
+          ]
+          ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers))
+        );
         # Print the URL instead on servers
-        default = if config.c.usr.minimal then "echo" else "firefox";
+        default = if config.c.usr.minimal then "echo" else "qutebrowser";
       };
       username = mkOption {
         type = str;
@@ -210,45 +227,54 @@ in
         type = str;
         default = "gshevoroshkin@gmail.com";
       };
-      dotfilesDir = mkOption {
-        type = str;
-        default = "~/.dotfiles";
-      };
       theme = mkOption {
         type =
           let
-            themes = listDirs PATHS.THEMES;
+            themes = listNixModuleNames PATHS.THEMES;
           in
           enum themes;
         default = "catppuccin-mocha";
       };
       wm = mkOption {
-        type = str;
+        type = str
+        # TODO: mapModules filter pred 
+        #   enum (
+        #   builtins.filter (n: n != "x11" && n != "misc" && n != "wayland") (
+        #     listNixModuleNames (PATHS.M_HOME + /wm)
+        #   )
+        # )
+        ;
         default = if config.c.usr.minimal then "none" else "dwm";
       };
       wmType = mkOption {
-        type = str;
+        type = enum [
+          "none"
+          "x11"
+          "wayland"
+        ];
         default =
           if config.c.usr.minimal then
             "none"
           else if
             (elem config.c.usr.wm [
-              "hyprland"
-              "sway"
-              "river"
+              "dwm"
+              "qtile"
+              "xmonad"
             ])
           then
-            "wayland"
+            "x11"
           else
-            "x11";
+            "wayland";
       };
       term = mkOption {
-        type = enum [
-          "alacritty"
-          "kitty"
-          "st"
-        ];
-        default = "alacritty";
+        type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
+        default =
+          if (!config.c.usr.extraBloat || config.c.usr.minimal) then
+            "st"
+          else if config.c.usr.wmType == "wayland" then
+            "kitty"
+          else
+            "alacritty";
       }; # Default terminal command
       font = mkOption {
         type = str;
@@ -266,14 +292,15 @@ in
         default = "nvim";
       };
       shell = mkOption {
-        type = enum (
-          with pkgs;
-          [
+        # TODO: switch to string
+        type = enum (attrValues {
+          inherit (pkgs)
             bash
             zsh
             dash
-          ]
-        );
+            nushell
+            ;
+        });
         default = pkgs.bash;
       };
       termColors = mkOption {

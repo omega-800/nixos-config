@@ -1,7 +1,7 @@
 {
-  config,
   inputs,
   sys,
+  lib,
   usr,
   pkgs,
   net,
@@ -9,130 +9,148 @@
   ...
 }:
 let
-  inherit (globals.envVars) NIXOS_CONFIG;
-  runScript = "${pkgs.writeScript "rofi_cmd" (builtins.readFile ../../utils/scripts/rofi-run.sh)}";
-  killScript = "${pkgs.writeScript "rofi_kill" (builtins.readFile ../../utils/scripts/rofi-kill.sh)}";
-  kaomojiScript = "${pkgs.writeShellScript "kaomoji" ''
-    db="${../../utils/scripts/kaomoji.txt}"
-    selection=$(rofi -m -4 -i -dmenu $@ < "$db")
-    kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
-    echo -n "$kaomoji" | xclip -selection clipboard
-  ''}";
-  volumeScript = "${pkgs.writeScript "volume_control" (
-    builtins.readFile ../../utils/scripts/volume.sh
-  )}";
-  backlightScript = "${pkgs.writeScript "brightness_control" (
-    builtins.readFile ../../utils/scripts/backlight.sh
-  )}";
-  screensScript = "${pkgs.writeScript "screens_control" (
-    builtins.readFile ../../utils/scripts/home.sh
-  )}";
-  sxhkdHelperScript = "${pkgs.writeScript "sxhkd_helper" (
-    builtins.readFile ../../utils/scripts/sxhkd_helper.sh
-  )}";
   rcurmon = "rofi -m -4";
+  modifier = "Mod4";
+  inherit (lib.omega.misc) clipCmd;
 in
 {
   imports = [ inputs.scawm.homeManagerModules.scawm ];
-  scawm = rec {
+  scawm = {
     enable = true;
+    inherit modifier;
     autoEnable = true;
-    modifier = "Mod4";
+    integrations.sxhkd.bindings = {
+      "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500'';
+      "${modifier}+s;x;h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
+      "${modifier}+s;k;{c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
+      "${modifier}+r;g;p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
+    };
     bindings = {
-      "${modifier}+Return" = "${usr.term}";
-      "${modifier} y" = "${pkgs.screenkey}/bin/screenkey &";
+      "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
+      "${modifier} x" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
+      "${modifier} Return" = "${usr.term}";
       "${modifier}+Alt y" = "pkill -f screenkey";
-      "${modifier}+Ctrl h" = sxhkdHelperScript;
+      "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       # Show clipmenu
       "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
-      "XF86AudioMute" = "${volumeScript} mute";
-      "XF86AudioRaiseVolume" = "${volumeScript} raise";
-      "XF86AudioLowerVolume" = "${volumeScript} lower";
-      "XF86MonBrightnessDown" = "${backlightScript} lower";
-      "XF86MonBrightnessUp" = "${backlightScript} raise";
-      "XF86Display" = "${screensScript}";
+      "XF86AudioMute" = "${pkgs.volume_control} mute";
+      "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
+      "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
+      "XF86MonBrightnessDown" = "${pkgs.brightness_control} lower";
+      "XF86MonBrightnessUp" = "${pkgs.brightness_control} raise";
+      "XF86Display" = "${pkgs.screens_control}";
       "${modifier} o" = {
         name = "open";
         switch = {
-          s = ''spotify'';
-          r = ''rofi -m -4 -show drun'';
-          m = ''minecraft-launcher'';
-          o = ''obsidian'';
-          c = ''code'';
-          v = ''${usr.term} -e nvim'';
-          i = ''drawio'';
-          q = ''qutebrowser'';
-          f = ''firefox'';
-          d = ''discord'';
-          e = ''${usr.term} -e aerc'';
-          n = ''${usr.term} -e ncmpcpp'';
-          x = ''${usr.term} -e lf'';
-          l = ''libreoffice'';
-          h = ''homebank'';
-          b = ''brave'';
+          b = "${usr.browser}";
+          c = "code";
+          d = "discord";
+          e = "${usr.term} -e aerc";
+          f = "firefox";
+          g = if usr.wmType == "x11" then "gpick" else "hyprpicker";
+          h = "homebank";
+          i = "drawio";
+          l = "libreoffice";
+          m = "minecraft-launcher";
+          n = "${usr.term} -e ncmpcpp";
+          o = "obsidian";
+          p = "xournalpp";
+          q = "qutebrowser";
+          r = "rofi -m -4 -show drun";
+          s = "spotify";
+          v = "${usr.term} -e nvim";
+          x = "${usr.term} -e lf";
+          y = "zathura"; # actually z
+          z = "${pkgs.screenkey}/bin/screenkey &"; # actually y
         };
       };
       "${modifier} r" = {
         name = "run";
         switch = {
-          "g p" = ''tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14 | xclip -selection clipboard'';
-          y = ''passmenu'';
-          r = runScript;
-          q = killScript;
-          k = kaomojiScript;
-          t = ''rofi-theme-selector'';
-          p = ''rofi-pass'';
-          o = ''rofi-obsidian'';
-          s = ''rofi-screenshot'';
-          c = ''${rcurmon} -show calc -modi calc -no-show-match -no-sort'';
-          e = ''${rcurmon} -show emoji'';
+          b = {
+            name = "bookmark";
+            switch = {
+              i = "${pkgs.rofi_bookmarks} insert";
+              o = "${pkgs.rofi_bookmarks} open";
+              c = "${pkgs.rofi_bookmarks} clip";
+              a = "${pkgs.rofi_bookmarks}";
+            };
+          };
+          c = "${pkgs.writeShellScript "rofi-calc-hack" ''${rcurmon} -show calc -modi calc -no-show-match -no-sort -calc-command "${clipCmd "'{result}'"}"''}";
+          e = "${rcurmon} -show emoji";
           f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
-          w = ''${rcurmon} -show window'';
-          # "h d" = ''echo -e {'enable="Alt+e" \ndisable="Alt+d" \nstop="Alt+k" \nrestart="Alt+r" \ntail="Alt+t"} | ${rcurmon} -dmenu'';
+          k = "${pkgs.kaomoji}";
+          o = "rofi-obsidian";
+          p = "rofi-pass";
+          q = "${pkgs.rofi_kill}";
+          r = "${pkgs.rofi_cmd}";
+          s = "rofi-screenshot";
+          # t = "rofi-theme-selector";
+          t = "${pkgs.rofi_timer}";
+          w = "${rcurmon} -show window";
+          y = "passmenu";
         };
       };
       "${modifier} m" = {
         name = "music";
         stay = {
-          q = ''playerctl stop'';
-          j = ''playerctl previous'';
-          k = ''playerctl next'';
-          l = ''playerctl position 5+'';
-          h = ''playerctl position 5-'';
-          p = ''playerctl play-pause'';
-          t = ''playerctl loop Track'';
-          a = ''playerctl loop Playlist'';
-          n = ''playerctl loop None'';
-          s = ''playerctl shuffle Toggle'';
-          x = ''${volumeScript} mute'';
-          i = ''${volumeScript} raise'';
-          d = ''${volumeScript} lower'';
+          a = "playerctl loop Playlist";
+          d = "${pkgs.volume_control} lower";
+          h = "playerctl position 5-";
+          i = "${pkgs.volume_control} raise";
+          k = "playerctl next";
+          j = "playerctl previous";
+          l = "playerctl position 5+";
+          n = "playerctl loop None";
+          p = "playerctl play-pause";
+          q = "playerctl stop";
+          s = "playerctl shuffle Toggle";
+          t = "playerctl loop Track";
+          x = "${pkgs.volume_control} mute";
         };
         switch = {
-          "p o" = ''rofi-pulse-select sink'';
-          "p i" = ''rofi-pulse-select source'';
-          m = ''rofi-mpd'';
+          r = {
+            name = "pulseaudio";
+            switch = {
+              o = "rofi-pulse-select sink";
+              i = "rofi-pulse-select source";
+            };
+          };
+          m = "rofi-mpd";
         };
       };
       "${modifier} s" = {
         name = "system";
         switch = {
-          b = ''rofi-bluetooth'';
-          v = ''rofi-vpn'';
-          d = ''rofi-systemd'';
-          n = ''networkmanager_dmenu'';
-          t = ''${rcurmon} -show top -modi top'';
-          h = ''${rcurmon} -show ssh'';
-
-          "s d" = ''${backlightScript} lower'';
-          "s i" = ''${backlightScript} raise'';
-          "s r" = ''${screensScript}'';
-          # "r s" = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
-          # "r h" = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+          b = "rofi-bluetooth";
+          v = "rofi-vpn";
+          d = "rofi-systemd";
+          n = "networkmanager_dmenu";
+          t = "${rcurmon} -show top -modi top";
+          h = "${rcurmon} -show ssh";
+          s = {
+            name = "screen";
+            stay = {
+              d = "${pkgs.brightness_control} lower";
+              i = "${pkgs.brightness_control} raise";
+              r = "${pkgs.screens_control}";
+            };
+          };
+          r =
+            let
+              inherit (globals.envVars) NIXOS_CONFIG;
+            in
+            {
+              name = "rebuild";
+              switch = {
+                s = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+                h = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname}";
+              };
+            };
         };
       };
     };

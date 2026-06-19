@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, usr, ... }:
 {
   # hacky hack hack for badly written bash scripts
   bashScriptToNix =
@@ -10,4 +10,6 @@
   poolsContainFs =
     fsType: diskoCfg:
     diskoCfg.pools != null && (builtins.elem fsType (lib.mapAttrsToList (n: v: v.type) diskoCfg.pools));
+
+  clipCmd = cmd: "echo -n ${cmd} | ${if usr.wmType == "wayland" then "wl-copy" else "xclip -sel c"}";
 }

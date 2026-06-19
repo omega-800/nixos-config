@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
   inherit (lib)
     concatStringsSep
@@ -56,5 +61,20 @@ in
       keybindingsStr
       cfg.extraConfig
     ];
+
+    systemd.user.services.swhkd = {
+      Service = {
+        ExecStart = "${pkgs.writeShellScript "start-swhkd" ''
+          ${pkgs.killall}/bin/killall swhks
+          swhks & pkexec swhkd
+        ''}";
+        Type = "simple";
+      };
+      Unit = {
+        Description = "swhkd hotkey daemon";
+        BindsTo = "default.target";
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
   };
 }

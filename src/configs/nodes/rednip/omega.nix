@@ -1,9 +1,14 @@
 { pkgs, ... }:
 {
   config.c = {
-    net.id = 69;
+    net = {
+      id = 69;
+      pubkeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzbzskHnyrgboFGE/+ldf1nW5y8Bglzj6/RvepTuJQK omega@rednip"
+      ];
+    };
     sys = {
-      profile = "school";
+      profile = [ "school" ];
       system = "x86_64-linux";
       genericLinux = false;
       stable = false;
@@ -15,14 +20,15 @@
       ];
     };
     usr = {
-      devName = "omega";
       devEmail = "georgiy.shevoroshkin@ost.ch";
-      wm = "dwm";
+      wm = "river";
       shell = pkgs.zsh;
-      term = "st";
-      # term = "kitty";
+      # shell = pkgs.nushell;
+      # term = "st";
+      term = "kitty";
       extraBloat = true;
-      theme = "thinkpad";
+      # theme = "thinkpad";
+      theme = "gruvbox-dark-hard";
       termColors = {
         c1 = "31";
         c2 = "95";

@@ -1,6 +1,6 @@
 {
   globals,
-  inputs,
+  pkgs,
   usr,
   lib,
   net,
@@ -28,10 +28,10 @@ let
   opts =
     t:
     "nix eval ${NIXOS_CONFIG}#${t}Configurations.${net.hostname}.options.m --apply 'm: let lib = (import <nixpkgs> {}).lib; in builtins.toJSON m' | sed 's/\\\\\\\\//g' | sed 's/^\"//' | sed 's/\"$//' | jq 'paths(scalars) as $p | getpath($p)' -r | sort";
-  # filterEnabled = lib.omega.attrs.filterLeaves (
-  #   k: v: (v == true && k == "enable") || (v == false && k == "disable")
-  # );
 in
+# filterEnabled = lib.omega.attrs.filterLeaves (
+#   k: v: (v == true && k == "enable") || (v == false && k == "disable")
+# );
 {
 
   # home.file = {
@@ -43,22 +43,38 @@ in
   #   );
   # };
 
+  # TODO: replace "&&" with "and" for nushell
+
   home.shellAliases = mkMerge [
-    (if config.u.file.enable then rec {
-      # ll = ''ls -alF'';
-      ll = "exa --icons -a -l -F -h -g -s size --git";
-      tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
-      treed = "${tree} -D";
-      treea = "exa --tree --icons -a -l -F -h -g -s size --git";
-    } else {
-      ll = "ls -alF";
-    })
-    rec {
+    (
+      if config.u.file.enable then
+        let
+          tree = "exa --tree --icons -a -I '.git|.svn|node_modules'";
+        in
+        {
+          # ll = ''ls -alF'';
+          inherit tree;
+          ll = "exa --icons -a -l -F -h -g -s size --git";
+          treed = "${tree} -D";
+          treea = "exa --tree --icons -a -l -F -h -g -s size --git";
+        }
+      else
+        {
+          ll = "ls -alF";
+        }
+    )
+    {
+      nix-build = "nix-build --no-out-link";
+      nix-stray-roots = "nix-store --gc --print-roots | grep -vE '(/proc|/nix/var|/run/\\w+-system/\\{memory|\\{temp)'";
+      yq = "yq -Pojson";
+      klt = "khal list today";
+      kltm = "khal list tomorrow";
       nopts = opts "nixos";
       hopts = opts "home";
       ndx = ''nix-shell -p nodejs_22 --run "npx create-directus-extension@latest"'';
       hms = "home-manager switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace -b backup";
       nrs = "nixos-rebuild switch --flake ${NIXOS_CONFIG}#${net.hostname} --show-trace --sudo";
+      repl-fast = "nixos-rebuild repl --flake ${NIXOS_CONFIG}#${net.hostname}";
       nps = "nix repl --expr 'import <nixpkgs>{}'";
       ssh = "TERM=xterm-256color ssh";
       rg = "rg --hidden";
@@ -68,7 +84,7 @@ in
       cal = "cal -m";
       please = "sudo";
       c = "clear";
-      f = "fuck";
+      # f = "fuck";
       cz = "fasd_cd -d";
       greprf = "grep -Rl";
       grepr = "grep -nRHIi";
@@ -78,6 +94,7 @@ in
       coolr = "colorscript -r";
       dsa = ''docker stop $(docker ps -a --format "{{.ID}}")'';
       drma = ''docker stop $(docker ps -a --format "{{.ID}}") && docker rm $(docker ps -a --format "{{.ID}}")'';
+      drmav = ''docker volume rm $(docker volume ls --format "{{.Name}}")'';
       # vim = ''nvim'';
       # mv = ''mv -iv'';
       mv = "mv -i";
@@ -93,7 +110,7 @@ in
       ag = "alias | grep";
       cpv = "rsync -ah --info=progress2";
       ipinfo = "curl ifconfig.me && curl ifconfig.me/host";
-      clip = "xclip -sel c <";
+      clip = if usr.wmType == "wayland" then "wl-copy <" else "xclip -sel c <";
       fg = "find . -print | grep ";
       dfr = "diff -ZBbwdryEN --color --suppress-common-lines --no-dereference --speed-large-files";
       # goodbye debian
@@ -109,15 +126,14 @@ in
       fdel = "find . -size 0 -print -delete";
       loc = "locate -A";
       entry = "vim $(date +%y%m%d).txt";
+      ntyp = ''d="$(date +%y.%m.%d)"; f="$d.typ"; ( [ -f "$f" ] || echo "= $d" >> "$f" ) && vim "$f"'';
+      nwtyp = ''typst watch "$(date +%y.%m.%d).typ"'';
       qmk_left = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-left";
       qmk_right = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-right";
       qmk_cmp = "qmk compile -kb handwired/dactyl_manuform/4x6_omega -km custom";
       k_ch = "setxkbmap -layout ch -variant de";
       k_en = "setxkbmap -layout us";
       tarbak = "tar -czvf $(date +%F)-backup.tgz backup/";
-      genpass = ''
-        strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '
-        '; echo'';
       grep = "grep --color=auto";
       fgrep = "fgrep --color=auto";
       egrep = "egrep --color=auto";
@@ -130,18 +146,24 @@ in
       # nyehhehheh
       nano = "vim";
 
-      dcs = "${./scripts/docker_disk_usage.sh}";
-      flog = "${./scripts/filter_log.sh}";
-      ctf = "${./scripts/check_tmp_files.sh}";
-      csw = "${./scripts/check_swap.sh}";
-      sst = "${./scripts/show_stats.sh}";
+      dcs = "${pkgs.docker_disk_usage}";
+      flog = "${pkgs.filter_log}";
+      ctf = "${pkgs.check_tmp_files}";
+      csw = "${pkgs.check_swap}";
+      sst = "${pkgs.show_stats}";
+
+      # vpn-school = ''sudo openconnect --useragent AnyConnect --protocol anyconnect -C "$(sudo cat /run/secrets/vpn/school/cookie)" -u georgiy.shevoroshkin@ost.ch --servercert "$(sudo cat /run/secrets/vpn/school/fingerprint)" vpn2.ost.ch'';
+      vpn-school-cookie = "openconnect-sso -s vpn2.ost.ch --authenticate json";
+      vpn-school-start = "sudo systemctl start openconnect-school";
+      vpn-school-stop = "sudo systemctl stop openconnect-school";
+      switch-git-to-ssh = ''new_origin="$(git config --get remote.origin.url | sed -E "s/https:\/\/([^\/]*)\/(.*)$/git@\1:\2/")"; git remote rm origin && git remote add origin "$new_origin"'';
     }
     (mkIf (!usr.minimal) { rm = "trash"; })
     (mkIf config.u.user.nixvim.enable {
       vim = "nvim";
       vi = "nvim";
     })
-    (mkIf (config.u.user.vim.enable && (! config.u.user.nixvim.enable)) { vi = "vim"; })
+    (mkIf (config.u.user.vim.enable && (!config.u.user.nixvim.enable)) { vi = "vim"; })
     cdAliases
   ];
 }

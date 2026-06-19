@@ -7,7 +7,7 @@
 }:
 {
   envVars = rec {
-    #  FIXME: 
+    #  FIXME:
     LYNX_CFG = "${XDG_CONFIG_HOME}/lynx/lynx.cfg";
 
     MANPAGER = "less -R --use-color -Dd+r -Du+g -Dk+m -Ds+c";
@@ -28,6 +28,11 @@
     XDG_VIDEOS_DIR = "${MEDIA_DIR}/vid";
     XDG_PUBLICSHARE_DIR = "${MISC_DIR}/share";
     XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
+
+    # FIXME: only wayland?
+    # XDG_CURRENT_DESKTOP = usr.wm;
+    # XDG_SESSION_DESKTOP = usr.wm;
+    # XDG_SESSION_TYPE = usr.wmType;
 
     MAILPATH = "${XDG_DOCUMENTS_DIR}/mail";
     CONTACTPATH = "${XDG_DOCUMENTS_DIR}/contacts";
@@ -53,7 +58,8 @@
     XINITRC = "${XDG_CONFIG_HOME}/X11/xinitrc";
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
     ZCOMPDUMP = ''${XDG_CACHE_HOME}/zsh/zcompdump-"$ZSH_VERSION"'';
-    XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
+    # XAUTHORITY = "${XDG_RUNTIME_DIR}/Xauthority";
+    XAUTHORITY = "${HOME}/.Xauthority";
     XRESOURCES = "${XDG_CONFIG_HOME}/X11/xresources";
     TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
     QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -68,6 +74,13 @@
     GIT_ASKPASS = "";
     PATH = "$PATH:${XDG_BIN_HOME}";
     EDITOR = usr.editor;
+
+    # XKB_DEFAULT_LAYOUT = "de";
+    # GTK_IM_MODULE = "fcitx";
+    # QT_IM_MODULE = "fcitx";
+    # SDL_IM_MODULE = "fcitx";
+    # XMODIFIERS = "@im=fcitx";
+    # GLFW_IM_MODULE = "ibus";
   };
   sshConfig = {
     kexAlgorithms = [
@@ -96,45 +109,47 @@
   };
   styling =
     let
-      themePath = PATHS.THEMES + /${usr.theme};
-      themeYamlPath = themePath + /${usr.theme}.yaml;
-      themePolarity = lib.removeSuffix "\n" (builtins.readFile (themePath + /polarity.txt));
-      themeImage =
-        if builtins.pathExists (themePath + /${usr.theme}.png) then
-          themePath + /${usr.theme}.png
-        else
-          pkgs.fetchurl {
-            url = builtins.readFile (themePath + /backgroundurl.txt);
-            sha256 = builtins.readFile (themePath + /backgroundsha256.txt);
-          };
-      myLightDMTheme = if themePolarity == "light" then "Adwaita" else "Adwaita-dark";
+      theme = import (PATHS.THEMES + /${usr.theme}.nix);
     in
     {
-      base16Scheme = themeYamlPath;
+      icons = {
+        enable = true;
+        # package = pkgs.papirus-icon-theme;
+        # light = "Papirus-light";
+        # dark = "Papirus-dark";
+        package = pkgs.zafiro-icons;
+        light = "Zafiro-icons-Light";
+        dark = "Zafiro-icons-Dark";
+      };
+      colors = theme.scheme;
       cursor = lib.mkIf (!usr.minimal) {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Ice";
         size = 32;
       };
-      polarity = themePolarity;
-      image = themeImage;
-      fonts = rec {
-        monospace = {
-          name = usr.font;
-          package = usr.fontPkg;
+      polarity = if theme.dark then "dark" else "light";
+      image = pkgs.fetchurl (if (lib.isList theme.bg) then (lib.elemAt theme.bg 0) else theme.bg);
+      fonts =
+        let
+          monospace = {
+            name = usr.font;
+            package = usr.fontPkg;
+          };
+        in
+        {
+          inherit monospace;
+          serif = monospace;
+          sansSerif = monospace;
+          emoji = lib.mkIf (!usr.minimal) {
+            name = "Noto Color Emoji";
+            package = pkgs.noto-fonts-emoji-blob-bin;
+          };
+          sizes = {
+            terminal = 18;
+            applications = 12;
+            popups = 12;
+            desktop = 12;
+          };
         };
-        serif = monospace;
-        sansSerif = serif;
-        emoji = lib.mkIf (!usr.minimal) {
-          name = "Noto Color Emoji";
-          package = pkgs.noto-fonts-emoji-blob-bin;
-        };
-        sizes = {
-          terminal = 18;
-          applications = 12;
-          popups = 12;
-          desktop = 12;
-        };
-      };
     };
 }

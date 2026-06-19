@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption types mkIf;
+  inherit (lib) mkOption types mkIf optionals;
   cfg = config.u.utils.fetch;
 in
 {
@@ -19,16 +19,11 @@ in
     home.packages =
       with pkgs;
       [ fastfetch ]
-      ++ (
-        if usr.extraBloat then
-          [
-            owofetch
-            onefetch
-            bunnyfetch
-            ghfetch
-          ]
-        else
-          [ ]
-      );
+      ++ (optionals usr.extraBloat [
+        owofetch
+        onefetch
+        bunnyfetch
+        ghfetch
+      ]);
   };
 }

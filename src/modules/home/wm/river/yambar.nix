@@ -5,7 +5,7 @@ let
   cfg = config.u.wm.river;
 in
 {
-  config = mkIf cfg.enable {
+  config = mkIf (false && cfg.enable) {
     xdg.configFile."yambar/config.yml".source = ./yambar.yml;
     programs.yambar = {
       enable = true;

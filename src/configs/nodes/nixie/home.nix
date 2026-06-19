@@ -5,6 +5,7 @@
       enable = true;
       langSupport = [
         "md"
+        "zig"
         "go"
         "sh"
         "nix"
@@ -13,6 +14,7 @@
         "c"
         "hs"
         "dart"
+        "typst"
       ];
     };
   };

@@ -20,12 +20,24 @@ in
         "steam-unwrapped"
         "steam-run"
       ];
-    environment.systemPackages = with pkgs; [ lutris ];
+    environment = {
+      systemPackages = with pkgs; [
+        lutris
+        heroic
+        prismlauncher
+        mangohud
+        protonup-ng
+      ];
+      sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$${HOME}/.steam/root/compatibilitytools.d";
+    };
     programs.steam = {
       enable = true;
-      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-      localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+      gamescopeSession.enable = true;
+
+      # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+      # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      # localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     };
+    programs.gamemode.enable = true;
   };
 }

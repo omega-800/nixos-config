@@ -16,27 +16,53 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "obsidian" ];
+    nixpkgs.config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        # "obsidian"
+      ];
     home.packages =
       with pkgs;
       [
-        #wtff this worked yesterday??
-        #pdfslicer
-        drawio
         libreoffice
         gimp
+        /*
+          (pkgs.runCommand
+            "xournalpp"
+            { nativeBuildInputs = [ pkgs.makeWrapper ]; }
+            "makeWrapper ${pkgs.xournalpp}/bin/xournalpp $out/bin/xournalpp --set GDK_SCALE 2 --set GDK_DPI_SCALE 0.5"
+          )
+        */
       ]
+      ++ (optionals (!usr.minimal) [
+        inkscape
+        xournalpp
+      ])
       ++ (optionals usr.extraBloat (
         [
-          obsidian
+          # obsidian
+          drawio
           kdePackages.skanpage
           (if (usr.wmType == "x11") then gpick else hyprpicker)
         ]
-        ++ (optionals (sys.profile == "pers") [
+        # TODO: specialisations
+        ++ (optionals (builtins.elem "pers" sys.profile) [
           cointop
           valentina
           homebank
         ])
       ));
+    # TODO: 
+    home.file.".local/share/xournalpp/ui/xournalpp.css".text = ''
+      toolbar button
+      {
+      	padding: 18px
+      }
+
+      toolbar image 
+      {
+          -gtk-icon-transform: scale(0.5);
+      }
+    '';
   };
 }

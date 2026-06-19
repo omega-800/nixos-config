@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  usr,
   config,
   pkgs,
   ...
@@ -12,35 +13,42 @@ let
     mkEnableOption
     mkMerge
     mkIf
-    type
+    types
     ;
 in
 {
   options.m.dev.tools = {
     enable = mkEnableOption "devtools";
     disable = mkEnableOption "disabling devtools completely";
-    zen-browser.enable = mkEnableOption "zen-browser";
+    zen-browser.enable = mkOption {
+      description = "enables zen-browser";
+      type = types.bool;
+      default = usr.browser == "zen-browser";
+    };
   };
 
   config = mkMerge [
     (mkIf (cfg.enable && (!cfg.disable)) {
-      programs.nix-ld.enable = true;
+      # programs.nix-ld.enable = true;
       documentation = {
         enable = true;
         dev.enable = true;
         man = {
           enable = true;
-          generateCaches = true;
+          cache.enable = true;
           man-db.enable = true;
         };
         nixos = {
           enable = true;
-          includeAllModules = true;
+          # FIXME:
+          # okay what in the name of satan himself is happening here.
+          # if this is enabled then i can't reference config.boot.supportedFilesystems and other config values anymore
+          #   includeAllModules = true;
         };
       };
     })
     (mkIf cfg.zen-browser.enable {
-      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.system}".default ];
+      environment.systemPackages = [ inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default ];
     })
     (mkIf (cfg.disable && (!cfg.enable)) {
       documentation = {

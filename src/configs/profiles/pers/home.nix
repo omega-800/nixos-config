@@ -23,7 +23,7 @@ in
         "${WORKSPACE_DIR}/homelab"
         "${WORKSPACE_DIR}/code"
         "${WORKSPACE_DIR}/configs"
-        "${XDG_DOCUMENTS_DIR}/trading"
+        "${XDG_DOCUMENTS_DIR}/finances/trading"
         "${XDG_DOCUMENTS_DIR}/pers/diary"
         "${XDG_DOCUMENTS_DIR}/projects/homelab"
       ];

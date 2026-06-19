@@ -4,6 +4,7 @@
   pkgs,
   sys,
   usr,
+globals,
   ...
 }:
 let
@@ -23,6 +24,22 @@ in
       console = {
         inherit (sys) font;
         packages = [ sys.fontPkg ];
+      };
+    })
+    (mkIf (false && cfg.enable && usr.style) {
+      services.kmscon = {
+        fonts = [
+          {
+            package =  usr.fontPkg;
+            name = usr.font;
+          }
+        ];
+        extraConfig = "font-size=${toString globals.styling.fonts.sizes.applications}";
+
+        enable = true;
+        useXkbConfig = true;
+        hwRender = true;
+        term = "xterm-256color";
       };
     })
     (mkIf (!cfg.enable) {
