@@ -3,14 +3,15 @@
   config.c = {
     net = {
       id = 12;
-      network = [
-        10
-        0
-        0
-      ];
+      #network = [
+      #  10
+      #  0
+      #  0
+      #];
+      pubkeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF1wvPYjUK/HR8jsusm1m5rAmD9Ds0rqzMs9wmtYoWG2 omega@gojira" ];
     };
     sys = {
-      profile = "serv";
+      profile = "pers";
       system = "x86_64-linux";
       genericLinux = false;
       paranoid = lib.mkForce false;
@@ -26,6 +27,9 @@
     };
     usr = {
       shell = pkgs.zsh;
+      minimal = true;
+      wm = "sway";
+      extraBloat = false;
       theme = "gruvbox-dark-hard";
       termColors = {
         c1 = "35";

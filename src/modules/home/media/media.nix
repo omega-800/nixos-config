@@ -69,7 +69,7 @@ in
         else
           [ ]
       );
-    home.file.".profile".text = mkIf (!usr.minimal) "[ ! -s ~/.config/mpd/pid ] && mpd";
+    home.file.".profile" = mkIf (!usr.minimal) {text="[ ! -s ~/.config/mpd/pid ] && mpd";};
     programs = mkIf usr.extraBloat {
       ncspot = {
         enable = true;

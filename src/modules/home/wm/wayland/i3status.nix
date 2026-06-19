@@ -18,7 +18,10 @@ in
     programs.i3status = {
       enable = true;
       enableDefault = false;
-      general = with config.lib.stylix.colors; {
+      general = 
+
+if "stylix" ? config.lib then
+      with config.lib.stylix.colors; {
         colors = true;
         color_good = "#${base0B}";
         color_degraded = "#${base0E}";
@@ -26,7 +29,7 @@ in
         interval = 10;
         separator = "|";
         output_format = "i3bar";
-      };
+      } else {};
       modules = {
         # eth 
         "ethernet _first_" = {

@@ -4,6 +4,7 @@
 {
   config,
   lib,
+  usr,
   pkgs,
   modulesPath,
   ...
@@ -48,10 +49,8 @@
     ];
   };
 
-  fileSystems."/store" = {
-    device = "${
-      lib.omega.cfg.getCfgAttr "little-fella" "usr" "username"
-    }@${lib.omega.net.ip4.ipOfHostAsStr "little-fella"}:/store/gojira";
+  fileSystems."${config.services.nextcloud.home}/data/${usr.username}/files" = {
+    device = "${lib.omega.net.ip4.ipOfHostAsStr "little-fella"}:/store/nc";
     fsType = "nfs";
   };
   boot.supportedFilesystems = [ "nfs" ];

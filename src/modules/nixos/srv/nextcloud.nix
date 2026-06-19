@@ -26,6 +26,7 @@ in
         owner = config.users.users.nextcloud.name;
       };
     };
+    systemd.tmpfiles.rules = ["Z /store - ${config.users.users.nextcloud.name} ${config.users.users.nextcloud.group}"];
     networking.firewall.allowedTCPPorts = [
       80
       443

@@ -5,6 +5,7 @@
   usr,
   ...
 }:
+if "stylix" ? config.lib then
 with config.lib.stylix.colors;
 [
   {
@@ -54,4 +55,4 @@ with config.lib.stylix.colors;
     # command = "i3bar";
     statusCommand = "${pkgs.i3status}/bin/i3status"; # ${globals.envVars.XDG_CONFIG_HOME}/i3status-rust/config-default.toml";
   }
-]
+] else []

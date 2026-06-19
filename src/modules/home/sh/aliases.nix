@@ -141,7 +141,7 @@ in
       vim = "nvim";
       vi = "nvim";
     })
-    (mkIf config.u.user.vim.enable { vi = "vim"; })
+    (mkIf (config.u.user.vim.enable && (! config.u.user.nixvim.enable)) { vi = "vim"; })
     cdAliases
   ];
 }
