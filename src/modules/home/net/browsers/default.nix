@@ -5,6 +5,7 @@
     ./luakit.nix
     ./chromium.nix
     ./qutebrowser.nix
+    ./servo.nix
     ./surf.nix
   ];
 }

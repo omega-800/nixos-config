@@ -72,12 +72,20 @@
     initrd.kernelModules = [ "nvidia" ];
     extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   };
-  environment.systemPackages = with pkgs; [
-    mesa-demos
-    pciutils
-    inxi
-    lshw
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      mesa-demos
+      pciutils
+      inxi
+      lshw
+      wlr-randr
+      wdisplays
+    ];
+    sessionVariables = {
+      NVIDIA_DRIVER_CAPABILITIES = "graphics,utility";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
+  };
   hardware = {
     graphics = {
       enable = true;

@@ -12,7 +12,6 @@ let
   inherit (lib) optionalAttrs optionals;
 in
 {
-  # FIXME: colors wrong after stylix update
   imports = if usr.style then [ inputs.stylix.homeModules.stylix ] else [ ];
   config =
     if !usr.style then
@@ -23,7 +22,7 @@ in
           u.wm.x11.initExtra = "feh --no-fehbg --bg-fill ${config.stylix.image}";
         })
         {
-          gtk.gtk4.theme = null; # config.gtk.theme;
+          gtk.gtk4.theme = lib.mkForce null; # config.gtk.theme;
           fonts.fontconfig.enable = true;
           home = {
             packages =
@@ -116,13 +115,6 @@ in
             "*color6" = base0C;
             "*color7" = base05;
 
-            # "*color8" = base02;
-            # "*color9" = base08;
-            # "*color10" = base0B;
-            # "*color11" = base0A;
-            # "*color12" = base0D;
-            # "*color13" = base0E;
-            # "*color14" = base0C;
             "*color8" = lib.mkForce base03;
             "*color9" = lib.mkForce base09;
             "*color10" = lib.mkForce base01;
