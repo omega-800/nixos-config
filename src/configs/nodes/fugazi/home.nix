@@ -1,8 +1,10 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.cudaSupport.enable = true;
   u = {
     media.spicetify.enable = true;
     dev.jetbrains.enable = true;
+    dev.slop.enable = true;
     # net.luakit.enable = true;
     user.nixvim.langSupport = [
       "c"

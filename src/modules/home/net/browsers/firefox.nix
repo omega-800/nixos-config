@@ -197,8 +197,12 @@ in
               urls = [ { template = "https://annas-archive.li/search?q={searchTerms}"; } ];
               definedAliases = [ "@aa" ];
             };
+            "arxiv" = {
+              urls = [ { template = "https://arxiv.org/search/?query={searchTerms}"; } ];
+              definedAliases = [ "@ax" ];
+            };
             "bing".metaData.hidden = true;
-            "google".metaData.alias = "@gg"; 
+            "google".metaData.alias = "@gg";
           };
         };
 

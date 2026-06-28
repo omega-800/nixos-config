@@ -9,6 +9,16 @@
     ./hardware-configuration.nix
   ];
 
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "i686-linux"
+  ];
+  nix.settings.extra-platforms = [
+    "aarch64-linux"
+    "arm-linux"
+    "i686-linux"
+  ];
+
   m.hw = {
     # audio.pipewire = false;
     io = {
@@ -18,7 +28,7 @@
   };
 
   # FIXME: 2aa8ca3
-  m.sw.steam.enable = lib.mkForce false;
+  # m.sw.steam.enable = lib.mkForce false;
 
   networking.extraHosts = "127.0.0.1 nextcloud.lan";
 
@@ -106,5 +116,7 @@
     };
   };
   nixpkgs.config.allowUnfree = true;
+  # TODO: overarching nixpkgs config
+  nixpkgs.config.cudaSupport.enable = true;
   system.stateVersion = "25.11";
 }
