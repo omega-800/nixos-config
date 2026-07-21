@@ -19,11 +19,13 @@
     "i686-linux"
   ];
 
-  m.hw = {
-    # audio.pipewire = false;
-    io = {
-      enable = true;
-      tablet.enable = true;
+  m = {
+    hw = {
+      # audio.pipewire = false;
+      io = {
+        enable = true;
+        tablet.enable = true;
+      };
     };
   };
 
@@ -117,6 +119,6 @@
   };
   nixpkgs.config.allowUnfree = true;
   # TODO: overarching nixpkgs config
-  nixpkgs.config.cudaSupport.enable = true;
+  # nixpkgs.config.cudaSupport = true;
   system.stateVersion = "25.11";
 }

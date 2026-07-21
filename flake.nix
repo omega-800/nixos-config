@@ -53,6 +53,15 @@
       url = "github:nix-community/nix-jetbrains-plugins";
     };
 
+    opencode-vim-unstable = {
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:leohenon/opencode-vim";
+    };
+    opencode-vim-stable = {
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:leohenon/opencode-vim";
+    };
+
     # döes nöt nörk :(
     # simplex = {
     #   url = "github:simplex-chat/simplex-chat";

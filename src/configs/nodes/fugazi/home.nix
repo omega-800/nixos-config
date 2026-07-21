@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  nixpkgs.config.cudaSupport.enable = true;
+  # nixpkgs.config.cudaSupport = true;
   u = {
     media.spicetify.enable = true;
     dev.jetbrains.enable = true;
