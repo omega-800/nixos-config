@@ -35,6 +35,7 @@ in
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
+      "${modifier}+Shift z" = "woomer";
       # Show clipmenu
       "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
@@ -93,6 +94,7 @@ in
           t = "${pkgs.rofi_timer}";
           w = "${rcurmon} -show window";
           y = "passmenu";
+          z = "woomer";
         };
       };
       "${modifier} m" = {
