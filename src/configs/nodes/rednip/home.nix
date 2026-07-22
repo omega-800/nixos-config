@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  #  u.nixGLPrefix = "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel";
   u.user.nixvim.langSupport = [
     "c"
     "typst"
@@ -18,7 +17,32 @@
     "plantuml"
     "zig"
     "idris"
+    "ocaml"
   ];
-  # TODO: 
-  # home.packages = with pkgs; [ (jetbrains.plugins.addPlugins  jetbrains.idea ["ideavim"]) ];
+  u.net.servo.enable = true;
+  services.kanshi.settings = [
+    { output.criteria = "LVDS-1"; }
+    {
+      profile.name = "home";
+      profile.outputs = [
+        {
+          criteria = "LVDS-1";
+          status = "enable";
+        }
+        {
+          criteria = "VGA-2";
+          status = "enable";
+        }
+      ];
+    }
+    {
+      profile.name = "undocked";
+      profile.outputs = [
+        {
+          criteria = "LVDS-1";
+          status = "enable";
+        }
+      ];
+    }
+  ];
 }

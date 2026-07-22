@@ -4,7 +4,6 @@
   lib,
   config,
   pkgs,
-  globals,
   ...
 }:
 let
@@ -25,30 +24,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # services.gnome-keyring = {
-    #   enable = true;
-    #   components = [ "ssh" "secrets" ];
-    # };
-    programs.gpg = {
-      enable = true;
-      homedir = globals.envVars.GNUPGHOME;
-    };
-    services.gpg-agent = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      # TODO:
-      enableSshSupport = false;
-      defaultCacheTtl = 3600;
-      defaultCacheTtlSsh = 3600;
-      maxCacheTtl = 3600;
-      maxCacheTtlSsh = 3600;
-      # extraConfig = ''
-      #   allow-loopback-pinentry
-      # '';
-      pinentry.package = pkgs.pinentry-tty;
-      grabKeyboardAndMouse = true;
-    };
     home.packages = with pkgs; [ git-secrets ] ++ (optionals usr.extraBloat [ lazygit ]);
     programs = {
       git = {

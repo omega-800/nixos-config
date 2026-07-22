@@ -19,6 +19,7 @@
     ./lua.nix
     ./md.nix
     ./nix.nix
+    ./ocaml.nix
     ./plantuml.nix
     ./python.nix
     ./rust.nix

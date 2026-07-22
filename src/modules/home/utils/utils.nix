@@ -37,6 +37,7 @@ in
         screenkey
         cloc
         gnused
+        tealdeer
         (if usr.wmType == "x11" then simplescreenrecorder else kooha)
       ]);
     programs.nix-index.enable = usr.extraBloat;

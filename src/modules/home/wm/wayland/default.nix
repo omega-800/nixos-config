@@ -42,7 +42,7 @@ in
           "swaybg --image ${config.stylix.image} --mode fill"
         ])
         ++ (optionals (!sys.stationary) [
-          "nohup ${pkgs.sway-audio-idle-inhibit} &"
+          "${pkgs.sway-audio-idle-inhibit} &"
           "${pkgs.notify_bat}"
         ])
         ++ [

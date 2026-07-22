@@ -126,7 +126,7 @@ in
       fdel = "find . -size 0 -print -delete";
       loc = "locate -A";
       entry = "vim $(date +%y%m%d).txt";
-      ntyp = ''echo "= $(date +%d.%m.%y)" >> "$(date +%y.%m.%d).typ" && vim "$(date +%y.%m.%d).typ"'';
+      ntyp = ''d="$(date +%y.%m.%d)"; f="$d.typ"; ( [ -f "$f" ] || echo "= $d" >> "$f" ) && vim "$f"'';
       nwtyp = ''typst watch "$(date +%y.%m.%d).typ"'';
       qmk_left = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-left";
       qmk_right = "qmk flash -kb handwired/dactyl_manuform/4x6_omega -km custom -bl avrdude-split-right";
