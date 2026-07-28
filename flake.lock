@@ -2645,6 +2645,46 @@
         "type": "github"
       }
     },
+    "opencode-vim-stable": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784531007,
+        "narHash": "sha256-RNVI/KJ4PTPw8EQUnNGWiUxwNNYzw3M0j1Y6Vc/z/XE=",
+        "owner": "leohenon",
+        "repo": "opencode-vim",
+        "rev": "59520f9f25408773d4d61a1cd9ee21b88d5ba682",
+        "type": "github"
+      },
+      "original": {
+        "owner": "leohenon",
+        "repo": "opencode-vim",
+        "type": "github"
+      }
+    },
+    "opencode-vim-unstable": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784531007,
+        "narHash": "sha256-RNVI/KJ4PTPw8EQUnNGWiUxwNNYzw3M0j1Y6Vc/z/XE=",
+        "owner": "leohenon",
+        "repo": "opencode-vim",
+        "rev": "59520f9f25408773d4d61a1cd9ee21b88d5ba682",
+        "type": "github"
+      },
+      "original": {
+        "owner": "leohenon",
+        "repo": "opencode-vim",
+        "type": "github"
+      }
+    },
     "openconnect-sso-stable": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -2934,6 +2974,8 @@
         "nvim-strudel-stable": "nvim-strudel-stable",
         "nvim-strudel-unstable": "nvim-strudel-unstable",
         "omega-dwm": "omega-dwm",
+        "opencode-vim-stable": "opencode-vim-stable",
+        "opencode-vim-unstable": "opencode-vim-unstable",
         "openconnect-sso-stable": "openconnect-sso-stable",
         "openconnect-sso-unstable": "openconnect-sso-unstable",
         "pre-commit-hooks": "pre-commit-hooks_3",

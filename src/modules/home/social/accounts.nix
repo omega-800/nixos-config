@@ -13,7 +13,22 @@ let
     mkIf
     ;
   cfg = config.u.social.accounts;
-  pass = "${config.programs.password-store.package}/bin/pass";
+  pass = p: "${config.programs.password-store.package}/bin/pass ${p} | head -n 1";
+  hostpoint = {
+    flavor = "plain";
+    imap = {
+      authentication = "plain";
+      host = "imap.mail.hostpoint.ch";
+      # port = 143; # 993
+      port = 993;
+    };
+    smtp = {
+      authentication = "plain";
+      host = "asmtp.mail.hostpoint.ch";
+      # port = 587; # 465
+      port = 465;
+    };
+  };
 in
 {
   options.u.social.accounts.enable = mkOption {
@@ -52,7 +67,6 @@ in
                     def = {
                       authentication = "plain";
                       host = "disroot.org";
-                      tls.useStartTls = true;
                     };
                     userName = "oss_meetup";
                   in
@@ -60,6 +74,8 @@ in
                     inherit userName;
                     address = "${userName}@${def.host}";
                     realName = "OSS Meetup Rapperswil";
+                    passwordCommand = pass "school/oss-meetup-disroot";
+
                     signature.text = ''
                       Happy Hacking!
                       OSS Meetup Rapperswil
@@ -68,7 +84,7 @@ in
                       port = 993;
                     };
                     smtp = def // {
-                      port = 587;
+                      port = 465;
                     };
                   };
               }
@@ -92,71 +108,84 @@ in
                     address = "gshevoroshkin@gmail.com";
                     flavor = "gmail.com";
                     # gpg.key = "";
-                    passwordCommand = "${pass} services/google-aerc";
+                    passwordCommand = pass "services/google-aerc";
                     primary = true;
+                  };
+
+                  studentenportal = hostpoint // {
+                    userName = "team@studentenportal.ch";
+                    address = "team@studentenportal.ch";
+                    passwordCommand = pass "studentenportal/email/team@studentenportal.ch";
+                  };
+
+                  open_ost = hostpoint // {
+                    userName = "info@open-ost.ch";
+                    address = "info@open-ost.ch";
+                    passwordCommand = pass "openost/email/info@open-ost.ch";
                   };
                   /*
                     proton = {
                       address = "gshevoroshkin@proton.com";
                       flavor = "plain";
-                      passwordCommand = "${pass} services/proton";
+                      passwordCommand = pass "services/proton";
                     };
                   */
-                  school = {
-                    address = "georgiy.shevoroshkin@ost.ch";
-                    flavor = "outlook.office365.com";
-                    passwordCommand = "${pass} school/ms-aerc";
-                    # passwordCommand = "${pkgs.oama}/bin/oama access georgiy.shevoroshkin@ost.ch";
-
-                    imap = {
-                      host = "outlook.office365.com";
-                      port = 993;
-                      tls.enable = true;
-                    };
-                    smtp = {
-                      host = "smtp.office365.com";
-                      port = 587;
-                      tls = {
-                        enable = true;
-                        useStartTls = true; # only STARTTLS works
-                      };
-                    };
-                    aerc =
-                      let
-                        imapOauth2Params = {
-                          client_id = "9e5f94bc-e8a4-4e73-b8be-63364c29d753";
-                          scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All";
-                          token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
-                        };
-                      in
-                      {
-                        enable = true;
-                        imapAuth = "xoauth2";
-                        smtpAuth = "xoauth2";
-                        inherit imapOauth2Params;
-
-                        # see above for explanation
-                        smtpOauth2Params = imapOauth2Params;
-
-                        # https://man.sr.ht/~rjarry/aerc/providers/microsofto365.md
-                        # https://gitlab.fachschaften.org/nicolas.lenz/nixos/-/blob/main/home/apps/email.nix
-                        # imapOauth2Params = {
-                        #   client_id = "08162f7c-0fd2-4200-a84a-f25a4db0b584";
-                        #   client_secret = "TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82";
-                        #   scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send";
-                        #   token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
-
-                        #   tenant = "common";
-                        #   prompt = "select_account";
-                        # };
-                      };
-                    # imap = {
-                    #   authentication = "xoauth2";
-                    #   host = "outlook.office365.com";
-                    #   # port = 993;
-                    #   tls.enable = true;
-                    # };
-                  };
+                  # school = {
+                  #
+                  #   address = "georgiy.shevoroshkin@ost.ch";
+                  #   flavor = "outlook.office365.com";
+                  #   passwordCommand = pass "school/ms-aerc";
+                  #   # passwordCommand = "${pkgs.oama}/bin/oama access georgiy.shevoroshkin@ost.ch";
+                  #
+                  #   imap = {
+                  #     host = "outlook.office365.com";
+                  #     port = 993;
+                  #     tls.enable = true;
+                  #   };
+                  #   smtp = {
+                  #     host = "smtp.office365.com";
+                  #     port = 587;
+                  #     tls = {
+                  #       enable = true;
+                  #       useStartTls = true; # only STARTTLS works
+                  #     };
+                  #   };
+                  #   aerc =
+                  #     let
+                  #       imapOauth2Params = {
+                  #         client_id = "9e5f94bc-e8a4-4e73-b8be-63364c29d753";
+                  #         scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All";
+                  #         token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+                  #       };
+                  #     in
+                  #     {
+                  #       enable = true;
+                  #       imapAuth = "xoauth2";
+                  #       smtpAuth = "xoauth2";
+                  #       inherit imapOauth2Params;
+                  #
+                  #       # see above for explanation
+                  #       smtpOauth2Params = imapOauth2Params;
+                  #
+                  #       # https://man.sr.ht/~rjarry/aerc/providers/microsofto365.md
+                  #       # https://gitlab.fachschaften.org/nicolas.lenz/nixos/-/blob/main/home/apps/email.nix
+                  #       # imapOauth2Params = {
+                  #       #   client_id = "08162f7c-0fd2-4200-a84a-f25a4db0b584";
+                  #       #   client_secret = "TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82";
+                  #       #   scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send";
+                  #       #   token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+                  #
+                  #       #   tenant = "common";
+                  #       #   prompt = "select_account";
+                  #       # };
+                  #     };
+                  #   # imap = {
+                  #   #   authentication = "xoauth2";
+                  #   #   host = "outlook.office365.com";
+                  #   #   # port = 993;
+                  #   #   tls.enable = true;
+                  #   # };
+                  # };
                 }
               )
             );
@@ -169,7 +198,7 @@ in
             primary = true;
             remote = {
               type = "google_calendar";
-              passwordCommand = [ "${pass} services/google-aerc" ];
+              passwordCommand = [ (pass "services/google-aerc") ];
             };
           };
           school = {

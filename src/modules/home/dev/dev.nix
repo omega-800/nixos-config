@@ -25,28 +25,18 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs = mkMerge [
-      {
-        go.env = {
-          inherit GOBIN GOPATH;
+    programs = {
+      go.env = {
+        inherit GOBIN GOPATH;
+      };
+      pgcli = mkIf (builtins.elem "school" sys.profile) {
+        enable = true;
+        settings.main = {
+          smart_completion = true;
+          vi = true;
         };
-        pgcli = mkIf (builtins.elem "school" sys.profile) {
-          enable = true;
-          settings.main = {
-            smart_completion = true;
-            vi = true;
-          };
-        };
-      }
-      (
-        if sys.stable then
-          { }
-        else
-          {
-            opencode.enable = usr.extraBloat;
-          }
-      )
-    ];
+      };
+    };
     # TODO:
     # nixpkgs.config = mkIf (builtins.elem "school" sys.profile) {
     #   allowUnfreePredicate = pkg: builtins.elem (getName pkg) [ "ciscoPacketTracer8" ];
@@ -120,7 +110,7 @@ in
         #         import readline
         #         from pathlib import Path
         #
-        #         history: Path = Path("${globals.envVars.XDG_STATE_HOME}") 
+        #         history: Path = Path("${globals.envVars.XDG_STATE_HOME}")
         #
         #         readline.read_history_file(str(history))
         #         atexit.register(readline.write_history_file, str(history))

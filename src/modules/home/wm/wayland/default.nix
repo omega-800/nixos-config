@@ -123,6 +123,7 @@ in
           slurp
           wl-clipboard
           wf-recorder
+          woomer
         ]
         ++ (optionals sys.genericLinux (
           with pkgs;

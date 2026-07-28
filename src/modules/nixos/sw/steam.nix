@@ -22,7 +22,7 @@ in
       ];
     environment = {
       systemPackages = with pkgs; [
-        lutris
+        # lutris
         heroic
         prismlauncher
         mangohud

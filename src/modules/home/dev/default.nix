@@ -5,6 +5,7 @@
     ./gpg.nix
     ./vscode.nix
     ./jetbrains.nix
+    ./slop.nix
     ./jujutsu.nix
     ./direnv.nix
   ];
