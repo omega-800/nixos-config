@@ -10,8 +10,8 @@ let
     mkIf
     ;
   cfg = config.u.dev;
-  # pinentry = pkgs.pinentry-tty;
-  pinentry = pkgs.pinentry-qt;
+  pinentry = pkgs.pinentry-tty;
+  # pinentry = pkgs.pinentry-qt;
 in
 {
   config = mkIf cfg.enable {
@@ -30,9 +30,9 @@ in
       defaultCacheTtlSsh = 3600;
       maxCacheTtl = 3600;
       maxCacheTtlSsh = 3600;
-      # extraConfig = ''
-      #   allow-loopback-pinentry
-      # '';
+      extraConfig = ''
+        allow-loopback-pinentry
+      '';
       pinentry.package = pinentry;
       grabKeyboardAndMouse = true;
     };

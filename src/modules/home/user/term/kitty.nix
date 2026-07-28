@@ -44,6 +44,8 @@ in
         cursor_stop_blinking_after = 60;
         confirm_os_window_close = 0;
         sync_to_monitor = false;
+        # https://github.com/kovidgoyal/kitty/issues/10102#issuecomment-4598528198
+        auto_reload_config = -1;
       };
       keybindings = {
         "ctrl+f>i" = "change_font_size all +1.0";

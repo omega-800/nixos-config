@@ -16,6 +16,8 @@ let
     export GPG_TTY=$(tty)
     unset SSH_ASKPASS
     unset GIT_ASKPASS
+
+    gpg-connect-agent updatestartuptty /bye >/dev/null
   '';
 in
 {
