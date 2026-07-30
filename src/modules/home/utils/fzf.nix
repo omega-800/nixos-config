@@ -18,11 +18,15 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      changeDirWidgetCommand = "fd --type d";
-      changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
+      changeDirWidget = {
+        command = "fd --type d";
+        options = [ "--preview 'tree -C {} | head -200'" ];
+      };
+      fileWidget = {
+        command = "fd --type f";
+        options = [ "--preview 'head {}'" ];
+      };
       defaultCommand = "fd --type f";
-      fileWidgetCommand = "fd --type f";
-      fileWidgetOptions = [ "--preview 'head {}'" ];
       tmux.enableShellIntegration = true;
     };
   };

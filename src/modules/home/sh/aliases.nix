@@ -66,6 +66,7 @@ in
     {
       nix-build = "nix-build --no-out-link";
       nix-stray-roots = "nix-store --gc --print-roots | grep -vE '(/proc|/nix/var|/run/\\w+-system/\\{memory|\\{temp)'";
+      fdwatchers = ''find /proc/*/fd/ -type l -lname "anon_inode:inotify" -printf "%hinfo/%f\n" | xargs grep -cE "^inotify" | sort -nk2 -t: | column -t -s:'';
       yq = "yq -Pojson";
       klt = "khal list today";
       kltm = "khal list tomorrow";

@@ -6,6 +6,7 @@ in
   programs.nixvim = {
     keymaps =
       [
+        (key "n" "<leader>cy" ":let @\" = expand(\"%\")<cr>" "Copy current path")
         (key "n" "[j" "<C-o>zz" "Previous jumplist")
         (key "n" "]j" "<C-n>zz" "Next jumplist")
         (key "n" "M" ":Man <C-R>=expand(\"<cword>\")<cr><cr>" "Open manpage")

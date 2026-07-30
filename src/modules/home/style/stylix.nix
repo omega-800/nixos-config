@@ -25,6 +25,7 @@ in
           gtk.gtk4.theme = lib.mkForce null; # config.gtk.theme;
           fonts.fontconfig.enable = true;
           home = {
+            pointerCursor.enable = true;
             packages =
               with pkgs;
               [ nerd-fonts.jetbrains-mono ]
@@ -94,7 +95,7 @@ in
               sway.enable = true;
               swaylock = {
                 enable = true;
-                useWallpaper = true;
+                image.enable = true;
               };
               firefox = {
                 enable = true;

@@ -225,6 +225,7 @@ in
         dm = "https://www.desmos.com/calculator";
         wh = "https://web.whatsapp.com";
         "4c" = "https://4chan.org";
+        x = "https://arxiv.org";
       };
       greasemonkey = [
         # HTML5 Video Playing Tools

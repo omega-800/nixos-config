@@ -53,6 +53,19 @@
       url = "github:nix-community/nix-jetbrains-plugins";
     };
 
+    opencode-vim-unstable = {
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:leohenon/opencode-vim";
+    };
+    opencode-vim-stable = {
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:leohenon/opencode-vim";
+    };
+    wshowkeys = {
+      url = "github:DreamMaoMao/wshowkeys";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # döes nöt nörk :(
     # simplex = {
     #   url = "github:simplex-chat/simplex-chat";
@@ -226,14 +239,14 @@
       url = "github:omega-800/dwm";
       flake = false;
     };
-nvim-strudel-unstable = {
-  url = "github:Goshujinsama/nvim-strudel";
-  inputs.nixpkgs.follows = "nixpkgs-unstable";
-};
-nvim-strudel-stable = {
-  url = "github:Goshujinsama/nvim-strudel";
-  inputs.nixpkgs.follows = "nixpkgs-stable";
-};
+    nvim-strudel-unstable = {
+      url = "github:Goshujinsama/nvim-strudel";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    nvim-strudel-stable = {
+      url = "github:Goshujinsama/nvim-strudel";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     nixvim-unstable = {
       url = "github:nix-community/nixvim";
       inputs = {

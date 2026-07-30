@@ -12,24 +12,12 @@ let
   inherit (config.programs.nixvim) plugins;
 in
 {
-  config.home.packages = mkIf enabled (
-    with pkgs;
-    [
-      (pkgs.python3.withPackages (
-        p: with p; [
-          pip
-          jupyter
-          notebook
-          jupytext
-        ]
-      ))
-    ]
-  );
   config.programs.nixvim = mkIf enabled {
     plugins = mkMerge [
       {
         lsp.servers = mkIf plugins.lsp.enable {
           pylsp.enable = true;
+          # jinja_lsp.enable = true;
         };
         none-ls.sources = mkIf plugins.none-ls.enable {
           diagnostics.pylint.enable = true;
