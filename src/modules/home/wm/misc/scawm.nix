@@ -6,6 +6,7 @@
   pkgs,
   net,
   globals,
+config,
   ...
 }:
 let
@@ -29,7 +30,8 @@ in
       "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
       "${modifier} x" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
       "${modifier} Return" = "${usr.term}";
-      "${modifier}+Alt y" = "pkill -f ${if usr.wmType == "x11" then "screenkey" else "showmethekey"}";
+      "${modifier}+Alt y" = "pkill -f ${if usr.wmType == "x11" then "screenkey"
+      else "wshowkeys"}";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
@@ -67,11 +69,11 @@ in
           v = "${usr.term} -e nvim";
           x = "${usr.term} -e lf";
           y = "zathura"; # actually z
-          z =
+          z = with config.lib.stylix.colors.withHashtag;
             if usr.wmType == "x11" then
               "${pkgs.screenkey}/bin/screenkey &"
             else
-              "${pkgs.showmethekey}/bin/showmethekey"; # actually y
+              "wshowkeys -a top -b ${base00}99 -f ${base05}99 -s ${base08}99 -F ${globals.styling.fonts.monospace.name} -M -U -S &"; # actually y
         };
       };
       "${modifier} r" = {

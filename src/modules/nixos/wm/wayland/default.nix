@@ -51,6 +51,10 @@ in
     # };
     # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhh
 
+    programs.wshowkeys = {
+      enable = true;
+      package = inputs.wshowkeys.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    };
     environment.systemPackages = with pkgs; [
       # why do i need this again?
       wayland

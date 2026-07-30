@@ -49,7 +49,6 @@ in
           else
             [
               kooha
-              showmethekey
             ]
         )
       ));
