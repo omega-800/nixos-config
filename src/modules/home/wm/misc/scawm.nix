@@ -73,8 +73,7 @@ in
             if usr.wmType == "x11" then
               "${pkgs.screenkey}/bin/screenkey &"
             else
-              "wshowkeys -a top -b '${base00}99' -f '${base05}99' -s
-              '${base05}99' -F '${globals.styling.fonts.monospace.name} 36' -M -U -S &"; # actually y
+              "wshowkeys -a top -b '${base00}99' -f '${base05}99' -s '${base05}99' -F '${globals.styling.fonts.monospace.name} 36' -M -U -S &"; # actually y
         };
       };
       "${modifier} r" = {
