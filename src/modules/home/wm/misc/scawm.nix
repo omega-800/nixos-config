@@ -12,6 +12,13 @@
 let
   rcurmon = "rofi -m -4";
   modifier = "Mod4";
+  show-keys =
+    with config.lib.stylix.colors.withHashtag;
+    if usr.wmType == "x11" then
+      "${pkgs.screenkey}/bin/screenkey &"
+    else
+      "wshowkeys -a top -b '${base00}99' -f '${base05}99' -s '${base05}99' -F '${globals.styling.fonts.monospace.name} 36' &";
+  lock = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
   inherit (lib.omega.misc) clipCmd;
 in
 {
@@ -27,16 +34,17 @@ in
       "${modifier}+r;g;p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
     };
     bindings = {
-      "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
-      "${modifier} x" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
+      "XF86PowerOff" = lock;
+      "${modifier} x" = lock;
       "${modifier} Return" = "${usr.term}";
-      "${modifier}+Alt y" = "pkill -f ${if usr.wmType == "x11" then "screenkey" else "wshowkeys"}";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
       "${modifier}+Ctrl+Shift s" = "flameshot screen";
       "${modifier}+Alt+Shift s" = "flameshot full";
       "${modifier}+Shift z" = "woomer";
+      "${modifier}+Shift k" = show-keys;
+      "${modifier}+Alt+Shift k" = "pkill -f ${if usr.wmType == "x11" then "screenkey" else "wshowkeys"}";
       # Show clipmenu
       "Alt v" =
         ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
@@ -57,6 +65,7 @@ in
           g = if usr.wmType == "x11" then "gpick" else "hyprpicker";
           h = "homebank";
           i = "drawio";
+          k = show-keys; 
           l = "libreoffice";
           m = "minecraft-launcher";
           n = "${usr.term} -e ncmpcpp";
@@ -68,12 +77,6 @@ in
           v = "${usr.term} -e nvim";
           x = "${usr.term} -e lf";
           y = "zathura"; # actually z
-          z =
-            with config.lib.stylix.colors.withHashtag;
-            if usr.wmType == "x11" then
-              "${pkgs.screenkey}/bin/screenkey &"
-            else
-              "wshowkeys -a top -b '${base00}99' -f '${base05}99' -s '${base05}99' -F '${globals.styling.fonts.monospace.name} 36' -M -U -S &"; # actually y
         };
       };
       "${modifier} r" = {
