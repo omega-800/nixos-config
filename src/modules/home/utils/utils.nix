@@ -27,19 +27,32 @@ in
         pdfgrep
         translate-shell
       ])
-      ++ (optionals usr.extraBloat [
-        # bat
-        # freecad
-        # vulnix
-        # xdg-ninja
-        # lynis
-        brightnessctl
-        screenkey
-        cloc
-        gnused
-        tealdeer
-        (if usr.wmType == "x11" then simplescreenrecorder else kooha)
-      ]);
+      ++ (optionals usr.extraBloat (
+        [
+          # bat
+          # freecad
+          # vulnix
+          # xdg-ninja
+          # lynis
+          brightnessctl
+          cloc
+          gnused
+          tealdeer
+
+        ]
+        ++ (
+          if usr.wmType == "x11" then
+            [
+              screenkey
+              simplescreenrecorder
+            ]
+          else
+            [
+              kooha
+              showmethekey
+            ]
+        )
+      ));
     programs.nix-index.enable = usr.extraBloat;
   };
 }

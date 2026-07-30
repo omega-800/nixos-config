@@ -20,7 +20,7 @@ in
     inherit modifier;
     autoEnable = true;
     integrations.sxhkd.bindings = {
-      "${modifier}+Shift r" = ''pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500'';
+      "${modifier}+Shift r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500";
       "${modifier}+s;x;h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
       "${modifier}+s;k;{c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
       "${modifier}+r;g;p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
@@ -29,7 +29,7 @@ in
       "XF86PowerOff" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
       "${modifier} x" = if usr.wmType == "x11" then "slock" else "exec ${pkgs.swaylock}/bin/swaylock -fF";
       "${modifier} Return" = "${usr.term}";
-      "${modifier}+Alt y" = "pkill -f screenkey";
+      "${modifier}+Alt y" = "pkill -f ${if usr.wmType == "x11" then "screenkey" else "showmethekey"}";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
       "${modifier}+Shift s" = "${if sys.genericLinux then "" else "flameshot & disown && "}flameshot gui";
@@ -37,7 +37,8 @@ in
       "${modifier}+Alt+Shift s" = "flameshot full";
       "${modifier}+Shift z" = "woomer";
       # Show clipmenu
-      "Alt v" = ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
+      "Alt v" =
+        ''CM_LAUNCHER=rofi clipmenu -location 1 -m -3 -no-show-icons -theme-str "* \{ font: 10px; \}" -theme-str "listview \{ spacing: 0; \}" -theme-str "window \{ width: 20em; \}"'';
       "XF86AudioMute" = "${pkgs.volume_control} mute";
       "XF86AudioRaiseVolume" = "${pkgs.volume_control} raise";
       "XF86AudioLowerVolume" = "${pkgs.volume_control} lower";
@@ -66,7 +67,11 @@ in
           v = "${usr.term} -e nvim";
           x = "${usr.term} -e lf";
           y = "zathura"; # actually z
-          z = "${pkgs.screenkey}/bin/screenkey &"; # actually y
+          z =
+            if usr.wmType == "x11" then
+              "${pkgs.screenkey}/bin/screenkey &"
+            else
+              "${pkgs.showmethekey}/bin/showmethekey"; # actually y
         };
       };
       "${modifier} r" = {
@@ -83,7 +88,7 @@ in
           };
           c = "${pkgs.writeShellScript "rofi-calc-hack" ''${rcurmon} -show calc -modi calc -no-show-match -no-sort -calc-command "${clipCmd "'{result}'"}"''}";
           e = "${rcurmon} -show emoji";
-          f = ''${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}'';
+          f = "${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}";
           k = "${pkgs.kaomoji}";
           o = "rofi-obsidian";
           p = "rofi-pass";
