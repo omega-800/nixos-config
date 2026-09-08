@@ -20,7 +20,6 @@ in
       enable = true;
       settings = {
         General = with config.lib.stylix.colors; {
-          disabledGrimWarning = true;
           disabledTrayIcon = true;
           showStartupLaunchMessage = false;
           savePath = globals.envVars.SCREENSHOTS_DIR;
@@ -31,7 +30,8 @@ in
           allowMultipleGuiInstances = true;
           savePathFixed = true;
           filenamePattern = "%F_%H-%M";
-          useGrimAdapter = usr.wmType == "wayland";
+          # useGrimAdapter = usr.wmType == "wayland";
+          # disabledGrimWarning = true;
         };
       };
     };

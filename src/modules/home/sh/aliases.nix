@@ -112,7 +112,6 @@ in
       cpv = "rsync -ah --info=progress2";
       ipinfo = "curl ifconfig.me && curl ifconfig.me/host";
       clip = if usr.wmType == "wayland" then "wl-copy <" else "xclip -sel c <";
-      fg = "find . -print | grep ";
       dfr = "diff -ZBbwdryEN --color --suppress-common-lines --no-dereference --speed-large-files";
       # goodbye debian
       # get = "sudo apt-get install";
