@@ -20,7 +20,8 @@
     "ocaml"
   ];
   u.net.servo.enable = true;
-  u.dev.slop.enable = true;
+  # opencode broken :(
+  u.dev.slop.enable = false;
   services.kanshi.settings = [
     { output.criteria = "LVDS-1"; }
     {
