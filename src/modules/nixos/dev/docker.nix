@@ -38,11 +38,6 @@ in
             "/var/lib/docker"
           ];
         };
-        systemPackages = with pkgs; [
-          docker
-          docker-compose
-          # lazydocker
-        ];
       };
     }
   ]);

@@ -8,5 +8,6 @@
     ./slop.nix
     ./jujutsu.nix
     ./direnv.nix
+    ./docker.nix
   ];
 }

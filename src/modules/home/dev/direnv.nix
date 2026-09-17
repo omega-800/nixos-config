@@ -17,7 +17,7 @@ in
 {
   options.u.dev.direnv = {
     enable = mkOption {
-      description = "enables dev packages";
+      description = "enables direnv";
       type = types.bool;
       default = config.u.dev.enable;
     };
