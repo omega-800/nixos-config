@@ -29,6 +29,17 @@ in
       settings = {
         autoshare = false;
         autoupdate = false;
+
+        provider = {
+          llmhub-ost = {
+            options = {
+              baseURL = "https://api.llmhub.infs.ai/v1";
+            };
+            models = {
+              "Qwen3.8-27B" = { };
+            };
+          };
+        };
       };
       tui.keybinds = {
         "app_exit" = "ctrl+c,<leader>q";
