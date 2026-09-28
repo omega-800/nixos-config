@@ -26,6 +26,7 @@ in
         settings = {
           default_profile = "personal";
           profiles.personal.user_id = "@omega-800:matrix.org";
+          profiles.school.user_id = "@omega:open-ost.ch";
           dirs.downloads = "${globals.envVars.XDG_DOWNLOAD_DIR}/iamb";
           settings = {
             notifications.enabled = true;

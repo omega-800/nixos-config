@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkOption types mkIf;
-  cfg = config.u.media.newsboat;
+  cfg = config.u.social.newsboat;
 in
 {
-  options.u.media.newsboat.enable = mkOption {
+  options.u.social.newsboat.enable = mkOption {
     type = types.bool;
-    default = config.u.media.enable && usr.extraBloat;
+    default = config.u.social.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {
