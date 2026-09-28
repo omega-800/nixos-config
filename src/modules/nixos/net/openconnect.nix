@@ -32,7 +32,7 @@ in
     environment.systemPackages = with pkgs; [
       openconnect
       # FIXME: 2aa8ca3 poetry2nix broke
-      # inputs.openconnect-sso.packages.${sys.system}.openconnect-sso
+      inputs.openconnect-sso.packages.${sys.system}.openconnect-sso
       networkmanagerapplet
     ];
     networking.openconnect.interfaces.school = {

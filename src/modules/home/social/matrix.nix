@@ -25,7 +25,10 @@ in
         enable = true;
         settings = {
           default_profile = "personal";
-          profiles.personal.user_id = "@omega-800:matrix.org";
+          profiles = {
+            personal.user_id = "@omega-800:matrix.org";
+            school.user_id = "@omega:open-ost.ch";
+          };
           dirs.downloads = "${globals.envVars.XDG_DOWNLOAD_DIR}/iamb";
           settings = {
             notifications.enabled = true;
@@ -35,6 +38,21 @@ in
               size = {
                 height = 10;
                 width = 66;
+              };
+            };
+            layout.style = "new";
+            aliases = {
+              "c" = "chats";
+              "m" = "rooms";
+              "r" = "reply";
+              "d" = "download";
+              "e" = "edit";
+              "o" = "open";
+              "u" = "upload";
+            };
+            macros = {
+              "normal|visual" = {
+                "V" = "<C-W>m";
               };
             };
           };

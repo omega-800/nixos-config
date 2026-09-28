@@ -272,12 +272,12 @@
     };
     # disko.url = "github:nix-community/disko";
     openconnect-sso-stable = {
-      url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";
+      url = "github:mgdbbrt/openconnect-sso";
       #url = "github:moinakb001/openconnect-sso";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     openconnect-sso-unstable = {
-      url = "github:ThinkChaos/openconnect-sso/fix/nix-flake";
+      url = "github:mgdbbrt/openconnect-sso";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
