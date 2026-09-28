@@ -2,6 +2,7 @@
   imports = [
     ./social.nix
     ./signal.nix
+    ./newsboat.nix
     ./accounts.nix
     ./calendar.nix
     ./mail.nix
