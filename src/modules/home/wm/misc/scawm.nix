@@ -95,8 +95,6 @@ in
           e = "${rcurmon} -show emoji";
           f = "${rcurmon} -show ${if usr.extraBloat then "file-browser-extended" else "filebrowser"}";
           k = "${pkgs.kaomoji}";
-          o = "rofi-obsidian";
-          p = "rofi-pass";
           q = "${pkgs.rofi_kill}";
           r = "${pkgs.rofi_cmd}";
           s = "rofi-screenshot";

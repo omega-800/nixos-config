@@ -20,7 +20,8 @@ in
   config = mkIf cfg.enable {
     # nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
     programs.nixcord = {
-      enable = true;
+      # FIXME: 
+      # enable = true;
       vesktop.enable = true;
       config = {
         frameless = true;

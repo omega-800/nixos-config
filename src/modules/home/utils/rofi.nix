@@ -24,7 +24,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.file.".config/networkmanager-dmenu/config.ini".text = lib.readFile ./networkmanager-dmenu.config.ini;
+    home.file.".config/networkmanager-dmenu/config.ini".text =
+      lib.readFile ./networkmanager-dmenu.config.ini;
     home.packages =
       with pkgs;
       (
@@ -33,7 +34,6 @@ in
           rofi-systemd
           rofi-bluetooth
           networkmanager_dmenu
-          rofi-pass
         ]
         ++ (optionals usr.extraBloat [
           rofi-vpn
@@ -44,22 +44,18 @@ in
       );
     programs.rofi = {
       enable = true;
-      cycle = false;
-      extraConfig = {
+      settings = {
+        location = "center";
+        cycle = false;
+        terminal = "${pkgs.${usr.term}}/bin/${usr.term}";
+        font = mkForce "${usr.font} 12";
         modi =
           "drun,run,ssh,window,combi,keys,filebrowser,calc"
           # huh
           + (optionalString (usr.wmType != "wayland") ",windowcd");
-          # + (optionalString usr.extraBloat ",emoji,top,file-browser-extended");
+        # + (optionalString usr.extraBloat ",emoji,top,file-browser-extended");
         kb-primary-paste = "Control+V,Shift+Insert";
         kb-secondary-paste = "Control+v,Insert";
-      };
-      font = mkForce "${usr.font} 12";
-      location = "center";
-      pass = {
-        enable = true;
-        stores = [ globals.envVars.PASSWORD_STORE_DIR ];
-        inherit (config.programs.password-store) package;
       };
       plugins =
 
@@ -73,7 +69,6 @@ in
             # rofi-file-browser
           ]
         ));
-      terminal = "${pkgs.${usr.term}}/bin/${usr.term}";
     };
   };
 }

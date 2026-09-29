@@ -53,6 +53,6 @@
     undofile = true; # Build-in persistent undo
     #undodir = "~/.vim/undodir";
 
-    termguicolors = lib.mkForce pkgs.stdenv.isLinux;
+    termguicolors = lib.mkForce pkgs.stdenv.hostPlatform.isLinux;
   };
 }

@@ -15,7 +15,7 @@ let
     ;
 in
 {
-  imports = [ inputs.niri.nixosModules.niri ];
+  # imports = [ inputs.niri.nixosModules.niri ];
   options.m.wm.niri = {
     enable = mkOption {
       description = "enables niri";
@@ -24,11 +24,11 @@ in
     };
   };
   config = mkIf cfg.enable {
-    niri-flake.cache.enable = true;
-    services.swhkd.enable = true;
-    programs.niri = {
-      enable = true;
-      package = pkgs.niri-unstable;
-    };
+    # niri-flake.cache.enable = true;
+    # services.swhkd.enable = true;
+    # programs.niri = {
+    #   enable = true;
+    #   package = pkgs.niri-unstable;
+    # };
   };
 }

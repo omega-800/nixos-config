@@ -61,15 +61,15 @@ in
             );
           };
         };
-        nixPath = [
-          "nixpkgs=${inputs.nixpkgs}"
-          # "repl=${toString ./.}/repl.nix"
-          # "/nix/var/nix/profiles/per-user/root/channels"
-        ];
         extraOptions = ''
           !include ${config.sops.secrets.nixaccesstokens.path}
         '';
         settings = {
+          nix-path = [
+            "nixpkgs=${inputs.nixpkgs}"
+            # "repl=${toString ./.}/repl.nix"
+            # "/nix/var/nix/profiles/per-user/root/channels"
+          ];
           keep-outputs = elem "developer" sys.flavors; # Nice for developers
           keep-derivations = elem "developer" sys.flavors; # Idem
           substitute = "true";
