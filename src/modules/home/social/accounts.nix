@@ -74,7 +74,7 @@ in
                     inherit userName;
                     address = "${userName}@${def.host}";
                     realName = "OSS Meetup Rapperswil";
-                    passwordCommand = pass "school/oss-meetup-disroot";
+                    passwordCommand = pass "openost/oss-meetup/oss_meetup@getgoogleoff.me";
 
                     signature.text = ''
                       Happy Hacking!
