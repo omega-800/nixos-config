@@ -44,6 +44,7 @@ in
             tenant: a6e70fa3-1c7a-4aa2-a25e-836eea52ca22
             prompt: select_account
             auth_endpoint: https://login.microsoftonline.com/a6e70fa3-1c7a-4aa2-a25e-836eea52ca22/oauth2/authorize
+            redirect_uri: http://localhost:33473
       '';
     };
 
@@ -69,6 +70,9 @@ in
             # ".headers" = "colorize";
           };
         };
+      };
+      thunderbird = {
+        enable = true;
       };
     };
   };

@@ -133,8 +133,8 @@ in
                   school = {
                     address = "georgiy.shevoroshkin@ost.ch";
                     flavor = "outlook.office365.com";
-                    passwordCommand = pass "school/ms-aerc";
-                    # passwordCommand = "${pkgs.oama}/bin/oama access georgiy.shevoroshkin@ost.ch";
+                    # passwordCommand = pass "school/ms-aerc";
+                    passwordCommand = "${pkgs.oama}/bin/oama access georgiy.shevoroshkin@ost.ch";
 
                     imap = {
                       host = "outlook.office365.com";
@@ -149,18 +149,19 @@ in
                         useStartTls = true; # only STARTTLS works
                       };
                     };
+                    thunderbird.enable = true;
                     aerc =
                       let
-
                         tenant = "a6e70fa3-1c7a-4aa2-a25e-836eea52ca22";
                         id = "84992ecd-5239-426a-8013-b66401e8c778";
                         url = "https://outlook.office365.com/EWS/Exchange.asmx";
                         forward = "https://login.microsoftonline.com/common/oauth2/nativeclient";
 
                         imapOauth2Params = {
-                          client_id = "08162f7c-0fd2-4200-a84a-f25a4db0b584";
+                          # client_id = "08162f7c-0fd2-4200-a84a-f25a4db0b584";
+                          client_id = "84992ecd-5239-426a-8013-b66401e8c778";
                           scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send";
-                          token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+                          # token_endpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
                         };
                         oauth2ms = "${pkgs.oauth2ms}/bin/oauth2ms";
                       in
