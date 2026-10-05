@@ -12,7 +12,7 @@ in
 {
   options.u.net.luakit.enable = mkOption {
     type = types.bool;
-    default = (config.u.net.enable && !usr.minimal) || usr.browser == "luakit";
+    default = usr.browser == "luakit";
   };
   config = mkIf cfg.enable {
     home = {

@@ -14,7 +14,7 @@ in
 {
   options.u.dev.vscode.enable = mkOption {
     type = types.bool;
-    default = config.u.dev.enable && usr.extraBloat;
+    default = false;
   };
 
   config = mkIf cfg.enable {

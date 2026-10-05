@@ -18,10 +18,4 @@ let
 in
 {
   options.u.social.enable = mkEnableOption "social packages";
-
-  config = mkIf (cfg.enable && (!usr.minimal)) {
-    home.packages = with pkgs; [
-      signal-desktop
-    ];
-  };
 }

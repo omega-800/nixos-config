@@ -31,7 +31,10 @@ in
           };
           dirs.downloads = "${globals.envVars.XDG_DOWNLOAD_DIR}/iamb";
           settings = {
-            notifications.enabled = true;
+            notifications = {
+              enabled = true;
+              via = "desktop|bell";
+            };
             open_command = [ "xdg-open" ];
             image_preview.protocol = {
               type = if (usr.term == "kitty" || usr.term == "ghostty") then "kitty" else "halfblocks";

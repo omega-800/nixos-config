@@ -84,21 +84,22 @@ in
         opener = {
           edit = [
             {
-              run = ''nvim "$@"'';
+              run = ''nvim %s1'';
               block = true;
               for = "unix";
             }
           ];
           play = [
             {
-              run = ''mpv "$@"'';
+              run = ''mpv %s1'';
               orphan = true;
               for = "unix";
             }
           ];
           open = [
             {
-              run = ''xdg-open "$@"'';
+              run = ''xdg-open %s1'';
+              # orphan = true;
               desc = "Open";
             }
           ];

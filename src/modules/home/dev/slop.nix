@@ -23,13 +23,13 @@ in
     programs.opencode = {
       enable = true;
       # bruh this is pretty useless
-      package = inputs.opencode-vim.packages.${sys.system}.opencode;
+      # package = inputs.opencode-vim.packages.${sys.system}.opencode;
       web.enable = false;
       enableMcpIntegration = true;
       settings = {
         autoshare = false;
         autoupdate = false;
-
+        plugin = [ "openslimedit@latest" ];
         provider = {
           llmhub-ost = {
             options = {

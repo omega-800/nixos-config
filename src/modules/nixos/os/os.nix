@@ -64,7 +64,16 @@ in
         extraOptions = ''
           !include ${config.sops.secrets.nixaccesstokens.path}
         '';
+
+        gc = {
+          automatic = true;
+          dates = "weekly";
+          options = "--delete-older-than 7d";
+        };
         settings = {
+          auto-optimise-store = true;
+          min-free = "40G";
+
           nix-path = [
             "nixpkgs=${inputs.nixpkgs}"
             # "repl=${toString ./.}/repl.nix"
