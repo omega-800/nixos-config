@@ -37,7 +37,7 @@ in
 
   options.u.media.spicetify.enable = mkOption {
     type = types.bool;
-    default = config.u.media.enable && usr.extraBloat;
+    default = false; # config.u.media.enable && usr.extraBloat;
   };
 
   config = mkIf cfg.enable {

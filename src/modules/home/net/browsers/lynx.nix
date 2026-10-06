@@ -14,7 +14,7 @@ in
 {
   options.u.net.lynx.enable = mkOption {
     type = types.bool;
-    default = (config.u.net.enable && !usr.minimal) || usr.browser == "lynx";
+    default = usr.browser == "lynx";
   };
   config = mkIf cfg.enable {
     home = {

@@ -21,7 +21,7 @@
   ];
   u.net.servo.enable = true;
   # opencode broken :(
-  u.dev.slop.enable = false;
+  u.dev.slop.enable = true;
   services.kanshi.settings = [
     { output.criteria = "LVDS-1"; }
     {

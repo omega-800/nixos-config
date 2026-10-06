@@ -41,7 +41,8 @@ in
         trustedUser = usr.username;
 
         os = {
-          antivirus.enable = true;
+          # FIXME:
+          antivirus.enable = false;
           # nixos.enable = true;
           # privilege.enable = true;
           # FIXME: segfault

@@ -16,7 +16,7 @@ in
 {
   options.u.net.servo.enable = mkOption {
     type = types.bool;
-    default = (config.u.net.enable && usr.extraBloat) || usr.browser == "servo";
+    default = usr.browser == "servo";
   };
   config = mkIf cfg.enable {
     home.packages = [ pkgs.servo ];

@@ -18,7 +18,6 @@
     "arm-linux"
     "i686-linux"
   ];
-
   m = {
     hw = {
       # audio.pipewire = false;
@@ -26,7 +25,10 @@
         enable = true;
         tablet.enable = true;
       };
+      # TODO: 
+      power.enable = false;
     };
+    dev.psql.enable = false;
   };
 
   # FIXME: 2aa8ca3
@@ -76,10 +78,11 @@
   # TODO: implement for all
   programs.firejail.enable = true;
   boot = {
-    # TODO: figure out why this doesn't do jack
-    kernelParams = [ "kernel.unprivileged_userns_clone=1" ];
     # huh
-    kernel.sysctl."kernel.unprivileged_userns_clone" = lib.mkForce "1";
+    kernel.sysctl = {
+      "user.max_user_namespaces" = "4096";
+      "kernel.unprivileged_userns_clone" = lib.mkForce "1";
+    };
 
     extraModprobeConfig = ''
       # Keep Bluetooth coexistence disabled for better BT audio stability
@@ -104,7 +107,6 @@
 
   security = {
     allowUserNamespaces = true;
-    unprivilegedUsernsClone = true;
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];

@@ -23,25 +23,24 @@ in
   };
 
   config = mkIf cfg.enable {
-    /*
-      # for microsoft o365
       home.packages = [ pkgs.oama ];
-      xdg.configFile."oama/config.yaml".text = ''
+      xdg.configFile."oama/config.yaml" = {
+      enable = true;
+      force = true;
+      text = ''
         encryption:
             tag: KEYRING
 
         services:
           microsoft:
-            ## thunderbird client values
-            client_id: 08162f7c-0fd2-4200-a84a-f25a4db0b584
+            client_id: 84992ecd-5239-426a-8013-b66401e8c778
             client_secret: 'TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82'
             auth_scope: https://outlook.office.com/IMAP.AccessAsUser.All
               https://outlook.office.com/SMTP.Send
               offline_access
-            tenant: common
-            prompt: select_account
+            tenant: ost.ch
       '';
-    */
+    };
 
     programs = {
       aerc = {
@@ -59,6 +58,9 @@ in
             # ".headers" = "colorize";
           };
         };
+      };
+      thunderbird = {
+        enable = true;
       };
     };
   };

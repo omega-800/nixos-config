@@ -47,6 +47,7 @@ in
             ++ (optionals (builtins.elem "school" sys.profile) [
               "${WORKSPACE_DIR}/school"
               "${WORKSPACE_DIR}/pers"
+              "${WORKSPACE_DIR}/code"
             ])
           );
       };

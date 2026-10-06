@@ -47,9 +47,9 @@ in
         ]
         # TODO: specialisations
         ++ (optionals (builtins.elem "pers" sys.profile) [
-          cointop
+          # cointop
           valentina
-          homebank
+          # homebank
         ])
       ));
     # TODO: 

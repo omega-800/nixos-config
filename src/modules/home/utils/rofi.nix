@@ -45,7 +45,7 @@ in
     programs.rofi = {
       enable = true;
       settings = {
-        location = "center";
+        location = 0;
         cycle = false;
         terminal = "${pkgs.${usr.term}}/bin/${usr.term}";
         font = mkForce "${usr.font} 12";
