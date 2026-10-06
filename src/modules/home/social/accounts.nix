@@ -158,6 +158,7 @@ in
                       in
                       {
                         enable = true;
+
                         imapAuth = "xoauth2";
                         smtpAuth = "xoauth2";
                         inherit imapOauth2Params;
