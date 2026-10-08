@@ -39,7 +39,6 @@ in
               https://outlook.office.com/SMTP.Send
               offline_access
             tenant: ost.ch
-            prompt: select_account
       '';
     };
 

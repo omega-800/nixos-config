@@ -18,40 +18,41 @@ in
     default = config.u.social.enable && (usr.extraBloat || (builtins.elem "gaymer" sys.profile));
   };
   config = mkIf cfg.enable {
-    # nixpkgs.config.allowUnfreePredicate = p: builtins.elem (getName p) [ "discord" ];
-    programs.nixcord = {
-      # FIXME: 
-      # enable = true;
-      vesktop.enable = true;
-      config = {
-        frameless = true;
-        plugins = {
-          anonymiseFileNames = {
-            enable = true;
-            anonymiseByDefault = true;
-          };
-          # ctrlEnterSend.enable = true;
-          ignoreActivities = {
-            enable = true;
-            ignorePlaying = true;
-            ignoreWatching = true;
-          };
-        };
-      };
-      dorion = {
-        enable = false;
-        blur = "acrylic";
-        sysTray = true;
-        openOnStartup = false;
-        autoClearCache = true;
-        disableHardwareAccel = false;
-        rpcServer = true;
-        rpcProcessScanner = true;
-        pushToTalk = true;
-        pushToTalkKeys = [ "RControl" ];
-        desktopNotifications = true;
-        unreadBadge = true;
-      };
-    };
+    nixpkgs.config.allowUnfreePredicate = p: builtins.elem (lib.getName p) [ "discord" ];
+    programs.discord.enable = true;
+    # FIXME: 
+    # programs.nixcord = {
+    #   enable = true;
+    #   vesktop.enable = true;
+    #   config = {
+    #     frameless = true;
+    #     plugins = {
+    #       anonymiseFileNames = {
+    #         enable = true;
+    #         anonymiseByDefault = true;
+    #       };
+    #       # ctrlEnterSend.enable = true;
+    #       ignoreActivities = {
+    #         enable = true;
+    #         ignorePlaying = true;
+    #         ignoreWatching = true;
+    #       };
+    #     };
+    #   };
+    #   dorion = {
+    #     enable = false;
+    #     blur = "acrylic";
+    #     sysTray = true;
+    #     openOnStartup = false;
+    #     autoClearCache = true;
+    #     disableHardwareAccel = false;
+    #     rpcServer = true;
+    #     rpcProcessScanner = true;
+    #     pushToTalk = true;
+    #     pushToTalkKeys = [ "RControl" ];
+    #     desktopNotifications = true;
+    #     unreadBadge = true;
+    #   };
+    # };
   };
 }
