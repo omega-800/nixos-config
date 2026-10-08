@@ -155,15 +155,9 @@ in
                           client_id = "84992ecd-5239-426a-8013-b66401e8c778";
                           scope = "offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send";
                         };
-                        oauth2ms = "${pkgs.oauth2ms}/bin/oauth2ms";
                       in
                       {
                         enable = true;
-
-                        extraConfig = {
-                          source-cred-cmd = oauth2ms;
-                          outgoing-cred-cmd = oauth2ms;
-                        };
 
                         imapAuth = "xoauth2";
                         smtpAuth = "xoauth2";

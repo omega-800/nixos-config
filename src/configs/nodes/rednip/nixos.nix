@@ -122,6 +122,7 @@
       #   '';
       # })
       ;
+
       modesetting.enable = true;
       powerManagement = {
         # https://discourse.nixos.org/t/black-screen-after-suspend-hibernate-with-nvidia/54341/22

@@ -19,7 +19,7 @@ in
         lsp.servers = mkIf plugins.lsp.enable {
           tinymist = {
             enable = true;
-            # config.settings.syntaxOnly = !(elem "builder" sys.flavors);
+            settings.syntaxOnly = if elem "builder" sys.flavors then "disable" else "enable";
           };
         };
         none-ls.sources = mkIf plugins.none-ls.enable {
@@ -30,13 +30,6 @@ in
           };
         };
       };
-      extraConfigLua = ''
-        vim.lsp.config["tinymist"] = {
-          settings = {
-            syntaxOnly = ${if elem "builder" sys.flavors then "disable" else "enable"}
-          }
-        }
-      '';
     };
   };
 }
