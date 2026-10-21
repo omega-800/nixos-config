@@ -1,47 +1,46 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 let
   inherit (lib.omega.vim) keyG key;
 in
 {
   programs.nixvim = {
-    keymaps =
-      [
-        (key "n" "<leader>cy" ":let @\" = expand(\"%\")<cr>" "Copy current path")
-        (key "n" "[j" "<C-o>zz" "Previous jumplist")
-        (key "n" "]j" "<C-n>zz" "Next jumplist")
-        (key "n" "M" ":Man <C-R>=expand(\"<cword>\")<cr><cr>" "Open manpage")
-        (key "n" "<leader>q" "<cmd>confirm q<cr>" "Quit window")
-        (key "n" "<leader>Q" "<cmd>confirm qall<cr>" "Exit vim")
-        (key "n" "<leader>n" "<cmd>enew<cr>" "New file")
-        (key "n" "<c-s>" "<cmd>silent! update! | redraw<cr>" "Force write")
-        (key [ "i" "x" ] "<c-s>" "<esc><cmd>silent! update! | redraw<cr>" "Force write")
-        (key "n" "<c-q>" "<cmd>q!<cr>" "Force quit")
-        (key "v" "<S-Tab>" "<gv" "Unindent line")
-        (key "v" "<Tab>" ">gv" "Indent line")
-        (key "n" "<C-Up>" "<Cmd>resize -1<CR>" "Resize split up")
-        # Windows
-        (key "n" "<C-Down>" "<Cmd>resize +1<CR>" "Resize split down")
-        (key "n" "<C-Left>" "<Cmd>vertical resize -2<CR>" "Resize split left")
-        (key "n" "<C-Right>" "<Cmd>vertical resize +2<CR>" "Resize split right")
-        # moving line
-        # (key "v" "<M-k>" ":m '<lt>-2<CR>gv-gv" "")
-        # (key "v" "<M-j>" ":m '>+1<CR>gv-gv" "")
-        # (key "n" "<M-k>" "<Cmd>m .-2<CR>==" "")
-        # (key "n" "<M-j>" "<Cmd>m .+1<CR>==" "")
-        # (key "i" "<M-k>" "<esc>:m .-2<CR>==gi" "")
-        # (key "i" "<M-j>" "<esc>:m .+1<CR>==gi" "")
-      ]
-      ++ (keyG "<leader>w" "window/wrap" [
-        (key "n" "v" "<Cmd>vsplit<CR>" "Vertical split")
-        (key "n" "h" "<Cmd>split<CR>" "Horizontal split")
-      ])
-      ++ (keyG "<leader>m" "misc" [
-        (key "n" "k" "<Cmd>make<CR>" "Make")
-      ])
-      ++ (keyG "<leader>v" "visual" [
-        (key "n" "a" "gg0vG$" "Select all")
-        (key "n" "c" "<Cmd>nohls<CR>" "Clear highlight")
-      ]);
+    keymaps = [
+      (key "n" "<leader>cy" ":let @\" = expand(\"%\")<cr>" "Copy current path")
+      (key "n" "[j" "<C-o>zz" "Previous jumplist")
+      (key "n" "]j" "<C-n>zz" "Next jumplist")
+      (key "n" "M" ":Man <C-R>=expand(\"<cword>\")<cr><cr>" "Open manpage")
+      (key "n" "<leader>q" "<cmd>confirm q<cr>" "Quit window")
+      (key "n" "<leader>Q" "<cmd>confirm qall<cr>" "Exit vim")
+      (key "n" "<leader>n" "<cmd>enew<cr>" "New file")
+      (key "n" "<c-s>" "<cmd>silent! update! | redraw<cr>" "Force write")
+      (key [ "i" "x" ] "<c-s>" "<esc><cmd>silent! update! | redraw<cr>" "Force write")
+      (key "n" "<c-q>" "<cmd>q!<cr>" "Force quit")
+      (key "v" "<S-Tab>" "<gv" "Unindent line")
+      (key "v" "<Tab>" ">gv" "Indent line")
+      (key "n" "<C-Up>" "<Cmd>resize -1<CR>" "Resize split up")
+      # Windows
+      (key "n" "<C-Down>" "<Cmd>resize +1<CR>" "Resize split down")
+      (key "n" "<C-Left>" "<Cmd>vertical resize -2<CR>" "Resize split left")
+      (key "n" "<C-Right>" "<Cmd>vertical resize +2<CR>" "Resize split right")
+      # moving line
+      # (key "v" "<M-k>" ":m '<lt>-2<CR>gv-gv" "")
+      # (key "v" "<M-j>" ":m '>+1<CR>gv-gv" "")
+      # (key "n" "<M-k>" "<Cmd>m .-2<CR>==" "")
+      # (key "n" "<M-j>" "<Cmd>m .+1<CR>==" "")
+      # (key "i" "<M-k>" "<esc>:m .-2<CR>==gi" "")
+      # (key "i" "<M-j>" "<esc>:m .+1<CR>==gi" "")
+    ]
+    ++ (keyG "<leader>w" "window/wrap" [
+      (key "n" "v" "<Cmd>vsplit<CR>" "Vertical split")
+      (key "n" "h" "<Cmd>split<CR>" "Horizontal split")
+    ])
+    ++ (keyG "<leader>m" "misc" [
+      (key "n" "k" "<Cmd>make<CR>" "Make")
+    ])
+    ++ (keyG "<leader>v" "visual" [
+      (key "n" "a" "gg0vG$" "Select all")
+      (key "n" "c" "<Cmd>nohls<CR>" "Clear highlight")
+    ]);
     /*
       extraPlugins = with pkgs.vimUtils;
         [

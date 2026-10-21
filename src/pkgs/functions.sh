@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+corpospeak() {
+  curl 'https://corpify.org/api/jargon-translate.php' \
+  -s -X POST -H "Content-Type: application/json" \
+  -d "{\"direction\":\"to_corporate\",\"tone\":\"buzzword\",\"text\":\"$1\"}" | 
+  yq -Pocsv '.result'
+}
+
 # TODO: grep && increment
 ueb() { printf "#set enum(numbering: \"a)\")\n#let corr = text.with(fill: red)\n= Übungsserie %s" "$1" >> "uebungsserie$1.typ" && vim "uebungsserie$1.typ"; }
 wueb() { typst watch "uebungsserie$1.typ"; }

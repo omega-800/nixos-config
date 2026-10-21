@@ -86,23 +86,9 @@ in
                   (defsrc
                     caps bspc 
                   )
-                  (defvar
-                    tap-time 150
-                    hold-time 200
-                  )
                   (deflayermap (base)
                       caps bspc 
                       bspc caps
-                    ${optionalString hm ''
-                      a (tap-hold $tap-time $hold-time a lalt)
-                      s (tap-hold $tap-time $hold-time s lmet)
-                      d (tap-hold $tap-time $hold-time d lsft)
-                      f (tap-hold $tap-time $hold-time f lctl)
-                      j (tap-hold $tap-time $hold-time j rctl)
-                      k (tap-hold $tap-time $hold-time k rsft)
-                      l (tap-hold $tap-time $hold-time l rmet)
-                      { (tap-hold $tap-time $hold-time { ralt)
-                    ''}
                   )
                 '';
             };

@@ -38,7 +38,6 @@
     ];
   };
   home.packages = with pkgs; [
-    supertuxkart
-    supertux
+    godot
   ];
 }

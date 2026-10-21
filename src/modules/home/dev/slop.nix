@@ -29,7 +29,11 @@ in
       settings = {
         autoshare = false;
         autoupdate = false;
-        plugin = [ "openslimedit@latest" ];
+        plugin = [
+          "openslimedit@latest"
+          "@tarquinen/opencode-dcp@latest"
+          "opencode-snip@latest"
+        ];
         provider = {
           llmhub-ost = {
             options = {
@@ -37,6 +41,9 @@ in
             };
             models = {
               "Qwen3.8-27B" = { };
+              "DeepSeek-V4-Flash-0731" = { };
+              "GLM-5.3-Flash" = { };
+              "gemma-3-1b-it" = { };
             };
           };
         };

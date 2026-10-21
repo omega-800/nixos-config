@@ -34,7 +34,7 @@ in
           mgr.keymap = [
             {
               on = [ "<C-x>" ];
-              run = ''shell -- xournalpp "$0"'';
+              run = ''shell -- xournalpp %s1'';
             }
           ];
         }
