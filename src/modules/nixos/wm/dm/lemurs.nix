@@ -8,12 +8,13 @@
   ...
 }:
 let
-  cfg = config.m.wm.dm;
+  cfg = config.m.wm.dm.lemurs;
   inherit (lib)
     mkOption
     types
     mkIf
     mkMerge
+  mkEnableOption
     ;
   cmd =
     if usr.wmType == "x11" then
@@ -23,17 +24,10 @@ let
       # "lxqt-policykit-agent " +
       (if usr.wm == "hyprland" then "Hyprland" else usr.wm);
 in
-{
-  options.m.wm.dm = {
-    enable = mkOption {
-      description = "enables dm";
-      type = types.bool;
-      default = usr.wm != "none";
-    };
-  };
-  # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHH
+  {
   # breaks bluetooth??
-  # i wasted HOURS if not *DAYS*
+  # i was{ted HOURS if not *DAYS*
+  options.m.wm.dm.lemurs.enable = mkEnableOption "tuigreet";
   # and it was because of THE DM????
   # WHAT THE FUCK
   # https://github.com/NixOS/nixpkgs/issues/504925
