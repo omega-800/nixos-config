@@ -31,7 +31,16 @@ in
             [
               bbenoist.nix
               vscodevim.vim
+
             ]
+            ++ (pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+              {
+                name = "vscode-tidalcycles";
+                publisher = "tidalcycles";
+                version = "2.0.2";
+                sha256 = "sha256-TfRLJZcMpoBJuXitbRmacbglJABZrMGtSNXAbjSfLaQ=";
+              }
+            ])
             ++ (lib.optionals (builtins.elem "school" sys.profile) [
               coder.coder-remote
               # ms-toolsai.jupyter

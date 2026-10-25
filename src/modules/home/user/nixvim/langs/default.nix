@@ -25,6 +25,7 @@
     ./rust.nix
     ./sh.nix
     ./strudel.nix
+    ./tidal.nix
     ./sql.nix
     ./typst.nix
     ./yaml.nix

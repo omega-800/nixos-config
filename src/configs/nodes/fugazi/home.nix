@@ -5,6 +5,7 @@
     media.spicetify.enable = true;
     dev.jetbrains.enable = true;
     dev.slop.enable = true;
+    dev.vscode.enable = true;
     # net.luakit.enable = true;
     user.nixvim.langSupport = [
       "c"
@@ -20,7 +21,7 @@
       "typst"
       "zig"
       "http"
-      # "tidal"
+      "tidal"
       "strudel"
       # "yaml"
       # "css"
