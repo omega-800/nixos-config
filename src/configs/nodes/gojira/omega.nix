@@ -23,7 +23,8 @@
     usr = {
       shell = pkgs.zsh;
       theme = "weeb";
-      wm = "river";
+      wm = "kde";
+      # wm = "river";
       term = "kitty";
       minimal = false;
       extraBloat = true;

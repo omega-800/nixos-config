@@ -30,17 +30,18 @@
     XDG_TEMPLATES_DIR = "${MISC_DIR}/templ";
 
     # FIXME: only wayland?
-    # XDG_CURRENT_DESKTOP = usr.wm;
-    # XDG_SESSION_DESKTOP = usr.wm;
-    # XDG_SESSION_TYPE = usr.wmType;
+    XDG_CURRENT_DESKTOP = usr.wm;
+    XDG_SESSION_DESKTOP = usr.wm;
+    XDG_SESSION_TYPE = usr.wmType;
 
     MAILPATH = "${XDG_DOCUMENTS_DIR}/mail";
     CONTACTPATH = "${XDG_DOCUMENTS_DIR}/contacts";
     CALPATH = "${XDG_DOCUMENTS_DIR}/cal";
     MEDIA_DIR = "${XDG_DOCUMENTS_DIR}/media";
     MISC_DIR = "${XDG_DOCUMENTS_DIR}/misc";
-    GTK2_RC_FILES = lib.mkForce "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
-    XCURSOR_PATH = lib.mkForce "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
+    # FIXME: kde?
+    # GTK2_RC_FILES = lib.mkForce "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
+    # XCURSOR_PATH = lib.mkForce "$XCURSOR_PATH\${XCURSOR_PATH:+:}${HOME}/.nix-profile/share/icons:/usr/share/icons:/usr/share/pixmaps:${XDG_DATA_HOME}/icons";
     WORKSPACE_DIR = "${HOME}/ws";
     NIXOS_CONFIG = "${WORKSPACE_DIR}/nixos-config";
 
@@ -62,7 +63,7 @@
     XAUTHORITY = "${HOME}/.Xauthority";
     XRESOURCES = "${XDG_CONFIG_HOME}/X11/xresources";
     TMUX_PLUGIN_MANAGER_PATH = "${XDG_DATA_HOME}/tmux/plugins";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_QPA_PLATFORMTHEME = lib.mkDefault "qt5ct";
 
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
     NPM_PREFIX = "${XDG_DATA_HOME}/npm";
