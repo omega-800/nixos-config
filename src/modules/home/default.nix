@@ -3,10 +3,11 @@
   pkgs,
   sys,
   lib,
+  nixosIntegrated ? false,
   ...
 }:
 let
-  inherit (lib) mkDefault;
+  inherit (lib) mkDefault mkIf;
 in
 {
   imports = [
@@ -29,7 +30,7 @@ in
   ];
 
   nix = {
-    package = pkgs.nix;
+    package = lib.mkForce pkgs.nix;
     settings = {
       trusted-users = [
         "root"
@@ -47,8 +48,9 @@ in
   targets.genericLinux.enable = sys.genericLinux;
   programs.home-manager.enable = mkDefault true;
   home = {
-    inherit (usr) username;
-    homeDirectory = "${usr.homeDir}";
+    # FIXME: unslopify
+    username = mkIf (!nixosIntegrated) usr.username;
+    homeDirectory = mkIf (!nixosIntegrated) "${usr.homeDir}";
     preferXdgDirectories = true;
 
     sessionVariables = mkDefault {

@@ -22,6 +22,11 @@
     mkModules
     mkLib
     mkArgs
+    mkUserArgs
+    mkHomeModules
+    primaryUser
+    allUsers
+    isPrimary
     ;
   inherit (import ./vars.nix) CONFIGS PATHS SYSTEMS;
 }

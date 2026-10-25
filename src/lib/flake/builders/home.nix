@@ -2,31 +2,43 @@
 let
   inherit (import ../utils { inherit inputs; })
     mkCfg
-    mkArgs
-    mkModules
+    mkUserArgs
+    mkHomeModules
     mkPkgs
+    mkOverlays
     getHomeMgrInput
     mapHostConfigs
+    allUsers
     CONFIGS
     ;
-  mkHome =
-    hostname:
+  inherit (inputs.nixpkgs-unstable.lib) foldl' attrValues;
+  userOutputName = cfg: user:
+    if (user.usr.username == cfg.usr.username) then
+      cfg.net.hostname
+    else
+      "${cfg.net.hostname}-${user.usr.username}";
+  mkHome = cfg: user:
     let
-      cfg = mkCfg hostname;
-      inherit (cfg.sys) stable system genericLinux;
+      inherit (cfg.sys) system genericLinux;
+      inherit (user) stable;
     in
-    # lmao somebody was frustrated here. what was this all about
-
-    # ok so calling mkArgs does not work because it causes infinite recursion of usr attr set?? bc mkConfig's usr is being passed to mkArgs as well as writeCfgToScript???? but usr isn't even used in writeCfgToScript????????? i am brain hurty
-    #extraSpecialArgs = mkMerge [(mkArgs cfg) { genericLinuxSystemInstaller = writeCfgToScript cfg; } ];
     (getHomeMgrInput stable).lib.homeManagerConfiguration {
       pkgs = mkPkgs stable system genericLinux;
-      extraSpecialArgs = mkArgs cfg;
-      modules = mkModules cfg CONFIGS.homeConfigurations;
+      extraSpecialArgs = mkUserArgs cfg user;
+      modules = [
+        { nixpkgs.overlays = mkOverlays stable system genericLinux; }
+      ] ++ mkHomeModules cfg user;
     };
-
+  mkHomes = hostname:
+    let
+      cfg = mkCfg hostname;
+    in
+    foldl' (acc: user: acc // { ${userOutputName cfg user} = mkHome cfg user; }) { } (allUsers cfg);
 in
 {
-  inherit mkHome;
-  mapHomes = mapHostConfigs CONFIGS.homeConfigurations mkHome;
+  mapHomes =
+    let
+      hosts = mapHostConfigs CONFIGS.homeConfigurations (h: h);
+    in
+    foldl' (acc: hostname: acc // (mkHomes hostname)) { } (attrValues hosts);
 }

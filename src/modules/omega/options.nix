@@ -27,6 +27,172 @@ let
     submodule
     ;
   inherit (builtins) length elem attrValues;
+  profiles = listFilterDirs (
+    n: _:
+    !(elem n [
+      "default"
+      "partials"
+    ])
+  ) PATHS.PROFILES;
+  usrOptions = {
+    config,
+    ...
+  }: {
+    options = {
+      style = mkOption {
+        type = bool;
+        default = !config.minimal;
+      };
+      browser = mkOption {
+        type = enum (
+          [
+            "echo"
+            "zen-browser"
+          ]
+          ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers))
+        );
+        # Print the URL instead on servers
+        default = if config.minimal then "echo" else "qutebrowser";
+      };
+      username = mkOption {
+        type = str;
+        default = "omega";
+      }; # username
+      homeDir = mkOption {
+        type = str;
+        default = "/home/${config.username}";
+      };
+      minimal = mkOption {
+        type = bool;
+        default = false;
+      };
+      extraBloat = mkOption {
+        type = bool;
+        default = false;
+      };
+      devName = mkOption {
+        type = str;
+        default = "omega-800";
+      };
+      devEmail = mkOption {
+        type = str;
+        default = "gshevoroshkin@gmail.com";
+      };
+      theme = mkOption {
+        type =
+          let
+            themes = listNixModuleNames PATHS.THEMES;
+          in
+          enum themes;
+        default = "catppuccin-mocha";
+      };
+      wm = mkOption {
+        type = str;
+        default = if config.minimal then "none" else "dwm";
+      };
+      wmType = mkOption {
+        type = enum [
+          "none"
+          "x11"
+          "wayland"
+        ];
+        default =
+          if config.minimal then
+            "none"
+          else if
+            (elem config.wm [
+              "dwm"
+              "qtile"
+              "xmonad"
+            ])
+          then
+            "x11"
+          else
+            "wayland";
+      };
+      term = mkOption {
+        type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
+        default =
+          if (!config.extraBloat || config.minimal) then
+            "st"
+          else if config.wmType == "wayland" then
+            "kitty"
+          else
+            "alacritty";
+      }; # Default terminal command
+      font = mkOption {
+        type = str;
+        default = "JetBrainsMono Nerd Font Mono";
+      };
+      fontPkg = mkOption {
+        type = package;
+        default = pkgs.nerd-fonts.jetbrains-mono;
+      }; # Console font package
+      editor = mkOption {
+        type = enum [
+          "vim"
+          "nvim"
+        ]; # only chad editors allowed
+        default = "nvim";
+      };
+      shell = mkOption {
+        type = enum (attrValues {
+          inherit (pkgs)
+            bash
+            zsh
+            dash
+            nushell
+            ;
+        });
+        default = pkgs.bash;
+      };
+      termColors = mkOption {
+        default = {
+          c1 = "35";
+          c2 = "91";
+        };
+        type = submodule {
+          options = {
+            c1 = mkOption {
+              type = str;
+              default = "35"; # pink
+            };
+            c2 = mkOption {
+              type = str;
+              default = "91"; # orange
+            };
+          };
+        };
+      };
+    };
+  };
+  # FIXME: unslopify
+  userOptions = {
+    config,
+    ...
+  }: {
+    options = {
+      profile = mkOption {
+        type = listOf (enum profiles);
+        default = [ "pers" ];
+      }; # this user's home-manager profile set
+      stable = mkOption {
+        type = bool;
+        default = false;
+      };
+      uid = mkOption {
+        type = nullOr ints.positive;
+        default = null;
+      };
+      extraGroups = mkOption {
+        type = listOf str;
+        default = [ "wheel" ];
+      };
+      usr = mkOption {
+        type = submodule usrOptions;
+      };
+    };
+  };
 in
 {
   options.c = {
@@ -88,15 +254,6 @@ in
     };
     sys = {
       profile =
-        let
-          profiles = listFilterDirs (
-            n: _:
-            !(elem n [
-              "default"
-              "partials"
-            ])
-          ) PATHS.PROFILES;
-        in
         mkOption {
           type = listOf (enum profiles);
           default = [ "pers" ];
@@ -186,141 +343,19 @@ in
         type = bool;
         default = elem "serv" config.c.sys.profile;
       };
+      uid = mkOption {
+        type = nullOr ints.positive;
+        default = null;
+      };
     };
-    usr = {
-      style = mkOption {
-        type = bool;
-        default = !config.c.usr.minimal;
-      };
-      browser = mkOption {
-        type = enum (
-          [
-            "echo"
-            "zen-browser"
-          ]
-          ++ (listNixModuleNames (PATHS.M_HOME + /net/browsers))
-        );
-        # Print the URL instead on servers
-        default = if config.c.usr.minimal then "echo" else "qutebrowser";
-      };
-      username = mkOption {
-        type = str;
-        default = "omega";
-      }; # username
-      homeDir = mkOption {
-        type = str;
-        default = "/home/${config.c.usr.username}";
-      };
-      minimal = mkOption {
-        type = bool;
-        default = false;
-      };
-      extraBloat = mkOption {
-        type = bool;
-        default = false;
-      };
-      devName = mkOption {
-        type = str;
-        default = "omega-800";
-      };
-      devEmail = mkOption {
-        type = str;
-        default = "gshevoroshkin@gmail.com";
-      };
-      theme = mkOption {
-        type =
-          let
-            themes = listNixModuleNames PATHS.THEMES;
-          in
-          enum themes;
-        default = "catppuccin-mocha";
-      };
-      wm = mkOption {
-        type = str
-        # TODO: mapModules filter pred 
-        #   enum (
-        #   builtins.filter (n: n != "x11" && n != "misc" && n != "wayland") (
-        #     listNixModuleNames (PATHS.M_HOME + /wm)
-        #   )
-        # )
-        ;
-        default = if config.c.usr.minimal then "none" else "dwm";
-      };
-      wmType = mkOption {
-        type = enum [
-          "none"
-          "x11"
-          "wayland"
-        ];
-        default =
-          if config.c.usr.minimal then
-            "none"
-          else if
-            (elem config.c.usr.wm [
-              "dwm"
-              "qtile"
-              "xmonad"
-            ])
-          then
-            "x11"
-          else
-            "wayland";
-      };
-      term = mkOption {
-        type = enum (listNixModuleNames (PATHS.M_HOME + /user/term));
-        default =
-          if (!config.c.usr.extraBloat || config.c.usr.minimal) then
-            "st"
-          else if config.c.usr.wmType == "wayland" then
-            "kitty"
-          else
-            "alacritty";
-      }; # Default terminal command
-      font = mkOption {
-        type = str;
-        default = "JetBrainsMono Nerd Font Mono";
-      };
-      fontPkg = mkOption {
-        type = package;
-        default = pkgs.nerd-fonts.jetbrains-mono;
-      }; # Console font package
-      editor = mkOption {
-        type = enum [
-          "vim"
-          "nvim"
-        ]; # only chad editors allowed
-        default = "nvim";
-      };
-      shell = mkOption {
-        # TODO: switch to string
-        type = enum (attrValues {
-          inherit (pkgs)
-            bash
-            zsh
-            dash
-            nushell
-            ;
-        });
-        default = pkgs.bash;
-      };
-      termColors = mkOption {
-        default = {
-          c1 = "35";
-          c2 = "91";
-        };
-        type = submodule {
-          options = {
-            c1 = mkOption {
-              type = str;
-              default = "35"; # pink
-            };
-            c2 = mkOption {
-              type = str;
-              default = "91"; # orange
-            };
-          };
-        };
-      };
+    usr = mkOption {
+      type = submodule usrOptions;
+    };
+    # additional users on this host. The primary user is always `c.usr`.
+    users = mkOption {
+      type = listOf (submodule userOptions);
+      default = [ ];
+      description = "additional (non-primary) users with their own home-manager config";
     };
   };
 }

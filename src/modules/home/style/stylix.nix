@@ -6,13 +6,15 @@
   pkgs,
   inputs,
   globals,
+  nixosIntegrated ? false,
   ...
 }:
 let
   inherit (lib) optionalAttrs optionals;
 in
 {
-  imports = if usr.style then [ inputs.stylix.homeModules.stylix ] else [ ];
+  # FIXME: unslopify
+  imports = if (usr.style && !nixosIntegrated) then [ inputs.stylix.homeModules.stylix ] else [ ];
   config =
     if !usr.style then
       { }

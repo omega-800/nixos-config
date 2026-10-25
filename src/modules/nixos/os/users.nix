@@ -5,8 +5,7 @@
   sys,
   net,
   config,
-  CONFIGS,
-  PATHS,
+  hostUsers,
   ...
 }:
 let
@@ -16,12 +15,38 @@ let
     mkEnableOption
     optionals
     mkMerge
+    mkForce
     ;
   inherit (lib.omega.def) mkDisableOption;
   inherit (lib.omega.cfg) mkSpecialisation;
   ifExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+  primaryName = usr.username;
+  primaryGroups = [ "wheel" "video" "audio" ] ++ ifExist [ "podman" "adbusers" ];
+  mkUserEntry = u: {
+    isNormalUser = true;
+    home = u.user.usr.homeDir;
+    shell = u.user.usr.shell;
+    uid = lib.mkIf (u.user.uid != null) u.user.uid;
+    hashedPasswordFile = config.sops.secrets."users/${u.user.usr.username}".path;
+    extraGroups =
+      if (u.user.usr.username == primaryName) then
+        primaryGroups ++ u.user.extraGroups
+      else
+        u.user.extraGroups;
+  };
+  userEntries = lib.listToAttrs (map (u: lib.nameValuePair u.user.usr.username (mkUserEntry u)) hostUsers);
+  primary = lib.head hostUsers;
+  hmEntries =
+    lib.listToAttrs (
+      map (u: lib.nameValuePair u.user.usr.username { imports = u.homeModules; }) (
+        lib.filter (u: u.user.usr.username == primaryName) hostUsers
+      )
+    );
+  hmSharedArgs = primary.args;
+  userSecrets = lib.listToAttrs (
+    map (u: lib.nameValuePair "users/${u.user.usr.username}" { neededForUsers = true; }) hostUsers
+  );
 in
-# inherit (import (PATHS.LIBS + /flake/utils/util.nix) { inherit inputs; }) mkModules;
 {
   imports = [ inputs.home-manager.nixosModules.default ];
   options.m.os.users = {
@@ -34,54 +59,23 @@ in
     (mkSpecialisation "school" {
       users = {
         extraGroups.wireshark = { };
-        users.${usr.username}.extraGroups = [ "wireshark" ];
+        users.${primaryName}.extraGroups = [ "wireshark" ];
       };
     })
     {
-      #TODO: split sops secrets per-user
       sops.secrets = {
         "users/root".neededForUsers = true;
-        "users/${usr.username}".neededForUsers = true;
-      };
+      } // userSecrets;
       users = {
-        #FIXME: fml broke my pc again
-        # mutableUsers = cfg.mutable;
         users = {
-          #FIXME: i fucked uuuup
           root = {
             # hashedPasswordFile = config.sops.secrets."users/root".path;
-            # to lock root account
-            # hashedPasswordFile = "!";
           };
-          ${usr.username} = {
-            isNormalUser = true;
-            #FIXME: why doesn't this work??
-            # i'm confused, past omega. it works on my machine?
-            hashedPasswordFile = config.sops.secrets."users/${usr.username}".path;
-            packages = optionals cfg.enableHomeMgr [ inputs.home-manager.packages.${sys.system}.home-manager ];
-            extraGroups = [
-              "wheel"
-              "video"
-              "audio"
-            ]
-            ++ ifExist [
-              "podman"
-              "adbusers"
-            ];
-          };
-        };
+        } // userEntries;
       };
       home-manager = mkIf cfg.enableHomeMgr {
-        # FIXME: ideally this would be done with
-        # mkModules { inherit usr sys; } CONFIGS.homeConfigurations;
-        # yields infinite recursion
-        # users.${usr.username} = {
-        #   imports = [
-        #     (PATHS.PROFILES + /default/${CONFIGS.homeConfigurations}.nix)
-        #     (PATHS.PROFILES + /${sys.profile}/${CONFIGS.homeConfigurations}.nix)
-        #     (PATHS.NODES + /${net.hostname}/${CONFIGS.homeConfigurations}.nix)
-        #   ];
-        # };
+        extraSpecialArgs = hmSharedArgs;
+        users = hmEntries;
       };
     }
   ];

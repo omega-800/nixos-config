@@ -69,10 +69,26 @@ rec {
       #   (n: v: !builtins.elem n [ "system" "hostname" ]) attrs)
     ] ++ (map (p: (PROFILES + /${p}/${type}.nix)) profile);
 
+  # TODO: unslopify
+  primaryUser = cfg: {
+    profile = cfg.sys.profile;
+    stable = cfg.sys.stable;
+    uid = cfg.sys.uid;
+    usr = cfg.usr;
+    extraGroups = [ ];
+  };
+
+  allUsers = cfg: [ (primaryUser cfg) ] ++ cfg.users;
+
+  isPrimary = cfg: user: user.usr.username == cfg.usr.username;
+
   mkLib =
-    cfg:
+    cfg: user:
     let
-      inherit (cfg.sys) stable system genericLinux;
+      inherit (cfg) sys net;
+      inherit (user) usr stable;
+      system = sys.system;
+      genericLinux = sys.genericLinux;
       pkgsFinal = mkPkgs stable system genericLinux;
     in
     pkgsFinal.lib.extend (
@@ -80,36 +96,43 @@ rec {
       {
         omega = import (LIBS + /omega) {
           inherit inputs;
-          # FIXME: hacky
-          inherit (cfg) sys usr net;
+          inherit sys usr net;
           pkgs = pkgsFinal;
           lib = final;
         };
-        # nixGL = import ../nixGL/nixGL.nix { inherit pkgs cfg; };
-        # templateFile = import ./templating.nix { inherit pkgs; };
       }
       // (getHomeMgrInput stable).lib
     );
 
-  mkArgs =
-    cfg:
+  mkUserArgs =
+    cfg: user:
     let
-      inherit (cfg.sys) stable system genericLinux;
+      inherit (cfg) sys net;
+      inherit (user) usr stable;
+      system = sys.system;
+      genericLinux = sys.genericLinux;
       pkgsFinal = mkPkgs stable system genericLinux;
-      myLib = mkLib cfg;
+      myLib = mkLib cfg user;
     in
     {
       inputs = mkInputs stable;
-      inherit (cfg) usr sys net;
-      # nixpkgs = finalPkgs;
-      # pkgs = finalPkgs;
+      inherit usr sys net;
+      nixosIntegrated = false;
       lib = myLib;
       globals = import (M_OMEGA + /globals.nix) {
-        inherit (cfg) usr sys net;
-        lib = myLib;
+        inherit usr;
         pkgs = pkgsFinal;
-        inherit (import ./vars.nix) PATHS CONFIGS;
+        lib = myLib;
+        inherit PATHS CONFIGS;
       };
-      inherit (import ./vars.nix) PATHS CONFIGS;
+      inherit PATHS CONFIGS;
     };
+
+  mkArgs = cfg: mkUserArgs cfg (primaryUser cfg);
+
+  mkHomeModules =
+    cfg: user:
+    [ (PROFILES + /default/home.nix) ]
+    ++ (map (p: (PROFILES + /${p}/home.nix)) user.profile)
+    ++ (lib.optional (isPrimary cfg user) (NODES + /${cfg.net.hostname}/home.nix));
 }

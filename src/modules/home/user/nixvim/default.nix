@@ -45,11 +45,11 @@ in
 
   config = mkIf cfg.enable {
     # FIXME: 2aa8ca3
-    nixpkgs.config.allowUnfreePredicate =
-      pkg:
-      builtins.elem (lib.getName pkg) [
-        "wezterm.nvim"
-      ];
+    programs.nixvim.nixpkgs.config.allowUnfreePredicate =
+      pkg: true;
+      # builtins.elem (lib.getName pkg) [
+      #   "wezterm.nvim"
+      # ];
 
     programs.nixvim = {
       enable = true;

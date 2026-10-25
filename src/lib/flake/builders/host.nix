@@ -3,6 +3,10 @@ let
   inherit (import ../utils { inherit inputs; })
     mkCfg
     mkArgs
+    mkUserArgs
+    mkHomeModules
+    mkOverlays
+    allUsers
     mkModules
     getPkgsInput
     mapHostConfigs
@@ -13,15 +17,20 @@ let
     hostname:
     let
       cfg = mkCfg hostname;
-      # defProfile = builtins.elemAt cfg.sys.profile 0;
-      # rest = sublist 1 (builtins.length cfg.sys.profile) cfg.sys.profile;
-      # what the actual fuck did i do here
-      # mkSpecCfg = profile: mkMerge [cfg { sys = { inherit profile; }; }];
+      hostUsers = map (user: {
+        inherit user;
+        args = mkUserArgs cfg user // { nixosIntegrated = true; };
+        homeModules = [
+          {
+            nixpkgs.overlays = mkOverlays user.stable cfg.sys.system cfg.sys.genericLinux;
+          }
+        ] ++ mkHomeModules cfg user;
+      }) (allUsers cfg);
     in
     (getPkgsInput cfg.sys.stable).lib.nixosSystem {
       inherit (cfg.sys) system;
       # FIXME: overlays
-      specialArgs = mkArgs cfg;
+      specialArgs = (mkArgs cfg) // { inherit hostUsers; };
       modules = (mkModules cfg CONFIGS.nixosConfigurations)
       /*
         ++ (map (profile: {
