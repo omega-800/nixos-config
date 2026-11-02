@@ -48,6 +48,7 @@ in
         [
           # jq
           yq-go
+          binutils
         ]
         ++ (optionals (!usr.minimal) [
           man-pages

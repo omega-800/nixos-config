@@ -9,5 +9,6 @@
     ./jujutsu.nix
     ./direnv.nix
     ./docker.nix
+    ./print3d.nix
   ];
 }

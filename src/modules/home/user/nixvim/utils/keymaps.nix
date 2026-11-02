@@ -5,6 +5,7 @@ in
 {
   programs.nixvim = {
     keymaps = [
+      (key ["n" "v"] "<leader>mc" ":s@\\v^(.*)//@\\=submatch(1) . repeat(' ', max([0, 40 - strlen(submatch(1))])) . '//'@" "Align comments")
       (key "n" "<leader>cy" ":let @\" = expand(\"%\")<cr>" "Copy current path")
       (key "n" "[j" "<C-o>zz" "Previous jumplist")
       (key "n" "]j" "<C-n>zz" "Next jumplist")
