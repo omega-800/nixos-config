@@ -1,6 +1,7 @@
 {
   imports = [
     ./dm
+    ./kde
     ./dwm
     ./qtile
     ./mango
