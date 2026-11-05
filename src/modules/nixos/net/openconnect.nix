@@ -89,9 +89,9 @@ in
             vpn = {
               service-type = "org.freedesktop.NetworkManager.openconnect";
 
-              cookie-flags = "1";
+              # cookie-flags = "1";
 
-              autoconnect-flags = "0";
+              # autoconnect-flags = "0";
               # certsigns-flags = "4";
               # gwcert-flags = "4";
               # lasthost-flags = "4";
@@ -103,6 +103,15 @@ in
               # resolve-flags = "2";
               # stoken_source = "disabled";
               # prevent_invalid_cert = "no";
+
+              cookie-flags = "2";
+              gateway-flags = "2";
+              gwcert-flags = "2";
+              resolve-flags = "2";
+              autoconnect-flags = "0";
+              certsigs-flags = "0";
+              lasthost-flags = "0";
+              xmlconfig-flags = "0";
 
               gateway = "vpn.ost.ch";
               remote = "vpn.ost.ch";
