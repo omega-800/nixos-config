@@ -30,7 +30,6 @@ in
     integrations.sxhkd.bindings = {
       "${modifier}+Shift r" = "pkill -usr1 -x sxhkd; dunstify 'sxhkd: Reloaded config' -t 500";
       "${modifier}+s;x;h" = "xrandr --output HDMI-1 --auto --left-of eDP-1";
-      "${modifier}+s;k;{c,u,r}" = "setxkbmap -layout {ch -variant de,us,ru}";
       "${modifier}+r;g;p" = clipCmd ''"$(tr -dc "a-zA-Z0-9_#@.-" < /dev/urandom | head -c 14)"'';
     };
     bindings = {
@@ -142,6 +141,16 @@ in
           n = "networkmanager_dmenu";
           t = "${rcurmon} -show top -modi top";
           h = "${rcurmon} -show ssh";
+          k = {
+            name = "keyboard";
+            switch = {
+              s = "fcitx5-remote -g Swiss";
+              j = "fcitx5-remote -g Japanese";
+              c = "fcitx5-remote -g Chinese";
+              e = "fcitx5-remote -g English";
+              r = "fcitx5-remote -g Russian";
+            };
+          };
           s = {
             name = "screen";
             stay = {

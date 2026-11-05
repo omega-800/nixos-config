@@ -6,6 +6,7 @@
   ...
 }:
 {
+  # TODO: xdg.userDirs
   envVars = rec {
     #  FIXME:
     LYNX_CFG = "${XDG_CONFIG_HOME}/lynx/lynx.cfg";

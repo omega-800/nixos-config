@@ -44,14 +44,10 @@ in
   # eh https://github.com/L3MON4D3/LuaSnip
 
   config = mkIf cfg.enable {
-    # FIXME: 2aa8ca3
-    nixpkgs.config.allowUnfreePredicate =
-      pkg:
-      builtins.elem (lib.getName pkg) [
-        "wezterm.nvim"
-      ];
 
     programs.nixvim = {
+      # FIXME: 2aa8ca3
+      nixpkgs.config.allowUnfreePredicate = _: true;
       enable = true;
       defaultEditor = true;
       enableMan = true;

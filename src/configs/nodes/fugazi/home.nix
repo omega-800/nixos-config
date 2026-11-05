@@ -6,6 +6,7 @@
     dev.jetbrains.enable = true;
     dev.slop.enable = true;
     dev.vscode.enable = true;
+    io.fcitx5.enable = true;
     # net.luakit.enable = true;
     user.nixvim.langSupport = [
       "c"
