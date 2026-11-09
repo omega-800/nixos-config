@@ -23,6 +23,7 @@ pp.buildPythonApplication {
     url = "https://github.com/The-Compiler/dodo";
     rev = "722ee1632b40079791069beec87ab45f3894d4f1";
     ref = "fix-error-message-display";
+    shallow = true;
     # sha256 = "sha256-IylZCG/7egGA7IBfSIMwmSbJVRv5cMWEtiIyds720Sw=";
   };
   # src = fetchFromGitHub {

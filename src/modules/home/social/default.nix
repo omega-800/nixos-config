@@ -6,6 +6,7 @@
     ./accounts.nix
     ./calendar.nix
     ./mail.nix
+    ./mattermost.nix
     ./matrix.nix
     ./discord.nix
     ./dodo.nix
