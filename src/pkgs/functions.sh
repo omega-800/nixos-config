@@ -56,6 +56,18 @@ gitall() {
   for _tmp in $(fd '.git$' .); do 
     dir="${_tmp%%.git*}"
     echo -e "\n\033[0;32m$dir\033[0m"
+    if [ -n "$1" ]; then 
+      bash -c "$(command -v f &> /dev/null || echo 'git') -C $dir $1"
+    else 
+      git -c color.status=always -c color.ui=always status -C "$dir" | grep -ve 'Your branch is up to date' -ve 'nothing to commit' -ve '^$'
+    fi
+  done
+}
+
+gitalld() {
+  for _tmp in $(fd '.git$' .); do 
+    dir="${_tmp%%.git*}"
+    echo -e "\n\033[0;32m$dir\033[0m"
     (
       cd "$dir" || exit
       if [ -n "$1" ]; then 

@@ -32,7 +32,7 @@ in
     xdg.configFile."matterhorn/config.ini".text = ''
       [mattermost]
       user = omega
-      host = https://chat.coredump.ch
+      host = chat.coredump.ch
       passcmd = pass school/coredump-mattermost
     '';
   };

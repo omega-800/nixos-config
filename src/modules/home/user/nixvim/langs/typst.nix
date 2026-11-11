@@ -13,12 +13,11 @@ let
 in
 {
   config = mkIf enabled {
-    home.packages = with pkgs; [ typst ];
     programs.nixvim = {
       plugins = {
         lsp.servers = mkIf plugins.lsp.enable {
           tinymist = {
-            enable = true;
+            enable = elem "builder" sys.flavors;
             settings.syntaxOnly = true; # if elem "builder" sys.flavors then "disable" else "enable";
           };
         };
