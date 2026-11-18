@@ -82,6 +82,7 @@ in
       keyBindings = {
         normal =
           {
+            "xd" = "config-cycle colors.webpage.darkmode.enabled true false";
             "xs" = "config-cycle statusbar.show always never";
             "xt" = "config-cycle tabs.show always never";
             "xx" = "config-cycle tabs.show always never;; config-cycle statusbar.show always never";

@@ -64,6 +64,7 @@ in
         }
     )
     {
+      otp = "sh -c \"$(history | tail -1 | cut -c8- | sed 's/pass \\(.*\\)\\/\\([^\\\\]\\)/pass otp \\1\\/otp-\\2/' )\"";
       nix-build = "nix-build --no-out-link";
       nix-stray-roots = "nix-store --gc --print-roots | grep -vE '(/proc|/nix/var|/run/\\w+-system/\\{memory|\\{temp)'";
       fdwatchers = ''find /proc/*/fd/ -type l -lname "anon_inode:inotify" -printf "%hinfo/%f\n" | xargs grep -cE "^inotify" | sort -nk2 -t: | column -t -s:'';

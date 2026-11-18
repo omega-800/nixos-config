@@ -30,13 +30,6 @@ spc2usc() {
   rnmrec ' ' '_'
 }
 
-
-otp() {
-  cmd="$(history | tail -1 | cut -c8-)"
-  potp="${cmd/pass /pass otp }"
-  sh -c "${potp/\///otp-}"
-}
-
 svnall() {
   for _tmp in $(fd -td '.svn' .); do 
     dir="${_tmp%%.svn*}" 

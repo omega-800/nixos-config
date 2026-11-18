@@ -35,6 +35,7 @@ in
     bindings = {
       "XF86PowerOff" = lock;
       "${modifier} x" = lock;
+      "${modifier}+Shift x" =  "${pkgs.systemd}/bin/systemctl suspend";
       "${modifier} Return" = "${usr.term}";
       "${modifier}+Ctrl h" = "${pkgs.sxhkd_helper}";
       # flameshot & disown solves the copy issue
